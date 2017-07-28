@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.sphms.common.service.model.Client">
+		<field name="clientId" type="long" />
+		<field name="clientName" type="String" />
+		<field name="address1" type="String" />
+		<field name="address2" type="String" />
+		<field name="city" type="String" />
+		<field name="state" type="String" />
+		<field name="contactPersonName" type="String" />
+		<field name="contactPersonEmail" type="String" />
+		<field name="contactPersonPhoneNo" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="long" />
+	</model>
+	<model name="com.sphms.common.service.model.Hording">
+		<field name="hordingId" type="long" />
+		<field name="title" type="String" />
+		<field name="location" type="String" />
+		<field name="city" type="String" />
+		<field name="state" type="String" />
+		<field name="hordingType" type="String" />
+		<field name="size" type="String" />
+		<field name="pricePerMonth" type="double" />
+		<field name="normalImageId" type="long" />
+		<field name="shortImageId" type="long" />
+		<field name="longImageId" type="long" />
+		<field name="landLordId" type="long" />
+		<field name="ownerType" type="int" />
+		<field name="upinNo" type="int" />
+		<field name="mncTax" type="double" />
+		<field name="otherExpYear" type="double" />
+		<field name="status" type="int" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="long" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="long" />
+	</model>
+	<model name="com.sphms.common.service.model.LandLord">
+		<field name="landLordId" type="long" />
+		<field name="firstName" type="String" />
+		<field name="lastName" type="String" />
+		<field name="location" type="String" />
+		<field name="city" type="String" />
+		<field name="status" type="int" />
+		<field name="phoneNo" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="long" />
+	</model>
+	<model name="com.sphms.common.service.model.LandLordPayment">
+		<field name="landLordPaymentId" type="long" />
+		<field name="landLoadId" type="long" />
+		<field name="hordingId" type="long" />
+		<field name="amount" type="double" />
+		<field name="paymentDate" type="Date" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="long" />
+	</model>
+</model-hints>

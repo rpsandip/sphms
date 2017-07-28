@@ -1,0 +1,9 @@
+Bundle-SymbolicName: sphms.common.service.module-api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.sphms.common.service.exception,\
+	com.sphms.common.service.model,\
+	com.sphms.common.service.util,\
+	com.sphms.common.service.beans,\
+	com.sphms.common.service.service,\
+	com.sphms.common.service.service.persistence

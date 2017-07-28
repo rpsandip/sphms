@@ -1,0 +1,1 @@
+create index IX_5BBB891E on SPHMS_LandLordPayment (landLoadId);

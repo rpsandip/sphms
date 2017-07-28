@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="com.sphms.common.service">
+	<namespace>SPHMS</namespace>
+	<entity name="LandLord" local-service="true"  remote-service="false">
+
+		<!-- PK fields -->
+		<column name="landLordId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="firstName" type="String" />
+		<column name="lastName" type="String" />
+		<column name="location" type="String" />
+		<column name="city" type="String" />
+		<column name="status" type="int" />
+		<column name="phoneNo" type="String" />
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		
+		<order by="desc">
+			<order-column name="createDate">
+			</order-column>
+		</order>
+		
+	</entity>
+	
+	<entity name="LandLordPayment" local-service="true" remote-service="false">
+		<!-- PK fields -->
+		<column name="landLordPaymentId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="landLoadId" type="long"/>
+		<column name="hordingId" type="long"></column>
+		<column name="amount" type="double"></column>
+		<column name="paymentDate" type="Date"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		
+		<order by="desc">
+			<order-column name="createDate">
+			</order-column>
+		</order>
+		
+		<finder return-type="Collection" name="landLordId">
+			 <finder-column name="landLoadId"></finder-column>
+		</finder>
+		
+	</entity>
+	
+	
+	<entity name="Client" local-service="true" remote-service="false">
+		<!-- PK fields -->
+		<column name="clientId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="clientName" type="String"/>
+		<column name="address1" type="String"></column>
+		<column name="address2" type="String"></column>
+		<column name="city" type="String"></column>
+		<column name="state" type="String"></column>
+		<column name="contactPersonName" type="String"></column>
+		<column name="contactPersonEmail" type="String"></column>
+		<column name="contactPersonPhoneNo" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		
+		<order by="desc">
+			<order-column name="createDate">
+			</order-column>
+		</order>
+
+	</entity>
+	
+	<entity name="Hording" local-service="true" remote-service="false">
+		
+		<!-- PK fields -->
+		<column name="hordingId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="title" type="String"/>
+		<column name="location" type="String"/>
+		<column name="city" type="String"/>
+		<column name="state" type="String"/>
+		<column name="hordingType" type="String"/>
+		<column name="size" type="String"/>
+		<column name="pricePerMonth" type="double"/>
+		<column name="normalImageId" type="long"/>
+		<column name="shortImageId" type="long"/>
+		<column name="longImageId" type="long"/>
+		<column name="landLordId" type="long"/>
+		<column name="ownerType" type="int"/>
+		<column name="upinNo" type="int"/>
+		<column name="mncTax" type="double"/>
+		<column name="otherExpYear" type="double"/>
+		<column name="status" type="int"/>
+		
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		<column name="modifiedDate" type="Date"></column>
+		<column name="modifiedBy" type="long"></column>
+		
+		<order by="desc">
+			<order-column name="createDate">
+			</order-column>
+		</order>
+		
+	</entity>
+	
+</service-builder>

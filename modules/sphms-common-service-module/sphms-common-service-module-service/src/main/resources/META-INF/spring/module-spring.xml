@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="com.sphms.common.service.service.impl.ClientLocalServiceImpl" id="com.sphms.common.service.service.ClientLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.ClientPersistenceImpl" id="com.sphms.common.service.service.persistence.ClientPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.HordingLocalServiceImpl" id="com.sphms.common.service.service.HordingLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.HordingPersistenceImpl" id="com.sphms.common.service.service.persistence.HordingPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.LandLordLocalServiceImpl" id="com.sphms.common.service.service.LandLordLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.LandLordPersistenceImpl" id="com.sphms.common.service.service.persistence.LandLordPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.LandLordPaymentLocalServiceImpl" id="com.sphms.common.service.service.LandLordPaymentLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.LandLordPaymentPersistenceImpl" id="com.sphms.common.service.service.persistence.LandLordPaymentPersistence" parent="basePersistence" />
+</beans>

@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="com.sphms.common.service.model.Client" />
+	<import class="com.sphms.common.service.model.Hording" />
+	<import class="com.sphms.common.service.model.LandLord" />
+	<import class="com.sphms.common.service.model.LandLordPayment" />
+	<class name="com.sphms.common.service.model.impl.ClientImpl" table="SPHMS_Client">
+		<id name="clientId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="clientName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="address1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="address2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="state_" name="state" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactPersonName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactPersonEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactPersonPhoneNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.sphms.common.service.model.impl.HordingImpl" table="SPHMS_Hording">
+		<id name="hordingId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="location" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="state_" name="state" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="hordingType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="size_" name="size" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="pricePerMonth" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="normalImageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="shortImageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="longImageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="landLordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="ownerType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="upinNo" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="mncTax" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="otherExpYear" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.sphms.common.service.model.impl.LandLordImpl" table="SPHMS_LandLord">
+		<id name="landLordId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="firstName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="lastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="location" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="phoneNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.sphms.common.service.model.impl.LandLordPaymentImpl" table="SPHMS_LandLordPayment">
+		<id name="landLordPaymentId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="landLoadId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="hordingId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="amount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="paymentDate" type="org.hibernate.type.TimestampType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+</hibernate-mapping>
