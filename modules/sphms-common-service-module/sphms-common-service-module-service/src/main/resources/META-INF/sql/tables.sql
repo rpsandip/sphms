@@ -26,7 +26,7 @@ create table SPHMS_Hording (
 	longImageId LONG,
 	landLordId LONG,
 	ownerType INTEGER,
-	upinNo INTEGER,
+	upinNo VARCHAR(75) null,
 	mncTax DOUBLE,
 	otherExpYear DOUBLE,
 	status INTEGER,

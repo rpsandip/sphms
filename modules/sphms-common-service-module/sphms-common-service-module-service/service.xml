@@ -90,7 +90,7 @@
 		<column name="longImageId" type="long"/>
 		<column name="landLordId" type="long"/>
 		<column name="ownerType" type="int"/>
-		<column name="upinNo" type="int"/>
+		<column name="upinNo" type="String"/>
 		<column name="mncTax" type="double"/>
 		<column name="otherExpYear" type="double"/>
 		<column name="status" type="int"/>
@@ -106,5 +106,7 @@
 		</order>
 		
 	</entity>
+	
+	<entity name="SPHMSCommon" local-service="true" remote-service="false"></entity>
 	
 </service-builder>

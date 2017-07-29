@@ -28,7 +28,7 @@
 		<field name="longImageId" type="long" />
 		<field name="landLordId" type="long" />
 		<field name="ownerType" type="int" />
-		<field name="upinNo" type="int" />
+		<field name="upinNo" type="String" />
 		<field name="mncTax" type="double" />
 		<field name="otherExpYear" type="double" />
 		<field name="status" type="int" />

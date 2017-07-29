@@ -4962,3 +4962,11 @@ table.text-center th {
     background-color: #eee !important;
     border-color: #eee !important;
 }
+
+.pad-10{
+	padding: 10px !important;
+}
+
+.pad-15{
+	padding: 15px !important;
+}

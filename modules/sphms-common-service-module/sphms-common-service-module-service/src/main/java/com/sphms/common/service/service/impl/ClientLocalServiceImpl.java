@@ -20,6 +20,7 @@ import java.util.Date;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.model.Client;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.base.ClientLocalServiceBaseImpl;
@@ -48,6 +49,9 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 	public Client addClient(String clientName, String address1, String address2, String city, String state,
 			String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail, long createdBy){
 		
+		boolean isValidParams = isValidParam(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail);
+		
+		if(isValidParams){
 		Client client = ClientLocalServiceUtil.createClient(CounterLocalServiceUtil.increment());
 		client.setClientName(clientName);
 		client.setAddress1(address1);
@@ -62,6 +66,10 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 		client = ClientLocalServiceUtil.addClient(client);
 		
 		return client;
+		
+		}else{
+			return null;
+		}
 	}
 	
 	
@@ -71,6 +79,9 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 	public Client updateClient(long clientId,String clientName, String address1, String address2, String city, String state,
 			String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail, long createdBy) throws PortalException{
 		
+		boolean isValidParams = isValidParam(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail);
+		
+		if(isValidParams){
 		Client client = ClientLocalServiceUtil.getClient(clientId);
 		client.setClientName(clientName);
 		client.setAddress1(address1);
@@ -86,5 +97,18 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 		client = ClientLocalServiceUtil.updateClient(client);
 		
 		return client;
+		
+		}else{
+			return null;
+		}
+	}
+	
+	private boolean isValidParam (String clientName, String address1 ,String address2, String city, String state, String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail){
+		boolean isValidParams = true;
+		if(Validator.isNotNull(clientName) || Validator.isNotNull(address1) ||Validator.isNotNull(address2) || Validator.isNotNull(city) ||
+				Validator.isNotNull(state) || Validator.isNotNull(contactPersonName) || Validator.isNotNull(contactPersonPhoneNo) || Validator.isNotNull(contactPersonEmail)){
+			isValidParams = false;
+		}
+		return isValidParams;
 	}
 }

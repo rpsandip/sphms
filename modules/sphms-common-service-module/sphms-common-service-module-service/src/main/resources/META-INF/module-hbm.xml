@@ -6,6 +6,7 @@
 	<import class="com.sphms.common.service.model.Hording" />
 	<import class="com.sphms.common.service.model.LandLord" />
 	<import class="com.sphms.common.service.model.LandLordPayment" />
+	<import class="com.sphms.common.service.model.SPHMSCommon" />
 	<class name="com.sphms.common.service.model.impl.ClientImpl" table="SPHMS_Client">
 		<id name="clientId" type="long">
 			<generator class="assigned" />
@@ -37,7 +38,7 @@
 		<property name="longImageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="landLordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="ownerType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-		<property name="upinNo" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="upinNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="mncTax" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="otherExpYear" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
