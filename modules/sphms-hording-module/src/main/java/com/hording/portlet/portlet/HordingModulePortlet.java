@@ -1,7 +1,7 @@
-package com.sphms.portlet;
+package com.hording.portlet.portlet;
 
+import com.hording.portlet.portlet.util.HordingPortletUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.sphms.portlet.util.LandLoardPortletUtil;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ import org.osgi.service.component.annotations.Component;
 	property = {
 		"com.liferay.portlet.display-category=category.sphms",
 		"com.liferay.portlet.instanceable=false",
-		"javax.portlet.display-name=SPHMS Landlord Portlet",
+		"javax.portlet.display-name=SPHMS Hording Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"com.liferay.portlet.action-url-redirect=true",
@@ -26,13 +26,14 @@ import org.osgi.service.component.annotations.Component;
 	},
 	service = Portlet.class
 )
-public class SphmsLandlordModulePortlet extends MVCPortlet {
+public class HordingModulePortlet extends MVCPortlet {
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
 		
-		// Get all LandLord
-		renderRequest.setAttribute("landLordList", LandLoardPortletUtil.getAllActiveLandLord());
+		// Get all active hording List
+		renderRequest.setAttribute("hordingBeanList", HordingPortletUtil.getAllHordingList());
+
 		include(viewTemplate, renderRequest, renderResponse);
 	}
 }
