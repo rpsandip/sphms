@@ -20,8 +20,10 @@ public class HordingBean {
 	private String location;
 	private String city;
 	private String state;
+	private String district;
 	private long landLordId;
 	private String hordingType;
+	private String mediaVehicle;
 	private String size;
 	private int height;
 	private int width;
@@ -46,9 +48,11 @@ public class HordingBean {
 		this.title= hording.getTitle();
 		this.location = hording.getLocation();
 		this.city = hording.getCity();
+		this.district = hording.getDistrict();
 		this.state = hording.getState();
 		this.landLordId = hording.getLandLordId();
 		this.hordingType = hording.getHordingType();
+		this.mediaVehicle = hording.getMediaVehicle();
 		this.size = hording.getSize();
 		this.ownerTypeInt = hording.getOwnerType();
 		this.pricePerMonth = hording.getPricePerMonth();
@@ -247,4 +251,17 @@ public class HordingBean {
 	public void setOwnerTypeInt(int ownerTypeInt) {
 		this.ownerTypeInt = ownerTypeInt;
 	}
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	public String getMediaVehicle() {
+		return mediaVehicle;
+	}
+	public void setMediaVehicle(String mediaVehicle) {
+		this.mediaVehicle = mediaVehicle;
+	}
+	
 }

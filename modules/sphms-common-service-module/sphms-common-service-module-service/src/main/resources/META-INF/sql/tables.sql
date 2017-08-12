@@ -17,8 +17,10 @@ create table SPHMS_Hording (
 	title VARCHAR(75) null,
 	location VARCHAR(75) null,
 	city VARCHAR(75) null,
+	district VARCHAR(75) null,
 	state_ VARCHAR(75) null,
 	hordingType VARCHAR(75) null,
+	mediaVehicle VARCHAR(75) null,
 	size_ VARCHAR(75) null,
 	pricePerMonth DOUBLE,
 	normalImageId LONG,
@@ -56,4 +58,27 @@ create table SPHMS_LandLordPayment (
 	paymentDate DATE null,
 	createDate DATE null,
 	createdBy LONG
+);
+
+create table SPHMS_Proposal (
+	proposalId LONG not null primary key,
+	campaignTitle VARCHAR(75) null,
+	client LONG,
+	pptFileId LONG,
+	xlsxFileId LONG,
+	startDate DATE null,
+	endDate DATE null,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG
+);
+
+create table SPHMS_Proposal_Hording (
+	proposalId LONG not null,
+	hordingId LONG not null,
+	mountingCharge DOUBLE,
+	printingCharge DOUBLE,
+	units INTEGER,
+	primary key (proposalId, hordingId)
 );

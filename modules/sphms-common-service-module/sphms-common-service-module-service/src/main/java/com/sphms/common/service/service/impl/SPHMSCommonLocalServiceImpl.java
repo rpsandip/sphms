@@ -17,11 +17,17 @@ package com.sphms.common.service.service.impl;
 import aQute.bnd.annotation.ProviderType;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -32,8 +38,11 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringParser;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
+import com.sphms.common.service.beans.HordingBean;
+import com.sphms.common.service.model.Hording;
+import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.base.SPHMSCommonLocalServiceBaseImpl;
 
 /**
@@ -110,5 +119,44 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 	public String getDLFileURL(DLFileEntry file) {
 	       return "/documents/" + file.getGroupId() + StringPool.FORWARD_SLASH + file.getFolderId() + StringPool.FORWARD_SLASH
 	            + file.getTitle() + StringPool.FORWARD_SLASH + file.getUuid();
+	}
+	
+	public List<HordingBean> searchHordings(String keyword, String city, int height, int width, Date startDate, Date endDate, int start, int end){
+		List<HordingBean> searchedHordingList = new ArrayList<HordingBean>();
+		
+		DynamicQuery dynamicQuery = HordingLocalServiceUtil.dynamicQuery();
+
+		Criterion criterion = RestrictionsFactoryUtil.like("title", StringPool.PERCENT +keyword+StringPool.PERCENT);
+		
+		if(Validator.isNotNull(city)){
+			Criterion cityCriterion = RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like("city", StringPool.PERCENT +city+StringPool.PERCENT),
+					RestrictionsFactoryUtil.like("location", StringPool.PERCENT +city+StringPool.PERCENT));
+			criterion = RestrictionsFactoryUtil.and(criterion, cityCriterion);
+		}
+		if(height!=0){
+			criterion = RestrictionsFactoryUtil.and(criterion ,RestrictionsFactoryUtil.like("size",height+"X"+StringPool.PERCENT));
+		}
+		if(width!=0){
+			criterion = RestrictionsFactoryUtil.and(criterion ,RestrictionsFactoryUtil.like("size",StringPool.PERCENT+"X"+width));
+		}
+		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
+			 // TODO :: need to check hording in booking table
+			//dynamicQuery.add(PropertyFactoryUtil.forName("bookingDate").between(startDate, endDate));
+		}
+		
+		if(Validator.isNotNull(criterion)){
+			dynamicQuery.add(criterion);
+		}
+		
+		dynamicQuery.setLimit(start, end);
+		
+		List<Hording> hordingList = HordingLocalServiceUtil.dynamicQuery(dynamicQuery);
+		
+		for(Hording hording : hordingList){
+			HordingBean hordingBean = new HordingBean(hording);
+			searchedHordingList.add(hordingBean);
+		}
+		
+		return searchedHordingList;
 	}
 }

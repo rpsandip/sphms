@@ -62,7 +62,7 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 	 * Method for add hording detail
 	 * @see com.sphms.common.service.service.HordingLocalService#addHording(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, double, java.io.File, java.lang.String, java.io.File, java.lang.String, java.io.File, java.lang.String, long, int, java.lang.String, double, double, long, long)
 	 */
-	public Hording addHording(String title,String location, String city, String state, String hordingType, String size,
+	public Hording addHording(String title,String location, String city, String district,String state, String hordingType, String mediaVehicle,String size,
 			double pricePerMonth, File normalImage, String normalImageFileName,File shortImage, String shortImageFileName, 
 			File longImage, String longImageFileName,long landLordId,
 			int ownerType, String upinNo, double mncTax, double oterExpPerYear,long createdBy, long modifiedBy){
@@ -71,8 +71,10 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 		hording.setTitle(title);
 		hording.setLocation(location);
 		hording.setCity(city);
+		hording.setDistrict(district);
 		hording.setState(state);
 		hording.setHordingType(hordingType);
+		hording.setMediaVehicle(mediaVehicle);
 		hording.setSize(size);
 		hording.setPricePerMonth(pricePerMonth);
 		hording.setLandLordId(landLordId);
@@ -102,7 +104,7 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 	 * Method for update hording detail
 	 * @see com.sphms.common.service.service.HordingLocalService#updateHording(long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, double, java.io.File, java.lang.String, java.io.File, java.lang.String, java.io.File, java.lang.String, long, int, java.lang.String, double, double, long)
 	 */
-	public Hording updateHording(long hordingId, String title,String location, String city, String state, String hordingType, String size,
+	public Hording updateHording(long hordingId, String title,String location, String city, String district,String state, String hordingType, String mediaVehicle,String size,
 			double pricePerMonth, File normalImage, String normalImageFileName,File shortImage, String shortImageFileName, 
 			File longImage, String longImageFileName,long landLordId,
 			int ownerType, String upinNo, double mncTax, double oterExpPerYear, long modifiedBy){
@@ -112,8 +114,10 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 			hording.setTitle(title);
 			hording.setLocation(location);
 			hording.setCity(city);
+			hording.setDistrict(district);
 			hording.setState(state);
 			hording.setHordingType(hordingType);
+			hording.setMediaVehicle(mediaVehicle);
 			hording.setSize(size);
 			hording.setPricePerMonth(pricePerMonth);
 			hording.setLandLordId(landLordId);

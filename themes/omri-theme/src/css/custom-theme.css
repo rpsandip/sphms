@@ -4970,3 +4970,12 @@ table.text-center th {
 .pad-15{
 	padding: 15px !important;
 }
+
+.handHover{
+	cursor: pointer;
+}
+
+.bb-badges{
+	clear: both;
+	padding-bottom: 5px;
+}

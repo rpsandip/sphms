@@ -33,8 +33,14 @@
 						</aui:select>
        				</div>
        				<div class="row">
-	       				<div class="form-group col-md-12">
+	       				<div class="form-group col-md-6">
 	       					 <aui:input name="title" label="title" cssClass="form-control" value="${hordingBean.title }">
+						     	<aui:validator name="required" />
+						     	<aui:validator name="maxLength">70</aui:validator>
+							 </aui:input>
+						</div>
+						<div class="form-group col-md-6">
+	       					 <aui:input name="location" label="location" cssClass="form-control" value="${hordingBean.location }">
 						     	<aui:validator name="required" />
 						     	<aui:validator name="maxLength">70</aui:validator>
 							 </aui:input>
@@ -42,7 +48,7 @@
 					</div>	
 					<div class="row">
 	       				<div class="form-group col-md-4">
-	       					 <aui:input name="location" label="location" cssClass="form-control" value="${hordingBean.location }">
+	       					 <aui:input name="district" label="district" cssClass="form-control" value="${hordingBean.district }">
 						     	<aui:validator name="required" />
 						     	<aui:validator name="maxLength">70</aui:validator>
 							 </aui:input>
@@ -61,14 +67,25 @@
 						</div>
 					</div>
 					<div class="row">
-	       				<div class="form-group col-md-4">
+	       				<div class="form-group col-md-3">
 	       					 <aui:select name="type" label="type" cssClass="form-control">
 	       					 	<aui:option value="EL" selected='${hordingBean.hordingType eq "EL" ? true : false }' >EL</aui:option>
 	       					 	<aui:option value="BL" selected='${hordingBean.hordingType eq "BL" ? true : false }'>BL</aui:option>
 	       					 	<aui:option value="NL" selected='${hordingBean.hordingType eq "NL" ? true : false }'>NL</aui:option>
 							 </aui:select>
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
+	       					 <aui:select name="mediaVehicle" label="mediaVehicle" cssClass="form-control">
+	       					 	<aui:option value="Unipole" selected='${hordingBean.mediaVehicle eq "unipole" ? true : false }' >UniPole</aui:option>
+	       					 	<aui:option value="Bill Board" selected='${hordingBean.mediaVehicle eq "billboard" ? true : false }'>Bill Board</aui:option>
+	       					 	<aui:option value="Kiosk" selected='${hordingBean.mediaVehicle eq "kiosk" ? true : false }'>Kiosk</aui:option>
+	       					 	<aui:option value="BQS" selected='${hordingBean.mediaVehicle eq "bqs" ? true : false }'>BQS</aui:option>
+	       					 	<aui:option value="Mobile Van" selected='${hordingBean.mediaVehicle eq "mobilevan" ? true : false }'>Mobile Van</aui:option>
+	       					 	<aui:option value="Tricycle" selected='${hordingBean.mediaVehicle eq "tricycle" ? true : false }'>Tricycle</aui:option>
+	       					 	<aui:option value="Bus Branding" selected='${hordingBean.mediaVehicle eq "busbranding" ? true : false }'>Bus Branding</aui:option>
+							 </aui:select>
+						</div>
+						<div class="form-group col-md-3">
 	       					 <aui:select name="height" label="hight" cssClass="form-control">
 	       					 	<aui:option value="5" selected='${hordingBean.height eq 5 ? true : false }'>5</aui:option>
 	       					 	<aui:option value="10" selected='${hordingBean.height eq 10 ? true : false }'>10</aui:option>
@@ -78,7 +95,7 @@
 	       					 	<aui:option value="30" selected='${hordingBean.height eq 30 ? true : false }'>30</aui:option>
 							 </aui:select>
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
 	       					 <aui:select name="width" label="width" cssClass="form-control">
 	       					 	<aui:option value="5" selected='${hordingBean.width eq 5 ? true : false }'>5</aui:option>
 	       					 	<aui:option value="10" selected='${hordingBean.width eq 10 ? true : false }'>10</aui:option>

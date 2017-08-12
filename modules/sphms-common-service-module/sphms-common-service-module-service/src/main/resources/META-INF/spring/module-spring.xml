@@ -9,5 +9,9 @@
 	<bean class="com.sphms.common.service.service.persistence.impl.LandLordPersistenceImpl" id="com.sphms.common.service.service.persistence.LandLordPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.LandLordPaymentLocalServiceImpl" id="com.sphms.common.service.service.LandLordPaymentLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.LandLordPaymentPersistenceImpl" id="com.sphms.common.service.service.persistence.LandLordPaymentPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.ProposalLocalServiceImpl" id="com.sphms.common.service.service.ProposalLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.ProposalPersistenceImpl" id="com.sphms.common.service.service.persistence.ProposalPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.Proposal_HordingLocalServiceImpl" id="com.sphms.common.service.service.Proposal_HordingLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.Proposal_HordingPersistenceImpl" id="com.sphms.common.service.service.persistence.Proposal_HordingPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.SPHMSCommonLocalServiceImpl" id="com.sphms.common.service.service.SPHMSCommonLocalService" />
 </beans>

@@ -6,6 +6,8 @@
 	<import class="com.sphms.common.service.model.Hording" />
 	<import class="com.sphms.common.service.model.LandLord" />
 	<import class="com.sphms.common.service.model.LandLordPayment" />
+	<import class="com.sphms.common.service.model.Proposal" />
+	<import class="com.sphms.common.service.model.Proposal_Hording" />
 	<import class="com.sphms.common.service.model.SPHMSCommon" />
 	<class name="com.sphms.common.service.model.impl.ClientImpl" table="SPHMS_Client">
 		<id name="clientId" type="long">
@@ -29,8 +31,10 @@
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="location" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="district" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="state_" name="state" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="hordingType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mediaVehicle" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="size_" name="size" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="pricePerMonth" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="normalImageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
@@ -70,5 +74,29 @@
 		<property name="paymentDate" type="org.hibernate.type.TimestampType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.sphms.common.service.model.impl.ProposalImpl" table="SPHMS_Proposal">
+		<id name="proposalId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="campaignTitle" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="client" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="pptFileId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="xlsxFileId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="startDate" type="org.hibernate.type.TimestampType" />
+		<property name="endDate" type="org.hibernate.type.TimestampType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.sphms.common.service.model.impl.Proposal_HordingImpl" table="SPHMS_Proposal_Hording">
+		<composite-id class="com.sphms.common.service.service.persistence.Proposal_HordingPK" name="primaryKey">
+			<key-property name="proposalId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="hordingId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		</composite-id>
+		<property name="mountingCharge" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="printingCharge" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="units" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
 </hibernate-mapping>

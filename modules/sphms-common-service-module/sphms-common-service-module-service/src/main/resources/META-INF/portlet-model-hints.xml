@@ -19,8 +19,10 @@
 		<field name="title" type="String" />
 		<field name="location" type="String" />
 		<field name="city" type="String" />
+		<field name="district" type="String" />
 		<field name="state" type="String" />
 		<field name="hordingType" type="String" />
+		<field name="mediaVehicle" type="String" />
 		<field name="size" type="String" />
 		<field name="pricePerMonth" type="double" />
 		<field name="normalImageId" type="long" />
@@ -56,5 +58,25 @@
 		<field name="paymentDate" type="Date" />
 		<field name="createDate" type="Date" />
 		<field name="createdBy" type="long" />
+	</model>
+	<model name="com.sphms.common.service.model.Proposal">
+		<field name="proposalId" type="long" />
+		<field name="campaignTitle" type="String" />
+		<field name="client" type="long" />
+		<field name="pptFileId" type="long" />
+		<field name="xlsxFileId" type="long" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="long" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="long" />
+	</model>
+	<model name="com.sphms.common.service.model.Proposal_Hording">
+		<field name="proposalId" type="long" />
+		<field name="hordingId" type="long" />
+		<field name="mountingCharge" type="double" />
+		<field name="printingCharge" type="double" />
+		<field name="units" type="int" />
 	</model>
 </model-hints>

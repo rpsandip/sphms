@@ -38,9 +38,11 @@ public class AddHordingRenderCommanad implements MVCRenderCommand{
 		long hordingId = ParamUtil.getLong(renderRequest, "hordingId");
 		
 		try {
-			Hording hording = HordingLocalServiceUtil.getHording(hordingId);
-			HordingBean hordingBean = new HordingBean(hording);
-			renderRequest.setAttribute("hordingBean", hordingBean);
+			if(hordingId!=0){
+				Hording hording = HordingLocalServiceUtil.getHording(hordingId);
+				HordingBean hordingBean = new HordingBean(hording);
+				renderRequest.setAttribute("hordingBean", hordingBean);
+			}
 		} catch (PortalException e) {
 			_log.error(e);
 		}
