@@ -1,3 +1,25 @@
+create table SPHMS_Booking (
+	bookingId LONG not null primary key,
+	campaignTitle VARCHAR(75) null,
+	client LONG,
+	billId LONG,
+	startDate DATE null,
+	endDate DATE null,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG
+);
+
+create table SPHMS_Booking_Hording (
+	bookingId LONG not null,
+	hordingId LONG not null,
+	mountingCharge DOUBLE,
+	printingCharge DOUBLE,
+	units INTEGER,
+	primary key (bookingId, hordingId)
+);
+
 create table SPHMS_Client (
 	clientId LONG not null primary key,
 	clientName VARCHAR(75) null,

@@ -1,0 +1,104 @@
+<%@ include file="../init.jsp" %>
+
+<portlet:actionURL var="addBookingURL" name="/add_booking">
+</portlet:actionURL>
+
+<section class="content-header">
+	<h1>
+    	<liferay-ui:message key="add.booking"/> 
+  	</h1>
+</section>
+
+<liferay-ui:error key="err-add-booking" message="err-add-proposal"/>
+
+<div class="row">
+	<div class="col-xs-12">
+    	<div class="box">
+       		<div class="box-body">
+       			<aui:form name="addBookingFm" action="${addBookingURL}" cssClass="row contact_form">
+       				<div class="row">
+	       				<div class="form-group col-md-6">
+	       					<aui:input type="text" name="camapaignTitle" label="campaign" />
+	       				</div>
+	       				<div class="form-group col-md-6">
+	       					<aui:select name="clientId" label="client" cssClass="form-control">
+	       					 	<aui:option value="">Select Client</aui:option>
+	       					 	<c:forEach items="${allClientList }" var="client">
+	       					 		<aui:option value="${client.clientId }" > ${client.clientName}</aui:option>
+	       					 	</c:forEach>
+							</aui:select>
+	       				</div>
+	       			</div>
+	       			<div class="row">
+	       				<div class="form-group col-md-6">
+	       					<aui:input name="startDate" label="start.date" cssClass="form-control"/> 
+	       				</div>
+	       				<div class="form-group col-md-6">
+	       					<aui:input name="endDate" label="end.date" cssClass="form-control"/> 
+	       				</div>
+	       			</div>	
+       				<div class="row">
+     					<div class="form-group col-md-12">
+     						<h4><liferay-ui:message key="selected.hoardings"/> </h4>
+     					</div>
+     					<c:forEach items="${hordindList }" var="hording" varStatus="loop">
+     						<div class="form-group col-md-3">
+	       					 	<aui:input type="text" name="title${loop.index}" label="title" value="${hording.title }" readonly="true"/>	
+	       					 	<aui:input type="hidden" name="hordingId${index }" label="title" />
+     						</div>
+     						<div class="form-group col-md-3">
+	       					 	<aui:input type="text" name="moutingCharge${loop.index}" label="mountingCharge" />	
+     						</div>
+     						<div class="form-group col-md-3">
+	       					 	<aui:input type="text" name="printingCharge${loop.index}" label="printingCharge" />	
+     						</div>
+     						<div class="form-group col-md-3">
+	       					 	<aui:input type="text" name="units${loop.index}" label="units" />	
+     						</div>
+     						<hr/>
+     					</c:forEach>
+     				</div>	
+       				<div class="row">
+     					<div class="form-group col-md-12">
+							<aui:button type="button" value="Add Booking"  cssClass="addBookingBtn btn btn-primary"/>
+						</div>
+					</div>
+					<aui:input type="hidden"  name="selectedHordingIds" value="${ selectedHordingIds}"/>
+       			</aui:form>
+       		</div>
+       	</div>
+    </div>
+</div>
+<script type="text/javascript">
+jQuery.noConflict();
+(function($) { 
+	
+	$(function() {
+    	//Date picker
+  	  $('#'+ '<portlet:namespace/>' + 'startDate').datepicker({
+  		format: 'dd/mm/yyyy',  
+  	    autoclose: true
+  	  });
+  	  
+  	  $('#'+ '<portlet:namespace/>' + 'endDate').datepicker({
+  			format: 'dd/mm/yyyy',  
+  		    autoclose: true
+  	  });
+  	  
+	 });
+})(jQuery);
+</script>
+
+<aui:script>
+var userModuleNameSpace =  '<portlet:namespace/>';
+AUI().use('aui-base','aui-form-validator', function(A) {
+	var addBookingBtn= A.one(".addBookingBtn");
+	addBookingBtn.on('click', function(e) {
+		var formValidator = Liferay.Form.get('<portlet:namespace />addBookingFm').formValidator;
+		formValidator.validate();
+		if(!formValidator.hasErrors()){
+			document.<portlet:namespace />addBookingFm.submit();
+		}
+	});
+});
+</aui:script> 

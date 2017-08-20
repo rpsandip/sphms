@@ -1,21 +1,22 @@
 <%@ include file="/init.jsp" %>
-<portlet:renderURL var="addClientURL">
-        <portlet:param name="mvcRenderCommandName" value="/prepare-proposal" />
+
+<portlet:renderURL var="addBookingURL">
+        <portlet:param name="mvcRenderCommandName" value="/prepare_booking" />
 </portlet:renderURL>
 
-<portlet:resourceURL id="/getProposalList" var="getProposalListURL">
+<portlet:resourceURL id="/getBookingList" var="getBookingListURL">
 </portlet:resourceURL>
 
-<liferay-ui:success key="proposal-added-successfully" message="proposal-added-successfully"/>
+<liferay-ui:success key="booking-added-successfully" message="booking-added-successfully"/>
 
-<a href="${addClientURL}" class="btn btn-primary">Add Proposal</a>
+<a href="${addBookingURL}" class="btn btn-primary">Add Booking</a>
 
 <section class="content">
  <div class="row">
  	 <div class="col-xs-12">
      	<div class="box">
             <div class="box-body">
-	            <form id="filterProposal">
+	            <form id="filterBookign">
 	              	<div class="form-group col-md-3">
 	                  <select name="client" id="client" class="form-control">
 						<option value="0">Select Client</option>
@@ -35,7 +36,7 @@
 	                </div>
 	              </form>
 	              <br/>
-	             <table id="proposals" class="display table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+	             <table id="bookings" class="display table table-bordered table-hover table-striped" cellspacing="0" width="100%">
             		<tbody></tbody>
             	</table>
             </div>
@@ -45,17 +46,17 @@
 </section>            	
 
 <script type="text/javascript">
-        var proposalDataTable="";
+        var bookingDataTable="";
         jQuery.noConflict();
         (function($) {
             $(function() {  
             	 AUI().use('aui-base','liferay-portlet-url', function(A) {
-            		 proposalDataTable =  $('#proposals').DataTable({
+            		 bookingDataTable =  $('#bookings').DataTable({
             		 "processing": true,
             	     "serverSide": true,
             	     "searching": false,
             	     "pageLength": 50,
-            	     "ajax": '${getProposalListURL}',
+            	     "ajax": '${getBookingListURL}',
             		 "order": [],
             		 "columns": [
             	                    { "data": "campaign", "name" : "campaign", "title" : "Campaign"  },
@@ -65,11 +66,11 @@
             	                    { "data": "action", "name" : "Action" , "title" : "Action",
             	                    	"render": function(data, type, row, meta){
             	                    		var displayData="";
-            	                    			var editPatientURL = Liferay.PortletURL.createRenderURL();
-            	                    			editPatientURL.setParameter("proposalId",row.proposalId);
-            	                    			editPatientURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
-            	                    			editPatientURL.setParameter("mvcRenderCommandName","/view-proposal");
-            	                    			displayData = '<a href="'+editPatientURL+'" class="btn btn-block btn-primary">View Proposal</a>';
+            	                    			var viewBookingURL = Liferay.PortletURL.createRenderURL();
+            	                    			viewBookingURL.setParameter("bookingId",row.bookingId);
+            	                    			viewBookingURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
+            	                    			viewBookingURL.setParameter("mvcRenderCommandName","/view-booking");
+            	                    			displayData = '<a href="'+viewBookingURL+'" class="btn btn-block btn-primary">View Booking</a>';
             	                    		return displayData;
             	                    	 }
             	                    }
@@ -92,8 +93,8 @@
             	var clientId = $("#client").val();
             	var startDate = $("#startDate").val();
             	var endDate = $("#endDate").val();
-            	var getDocumentURL = '${getProposalListURL}&<portlet:namespace />clientId='+clientId+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate;
-                proposalDataTable.ajax.url(getDocumentURL).load();
+            	var getDocumentURL = '${getBookingListURL}&<portlet:namespace />clientId='+clientId+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate;
+                bookingDataTable.ajax.url(getDocumentURL).load();
 			});  
         })(jQuery);
-    </script>
+</script>

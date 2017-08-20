@@ -1,6 +1,25 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="com.sphms.common.service.model.Booking">
+		<field name="bookingId" type="long" />
+		<field name="campaignTitle" type="String" />
+		<field name="client" type="long" />
+		<field name="billId" type="long" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="long" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="long" />
+	</model>
+	<model name="com.sphms.common.service.model.Booking_Hording">
+		<field name="bookingId" type="long" />
+		<field name="hordingId" type="long" />
+		<field name="mountingCharge" type="double" />
+		<field name="printingCharge" type="double" />
+		<field name="units" type="int" />
+	</model>
 	<model name="com.sphms.common.service.model.Client">
 		<field name="clientId" type="long" />
 		<field name="clientName" type="String" />
