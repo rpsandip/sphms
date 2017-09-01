@@ -23,6 +23,8 @@ import java.util.concurrent.CountDownLatch;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.LandLordPaymentBean;
 import com.sphms.common.service.model.LandLordPayment;
@@ -44,8 +46,7 @@ import com.sphms.common.service.service.base.LandLordPaymentLocalServiceBaseImpl
  * @see com.sphms.common.service.service.LandLordPaymentLocalServiceUtil
  */
 @ProviderType
-public class LandLordPaymentLocalServiceImpl
-	extends LandLordPaymentLocalServiceBaseImpl {
+public class LandLordPaymentLocalServiceImpl extends LandLordPaymentLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -55,8 +56,13 @@ public class LandLordPaymentLocalServiceImpl
 	/*
 	 * Method for add Land Lord Payment
 	 */
+	
+	Log _log = LogFactoryUtil.getLog(LandLordPaymentLocalServiceImpl.class.getName());
+	
 	public LandLordPayment addLandLordPayment(long landLordId, long hordingId, double amount, Date paymentDate, long createdBy){
 	
+		_log.info("Add LandLord Payment : " + "landLordId ->" + landLordId + " hordingId->" + hordingId + " amount->" + amount + " paymentDate->" + paymentDate  );
+		
 		boolean isValidParam = validateParam(landLordId, hordingId, amount, paymentDate, createdBy);
 		
 		if(isValidParam){
@@ -79,6 +85,9 @@ public class LandLordPaymentLocalServiceImpl
 	 * Method for update Land Lord Payment 
 	 */
 	public LandLordPayment updateLandLordPayment(long landLordPaymentId, long landLordId, long hordingId, double amount, Date paymentDate, long createdBy) throws PortalException{
+	
+		_log.info("Update LandLord Payment : " + "landLordId ->" + landLordId + " hordingId->" + hordingId + " amount->" + amount + " paymentDate->" + paymentDate  );
+		
 		boolean isValidParam = validateParam(landLordId, hordingId, amount, paymentDate, createdBy);
 		if(isValidParam){
 			LandLordPayment landLordPayment = LandLordPaymentLocalServiceUtil.getLandLordPayment(landLordPaymentId);

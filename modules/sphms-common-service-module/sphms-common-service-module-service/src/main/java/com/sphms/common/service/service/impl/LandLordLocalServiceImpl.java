@@ -24,6 +24,8 @@ import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.model.LandLord;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
@@ -46,10 +48,15 @@ import com.sphms.common.service.service.base.LandLordLocalServiceBaseImpl;
 @ProviderType
 public class LandLordLocalServiceImpl extends LandLordLocalServiceBaseImpl {
 	
+	Log _log = LogFactoryUtil.getLog(LandLordLocalServiceImpl.class.getName());
+	
 	/*
 	 * Method for add Land Lord Detail
 	 */
 	public LandLord addLandLordDetail(String fName, String lName, String location, String city, String phoneNo, int status, long createdBy){
+		
+		_log.info("Adding LandLoard :: fName ->" + fName + " lName->" + lName + " location ->" + location
+				+ " city ->" + city + " phoneno ->" + phoneNo + " status ->" + status);
 		
 		boolean isValidParams = isValidParam(fName, lName, location, city, phoneNo);
 		if(isValidParams){
@@ -73,6 +80,10 @@ public class LandLordLocalServiceImpl extends LandLordLocalServiceBaseImpl {
 	 * Method for update Land Lord
 	 */
 	public LandLord updateLandLord(long landLordId, String fName, String lName, String location, String city, String phoneNo, int status, long createdBy) throws PortalException{
+		
+		_log.info("Updating LandLoard :: fName ->" + fName + " lName->" + lName + " location ->" + location
+				+ " city ->" + city + " phoneno ->" + phoneNo + " status ->" + status);
+		
 		
 		boolean isValidParams = isValidParam(fName, lName, location, city, phoneNo);
 		

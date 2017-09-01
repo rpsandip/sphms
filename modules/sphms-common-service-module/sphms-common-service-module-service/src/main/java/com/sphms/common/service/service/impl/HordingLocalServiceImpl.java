@@ -81,6 +81,7 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 		hording.setOwnerType(ownerType);
 		hording.setUpinNo(upinNo);
 		hording.setMncTax(mncTax);
+		hording.setStatus(0);
 		hording.setOtherExpYear(oterExpPerYear);
 		hording.setCreatedBy(createdBy);
 		hording.setCreateDate(new Date());
@@ -262,6 +263,12 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 		return hordingList;
 	}
 	
+	/*
+	 * Method for get active hordings of landlord.
+	 */
+	public List<Hording> getLandLordHordingList(long landLordId){
+		return hordingPersistence.findBylandLordId(landLordId, 0);
+	}
 	
 	
 	private static FileEntry upLoadFile(long groupId, File file, String fileName, long folderId) throws PortalException{

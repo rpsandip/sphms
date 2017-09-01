@@ -20,6 +20,8 @@ import java.util.Date;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.model.Client;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
@@ -42,12 +44,17 @@ import com.sphms.common.service.service.base.ClientLocalServiceBaseImpl;
 @ProviderType
 public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 	
+	Log _log = LogFactoryUtil.getLog(ClientLocalServiceImpl.class.getName());
 	
 	/*
 	 * Method for add Client detail
 	 */
 	public Client addClient(String clientName, String address1, String address2, String city, String state,
 			String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail, long createdBy){
+		
+		_log.info("Adding Client :: clientName->" + clientName + " Address1->" + address1 + " Address2->" + address2 +
+				" city->" + city + " state ->" + state + " contactPersonName ->" + contactPersonName + " contactPersonEmail ->" +
+				contactPersonEmail + " contactPersonPhoneNo->" + contactPersonPhoneNo); 
 		
 		boolean isValidParams = isValidParam(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail);
 		
@@ -79,6 +86,11 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 	public Client updateClient(long clientId,String clientName, String address1, String address2, String city, String state,
 			String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail, long createdBy) throws PortalException{
 		
+		_log.info("Updating Client :: clientName->" + clientName + " Address1->" + address1 + " Address2->" + address2 +
+				" city->" + city + " state ->" + state + " contactPersonName ->" + contactPersonName + " contactPersonEmail ->" +
+				contactPersonEmail + " contactPersonPhoneNo->" + contactPersonPhoneNo); 
+		
+		
 		boolean isValidParams = isValidParam(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail);
 		
 		if(isValidParams){
@@ -104,10 +116,10 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 	}
 	
 	private boolean isValidParam (String clientName, String address1 ,String address2, String city, String state, String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail){
-		boolean isValidParams = true;
-		if(Validator.isNotNull(clientName) || Validator.isNotNull(address1) ||Validator.isNotNull(address2) || Validator.isNotNull(city) ||
-				Validator.isNotNull(state) || Validator.isNotNull(contactPersonName) || Validator.isNotNull(contactPersonPhoneNo) || Validator.isNotNull(contactPersonEmail)){
-			isValidParams = false;
+		boolean isValidParams = false;
+		if(Validator.isNotNull(clientName) && Validator.isNotNull(address1) && Validator.isNotNull(address2) && Validator.isNotNull(city) &&
+				Validator.isNotNull(state) && Validator.isNotNull(contactPersonName) && Validator.isNotNull(contactPersonPhoneNo) && Validator.isNotNull(contactPersonEmail)){
+			isValidParams = true;
 		}
 		return isValidParams;
 	}

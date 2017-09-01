@@ -5,8 +5,10 @@ import java.util.Date;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.model.LandLord;
 import com.sphms.common.service.model.LandLordPayment;
+import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
 
 public class LandLordPaymentBean {
@@ -22,6 +24,7 @@ public class LandLordPaymentBean {
 	private String lastName;
 	private String location;
 	private String city;
+	private String hordingTitle;
 	
 	
 	public LandLordPaymentBean(LandLordPayment landLordPayment){
@@ -37,6 +40,13 @@ public class LandLordPaymentBean {
 			this.lastName = landLord.getLastName();
 			this.location = landLord.getLocation();
 			this.city = landLord.getCity();
+		} catch (PortalException e) {
+			_log.error(e);
+		}
+		
+		try {
+			Hording hording = HordingLocalServiceUtil.getHording(hordingId);
+			this.hordingTitle = hording.getTitle();
 		} catch (PortalException e) {
 			_log.error(e);
 		}
@@ -130,6 +140,16 @@ public class LandLordPaymentBean {
 
 	public void setLandLordPaymentId(long landLordPaymentId) {
 		this.landLordPaymentId = landLordPaymentId;
+	}
+
+
+	public String getHordingTitle() {
+		return hordingTitle;
+	}
+
+
+	public void setHordingTitle(String hordingTitle) {
+		this.hordingTitle = hordingTitle;
 	}
 	
 	

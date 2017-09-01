@@ -17,7 +17,10 @@ package com.sphms.common.service.service.impl;
 import aQute.bnd.annotation.ProviderType;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -158,5 +161,80 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 		}
 		
 		return searchedHordingList;
+	}
+	
+	@Override
+	  public String getDateTimeDiff(Date startDate, Date endDate) {
+	    String finalTime = "";
+	    long timeDifInMillis = endDate.getTime() - startDate.getTime();
+
+	    Date dateDiff = new Date(timeDifInMillis);
+	    Calendar diffCal = Calendar.getInstance();
+	    diffCal.setTime(dateDiff);
+	    int daysDiff = diffCal.get(Calendar.DAY_OF_MONTH);
+	    int monthDiff = diffCal.get(Calendar.MONTH);
+	    int yearDiff = (diffCal.get(Calendar.YEAR)-1970);
+	  
+	    if(timeDifInMillis>0){
+	    	if(yearDiff==1){
+	    		finalTime = finalTime + yearDiff + " year ";
+	    	}else if(yearDiff>0){
+	    		finalTime = finalTime + yearDiff + " years ";
+	    	}
+	    	if(monthDiff==1){
+	    		finalTime = finalTime + monthDiff + " month ";
+	    	}else if(yearDiff>0){
+	    		finalTime = finalTime + monthDiff + " months ";
+	    	}
+	    	if(daysDiff==1){
+	    		finalTime = finalTime + daysDiff + " day ";
+	    	}else if(daysDiff>0){
+	    		finalTime = finalTime + daysDiff + " days ";
+	    	}
+	    }else{
+	    	finalTime = finalTime + " 1 day";
+	    }
+	    
+	    return finalTime;
+	}
+	
+	public String getFinancialYear(){
+			String financialYear = StringPool.BLANK;
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+
+		    int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		    System.out.println("Financial month : " + month);
+		    if (month < 3) {
+		    	financialYear = (year - 1) + "-" + year;
+		    } else {
+		    	financialYear =  year + "-" + (year + 1);
+		    }
+		    return financialYear;
+	}
+	
+	public  String[] getHeightOrWidth(String size){
+		String[] sizeArray = new String[2];
+		if(size.indexOf("X")>0){
+			 sizeArray = size.split("X");
+		}
+		return sizeArray;
+	}
+	
+	public  int getTotalSqFt(String[] heigthWidthArray){
+		int height = Integer.parseInt(heigthWidthArray[0]);
+		int width  = Integer.parseInt(heigthWidthArray[1]);
+		return height*width;
+	}
+	
+	public  long getDisplayDuration(Date startDate, Date endDate){
+	    long diff = endDate.getTime() - startDate.getTime();
+	    // Need to add 1 days because for same start and end date below equiation gives 0 and we have to consider 
+	    // as 1. Same for other dates.
+	    return (diff / (1000*60*60*24))+1;
+	}
+	
+	public  double getDisplayCharges(double pricePerMonth, long displayDurationDays){
+		// Considering month days are 30.
+		return (pricePerMonth/30)*displayDurationDays;
 	}
 }

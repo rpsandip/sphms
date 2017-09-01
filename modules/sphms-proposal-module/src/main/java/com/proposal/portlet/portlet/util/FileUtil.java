@@ -77,7 +77,7 @@ public class FileUtil {
 					 fileEntry = DLAppServiceUtil.addFileEntry(globalSiteGroupId, proposalFolder.getFolderId(),  pptFile.getName(), MimeTypesUtil.getContentType(pptFile),  pptFile.getName(), StringPool.BLANK , StringPool.BLANK, pptFile, serviceContext);
 				 }catch(DuplicateFileEntryException e){
 					 String fileName = proposal.getCampaignTitle()+StringPool.UNDERLINE+  new Date().getTime() + ".pptx";
-					 fileEntry = DLAppServiceUtil.addFileEntry(globalSiteGroupId, proposalFolder.getFolderId(), fileName, MimeTypesUtil.getContentType(pptFile), fileName, "Patient Invoice", "", pptFile, serviceContext);
+					 fileEntry = DLAppServiceUtil.addFileEntry(globalSiteGroupId, proposalFolder.getFolderId(), fileName, MimeTypesUtil.getContentType(pptFile), fileName, StringPool.BLANK , StringPool.BLANK, pptFile, serviceContext);
 				 }
 			}
 		}
@@ -479,7 +479,7 @@ public class FileUtil {
 		}
     	
     	
-    	String[] heightWidthArray = getHeightOrWidth(hording.getSize());
+    	String[] heightWidthArray = SPHMSCommonLocalServiceUtil.getHeightOrWidth(hording.getSize());
     	
     	// Height
     	XSSFCell cell8 = hordingRow.createCell(8);
@@ -518,7 +518,7 @@ public class FileUtil {
     	
     	
     	// Sql Ft
-    	int totalSqFt = getTotalSqFt(heightWidthArray);
+    	int totalSqFt = SPHMSCommonLocalServiceUtil.getTotalSqFt(heightWidthArray);
     	XSSFCell cell11 = hordingRow.createCell(11);
     	cell11.setCellValue(totalSqFt);
     	cell11.setCellStyle(commonStyle);
@@ -535,16 +535,17 @@ public class FileUtil {
 		}
     	
     	// Day Durations
-    	long displayDurationDays = getDisplayDuration(proposal.getStartDate(), proposal.getEndDate());
+    	long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(proposal.getStartDate(), proposal.getEndDate());
+    	String displayDurationDaysString = SPHMSCommonLocalServiceUtil.getDateTimeDiff(proposal.getStartDate(), proposal.getEndDate());
     	XSSFCell cell13 = hordingRow.createCell(13);
-    	cell13.setCellValue(displayDurationDays);
+    	cell13.setCellValue(displayDurationDaysString);
     	cell13.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
 			cell13.setCellStyle(style1);
 		}
     	
     	// Display Charges
-    	double displayCharges = getDisplayCharges(hording.getPricePerMonth(), displayDurationDays); 
+    	double displayCharges = SPHMSCommonLocalServiceUtil.getDisplayCharges(hording.getPricePerMonth(), displayDurationDays); 
     	XSSFCell cell14 = hordingRow.createCell(14);
     	cell14.setCellValue(displayCharges);
     	cell14.setCellStyle(commonStyle);
@@ -697,34 +698,6 @@ public class FileUtil {
 		
 	}
 
-	
-	
-	private static String[] getHeightOrWidth(String size){
-		String[] sizeArray = new String[2];
-		if(size.indexOf("X")>0){
-			 sizeArray = size.split("X");
-		}
-		return sizeArray;
-	}
-	
-	private static int getTotalSqFt(String[] heigthWidthArray){
-		int height = Integer.parseInt(heigthWidthArray[0]);
-		int width  = Integer.parseInt(heigthWidthArray[1]);
-		return height*width;
-	}
-	
-	private static long getDisplayDuration(Date startDate, Date endDate){
-	    long diff = endDate.getTime() - startDate.getTime();
-	    // Need to add 1 days because for same start and end date below equiation gives 0 and we have to consider 
-	    // as 1. Same for other dates.
-	    return (diff / (1000*60*60*24))+1;
-	}
-	
-	private static double getDisplayCharges(double pricePerMonth, long displayDurationDays){
-		// Considering month days are 30.
-		return (pricePerMonth/30)*displayDurationDays;
-	}
-	
 	private static double getMountingCharges(int totalSq, Proposal_Hording moutingCharges){
 		if(Validator.isNotNull(moutingCharges)){
 			return totalSq*moutingCharges.getMountingCharge();
@@ -735,7 +708,7 @@ public class FileUtil {
 	
 	private static double getPrintingCharges(int totalSq, Proposal_Hording printingCharges){
 		if(Validator.isNotNull(printingCharges)){
-		return totalSq*printingCharges.getPrintingCharge();
+			return totalSq*printingCharges.getPrintingCharge();
 		}else{
 			return 0;
 		}

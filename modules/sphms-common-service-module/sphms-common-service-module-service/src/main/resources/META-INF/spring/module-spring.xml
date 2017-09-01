@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="com.sphms.common.service.service.impl.BillingLocalServiceImpl" id="com.sphms.common.service.service.BillingLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.BillingPersistenceImpl" id="com.sphms.common.service.service.persistence.BillingPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.Billing_HordingLocalServiceImpl" id="com.sphms.common.service.service.Billing_HordingLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.Billing_HordingPersistenceImpl" id="com.sphms.common.service.service.persistence.Billing_HordingPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.BookingLocalServiceImpl" id="com.sphms.common.service.service.BookingLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.BookingPersistenceImpl" id="com.sphms.common.service.service.persistence.BookingPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.Booking_HordingLocalServiceImpl" id="com.sphms.common.service.service.Booking_HordingLocalService" />

@@ -30,12 +30,11 @@
        		<div class="box-body">
        			<aui:form name="landLordPaymentForm" action="${addLandLordPayMentURL}" cssClass="row contact_form">
        				<div class="row">
-       					<!-- Need to make this select  -->
-	       				<div class="form-group col-md-6">
-	       					 <aui:input name="hordingId" label="Hording" cssClass="form-control" value="${landLordPayment.hordingId }">
-						     	<aui:validator name="required" />
-							 </aui:input>
-						</div>
+	       				<aui:select name="hordingId" label="Hording" cssClass="form-control">
+	       					<c:forEach items="${landLordHordingList }" var="hording">
+	       						<aui:option value="${hording.hordingId }"  selected='${hording.hordingId eq landLordPayment.hordingId ? true : false }'>${hording.title }</aui:option>
+	       					</c:forEach>	
+	       				</aui:select>
 					</div>
 					<div class="row">		 
 						<div class="form-group col-md-6">

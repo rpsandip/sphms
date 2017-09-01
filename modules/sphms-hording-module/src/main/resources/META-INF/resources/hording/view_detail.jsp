@@ -21,17 +21,14 @@
 	       				</div>
 	       			</div>	
 	       			<div class="row">
-	       				<div class="form-group col-md-3">
+	       				<div class="form-group col-md-4">
 	       						<b>Type : </b> ${hordingBean.hordingType }
 	       				</div>
-	       				<div class="form-group col-md-3">
+	       				<div class="form-group col-md-4">
 	       						<b>Media Vehicle : </b> ${hordingBean.mediaVehicle }
 	       				</div>
-	       				<div class="form-group col-md-3">
+	       				<div class="form-group col-md-4">
 	       						<b>Size :</b> ${hordingBean.size }(Sq. Ft)
-	       				</div>
-	       				<div class="form-group col-md-3">
-	       						<b>Owner Type : </b> ${hordingBean.ownerType }
 	       				</div>
 	       			</div>
 	       			<div class="row">
@@ -43,6 +40,11 @@
 	       				</div>
 	       				<div class="form-group col-md-4">
 	       						<b>Other Expense Per Year :</b> Rs. ${hordingBean.otherExpYear }
+	       				</div>
+	       			</div>
+	       			<div class="row">	
+	       				<div class="form-group col-md-3">
+	       						<b>Owner Type : </b> ${hordingBean.ownerType }
 	       				</div>
 	       			</div>
 	       			<div class="row">

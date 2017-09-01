@@ -1,5 +1,7 @@
 package com.booking.portlet.portlet.actioncommand;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,22 +12,24 @@ import javax.portlet.ActionResponse;
 import org.osgi.service.component.annotations.Component;
 
 import com.booking.portlet.portlet.util.BookingPortletConstant;
+import com.booking.portlet.portlet.util.FileUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.proposal.portlet.portlet.util.FileUtil;
 import com.sphms.common.service.beans.Booking_HordingBean;
-import com.sphms.common.service.beans.Proposal_HordingBean;
+import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Hording;
+import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.BookingLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
 
@@ -43,7 +47,7 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 	Log _log = LogFactoryUtil.getLog(AddBookingActionCommand.class.getName());
 	
 	@Override
-	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
+	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse){
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		
@@ -82,7 +86,34 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 		Booking booking = BookingLocalServiceUtil.addBooking(campaignTitle, clientId, startDate, endDate, bookingHordingBeanList, themeDisplay.getUserId(), themeDisplay.getUserId());
 	
 		if(Validator.isNotNull(booking)){
-			// TODO:: add Biiling XLsx file
+			
+			Billing billing = null;
+			try {
+				billing = BillingLocalServiceUtil.getBillingFromBookingId(booking.getBookingId());
+			} catch (Exception e1) {
+				_log.error(e1);
+			}
+		
+			FileEntry xlsxFileEntry= null;
+			try {
+				xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,hordingList);
+			} catch (PortalException | IOException e) {
+				_log.error(e);
+			}
+			
+			if(Validator.isNotNull(xlsxFileEntry)){
+				_log.info("Booking Xlsx file created successfully->" + xlsxFileEntry.getFileEntryId());
+				
+				// Update booking with bill fileEntryId
+				booking.setBillId(xlsxFileEntry.getFileEntryId());
+				BookingLocalServiceUtil.updateBooking(booking);
+				
+				// Need to update billing table with bill fileEntryId
+				if(Validator.isNotNull(billing)){
+					billing.setBillFileEntryId(xlsxFileEntry.getFileEntryId());
+					BillingLocalServiceUtil.updateBilling(billing);
+				}
+			}
 			SessionMessages.add(actionRequest, "booking-added-successfully");
 		}else{
 			SessionErrors.add(actionRequest, "err-add-booking");

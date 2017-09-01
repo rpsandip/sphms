@@ -1,6 +1,38 @@
+create table SPHMS_Billing (
+	billingId LONG not null primary key,
+	billNo VARCHAR(75) null,
+	bookingId LONG,
+	clientId LONG,
+	billFileEntryId LONG,
+	clientPANNo VARCHAR(75) null,
+	clientPONumber VARCHAR(75) null,
+	clientGSTNumber VARCHAR(75) null,
+	display VARCHAR(75) null,
+	accessAmount DOUBLE,
+	pendingAmount DOUBLE,
+	financialYear VARCHAR(75) null,
+	creditNoteAmount DOUBLE,
+	creditNoteTax DOUBLE,
+	status INTEGER,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG
+);
+
+create table SPHMS_Billing_Hording (
+	billingId LONG not null,
+	hordingId LONG not null,
+	totalMountingCharge DOUBLE,
+	totalPrintingCharge DOUBLE,
+	units INTEGER,
+	totalHordingCharge DOUBLE,
+	primary key (billingId, hordingId)
+);
+
 create table SPHMS_Booking (
 	bookingId LONG not null primary key,
-	campaignTitle VARCHAR(75) null,
+	campaignTitle VARCHAR(100) null,
 	client LONG,
 	billId LONG,
 	startDate DATE null,
@@ -22,13 +54,13 @@ create table SPHMS_Booking_Hording (
 
 create table SPHMS_Client (
 	clientId LONG not null primary key,
-	clientName VARCHAR(75) null,
-	address1 VARCHAR(75) null,
-	address2 VARCHAR(75) null,
-	city VARCHAR(75) null,
+	clientName VARCHAR(100) null,
+	address1 VARCHAR(100) null,
+	address2 VARCHAR(100) null,
+	city VARCHAR(50) null,
 	state_ VARCHAR(75) null,
-	contactPersonName VARCHAR(75) null,
-	contactPersonEmail VARCHAR(75) null,
+	contactPersonName VARCHAR(50) null,
+	contactPersonEmail VARCHAR(50) null,
 	contactPersonPhoneNo VARCHAR(75) null,
 	createDate DATE null,
 	createdBy LONG
@@ -36,13 +68,13 @@ create table SPHMS_Client (
 
 create table SPHMS_Hording (
 	hordingId LONG not null primary key,
-	title VARCHAR(75) null,
+	title VARCHAR(100) null,
 	location VARCHAR(75) null,
 	city VARCHAR(75) null,
 	district VARCHAR(75) null,
 	state_ VARCHAR(75) null,
-	hordingType VARCHAR(75) null,
-	mediaVehicle VARCHAR(75) null,
+	hordingType VARCHAR(10) null,
+	mediaVehicle VARCHAR(30) null,
 	size_ VARCHAR(75) null,
 	pricePerMonth DOUBLE,
 	normalImageId LONG,
@@ -62,9 +94,9 @@ create table SPHMS_Hording (
 
 create table SPHMS_LandLord (
 	landLordId LONG not null primary key,
-	firstName VARCHAR(75) null,
-	lastName VARCHAR(75) null,
-	location VARCHAR(75) null,
+	firstName VARCHAR(100) null,
+	lastName VARCHAR(100) null,
+	location VARCHAR(100) null,
 	city VARCHAR(75) null,
 	status INTEGER,
 	phoneNo VARCHAR(75) null,
@@ -84,7 +116,7 @@ create table SPHMS_LandLordPayment (
 
 create table SPHMS_Proposal (
 	proposalId LONG not null primary key,
-	campaignTitle VARCHAR(75) null,
+	campaignTitle VARCHAR(200) null,
 	client LONG,
 	pptFileId LONG,
 	xlsxFileId LONG,

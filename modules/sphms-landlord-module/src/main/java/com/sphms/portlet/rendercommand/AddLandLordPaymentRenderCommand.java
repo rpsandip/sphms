@@ -1,5 +1,7 @@
 package com.sphms.portlet.rendercommand;
 
+import java.util.List;
+
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -11,8 +13,10 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.model.LandLord;
 import com.sphms.common.service.model.LandLordPayment;
+import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
 import com.sphms.common.service.service.LandLordPaymentLocalServiceUtil;
 import com.sphms.portlet.util.LandLordPortletConstant;
@@ -28,9 +32,12 @@ public class AddLandLordPaymentRenderCommand implements MVCRenderCommand{
 	Log _log = LogFactoryUtil.getLog(AddLandLordPaymentRenderCommand.class.getName());
 	@Override
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {
-		// TODO: Need to get landLord hordings list
+		
 		long landLordId = ParamUtil.getLong(renderRequest, "landLordId");
 		long landLordPaymentId = ParamUtil.getLong(renderRequest, "landLordPaymentId");
+		
+		List<Hording> landLordHordingList = HordingLocalServiceUtil.getLandLordHordingList(landLordId);
+		renderRequest.setAttribute("landLordHordingList", landLordHordingList);
 		
 		if(landLordPaymentId>0){
 			try {

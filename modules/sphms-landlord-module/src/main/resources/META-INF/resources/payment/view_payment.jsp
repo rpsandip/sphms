@@ -14,6 +14,7 @@
             	<table id="payments" class="display table table-bordered table-hover table-striped" cellspacing="0" width="100%">
 					<thead>
 			            <tr>
+			                <th>Hoarding</th>
 			                <th>Payment Date</th>
 			                <th>Amount</th>
 			                <th>Action</th>
@@ -22,9 +23,10 @@
         		   <tbody>
             	      <c:forEach items="${landLordPaymentBeanList }" var="landLordPaymentBean">
             			<tr>
+            				<td>${landLordPaymentBean.hordingTitle }</td>
             				<fmt:formatDate pattern = "dd/MM/yyyy" value = "${landLordPaymentBean.paymentDate}" var="paymentDate"/>
 			                <td>${paymentDate }</td>
-			                <td>${landLordPaymentBean.amount }</td>
+			                <td>Rs. ${landLordPaymentBean.amount }</td>
 			                <portlet:renderURL var="editPaymentURL">
        							 <portlet:param name="mvcRenderCommandName" value="/add_land_lord_payment" />
        							 <portlet:param name="landLordId" value="${ landLord.landLordId}" />
