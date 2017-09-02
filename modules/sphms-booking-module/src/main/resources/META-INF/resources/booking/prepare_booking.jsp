@@ -7,6 +7,7 @@
 
 <portlet:renderURL var="addBookingRenderURL">
         <portlet:param name="mvcRenderCommandName" value="/add_booking" />
+        <portlet:param name="bookingId" value="${bookingId }" />
 </portlet:renderURL>
 
 
@@ -15,7 +16,13 @@
     	<liferay-ui:message key="select.hording"/> 
   	</h1>
   	<div>
-  		<div id="selectedHordings"></div>
+  		<div id="selectedHordings">
+  			<c:forEach items="${bookingHordingBeanList }"  var="bookingHordingBean">
+  				<div class="bb-badges pull-right">
+  					${bookingHordingBean.hordingTitle }<span data-hordingid="${bookingHordingBean.hordingId }" class="deleteSelectedHording handHover">&nbsp;X</span>
+  			 	</div>
+  			 </c:forEach>
+  		</div>
   	</div><br/>
   	<div style="clear: both;padding-bottom: 5px;" class="pull-right">
   		<a class="btn btn-primary add-booking"> Continue to Add Booking</a>
@@ -68,7 +75,8 @@
 				 <div class="col-sm-12">
                        	<aui:button type="button" value="Search"  cssClass="submitserarchBtn btn btn-primary"/>
                  </div>
-                 <aui:input type="hidden" name="selectedhordings"/>
+                 <aui:input type="hidden" name="selectedhordings" value="${selectedHordings }"/>
+                 <aui:input type="hidden" name="selectedBookingHordings" value="${selectedHordings }"/>
                 </aui:form>
 			</div>
 	    </div>
@@ -95,6 +103,7 @@
 var hordinfDataTable;
 var selectedHordings = new Array();
 var bookingFn={};
+var bookingId = '${bookingId}';
 jQuery.noConflict();
 (function($) {
     $(function() {
@@ -141,6 +150,15 @@ jQuery.noConflict();
       });
     });
     
+    if(bookingId>0){
+    	<c:forEach items="${bookingHordingBeanList }"  var="bookingHordingBean">
+    		var hordingObj ={};
+    		hordingObj.hordingId = '${bookingHordingBean.hordingId}';
+    		hordingObj.title = '${bookingHordingBean.hordingTitle}';	
+    	    selectedHordings.push(hordingObj);
+    	</c:forEach>
+    }
+    
     var renderHordingDate = function(data){
     	var dataHtml='';
     	var isHordingSelect = bookingFn.isHordingSelected(data.hordingId);
@@ -181,6 +199,7 @@ jQuery.noConflict();
 				  '</div>';
 				  return dataHtml;
     }
+    
     
     
     $(".submitserarchBtn").on('click',function(){
@@ -227,7 +246,9 @@ jQuery.noConflict();
     $(document).on('click', '.add-booking', function() {
     	var addBookingURL = '${addBookingRenderURL}';
     	var selectedHordingList = $("#<portlet:namespace/>selectedhordings").val();
-    	addBookingURL = addBookingURL + "&<portlet:namespace/>selectedHordingIds="+selectedHordingList;
+    	var selectedBookingHordings = $("#<portlet:namespace/>selectedBookingHordings").val();
+    	addBookingURL = addBookingURL + "&<portlet:namespace/>selectedHordingIds="+selectedHordingList+"&<portlet:namespace/>selectedBookingHordings="+selectedBookingHordings;
+    	console.log("addBookingURL->" + addBookingURL);
     	window.location.href=addBookingURL;
     });
     

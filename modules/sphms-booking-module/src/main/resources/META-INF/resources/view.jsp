@@ -8,6 +8,8 @@
 </portlet:resourceURL>
 
 <liferay-ui:success key="booking-added-successfully" message="booking-added-successfully"/>
+<liferay-ui:success key="booking-updated-successfully" message="booking-updated-successfully"/>
+
 
 <a href="${addBookingURL}" class="btn btn-primary">Add Booking</a>
 
@@ -70,7 +72,14 @@
             	                    			viewBookingURL.setParameter("bookingId",row.bookingId);
             	                    			viewBookingURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
             	                    			viewBookingURL.setParameter("mvcRenderCommandName","/view-booking");
-            	                    			displayData = '<a href="'+viewBookingURL+'" class="btn btn-block btn-primary">View Booking</a>';
+            	                    			displayData = '<a href="'+viewBookingURL+'" class="btn btn-block btn-primary">View</a>';
+            	                    			
+            	                    			var viewBookingURL = Liferay.PortletURL.createRenderURL();
+            	                    			viewBookingURL.setParameter("bookingId",row.bookingId);
+            	                    			viewBookingURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
+            	                    			viewBookingURL.setParameter("mvcRenderCommandName","/prepare_booking");
+            	                    			displayData = displayData +   '<a href="'+viewBookingURL+'" class="btn btn-block btn-primary">Edit</a>';
+            	                    			
             	                    		return displayData;
             	                    	 }
             	                    }

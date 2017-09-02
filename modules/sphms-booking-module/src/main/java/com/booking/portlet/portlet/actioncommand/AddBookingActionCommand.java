@@ -50,7 +50,7 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse){
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		
+		long bookingId = ParamUtil.getLong(actionRequest, "bookingId");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		String selectedHordings = ParamUtil.getString(actionRequest, "selectedHordingIds");
 		String campaignTitle = ParamUtil.getString(actionRequest, "camapaignTitle");
@@ -82,45 +82,86 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 			hordingIndex++;
 		}
 		
-		// Add Booking 
-		Booking booking = BookingLocalServiceUtil.addBooking(campaignTitle, clientId, startDate, endDate, bookingHordingBeanList, themeDisplay.getUserId(), themeDisplay.getUserId());
-	
-		if(Validator.isNotNull(booking)){
+		if(bookingId==0){
 			
-			Billing billing = null;
-			try {
-				billing = BillingLocalServiceUtil.getBillingFromBookingId(booking.getBookingId());
-			} catch (Exception e1) {
-				_log.error(e1);
-			}
+			// Add Booking 
+			Booking booking = BookingLocalServiceUtil.addBooking(campaignTitle, clientId, startDate, endDate, bookingHordingBeanList, themeDisplay.getUserId(), themeDisplay.getUserId());
 		
-			FileEntry xlsxFileEntry= null;
-			try {
-				xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,hordingList);
-			} catch (PortalException | IOException e) {
-				_log.error(e);
-			}
-			
-			if(Validator.isNotNull(xlsxFileEntry)){
-				_log.info("Booking Xlsx file created successfully->" + xlsxFileEntry.getFileEntryId());
+			if(Validator.isNotNull(booking)){
 				
-				// Update booking with bill fileEntryId
-				booking.setBillId(xlsxFileEntry.getFileEntryId());
-				BookingLocalServiceUtil.updateBooking(booking);
-				
-				// Need to update billing table with bill fileEntryId
-				if(Validator.isNotNull(billing)){
-					billing.setBillFileEntryId(xlsxFileEntry.getFileEntryId());
-					BillingLocalServiceUtil.updateBilling(billing);
+				Billing billing = null;
+				try {
+					billing = BillingLocalServiceUtil.getBillingFromBookingId(booking.getBookingId());
+				} catch (Exception e1) {
+					_log.error(e1);
 				}
+			
+				FileEntry xlsxFileEntry= null;
+				try {
+					xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,hordingList, false);
+				} catch (PortalException | IOException e) {
+					_log.error(e);
+				}
+				
+				if(Validator.isNotNull(xlsxFileEntry)){
+					_log.info("Booking Xlsx file created successfully->" + xlsxFileEntry.getFileEntryId());
+					
+					// Update booking with bill fileEntryId
+					booking.setBillId(xlsxFileEntry.getFileEntryId());
+					BookingLocalServiceUtil.updateBooking(booking);
+					
+					// Need to update billing table with bill fileEntryId
+					if(Validator.isNotNull(billing)){
+						billing.setBillFileEntryId(xlsxFileEntry.getFileEntryId());
+						BillingLocalServiceUtil.updateBilling(billing);
+					}
+				}
+				SessionMessages.add(actionRequest, "booking-added-successfully");
+			}else{
+				SessionErrors.add(actionRequest, "err-add-booking");
+				actionResponse.setRenderParameter("mvcRenderCommandName", "/add_booking");
+				actionResponse.setRenderParameter("selectedHordingIds", selectedHordings);
 			}
-			SessionMessages.add(actionRequest, "booking-added-successfully");
-		}else{
+	
+	  }else{
+		   // Update booking
+		  try {
+			Booking booking = BookingLocalServiceUtil.updateBooking(bookingId, campaignTitle, clientId, startDate, endDate, bookingHordingBeanList, themeDisplay.getUserId());
+			if(Validator.isNotNull(booking)){
+				
+				Billing billing = null;
+				try {
+					billing = BillingLocalServiceUtil.getBillingFromBookingId(booking.getBookingId());
+				} catch (Exception e1) {
+					_log.error(e1);
+				}
+				
+				FileEntry xlsxFileEntry= null;
+				try {
+					xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,hordingList, true);
+				} catch (PortalException | IOException e) {
+					_log.error(e);
+				}
+				
+				SessionMessages.add(actionRequest, "booking-updated-successfully");
+			}else{
+				SessionErrors.add(actionRequest, "err-add-booking");
+				actionResponse.setRenderParameter("mvcRenderCommandName", "/add_booking");
+				actionResponse.setRenderParameter("selectedHordingIds", selectedHordings);
+				actionResponse.setRenderParameter("bookingId", String.valueOf(bookingId));
+				actionResponse.setRenderParameter("selectedBookingHordings", ParamUtil.getString(actionRequest, "selectedBookinghordings"));
+			}
+		  } catch (PortalException e) {
+			_log.error(e);
 			SessionErrors.add(actionRequest, "err-add-booking");
 			actionResponse.setRenderParameter("mvcRenderCommandName", "/add_booking");
+			actionResponse.setRenderParameter("bookingId", String.valueOf(bookingId));
 			actionResponse.setRenderParameter("selectedHordingIds", selectedHordings);
-		}
-	
+			actionResponse.setRenderParameter("selectedBookingHordings", ParamUtil.getString(actionRequest, "selectedBookinghordings"));
+		  }
+		  
+	  }
+		
 	}
 
 }

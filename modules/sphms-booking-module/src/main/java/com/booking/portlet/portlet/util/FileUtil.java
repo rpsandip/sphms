@@ -49,7 +49,7 @@ public class FileUtil {
 	private static final int MAX_ColUMN=6;
 	private static final int MIN_COLUMN=1;
 	
-	public static FileEntry createBillXlsForBooking(Booking booking, Billing billing,List<Hording> hordingList) throws FileNotFoundException, IOException, PortalException{
+	public static FileEntry createBillXlsForBooking(Booking booking, Billing billing,List<Hording> hordingList, boolean isEdit) throws FileNotFoundException, IOException, PortalException{
 		long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
 		FileEntry fileEntry = null;
 		if(globalSiteGroupId!=0){																																
@@ -57,12 +57,17 @@ public class FileUtil {
 			if(Validator.isNotNull(billingFolder)){
 				File xlsxFile = createBillXlsFile(booking, billing,hordingList);
 				ServiceContext serviceContext = new ServiceContext(); 
-				 try{
-					 fileEntry = DLAppServiceUtil.addFileEntry(globalSiteGroupId, billingFolder.getFolderId(),  xlsxFile.getName(), MimeTypesUtil.getContentType(xlsxFile),  xlsxFile.getName(), StringPool.BLANK , StringPool.BLANK, xlsxFile, serviceContext);
-				 }catch(DuplicateFileEntryException e){
-					 String fileName = booking.getCampaignTitle()+StringPool.UNDERLINE+  new Date().getTime() + ".pptx";
-					 fileEntry = DLAppServiceUtil.addFileEntry(globalSiteGroupId, billingFolder.getFolderId(), fileName, MimeTypesUtil.getContentType(xlsxFile), fileName, "", "", xlsxFile, serviceContext);
-				 }
+				if(!isEdit){
+					try{
+						 fileEntry = DLAppServiceUtil.addFileEntry(globalSiteGroupId, billingFolder.getFolderId(),  xlsxFile.getName(), MimeTypesUtil.getContentType(xlsxFile),  xlsxFile.getName(), StringPool.BLANK , StringPool.BLANK, xlsxFile, serviceContext);
+					 }catch(DuplicateFileEntryException e){
+						 String fileName = booking.getCampaignTitle()+StringPool.UNDERLINE+  new Date().getTime() + ".pptx";
+						 fileEntry = DLAppServiceUtil.addFileEntry(globalSiteGroupId, billingFolder.getFolderId(), fileName, MimeTypesUtil.getContentType(xlsxFile), fileName, "", "", xlsxFile, serviceContext);
+					 }
+				}else{
+					DLAppServiceUtil.updateFileEntry(booking.getBillId(), xlsxFile.getName(), MimeTypesUtil.getContentType(xlsxFile), xlsxFile.getName(),
+							StringPool.BLANK, StringPool.BLANK, false, xlsxFile, serviceContext);
+				}
 			}
 		}
 		return fileEntry;

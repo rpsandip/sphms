@@ -46,7 +46,7 @@ public class ViewBookingRenderCommand implements MVCRenderCommand{
 			List<Booking_Hording> bookingHordingList = Booking_HordingLocalServiceUtil.getBookingHordingsList(bookingId);
 			List<Booking_HordingBean> bookingHordingBeanList = new ArrayList<Booking_HordingBean>();
 			for(Booking_Hording bookingHording : bookingHordingList){
-				Booking_HordingBean bookingHordingBean = new Booking_HordingBean(booking, bookingHording);
+				Booking_HordingBean bookingHordingBean = new Booking_HordingBean(bookingHording);
 				bookingHordingBeanList.add(bookingHordingBean);
 			}
 			renderRequest.setAttribute("bookingBean", bookingBean);
