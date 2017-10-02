@@ -44,7 +44,7 @@ public class GetBookingListResourceCommand implements MVCResourceCommand{
 			throws PortletException {
 		
 		Log _log = LogFactoryUtil.getLog(GetBookingListResourceCommand.class.getName());
-		
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		HttpServletRequest httpRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(resourceRequest));
 		int start = Integer.parseInt(httpRequest.getParameter("start"));
 		int length = Integer.parseInt(httpRequest.getParameter("length"));
@@ -81,9 +81,9 @@ public class GetBookingListResourceCommand implements MVCResourceCommand{
 			}
 			proposalJsonObj.put("campaign", booking.getCampaignTitle());
 			proposalJsonObj.put("client", clienTitle);
-			proposalJsonObj.put("bookingId", booking.getBookingId());
-			proposalJsonObj.put("startDate", booking.getStartDate());
-			proposalJsonObj.put("endDate",booking.getEndDate());
+			proposalJsonObj.put("bookingId",  booking.getBookingId());
+			proposalJsonObj.put("startDate", df.format(booking.getStartDate()));
+			proposalJsonObj.put("endDate", df.format(booking.getEndDate()));
 			
 			dataArray.put(proposalJsonObj);
 		}

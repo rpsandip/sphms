@@ -58,7 +58,7 @@
     <script src="${javascript_folder}/bootstrap-timepicker.min.js"></script>
 	<script>
 		define.amd = define._amd;
-	`</script>
+	</script>
 	
 </head>
 

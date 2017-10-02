@@ -69,7 +69,7 @@
 					<div class="row">
 	       				<div class="form-group col-md-3">
 	       					 <aui:select name="type" label="type" cssClass="form-control">
-	       					 	<aui:option value="EL" selected='${hordingBean.hordingType eq "EL" ? true : false }' >EL</aui:option>
+	       					 	<aui:option value="AL" selected='${hordingBean.hordingType eq "AL" ? true : false }' >AL</aui:option>
 	       					 	<aui:option value="BL" selected='${hordingBean.hordingType eq "BL" ? true : false }'>BL</aui:option>
 	       					 	<aui:option value="NL" selected='${hordingBean.hordingType eq "NL" ? true : false }'>NL</aui:option>
 							 </aui:select>
@@ -86,16 +86,6 @@
 							 </aui:select>
 						</div>
 						<div class="form-group col-md-3">
-	       					 <aui:select name="height" label="hight" cssClass="form-control">
-	       					 	<aui:option value="5" selected='${hordingBean.height eq 5 ? true : false }'>5</aui:option>
-	       					 	<aui:option value="10" selected='${hordingBean.height eq 10 ? true : false }'>10</aui:option>
-	       					 	<aui:option value="15" selected='${hordingBean.height eq 15 ? true : false }'>15</aui:option>
-	       					 	<aui:option value="20" selected='${hordingBean.height eq 20 ? true : false }'>20</aui:option>
-	       					 	<aui:option value="25" selected='${hordingBean.height eq 25 ? true : false }'>25</aui:option>
-	       					 	<aui:option value="30" selected='${hordingBean.height eq 30 ? true : false }'>30</aui:option>
-							 </aui:select>
-						</div>
-						<div class="form-group col-md-3">
 	       					 <aui:select name="width" label="width" cssClass="form-control">
 	       					 	<aui:option value="5" selected='${hordingBean.width eq 5 ? true : false }'>5</aui:option>
 	       					 	<aui:option value="10" selected='${hordingBean.width eq 10 ? true : false }'>10</aui:option>
@@ -103,6 +93,16 @@
 	       					 	<aui:option value="20" selected='${hordingBean.width eq 20 ? true : false }'>20</aui:option>
 	       					 	<aui:option value="25" selected='${hordingBean.width eq 25 ? true : false }'>25</aui:option>
 	       					 	<aui:option value="30" selected='${hordingBean.width eq 30 ? true : false }'>30</aui:option>
+							 </aui:select>
+						</div>
+						<div class="form-group col-md-3">
+	       					 <aui:select name="height" label="hight" cssClass="form-control">
+	       					 	<aui:option value="5" selected='${hordingBean.height eq 5 ? true : false }'>5</aui:option>
+	       					 	<aui:option value="10" selected='${hordingBean.height eq 10 ? true : false }'>10</aui:option>
+	       					 	<aui:option value="15" selected='${hordingBean.height eq 15 ? true : false }'>15</aui:option>
+	       					 	<aui:option value="20" selected='${hordingBean.height eq 20 ? true : false }'>20</aui:option>
+	       					 	<aui:option value="25" selected='${hordingBean.height eq 25 ? true : false }'>25</aui:option>
+	       					 	<aui:option value="30" selected='${hordingBean.height eq 30 ? true : false }'>30</aui:option>
 							 </aui:select>
 						</div>
 					</div>

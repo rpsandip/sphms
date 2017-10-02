@@ -25,11 +25,14 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.sphms.common.service.beans.Billing_HordingBean;
 import com.sphms.common.service.beans.Booking_HordingBean;
 import com.sphms.common.service.model.Billing;
+import com.sphms.common.service.model.Billing_Hording;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
+import com.sphms.common.service.service.Billing_HordingLocalServiceUtil;
 import com.sphms.common.service.service.BookingLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
 
@@ -90,15 +93,21 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 			if(Validator.isNotNull(booking)){
 				
 				Billing billing = null;
+				List<Billing_HordingBean> billing_HordingBeansList = new ArrayList<Billing_HordingBean>();
 				try {
 					billing = BillingLocalServiceUtil.getBillingFromBookingId(booking.getBookingId());
+					List<Billing_Hording> billingHordingList = Billing_HordingLocalServiceUtil.getBillingHordingList(billing.getBillingId());
+					for(Billing_Hording billingHording : billingHordingList){
+						Billing_HordingBean billingHordingBean = new Billing_HordingBean(billingHording);
+						billing_HordingBeansList.add(billingHordingBean);
+					}
 				} catch (Exception e1) {
 					_log.error(e1);
 				}
 			
 				FileEntry xlsxFileEntry= null;
 				try {
-					xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,hordingList, false);
+					xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,billing_HordingBeansList, false);
 				} catch (PortalException | IOException e) {
 					_log.error(e);
 				}
@@ -130,15 +139,21 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 			if(Validator.isNotNull(booking)){
 				
 				Billing billing = null;
+				List<Billing_HordingBean> billing_HordingBeansList = new ArrayList<Billing_HordingBean>();
 				try {
 					billing = BillingLocalServiceUtil.getBillingFromBookingId(booking.getBookingId());
+					List<Billing_Hording> billingHordingList = Billing_HordingLocalServiceUtil.getBillingHordingList(billing.getBillingId());
+					for(Billing_Hording billingHording : billingHordingList){
+						Billing_HordingBean billingHordingBean = new Billing_HordingBean(billingHording);
+						billing_HordingBeansList.add(billingHordingBean);
+					}
 				} catch (Exception e1) {
 					_log.error(e1);
 				}
 				
 				FileEntry xlsxFileEntry= null;
 				try {
-					xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,hordingList, true);
+					xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,billing_HordingBeansList, true);
 				} catch (PortalException | IOException e) {
 					_log.error(e);
 				}

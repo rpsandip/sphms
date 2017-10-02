@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
@@ -150,8 +151,9 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 	 */
 	private void addHordingImages(File normalImage, String normalImageFileName, File shortImage, String shortImageFileName, File longImage, String longImageFileName, Hording hording){
 		long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
-		if(globalSiteGroupId!=0){
-			Folder hordingFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, String.valueOf(hording.getHordingId()));
+		Folder hordingParentFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, PropsUtil.get("hording.image.folder.name"));
+		if(globalSiteGroupId!=0 && Validator.isNotNull(hordingParentFolder)){
+			Folder hordingFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, hordingParentFolder.getFolderId(), String.valueOf(hording.getHordingId()));
 			if(Validator.isNotNull(hordingFolder)){
 				
 				// Upload normalImage
@@ -193,10 +195,10 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 	private void updateHordingImages(File normalImage, String normalImageFileName, File shortImage, String shortImageFileName, File longImage, String longImageFileName, Hording hording){
 		
 		long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
-		
-		if(globalSiteGroupId!=0){
+		Folder hordingParentFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, PropsUtil.get("hording.image.folder.name"));
+		if(globalSiteGroupId!=0 && Validator.isNotNull(hordingParentFolder)){
 			
-			Folder hordingFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, String.valueOf(hording.getHordingId()));
+			Folder hordingFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, hordingParentFolder.getFolderId(), String.valueOf(hording.getHordingId()));
 			
 			if(Validator.isNotNull(hordingFolder)){
 				

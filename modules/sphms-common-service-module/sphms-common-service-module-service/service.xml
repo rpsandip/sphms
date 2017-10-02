@@ -213,6 +213,10 @@
 			<finder-column name="bookingId"></finder-column>
 		</finder>
 		
+		<finder return-type="Collection" name="clientId">
+			<finder-column name="clientId"></finder-column>
+		</finder>
+		
 	</entity>		
 
 	<entity name="Billing_Hording" local-service="true" remote-service="false">
@@ -232,6 +236,28 @@
 		</finder>
 		
 	</entity>
+	
+	<entity name="Payment" local-service="true" remote-service="false">
+		
+		<!-- PK fields -->
+		<column name="paymentId" primary="true" type="long" />
+		<column name="billingId" type="long"></column>
+		<column name="clientId" type="long"></column>
+		<column name="amount" type="double"></column>
+		<column name="chequeNo" type="String"></column>
+		<column name="tds" type="double"></column>
+		<column name="deduction" type="double"></column>
+		
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		<column name="modifiedDate" type="Date"></column>
+		<column name="modifiedBy" type="long"></column>
+		
+		<finder return-type="Collection" name="billingId">
+			<finder-column name="billingId"></finder-column>
+		</finder>
+		
+	</entity>	
 	
 	<entity name="SPHMSCommon" local-service="true" remote-service="false"></entity>
 	

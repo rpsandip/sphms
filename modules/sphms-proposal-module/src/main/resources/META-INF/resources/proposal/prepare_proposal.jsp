@@ -38,8 +38,8 @@
 						<aui:input type="text" name="city" label="city"/>
 				 </div>
 				 <div class="form-group col-md-12">
-				 	<aui:select name="height" label="hight" cssClass="form-control">
-	       					 	<aui:option value="">Select Height</aui:option>
+				 	<aui:select name="width" label="width" cssClass="form-control">
+	       					 	<aui:option value="">Select Width</aui:option>
 	       					 	<aui:option value="5" selected='${hordingBean.height eq 5 ? true : false }'>5</aui:option>
 	       					 	<aui:option value="10" selected='${hordingBean.height eq 10 ? true : false }'>10</aui:option>
 	       					 	<aui:option value="15" selected='${hordingBean.height eq 15 ? true : false }'>15</aui:option>
@@ -49,8 +49,8 @@
 					</aui:select>
 				 </div>
 				 <div class="form-group col-md-12">
-				 	<aui:select name="width" label="width" cssClass="form-control">
-	       					 	<aui:option value="">Select Width</aui:option>
+				 	<aui:select name="height" label="hight" cssClass="form-control">
+	       					 	<aui:option value="">Select Height</aui:option>
 	       					 	<aui:option value="5" selected='${hordingBean.height eq 5 ? true : false }'>5</aui:option>
 	       					 	<aui:option value="10" selected='${hordingBean.height eq 10 ? true : false }'>10</aui:option>
 	       					 	<aui:option value="15" selected='${hordingBean.height eq 15 ? true : false }'>15</aui:option>

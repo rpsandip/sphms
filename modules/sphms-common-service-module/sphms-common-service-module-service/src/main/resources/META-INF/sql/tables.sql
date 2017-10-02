@@ -114,6 +114,20 @@ create table SPHMS_LandLordPayment (
 	createdBy LONG
 );
 
+create table SPHMS_Payment (
+	paymentId LONG not null primary key,
+	billingId LONG,
+	clientId LONG,
+	amount DOUBLE,
+	chequeNo VARCHAR(75) null,
+	tds DOUBLE,
+	deduction DOUBLE,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG
+);
+
 create table SPHMS_Proposal (
 	proposalId LONG not null primary key,
 	campaignTitle VARCHAR(200) null,

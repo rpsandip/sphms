@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.sphms.common.service.beans.Billing_HordingBean;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Client;
@@ -49,13 +50,14 @@ public class FileUtil {
 	private static final int MAX_ColUMN=6;
 	private static final int MIN_COLUMN=1;
 	
-	public static FileEntry createBillXlsForBooking(Booking booking, Billing billing,List<Hording> hordingList, boolean isEdit) throws FileNotFoundException, IOException, PortalException{
+	public static FileEntry createBillXlsForBooking(Booking booking, Billing billing,List<Billing_HordingBean> billiingHordingBeanList, boolean isEdit) throws FileNotFoundException, IOException, PortalException{
 		long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
+		Folder bookingParentFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, PropsUtil.get("booking.document.folder"));
 		FileEntry fileEntry = null;
-		if(globalSiteGroupId!=0){																																
-			Folder billingFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, String.valueOf(billing.getBillingId()));
+		if(globalSiteGroupId!=0 && Validator.isNotNull(bookingParentFolder)){																																
+			Folder billingFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, bookingParentFolder.getFolderId(), String.valueOf(billing.getBillingId()));
 			if(Validator.isNotNull(billingFolder)){
-				File xlsxFile = createBillXlsFile(booking, billing,hordingList);
+				File xlsxFile = createBillXlsFile(booking, billing,billiingHordingBeanList);
 				ServiceContext serviceContext = new ServiceContext(); 
 				if(!isEdit){
 					try{
@@ -74,7 +76,7 @@ public class FileUtil {
 	}
 	
 	
-	public static File createBillXlsFile(Booking booking,  Billing billing,List<Hording> hordingList) throws IOException{
+	public static File createBillXlsFile(Booking booking,  Billing billing,List<Billing_HordingBean> billingHordingList) throws IOException{
 		
 		int index=1;
 		
@@ -106,8 +108,8 @@ public class FileUtil {
 		
 		// Hoarding data
 		List<Double> hordingsTotalAmountList = new ArrayList<Double>();
-		for(int i=0;i<hordingList.size();i++){
-			index =  createHordingDataRow(sheet, wb, index, i,hordingList.size(), hordingList.get(i),booking, hordingsTotalAmountList);
+		for(int i=0;i<billingHordingList.size();i++){
+			index =  createHordingDataRow(sheet, wb, index, i,billingHordingList.size(), billingHordingList.get(i).getHording(),booking, billingHordingList.get(i),hordingsTotalAmountList);
 		}
 		
 		double totalHordingDisplayCharges = getTotalHordingDisplayCharges(hordingsTotalAmountList);
@@ -480,7 +482,7 @@ public class FileUtil {
 	}
 	
 	
-	private static int createHordingDataRow(XSSFSheet sheet, XSSFWorkbook wb, int index, int loopIndex,int totalList, Hording hording, Booking booking, List<Double> hordingsTotalAmountList){
+	private static int createHordingDataRow(XSSFSheet sheet, XSSFWorkbook wb, int index, int loopIndex,int totalList, Hording hording, Booking booking, Billing_HordingBean billingHordingBean,List<Double> hordingsTotalAmountList){
 		XSSFRow hordingTableRow = sheet.createRow(index);
 		XSSFCellStyle style = getRowStyle(hordingTableRow, wb);
 		style.setAlignment(HorizontalAlignment.CENTER);
@@ -520,7 +522,7 @@ public class FileUtil {
 		
 		
 		long displayDurationDays = getDisplayDuration(booking.getStartDate(), booking.getEndDate());
-		double displayCharges = SPHMSCommonLocalServiceUtil.getDisplayCharges(hording.getPricePerMonth(), displayDurationDays); 
+		double displayCharges =  billingHordingBean.getTotalHordingCharge();  //SPHMSCommonLocalServiceUtil.getDisplayCharges(hording.getPricePerMonth(), displayDurationDays); 
 		XSSFCell cell6 = hordingTableRow.createCell(MAX_ColUMN);
 		cell6.setCellValue(displayCharges);
 		if(loopIndex==(totalList-1)){

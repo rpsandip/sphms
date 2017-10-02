@@ -48,6 +48,7 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.model.Client;
@@ -67,9 +68,10 @@ public class FileUtil {
 	
 	public static FileEntry createProposalPPTFile(Proposal proposal, List<Hording> hordingList) throws FileNotFoundException, IOException, PortalException{
 		long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
+		Folder proposalParentFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, PropsUtil.get("proposal.document.folder"));
 		FileEntry fileEntry = null;
-		if(globalSiteGroupId!=0){
-			Folder proposalFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, String.valueOf(proposal.getProposalId()));
+		if(globalSiteGroupId!=0 && Validator.isNotNull(proposalParentFolder)){
+			Folder proposalFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, proposalParentFolder.getFolderId(), String.valueOf(proposal.getProposalId()));
 			if(Validator.isNotNull(proposalFolder)){
 				File pptFile = createPPTFile(hordingList, proposal);
 				ServiceContext serviceContext = new ServiceContext(); 
@@ -87,8 +89,9 @@ public class FileUtil {
 	public static FileEntry createProposalXlsxFile(Proposal proposal, List<Hording> hordingList) throws FileNotFoundException, IOException, PortalException{
 		FileEntry fileEntry = null;
 		long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
-		if(globalSiteGroupId!=0){
-			Folder proposalFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, String.valueOf(proposal.getProposalId()));
+		Folder proposalParentFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, PropsUtil.get("proposal.document.folder"));
+		if(globalSiteGroupId!=0 && Validator.isNotNull(proposalParentFolder)){
+			Folder proposalFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, proposalParentFolder.getFolderId(), String.valueOf(proposal.getProposalId()));
 			if(Validator.isNotNull(proposalFolder)){
 				File xlsxFile = createXlsxFile(hordingList, proposal);
 				ServiceContext serviceContext = new ServiceContext(); 

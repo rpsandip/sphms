@@ -46,6 +46,7 @@ public class GetProposalListResourceCommand implements MVCResourceCommand{
 		Log _log = LogFactoryUtil.getLog(GetProposalListResourceCommand.class.getName());
 		
 		HttpServletRequest httpRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(resourceRequest));
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		int start = Integer.parseInt(httpRequest.getParameter("start"));
 		int length = Integer.parseInt(httpRequest.getParameter("length"));
 		long clientId = ParamUtil.getLong(resourceRequest, "clientId");
@@ -82,8 +83,8 @@ public class GetProposalListResourceCommand implements MVCResourceCommand{
 			proposalJsonObj.put("campaign", proposal.getCampaignTitle());
 			proposalJsonObj.put("client", clienTitle);
 			proposalJsonObj.put("proposalId", proposal.getProposalId());
-			proposalJsonObj.put("startDate", proposal.getStartDate());
-			proposalJsonObj.put("endDate",proposal.getEndDate());
+			proposalJsonObj.put("startDate", df.format(proposal.getStartDate()));
+			proposalJsonObj.put("endDate", df.format(proposal.getEndDate()));
 			
 			dataArray.put(proposalJsonObj);
 		}
