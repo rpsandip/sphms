@@ -68,6 +68,7 @@ public class UpdateBillingActionCommand extends BaseMVCActionCommand{
 			billingHordingBean.setTotalMountingCharge(ParamUtil.getDouble(actionRequest, "totalMountingCharge"+i));
 			billingHordingBean.setTotalPrintingCharge(ParamUtil.getDouble(actionRequest, "totalPrintingCharge"+i));
 			billingHordingBean.setTotalHordingCharge(ParamUtil.getDouble(actionRequest, "totalHordingCharge"+i));
+			billingHordingBean.setHsnNo(ParamUtil.getString(actionRequest, "hsnNo"+i));
 			bookingHordingBeanList.add(billingHordingBean);
 		}
 		

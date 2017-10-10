@@ -20,7 +20,7 @@
             <div class="box-body">
 	            <form id="filterBookign">
 	              	<div class="form-group col-md-3">
-	                  <select name="client" id="client" class="form-control">
+	                  <select name="searchClient" id="client" class="form-control">
 						<option value="0">Select Client</option>
 							<c:forEach items="${clientList }" var="client">
 								<option value="${client.clientId }">${client.clientName }</option>
@@ -28,10 +28,10 @@
 						</select>
 	                </div>
 	              	<div class="form-group col-md-3">
-	                  <input type="text" class="form-control" name="startDate" id="startDate" placeholder="Start Date"/>
+	                  <input type="text" class="form-control" name="searchStartDate" id="startDate" placeholder="Start Date"/>
 	                </div>
 	                <div class="form-group col-md-3">
-	                  <input type="text" class="form-control" name="endDate" id="endDate" placeholder="End Date"/>
+	                  <input type="text" class="form-control" name="searchEndDate" id="endDate" placeholder="End Date"/>
 	                </div>
 	                <div class="form-group col-md-3">
 	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearch">
@@ -53,6 +53,7 @@
         (function($) {
             $(function() {  
             	 AUI().use('aui-base','liferay-portlet-url', function(A) {
+            		 
             		 bookingDataTable =  $('#bookings').DataTable({
             		 "processing": true,
             	     "serverSide": true,
@@ -102,7 +103,7 @@
             	var clientId = $("#client").val();
             	var startDate = $("#startDate").val();
             	var endDate = $("#endDate").val();
-            	var getDocumentURL = '${getBookingListURL}&<portlet:namespace />clientId='+clientId+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate;
+            	var getDocumentURL = '${getBookingListURL}&<portlet:namespace />searchClient='+clientId+'&<portlet:namespace />searchStartDate='+startDate+'&<portlet:namespace />searchEndDate='+endDate;
                 bookingDataTable.ajax.url(getDocumentURL).load();
 			});  
         })(jQuery);

@@ -137,10 +137,10 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 			criterion = RestrictionsFactoryUtil.and(criterion, cityCriterion);
 		}
 		if(height!=0){
-			criterion = RestrictionsFactoryUtil.and(criterion ,RestrictionsFactoryUtil.like("size",height+"X"+StringPool.PERCENT));
+			criterion = RestrictionsFactoryUtil.and(criterion ,RestrictionsFactoryUtil.like("size",StringPool.PERCENT+"X"+height));
 		}
 		if(width!=0){
-			criterion = RestrictionsFactoryUtil.and(criterion ,RestrictionsFactoryUtil.like("size",StringPool.PERCENT+"X"+width));
+			criterion = RestrictionsFactoryUtil.and(criterion ,RestrictionsFactoryUtil.like("size",width+"X"+StringPool.PERCENT));
 		}
 		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
 			 // TODO :: need to check hording in booking table
@@ -221,8 +221,8 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 	}
 	
 	public  int getTotalSqFt(String[] heigthWidthArray){
-		int height = Integer.parseInt(heigthWidthArray[0]);
-		int width  = Integer.parseInt(heigthWidthArray[1]);
+		int height = Integer.parseInt(heigthWidthArray[1]);
+		int width  = Integer.parseInt(heigthWidthArray[0]);
 		return height*width;
 	}
 	

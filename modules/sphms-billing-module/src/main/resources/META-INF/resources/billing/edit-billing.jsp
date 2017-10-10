@@ -20,7 +20,7 @@
 	<div class="col-xs-12">
     	<div class="box">
        		<div class="box-body">
-       			<aui:form name="editBillingFm" action="${editBillingURL}" cssClass="row contact_form">
+       			<aui:form name="editBillingFm" action="${editBillingURL}" cssClass="row contact_form" method="POST">
        				<c:set var="hordingCount" value="0"/>
        				<div class="row">
 	       				<div class="form-group col-md-4">
@@ -94,16 +94,21 @@
 	       					 	<aui:input type="text" name="title${loop.index}" label="title" value="${billingHordingBean.hording.title }" readonly="true"/>
      						</div>
      						<div class="form-group col-md-3">
+	       					 	<aui:input type="text" name="hsnNo${loop.index}" label="HSN/SAC Code" value="${billingHordingBean.hsnNo }">
+	       					 		<aui:validator name="number" />
+	       					 	</aui:input>
+     						</div>
+     						<div class="form-group col-md-2">
 	       					 	<aui:input type="text" name="totalMountingCharge${loop.index}" label="totalMountingCharge" value="${billingHordingBean.totalMountingCharge }">
 	       					 		<aui:validator name="number" />
 	       					 	</aui:input>
      						</div>
-     						<div class="form-group col-md-3">
+     						<div class="form-group col-md-2">
 	       					 	<aui:input type="text" name="totalPrintingCharge${loop.index}" label="totalPrintingCharge" value="${billingHordingBean.totalPrintingCharge }">
 	       					 		<aui:validator name="number" />
 	       					 	</aui:input>
      						</div>
-     						<div class="form-group col-md-3">
+     						<div class="form-group col-md-2">
 	       					 	<aui:input type="text" name="totalHordingCharge${loop.index}" label="totalHordingCharge" value="${billingHordingBean.totalHordingCharge }">
 	       					 		<aui:validator name="required" />
 	       					 		<aui:validator name="number" />

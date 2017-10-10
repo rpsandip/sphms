@@ -27,6 +27,7 @@ create table SPHMS_Billing_Hording (
 	totalPrintingCharge DOUBLE,
 	units INTEGER,
 	totalHordingCharge DOUBLE,
+	hsnNo VARCHAR(75) null,
 	primary key (billingId, hordingId)
 );
 

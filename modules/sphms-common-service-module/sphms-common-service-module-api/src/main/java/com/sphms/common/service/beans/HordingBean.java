@@ -100,8 +100,8 @@ public class HordingBean {
 		}
 		if(this.size.indexOf("X")>0){
 			String[] sizeArray = this.size.split("X");
-			this.height = Integer.parseInt(sizeArray[0]);
-			this.width = Integer.parseInt(sizeArray[1]);
+			this.height = Integer.parseInt(sizeArray[1]);
+			this.width = Integer.parseInt(sizeArray[0]);
 		}
 	}
 	

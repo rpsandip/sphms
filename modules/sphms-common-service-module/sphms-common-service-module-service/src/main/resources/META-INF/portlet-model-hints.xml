@@ -29,6 +29,7 @@
 		<field name="totalPrintingCharge" type="double" />
 		<field name="units" type="int" />
 		<field name="totalHordingCharge" type="double" />
+		<field name="hsnNo" type="String" />
 	</model>
 	<model name="com.sphms.common.service.model.Booking">
 		<field name="bookingId" type="long" />

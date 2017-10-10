@@ -24,7 +24,7 @@
 	<div class="col-xs-12">
     	<div class="box">
        		<div class="box-body">
-       			<aui:form name="addLandLordForm" action="${addLandLordURL}" cssClass="row contact_form">
+       			<aui:form name="addLandLordForm" action="${addLandLordURL}" cssClass="row contact_form" method="POST">
        				<div class="row">
 	       				<div class="form-group col-md-6">
 	       					 <aui:input name="firstName" label="firstName" cssClass="form-control" value="${landLord.firstName }">

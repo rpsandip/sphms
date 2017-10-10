@@ -24,7 +24,7 @@
 	<div class="col-xs-12">
     	<div class="box">
        		<div class="box-body">
-       			<aui:form name="addBookingFm" action="${addBookingURL}" cssClass="row contact_form">
+       			<aui:form name="addBookingFm" action="${addBookingURL}"  method="post" cssClass="row contact_form">
        				<div class="row">
 	       				<div class="form-group col-md-6">
 	       					<aui:input type="text" name="camapaignTitle" label="campaign" value="${booking.campaignTitle }"/>

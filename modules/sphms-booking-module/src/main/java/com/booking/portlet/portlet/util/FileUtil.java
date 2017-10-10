@@ -47,7 +47,7 @@ import com.booking.portlet.portlet.util.NumberToWord;
 
 public class FileUtil {
 	private static Log _log = LogFactoryUtil.getLog(FileUtil.class.getName());
-	private static final int MAX_ColUMN=6;
+	private static final int MAX_ColUMN=7;
 	private static final int MIN_COLUMN=1;
 	
 	public static FileEntry createBillXlsForBooking(Booking booking, Billing billing,List<Billing_HordingBean> billiingHordingBeanList, boolean isEdit) throws FileNotFoundException, IOException, PortalException{
@@ -67,7 +67,7 @@ public class FileUtil {
 						 fileEntry = DLAppServiceUtil.addFileEntry(globalSiteGroupId, billingFolder.getFolderId(), fileName, MimeTypesUtil.getContentType(xlsxFile), fileName, "", "", xlsxFile, serviceContext);
 					 }
 				}else{
-					DLAppServiceUtil.updateFileEntry(booking.getBillId(), xlsxFile.getName(), MimeTypesUtil.getContentType(xlsxFile), xlsxFile.getName(),
+					fileEntry = DLAppServiceUtil.updateFileEntry(booking.getBillId(), xlsxFile.getName(), MimeTypesUtil.getContentType(xlsxFile), xlsxFile.getName(),
 							StringPool.BLANK, StringPool.BLANK, false, xlsxFile, serviceContext);
 				}
 			}
@@ -191,6 +191,9 @@ public class FileUtil {
 		
 		XSSFCell cell6=  taxInvoiceRow.createCell(6);
 		cell6.setCellStyle(style);
+
+		XSSFCell cell7=  taxInvoiceRow.createCell(7);
+		cell7.setCellStyle(style);
 		
 		mergedRegion(index, index, MIN_COLUMN, MAX_ColUMN, sheet);
 		
@@ -225,8 +228,11 @@ public class FileUtil {
 		XSSFCell cell5 = billNoRow.createCell(5);
 		cell5.setCellStyle(getTopBorderStyle(wb));
 		
-		XSSFCell cell6 = billNoRow.createCell(MAX_ColUMN);
-		cell6.setCellStyle(getRightTopBorderStyle(wb));
+		XSSFCell cell6 = billNoRow.createCell(6);
+		cell6.setCellStyle(getTopBorderStyle(wb));
+		
+		XSSFCell cell7 = billNoRow.createCell(MAX_ColUMN);
+		cell7.setCellStyle(getRightTopBorderStyle(wb));
 		index++;
 		return index;
 	}
@@ -257,8 +263,8 @@ public class FileUtil {
 		cell21.setCellValue(clientName);
 		cell21.setCellStyle(getLeftBorderStyle(wb));
 		
-		XSSFCell cell26 = addressRow.createCell(6);
-		cell26.setCellStyle(getRightBorderStyle(wb));
+		XSSFCell cell27 = addressRow.createCell(MAX_ColUMN);
+		cell27.setCellStyle(getRightBorderStyle(wb));
 		
 		mergedRegion(index, index, MIN_COLUMN, MAX_ColUMN, sheet);
 		index++;
@@ -312,8 +318,11 @@ public class FileUtil {
 		XSSFCell cell12_5 = gstNoRow.createCell(5);
 		cell12_5.setCellStyle(getBottomBorderStyle(wb));
 		
-		XSSFCell cell12_6 = gstNoRow.createCell(MAX_ColUMN);
-		cell12_6.setCellStyle(getRightBottomBorderStyle(wb));
+		XSSFCell cell12_6 = gstNoRow.createCell(6);
+		cell12_6.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell12_7 = gstNoRow.createCell(MAX_ColUMN);
+		cell12_7.setCellStyle(getRightBottomBorderStyle(wb));
 		mergedRegion(index, index, 3, MAX_ColUMN, sheet);
 		index++;
 		
@@ -338,8 +347,11 @@ public class FileUtil {
 		XSSFCell cell12_5 = blankRow.createCell(5);
 		cell12_5.setCellStyle(getBottomBorderStyle(wb));
 		
-		XSSFCell cell12_6 = blankRow.createCell(MAX_ColUMN);
-		cell12_6.setCellStyle(getRightBottomBorderStyle(wb));
+		XSSFCell cell12_6 = blankRow.createCell(6);
+		cell12_6.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell12_7 = blankRow.createCell(MAX_ColUMN);
+		cell12_7.setCellStyle(getRightBottomBorderStyle(wb));
 		
 		mergedRegion(index,index, MIN_COLUMN, MAX_ColUMN, sheet);
 		index++;
@@ -367,8 +379,11 @@ public class FileUtil {
 		XSSFCell cell65 = addSpaceRow.createCell(5);
 		cell65.setCellStyle(getBottomBorderStyle(wb));
 		
-		XSSFCell cell66 = addSpaceRow.createCell(MAX_ColUMN);
-		cell66.setCellStyle(getRightBottomBorderStyle(wb));
+		XSSFCell cell66 = addSpaceRow.createCell(6);
+		cell66.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell67 = addSpaceRow.createCell(MAX_ColUMN);
+		cell67.setCellStyle(getRightBottomBorderStyle(wb));
 		
 		mergedRegion(index, index, MIN_COLUMN, MAX_ColUMN, sheet);
 		index++;
@@ -430,8 +445,11 @@ public class FileUtil {
 		XSSFCell cell95 = displayRow.createCell(5);
 		cell95.setCellStyle(getBottomBorderStyle(wb));
 		
-		XSSFCell cell96 = displayRow.createCell(MAX_ColUMN);
-		cell96.setCellStyle(getRightBottomBorderStyle(wb));
+		XSSFCell cell96 = displayRow.createCell(6);
+		cell96.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell97 = displayRow.createCell(MAX_ColUMN);
+		cell97.setCellStyle(getRightBottomBorderStyle(wb));
 		
 		mergedRegion(index, index, 2, MAX_ColUMN, sheet);
 		index++;
@@ -461,22 +479,26 @@ public class FileUtil {
 		cell12_2.setCellValue("Location");
 		cell12_2.setCellStyle(style);
 		
-		
 		XSSFCell cell12_3 = hordingTableRow.createCell(3);
-		cell12_3.setCellValue("Size");
+		cell12_3.setCellValue("HSN/SAC Code");
 		cell12_3.setCellStyle(style);
 		
+		
 		XSSFCell cell12_4 = hordingTableRow.createCell(4);
-		cell12_4.setCellValue("Rate Per Month");
+		cell12_4.setCellValue("Size");
 		cell12_4.setCellStyle(style);
 		
 		XSSFCell cell12_5 = hordingTableRow.createCell(5);
-		cell12_5.setCellValue("Period");
+		cell12_5.setCellValue("Rate Per Month");
 		cell12_5.setCellStyle(style);
 		
-		XSSFCell cell12_6 = hordingTableRow.createCell(MAX_ColUMN);
-		cell12_6.setCellValue("Amount");
+		XSSFCell cell12_6 = hordingTableRow.createCell(6);
+		cell12_6.setCellValue("Period");
 		cell12_6.setCellStyle(style);
+		
+		XSSFCell cell12_7 = hordingTableRow.createCell(MAX_ColUMN);
+		cell12_7.setCellValue("Amount");
+		cell12_7.setCellStyle(style);
 		index++;
 		return index;
 	}
@@ -503,19 +525,26 @@ public class FileUtil {
 		}
 		
 		XSSFCell cell3 = hordingTableRow.createCell(3);
-		cell3.setCellValue(hording.getSize());
+		cell3.setCellValue(billingHordingBean.getHsnNo());
 		if(loopIndex==(totalList-1)){
 			cell3.setCellStyle(getBottomBorderStyle(wb));
 		}
 		
+		
 		XSSFCell cell4 = hordingTableRow.createCell(4);
-		cell4.setCellValue(hording.getPricePerMonth());
+		cell4.setCellValue(hording.getSize());
 		if(loopIndex==(totalList-1)){
 			cell4.setCellStyle(getBottomBorderStyle(wb));
 		}
 		
 		XSSFCell cell5 = hordingTableRow.createCell(5);
-		cell5.setCellValue(SPHMSCommonLocalServiceUtil.getDateTimeDiff(booking.getStartDate(), booking.getEndDate()));
+		cell5.setCellValue(hording.getPricePerMonth());
+		if(loopIndex==(totalList-1)){
+			cell5.setCellStyle(getBottomBorderStyle(wb));
+		}
+		
+		XSSFCell cell6 = hordingTableRow.createCell(6);
+		cell6.setCellValue(SPHMSCommonLocalServiceUtil.getDateTimeDiff(booking.getStartDate(), booking.getEndDate()));
 		if(loopIndex==(totalList-1)){
 			cell5.setCellStyle(getBottomBorderStyle(wb));
 		}
@@ -523,12 +552,12 @@ public class FileUtil {
 		
 		long displayDurationDays = getDisplayDuration(booking.getStartDate(), booking.getEndDate());
 		double displayCharges =  billingHordingBean.getTotalHordingCharge();  //SPHMSCommonLocalServiceUtil.getDisplayCharges(hording.getPricePerMonth(), displayDurationDays); 
-		XSSFCell cell6 = hordingTableRow.createCell(MAX_ColUMN);
-		cell6.setCellValue(displayCharges);
+		XSSFCell cell7 = hordingTableRow.createCell(MAX_ColUMN);
+		cell7.setCellValue(displayCharges);
 		if(loopIndex==(totalList-1)){
-			cell6.setCellStyle(getRightBottomBorderStyle(wb));
+			cell7.setCellStyle(getRightBottomBorderStyle(wb));
 		}else{
-			cell6.setCellStyle(getRightBorderStyle(wb));
+			cell7.setCellStyle(getRightBorderStyle(wb));
 		}
 		
 		hordingsTotalAmountList.add(displayCharges);
@@ -554,16 +583,19 @@ public class FileUtil {
 		cell4.setCellStyle(getBottomBorderStyle(wb));
 		
 		XSSFCell cell5 = totalAmountRow.createCell(5);
-		cell5.setCellValue("Sub Total: ");
 		cell5.setCellStyle(getBottomBorderStyle(wb));
 		
-		XSSFCell cell6 = totalAmountRow.createCell(MAX_ColUMN);
-		cell6.setCellValue(totalHordingDisplayCharges);
+		XSSFCell cell6 = totalAmountRow.createCell(6);
+		cell6.setCellValue("Sub Total: ");
+		cell6.setCellStyle(getAllBorderStyle(wb));
+		
+		XSSFCell cell7 = totalAmountRow.createCell(MAX_ColUMN);
+		cell7.setCellValue(totalHordingDisplayCharges);
 		XSSFCellStyle style = getRightBottomBorderStyle(wb);
 		style.setAlignment(HorizontalAlignment.LEFT);
-		cell6.setCellStyle(style);
+		cell7.setCellStyle(style);
 		
-		mergedRegion(index, index, MIN_COLUMN, 4, sheet);
+		mergedRegion(index, index, MIN_COLUMN, 5, sheet);
 		index++;
 		return index;
 	}
@@ -578,16 +610,16 @@ public class FileUtil {
 		XSSFCell cell1 = cgstRow.createCell(MIN_COLUMN);
 		cell1.setCellStyle(getLeftBorderStyle(wb));
 		
-		XSSFCell cell2 = cgstRow.createCell(5);
+		XSSFCell cell2 = cgstRow.createCell(6);
 		cell2.setCellValue("CGST @ " + Double.parseDouble(PropsUtil.get("cgst.rate"))*100 + "%");
 		
 		
-		XSSFCell cell6 = cgstRow.createCell(MAX_ColUMN);
+		XSSFCell cell7 = cgstRow.createCell(MAX_ColUMN);
 		XSSFCellStyle style2 = getRightBorderStyle(wb);
-		cell6.setCellValue(cGST);
-		cell6.setCellStyle(style2);
+		cell7.setCellValue(cGST);
+		cell7.setCellStyle(style2);
 		
-		mergedRegion(index, index, MIN_COLUMN, 4, sheet);
+		mergedRegion(index, index, MIN_COLUMN, 5, sheet);
 		index++;
 		
 		// Swathc bharat Cess
@@ -607,16 +639,19 @@ public class FileUtil {
 		XSSFCell cell14 = sgstRow.createCell(4);
 		cell14.setCellStyle(getBottomBorderStyle(wb));
 		
-		XSSFCell cell22 = sgstRow.createCell(5);
-		cell22.setCellValue("SGST @ "+ Double.parseDouble(PropsUtil.get("sgst.rate"))*100+ "%");
-		cell22.setCellStyle(style1);
+		XSSFCell cell15 = sgstRow.createCell(5);
+		cell15.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell26 = sgstRow.createCell(6);
+		cell26.setCellValue("SGST @ "+ Double.parseDouble(PropsUtil.get("sgst.rate"))*100+ "%");
+		cell26.setCellStyle(style1);
 		
 		XSSFCell cell66 = sgstRow.createCell(MAX_ColUMN);
 		XSSFCellStyle style11 = getRightBottomBorderStyle( wb);
 		cell66.setCellValue(sGST);
 		cell66.setCellStyle(style11);
 		
-		mergedRegion(index, index, MIN_COLUMN, 4, sheet);
+		mergedRegion(index, index, MIN_COLUMN, 5, sheet);
 		index++;
 		
 		return index;
@@ -644,20 +679,23 @@ public class FileUtil {
 		XSSFCell cell4 = totalAmountRow.createCell(4);
 		cell4.setCellStyle(getBottomBorderStyle(wb));
 		
-		mergedRegion(index, index, MIN_COLUMN, 4, sheet);
+		XSSFCell cell5 = totalAmountRow.createCell(5);
+		cell5.setCellStyle(getBottomBorderStyle(wb));
+		
+		mergedRegion(index, index, MIN_COLUMN, 5, sheet);
 		
 		XSSFCellStyle style2 = getLeftRightBottomBorderStyle(wb);
 		style2.setFont(font);
 		style2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 		
-		XSSFCell cell5 = totalAmountRow.createCell(5);
-		cell5.setCellValue("Total");
-		cell5.setCellStyle(style2);
-		
-		
-		XSSFCell cell6 = totalAmountRow.createCell(MAX_ColUMN);
-		cell6.setCellValue(totalAmount);
+		XSSFCell cell6 = totalAmountRow.createCell(6);
+		cell6.setCellValue("Total");
 		cell6.setCellStyle(style2);
+		
+		
+		XSSFCell cell7 = totalAmountRow.createCell(MAX_ColUMN);
+		cell7.setCellValue(totalAmount);
+		cell7.setCellStyle(style2);
 		
 		index++;
 		return index;
@@ -741,8 +779,11 @@ public class FileUtil {
 		XSSFCell cell27_5 = bankrow2.createCell(5);
 		cell27_5.setCellStyle(getBottomBorderStyle(wb));
 		
-		XSSFCell cell27_6 = bankrow2.createCell(MAX_ColUMN);
-		cell27_6.setCellStyle(getRightBottomBorderStyle(wb));
+		XSSFCell cell27_6 = bankrow2.createCell(6);
+		cell27_6.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell27_7 = bankrow2.createCell(MAX_ColUMN);
+		cell27_7.setCellStyle(getRightBottomBorderStyle(wb));
 		
 		
 		mergedRegion(index, index, 2, MAX_ColUMN, sheet);
@@ -797,7 +838,7 @@ public class FileUtil {
 		cell5_1.setCellValue("4. Govt. Service Tax and statatory leavy if any extra as applicable at the ");
 		cell5_1.setCellStyle(getLeftBorderStyle(wb));
 		
-		XSSFCell cell2_4 = footerRow5.createCell(5);
+		XSSFCell cell2_4 = footerRow5.createCell(6);
 		XSSFCellStyle style = wb.createCellStyle();
 		XSSFFont font = wb.createFont();
 		font.setFontName("Arial");
@@ -809,8 +850,8 @@ public class FileUtil {
 		
 		XSSFCell cell5_6 = footerRow5.createCell(MAX_ColUMN);
 		cell5_6.setCellStyle(getRightBorderStyle(wb));
-		mergedRegion(index,index, MIN_COLUMN, 4, sheet);
-		mergedRegion(index,index, 5, MAX_ColUMN, sheet);
+		mergedRegion(index,index, MIN_COLUMN, 5, sheet);
+		mergedRegion(index,index, 6, MAX_ColUMN, sheet);
 		index++;
 		
 		XSSFRow footerRow6 = sheet.createRow(index);

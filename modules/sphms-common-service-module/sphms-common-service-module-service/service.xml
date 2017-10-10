@@ -229,6 +229,7 @@
 		<column name="totalPrintingCharge"  type="double" />
 		<column name="units"  type="int" />
 		<column name="totalHordingCharge"  type="double" />
+		<column name="hsnNo"  type="String" />
 		
 		
 		<finder return-type="Collection" name="billingId">

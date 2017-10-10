@@ -65,7 +65,7 @@ public class AddHordingActionCommand extends BaseMVCActionCommand{
 		 String longImageFileName = uploadPortletRequest.getFileName("longImage");
 		 
 		 if(hordingId==0){
-			 Hording hording = HordingLocalServiceUtil.addHording(title, location, city, district,state, hordingType, mediaVehicle,String.valueOf(height)+"X"+String.valueOf(width),
+			 Hording hording = HordingLocalServiceUtil.addHording(title, location, city, district,state, hordingType, mediaVehicle,String.valueOf(width)+"X"+String.valueOf(height),
 					 pricePerMonth, normalImage, normalImageFileName,shortImage, shortImageFileName,longImage, longImageFileName,
 					 landLordId, ownerType, upinNo,mncTax, otherExpYear, themeDisplay.getUserId(), themeDisplay.getUserId());
 			 
@@ -77,7 +77,7 @@ public class AddHordingActionCommand extends BaseMVCActionCommand{
 					actionResponse.setRenderParameter("hordingId", String.valueOf(hordingId));
 			 }
 		 }else{
-			 Hording hording = HordingLocalServiceUtil.updateHording(hordingId, title, location, city, district,state, hordingType, mediaVehicle,String.valueOf(height)+"X"+String.valueOf(width), pricePerMonth, normalImage,
+			 Hording hording = HordingLocalServiceUtil.updateHording(hordingId, title, location, city, district,state, hordingType, mediaVehicle,String.valueOf(width)+"X"+String.valueOf(height), pricePerMonth, normalImage,
 					 normalImageFileName, shortImage, shortImageFileName, longImage, longImageFileName, landLordId, ownerType, upinNo, mncTax, otherExpYear, themeDisplay.getUserId());
 			 if(Validator.isNotNull(hording)){
 				 SessionMessages.add(actionRequest, "hording-updated-successfully");

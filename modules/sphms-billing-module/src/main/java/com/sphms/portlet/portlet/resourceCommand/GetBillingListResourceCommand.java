@@ -46,9 +46,9 @@ public class GetBillingListResourceCommand implements MVCResourceCommand{
 		HttpServletRequest httpRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(resourceRequest));
 		int start = Integer.parseInt(httpRequest.getParameter("start"));
 		int length = Integer.parseInt(httpRequest.getParameter("length"));
-		long clientId = ParamUtil.getLong(resourceRequest, "clientId");
-		String startDateStr = ParamUtil.getString(resourceRequest, "startDate");
-		String endDateStr = ParamUtil.getString(resourceRequest, "endDate");
+		long clientId = ParamUtil.getLong(resourceRequest, "searchClient");
+		String startDateStr = ParamUtil.getString(resourceRequest, "searchStartDate");
+		String endDateStr = ParamUtil.getString(resourceRequest, "searchEndDate");
 		JSONObject responseObj = JSONFactoryUtil.createJSONObject();
 		JSONArray dataArray = JSONFactoryUtil.createJSONArray();
 		Date startDate = null;

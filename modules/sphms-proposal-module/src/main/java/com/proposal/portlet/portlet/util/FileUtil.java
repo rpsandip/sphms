@@ -486,7 +486,7 @@ public class FileUtil {
     	
     	// Height
     	XSSFCell cell8 = hordingRow.createCell(8);
-    	cell8.setCellValue(heightWidthArray[0]);
+    	cell8.setCellValue(heightWidthArray[1]);
     	cell8.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
 			cell8.setCellStyle(style1);
@@ -494,7 +494,7 @@ public class FileUtil {
     	
     	// Width
     	XSSFCell cell9 = hordingRow.createCell(9);
-    	cell9.setCellValue(heightWidthArray[1]);
+    	cell9.setCellValue(heightWidthArray[0]);
     	cell9.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
 			cell9.setCellStyle(style1);
