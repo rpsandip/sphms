@@ -17,6 +17,7 @@
 			                <th>Hoarding</th>
 			                <th>Payment Date</th>
 			                <th>Amount</th>
+			                <th>Payment Type</th>
 			                <th>Action</th>
 			            </tr>
      			   </thead>
@@ -27,6 +28,14 @@
             				<fmt:formatDate pattern = "dd/MM/yyyy" value = "${landLordPaymentBean.paymentDate}" var="paymentDate"/>
 			                <td>${paymentDate }</td>
 			                <td>Rs. ${landLordPaymentBean.amount }</td>
+			                <td>
+			                <c:if test="${fn:length(landLordPaymentBean.chequeNo) gt 0}">
+			               		Cheque No : ${landLordPaymentBean.chequeNo } (${landLordPaymentBean.bankName })
+			               	</c:if>
+			               	 <c:if test="${fn:length(landLordPaymentBean.chequeNo) eq 0}">
+			               		 Cash
+			               	</c:if>	
+			               	</td>
 			                <portlet:renderURL var="editPaymentURL">
        							 <portlet:param name="mvcRenderCommandName" value="/add_land_lord_payment" />
        							 <portlet:param name="landLordId" value="${ landLord.landLordId}" />

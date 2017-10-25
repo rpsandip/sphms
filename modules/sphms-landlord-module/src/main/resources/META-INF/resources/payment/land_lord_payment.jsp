@@ -52,6 +52,18 @@
 							 </aui:input>
 	       				</div>
        				</div>
+       				<div class="row">		 
+						<div class="form-group col-md-6">
+							 <aui:input name="chequeNo" label="chequeNo" cssClass="form-control" value="${landLordPayment.chequeNo }"> 
+							 </aui:input>
+	       				</div>
+       				</div>
+       				<div class="row">		 
+						<div class="form-group col-md-6">
+							 <aui:input name="bankName" label="bankName" cssClass="form-control" value="${landLordPayment.bankName }"> 
+							 </aui:input>
+	       				</div>
+       				</div>
        				<div class="row">
        					<c:choose>
        						<c:when test="${ landLordPayment.landLordPaymentId gt 0}">

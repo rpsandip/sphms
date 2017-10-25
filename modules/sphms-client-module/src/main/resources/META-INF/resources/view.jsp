@@ -7,6 +7,9 @@
 <liferay-ui:success key="client-added-successfully" message="client-added-successfully"/>
 <liferay-ui:success key="client-updated-successfully" message="client-updated-successfully"/>
 
+<liferay-ui:success key="credit-note-add-success" message="credit-note-add-success"/>
+<liferay-ui:success key="credit-note-update-success" message="credit-note-update-success"/>
+
 <a href="${addClientURL}" class="btn btn-primary">Add Client</a>
 
 <section class="content">
@@ -45,7 +48,14 @@
 							</portlet:renderURL>
 			                <td>
 			                	<a href="${editClientURL }" class="btn btn-block btn-primary">Edit</a>
-			                </td> 
+			                </td>
+			                <portlet:renderURL var="creditNoteURL">
+       							 <portlet:param name="mvcRenderCommandName" value="/credit_note" />
+       							 <portlet:param name="clientId" value="${ client.clientId}" />
+							</portlet:renderURL>
+			                <td>
+			                	<a href="${creditNoteURL}" class="btn btn-block btn-primary">Credit Note</a>
+			                </td>  
         			    </tr>
            			</c:forEach>
            			</tbody>

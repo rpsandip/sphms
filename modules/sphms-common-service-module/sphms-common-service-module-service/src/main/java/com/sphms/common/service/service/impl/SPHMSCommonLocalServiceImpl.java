@@ -205,11 +205,17 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 		    int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		    System.out.println("Financial month : " + month);
 		    if (month < 3) {
-		    	financialYear = (year - 1) + "-" + year;
+		    	financialYear = (year - 1) + "-" + getLastDigitOfFinanceYear();
 		    } else {
-		    	financialYear =  year + "-" + (year + 1);
+		    	financialYear =  year + "-" + (Integer.parseInt(getLastDigitOfFinanceYear())+ 1);
 		    }
 		    return financialYear;
+	}
+	
+	private String getLastDigitOfFinanceYear(){
+		DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2 digits
+		String formattedDate = df.format(Calendar.getInstance().getTime());
+		return formattedDate;
 	}
 	
 	public  String[] getHeightOrWidth(String size){

@@ -26,9 +26,11 @@ import com.sphms.common.service.beans.Billing_HordingBean;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Billing_Hording;
 import com.sphms.common.service.model.Booking;
+import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_HordingLocalServiceUtil;
 import com.sphms.common.service.service.BookingLocalServiceUtil;
+import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.portlet.portlet.util.BillingConstant;
 
 @Component(
@@ -54,8 +56,6 @@ public class UpdateBillingActionCommand extends BaseMVCActionCommand{
 		String display = ParamUtil.getString(actionRequest, "display");
 		double accessAmount = ParamUtil.getDouble(actionRequest, "accessAmount");
 		double pendingAmount = ParamUtil.getDouble(actionRequest, "pendingAmount");
-		double creditNoteAmount = ParamUtil.getDouble(actionRequest, "creditNoteAmount");
-		double creditNoteTax = ParamUtil.getDouble(actionRequest, "creditNoteTax");
 		long billingId = ParamUtil.getLong(actionRequest, "billingId");
 		
 		int totalHordingCount = ParamUtil.getInteger(actionRequest, "totalHordingCount");
@@ -75,16 +75,19 @@ public class UpdateBillingActionCommand extends BaseMVCActionCommand{
 		// Update bill
 		Billing billing=null;
 		Booking booking=null;
+		CustomCompany company = null;
 		try {
 			billing = BillingLocalServiceUtil.updateBilling(billingId, clientPANNo, clientPONo, clientGSTNo, display,
-					accessAmount, pendingAmount, creditNoteAmount, creditNoteTax, bookingHordingBeanList, themeDisplay.getUserId());
+					accessAmount, pendingAmount, bookingHordingBeanList, themeDisplay.getUserId());
 		
 			booking = BookingLocalServiceUtil.getBooking(billing.getBookingId());
+			
+			company = CustomCompanyLocalServiceUtil.getCustomCompany(booking.getCustomCompanyId());
 		} catch (PortalException e1) {
 			_log.error(e1);
 		}
 		
-		if(Validator.isNotNull(billing) && Validator.isNotNull(booking)){
+		if(Validator.isNotNull(billing) && Validator.isNotNull(booking) && Validator.isNotNull(company)){
 			
 			// Update
 			List<Billing_HordingBean> billing_HordingBeansList = new ArrayList<Billing_HordingBean>();
@@ -96,7 +99,7 @@ public class UpdateBillingActionCommand extends BaseMVCActionCommand{
 			
 			FileEntry xlsxFileEntry= null;
 			try {
-				xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,billing_HordingBeansList, true);
+				xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,billing_HordingBeansList, true, company);
 			} catch (PortalException | IOException e) {
 				_log.error(e);
 			}

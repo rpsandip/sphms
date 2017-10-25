@@ -67,19 +67,6 @@
 	       			</div>
 	       			
 	       			<div class="row">
-	       				<div class="form-group col-md-4">
-	       					<aui:input type="text" name="creditNoteAmount" label="credit.note.amount" value="${billingBean.creditNoteAmount }">
-	       						<aui:validator name="number" />
-	       					</aui:input>
-	       				</div>	
-	       				<div class="form-group col-md-4">
-	       					<aui:input type="text" name="creditNoteTax" label="credit.note.tax" value="${billingBean.creditNoteTax }">
-	       						<aui:validator name="number" />
-	       					</aui:input>
-	       				</div>	
-	       			</div>
-	       			
-	       			<div class="row">
 	       				<div class="form-group col-md-12">
 	       					<h4> Hoarding Detail :</h4>
 	       				</div>

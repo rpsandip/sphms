@@ -8,10 +8,10 @@
 
 <section class="content-header">
 	<h1>
-		<c:if test="${bookingId ne 0 }">
+		<c:if test="${bookingId eq 0 }">
     		<liferay-ui:message key="add.booking"/> 
     	</c:if>
-    	<c:if test="${bookingId gt 0 }">
+    	<c:if test="${bookingId ne 0 }">
     		<liferay-ui:message key="update.booking"/> 
     	</c:if>
     	
@@ -27,7 +27,9 @@
        			<aui:form name="addBookingFm" action="${addBookingURL}"  method="post" cssClass="row contact_form">
        				<div class="row">
 	       				<div class="form-group col-md-6">
-	       					<aui:input type="text" name="camapaignTitle" label="campaign" value="${booking.campaignTitle }"/>
+	       					<aui:input type="text" name="camapaignTitle" label="campaign" value="${booking.campaignTitle }">
+	       						<aui:validator name="required"></aui:validator>
+	       					</aui:input>
 	       				</div>
 	       				<div class="form-group col-md-6">
 	       					<aui:select name="clientId" label="client" cssClass="form-control">
@@ -39,13 +41,24 @@
 	       				</div>
 	       			</div>
 	       			<div class="row">
-	       				 <fmt:formatDate pattern = "dd/MM/yyyy"  value = "${booking.startDate}"  var="startDate"/>
-	       				<div class="form-group col-md-6">
-	       					<aui:input name="startDate" label="start.date" cssClass="form-control" value="${startDate }"/> 
+	       				<div class="form-group col-md-4">
+	       					<aui:select name="companyId" label="company" cssClass="form-control">
+	       					 	<c:forEach items="${companyList }" var="company">
+	       					 		<aui:option value="${company.companyId }" selected='${booking.customCompanyId eq company.companyId ? true : false }' > ${company.name}</aui:option>
+	       					 	</c:forEach>
+							</aui:select>
+	       				</div>
+	       				<fmt:formatDate pattern = "dd/MM/yyyy"  value = "${booking.startDate}"  var="startDate"/>
+	       				<div class="form-group col-md-4">
+	       					<aui:input name="startDate" label="start.date" cssClass="form-control" value="${startDate }">
+	       						<aui:validator name="required"></aui:validator>
+	       					</aui:input> 
 	       				</div>
 	       				 <fmt:formatDate pattern = "dd/MM/yyyy"  value = "${booking.endDate}"  var="endDate"/>
-	       				<div class="form-group col-md-6">
-	       					<aui:input name="endDate" label="end.date" cssClass="form-control" value="${endDate }"/> 
+	       				<div class="form-group col-md-4">
+	       					<aui:input name="endDate" label="end.date" cssClass="form-control" value="${endDate }">
+	       						<aui:validator name="required"></aui:validator>
+	       					</aui:input> 
 	       				</div>
 	       			</div>	
        				<div class="row">
@@ -65,7 +78,7 @@
 		       					 	<aui:input type="text" name="printingCharge${loop.index}" label="printingCharge" />	
 	     						</div>
 	     						<div class="form-group col-md-3">
-		       					 	<aui:input type="text" name="units${loop.index}" label="units" />	
+		       					 	<aui:input type="text" name="units${loop.index}" label="units" value="1"/>	
 	     						</div>
 	     						<hr/>
 	     					</c:forEach>
@@ -91,7 +104,13 @@
      				</div>	
        				<div class="row">
      					<div class="form-group col-md-12">
-							<aui:button type="button" value="Add Booking"  cssClass="addBookingBtn btn btn-primary"/>
+							
+							<c:if test="${bookingId eq 0 }">
+    							<aui:button type="button" value="Add Booking"  cssClass="addBookingBtn btn btn-primary"/>
+    						</c:if>
+    						<c:if test="${bookingId ne 0 }">
+    							<aui:button type="button" value="Update Booking"  cssClass="addBookingBtn btn btn-primary"/>
+    						</c:if>
 						</div>
 					</div>
 					<aui:input type="hidden"  name="selectedHordingIds" value="${ selectedHordingIds}"/>
@@ -126,10 +145,26 @@ jQuery.noConflict();
 var userModuleNameSpace =  '<portlet:namespace/>';
 AUI().use('aui-base','aui-form-validator', function(A) {
 	var addBookingBtn= A.one(".addBookingBtn");
+	
+	var clientValidator = new A.FormValidator({
+		boundingBox: document.<portlet:namespace/>addBookingFm,
+		rules: {
+			<portlet:namespace/>clientId: {
+				required: true
+			}
+		},
+		fieldStrings: {
+			<portlet:namespace/>clientId: {
+				required: 'Please select Client'
+			}
+		}
+	});
+	
 	addBookingBtn.on('click', function(e) {
 		var formValidator = Liferay.Form.get('<portlet:namespace />addBookingFm').formValidator;
 		formValidator.validate();
-		if(!formValidator.hasErrors()){
+		clientValidator.validate();
+		if(!formValidator.hasErrors() && !clientValidator.hasErrors()){
 			document.<portlet:namespace />addBookingFm.submit();
 		}
 	});

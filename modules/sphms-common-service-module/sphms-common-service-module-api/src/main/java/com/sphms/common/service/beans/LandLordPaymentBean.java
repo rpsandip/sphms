@@ -25,6 +25,8 @@ public class LandLordPaymentBean {
 	private String location;
 	private String city;
 	private String hordingTitle;
+	private String chequeNo;
+	private String bankName;
 	
 	
 	public LandLordPaymentBean(LandLordPayment landLordPayment){
@@ -33,6 +35,8 @@ public class LandLordPaymentBean {
 		this.amount = landLordPayment.getAmount();
 		this.paymentDate = landLordPayment.getPaymentDate();
 		this.landLordPaymentId = landLordPayment.getLandLordPaymentId();
+		this.chequeNo = landLordPayment.getChequeNo();
+		this.bankName = landLordPayment.getBankName();
 		
 		try {
 			LandLord landLord = LandLordLocalServiceUtil.getLandLord(landLordId);
@@ -151,7 +155,26 @@ public class LandLordPaymentBean {
 	public void setHordingTitle(String hordingTitle) {
 		this.hordingTitle = hordingTitle;
 	}
-	
+
+
+	public String getChequeNo() {
+		return chequeNo;
+	}
+
+
+	public void setChequeNo(String chequeNo) {
+		this.chequeNo = chequeNo;
+	}
+
+
+	public String getBankName() {
+		return bankName;
+	}
+
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
 	
 	
 	

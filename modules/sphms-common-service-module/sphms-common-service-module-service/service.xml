@@ -33,6 +33,8 @@
 		<column name="landLoadId" type="long"/>
 		<column name="hordingId" type="long"></column>
 		<column name="amount" type="double"></column>
+		<column name="chequeNo" type="String"></column>
+		<column name="bankName" type="String"></column>
 		<column name="paymentDate" type="Date"></column>
 		<column name="createDate" type="Date"></column>
 		<column name="createdBy" type="long"></column>
@@ -70,6 +72,26 @@
 			</order-column>
 		</order>
 
+	</entity>
+	
+	<entity name="CreditNote" local-service="true" remote-service="false">
+		<!-- PK fields -->
+		<column name="creditNoteId" primary="true" type="long" />
+		<column name="clientId" type="long"/>
+		<column name="creditNoteAmount" type="double"/>
+		<column name="creditNoteTax" type="double"/>
+		<column name="paymentDate" type="Date"/>
+		<column name="chequeNo" type="String"></column>
+		<column name="bankName" type="String"></column>
+		
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		<column name="modifiedDate" type="Date"></column>
+		<column name="modifiedBy" type="long"></column>
+		
+		<finder return-type="Collection" name="clientId">
+			<finder-column name="clientId"></finder-column>
+		</finder>
 	</entity>
 	
 	<entity name="Hording" local-service="true" remote-service="false">
@@ -156,6 +178,7 @@
 		<column name="bookingId" primary="true" type="long" />
 		
 		<!-- Other fields -->
+		<column name="customCompanyId" type="long"></column>
 		<column name="campaignTitle" type="String"/>
 		<column name="client" type="long"/>
 		<column name="billId" type="long"/>
@@ -189,6 +212,7 @@
 		
 		<!-- PK fields -->
 		<column name="billingId" primary="true" type="long" />
+		<column name="customCompanyId" type="long"></column>
 		<column name="billNo"  type="String" />
 		<column name="bookingId" type="long" />
 		<column name="clientId"  type="long" />
@@ -200,8 +224,6 @@
 		<column name="accessAmount"  type="double" />
 		<column name="pendingAmount"  type="double" />
 		<column name="financialYear"  type="String" />
-		<column name="creditNoteAmount"  type="double" />
-		<column name="creditNoteTax"  type="double" />
 		<column name="status"  type="int" />
 		
 		<column name="createDate" type="Date"></column>
@@ -236,7 +258,39 @@
 			<finder-column name="billingId"></finder-column>
 		</finder>
 		
+		<finder return-type="Billing_Hording" name="billingIdAndHordingId">
+			<finder-column name="billingId"></finder-column>
+			<finder-column name="hordingId"></finder-column>
+		</finder>
+
 	</entity>
+	
+	<entity name="Billing_PO" local-service="true" remote-service="false">
+		<!-- PK fields -->
+		<column name="billingId" primary="true" type="long" />
+		<column name="hordingId" primary="true" type="long" />
+		
+		<column name="landLordId" type="long"></column>
+		<column name="poNumber" type="String"></column>
+		<column name="financialYear"  type="String" />
+		<column name="totalAmount" type="double"></column>
+		
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		<column name="modifiedDate" type="Date"></column>
+		<column name="modifiedBy" type="long"></column>
+		
+		<finder return-type="Collection" name="billingId">
+			<finder-column name="billingId"></finder-column>
+		</finder>
+		
+		<finder return-type="Collection" name="billingIdAndLandLordId">
+			<finder-column name="billingId"></finder-column>
+			<finder-column name="landLordId"></finder-column>
+		</finder>
+		
+	</entity>
+	
 	
 	<entity name="Payment" local-service="true" remote-service="false">
 		
@@ -259,6 +313,35 @@
 		</finder>
 		
 	</entity>	
+	
+	
+	
+	<entity name="Expense" local-service="true" remote-service="false">
+		<!-- PK fields -->
+		<column name="expenseId" primary="true" type="long" />
+		<column name="type"  type="String" />
+		<column name="amount"  type="double" />
+		<column name="description"  type="String" />
+		<column name="expenseDate" type="Date"></column>
+		
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		<column name="modifiedDate" type="Date"></column>
+		<column name="modifiedBy" type="long"></column>
+		
+	</entity>
+	
+	<entity name="CustomCompany" local-service="true" remote-service="false">
+		<!-- PK fields -->
+		<column name="companyId" primary="true" type="long" />
+		<column name="name" type="String"></column>
+		<column name="GSTNo" type="String"></column>
+		<column name="PANNo" type="String"></column>
+		<column name="bankName" type="String"></column>
+		<column name="accountDetail" type="String"></column>
+		<column name="poPrefix" type="String"></column>
+	</entity>
+	
 	
 	<entity name="SPHMSCommon" local-service="true" remote-service="false"></entity>
 	

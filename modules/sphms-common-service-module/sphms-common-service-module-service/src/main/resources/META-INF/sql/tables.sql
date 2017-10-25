@@ -1,5 +1,6 @@
 create table SPHMS_Billing (
 	billingId LONG not null primary key,
+	customCompanyId LONG,
 	billNo VARCHAR(75) null,
 	bookingId LONG,
 	clientId LONG,
@@ -11,8 +12,6 @@ create table SPHMS_Billing (
 	accessAmount DOUBLE,
 	pendingAmount DOUBLE,
 	financialYear VARCHAR(75) null,
-	creditNoteAmount DOUBLE,
-	creditNoteTax DOUBLE,
 	status INTEGER,
 	createDate DATE null,
 	createdBy LONG,
@@ -31,8 +30,23 @@ create table SPHMS_Billing_Hording (
 	primary key (billingId, hordingId)
 );
 
+create table SPHMS_Billing_PO (
+	billingId LONG not null,
+	hordingId LONG not null,
+	landLordId LONG,
+	poNumber VARCHAR(75) null,
+	financialYear VARCHAR(75) null,
+	totalAmount DOUBLE,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG,
+	primary key (billingId, hordingId)
+);
+
 create table SPHMS_Booking (
 	bookingId LONG not null primary key,
+	customCompanyId LONG,
 	campaignTitle VARCHAR(100) null,
 	client LONG,
 	billId LONG,
@@ -65,6 +79,42 @@ create table SPHMS_Client (
 	contactPersonPhoneNo VARCHAR(75) null,
 	createDate DATE null,
 	createdBy LONG
+);
+
+create table SPHMS_CreditNote (
+	creditNoteId LONG not null primary key,
+	clientId LONG,
+	creditNoteAmount DOUBLE,
+	creditNoteTax DOUBLE,
+	paymentDate DATE null,
+	chequeNo VARCHAR(75) null,
+	bankName VARCHAR(75) null,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG
+);
+
+create table SPHMS_CustomCompany (
+	companyId LONG not null primary key,
+	name VARCHAR(75) null,
+	GSTNo VARCHAR(75) null,
+	PANNo VARCHAR(75) null,
+	bankName VARCHAR(75) null,
+	accountDetail VARCHAR(75) null,
+	poPrefix VARCHAR(75) null
+);
+
+create table SPHMS_Expense (
+	expenseId LONG not null primary key,
+	type_ VARCHAR(75) null,
+	amount DOUBLE,
+	description VARCHAR(500) null,
+	expenseDate DATE null,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG
 );
 
 create table SPHMS_Hording (
@@ -110,6 +160,8 @@ create table SPHMS_LandLordPayment (
 	landLoadId LONG,
 	hordingId LONG,
 	amount DOUBLE,
+	chequeNo VARCHAR(75) null,
+	bankName VARCHAR(75) null,
 	paymentDate DATE null,
 	createDate DATE null,
 	createdBy LONG

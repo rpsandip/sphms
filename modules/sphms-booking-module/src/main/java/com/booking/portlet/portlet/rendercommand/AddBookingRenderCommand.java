@@ -20,10 +20,12 @@ import com.sphms.common.service.beans.Booking_HordingBean;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Booking_Hording;
 import com.sphms.common.service.model.Client;
+import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.service.BookingLocalServiceUtil;
 import com.sphms.common.service.service.Booking_HordingLocalServiceUtil;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
+import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.persistence.Booking_HordingPK;
 
@@ -49,6 +51,10 @@ public class AddBookingRenderCommand implements MVCRenderCommand{
 		// Get all active client list
 		List<Client> allClientList = ClientLocalServiceUtil.getClients(-1, -1);
 		renderRequest.setAttribute("allClientList", allClientList);
+		
+		//Get Company List
+		List<CustomCompany> companyList = CustomCompanyLocalServiceUtil.getCustomCompanies(-1, -1);
+		renderRequest.setAttribute("companyList", companyList);
 		
 		String[] selectedHordingIds = selectedHordings.split(",");
 	

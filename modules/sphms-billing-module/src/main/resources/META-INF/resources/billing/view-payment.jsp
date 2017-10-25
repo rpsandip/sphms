@@ -17,7 +17,7 @@
     		<a href="${addPaymentURL}" class="btn btn-primary">Add Payment</a>
     	</span>
     	<span class="pull-right">
-    		<b>Bill No : </b> ${billingBean.billNo }
+    		<h3>Bill No :  ${billingBean.billNo } </h3>
     	</span>
   	</h1>
 </section>

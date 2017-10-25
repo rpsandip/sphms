@@ -3,6 +3,7 @@
 <model-hints>
 	<model name="com.sphms.common.service.model.Billing">
 		<field name="billingId" type="long" />
+		<field name="customCompanyId" type="long" />
 		<field name="billNo" type="String" />
 		<field name="bookingId" type="long" />
 		<field name="clientId" type="long" />
@@ -14,8 +15,6 @@
 		<field name="accessAmount" type="double" />
 		<field name="pendingAmount" type="double" />
 		<field name="financialYear" type="String" />
-		<field name="creditNoteAmount" type="double" />
-		<field name="creditNoteTax" type="double" />
 		<field name="status" type="int" />
 		<field name="createDate" type="Date" />
 		<field name="createdBy" type="long" />
@@ -31,8 +30,21 @@
 		<field name="totalHordingCharge" type="double" />
 		<field name="hsnNo" type="String" />
 	</model>
+	<model name="com.sphms.common.service.model.Billing_PO">
+		<field name="billingId" type="long" />
+		<field name="hordingId" type="long" />
+		<field name="landLordId" type="long" />
+		<field name="poNumber" type="String" />
+		<field name="financialYear" type="String" />
+		<field name="totalAmount" type="double" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="long" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="long" />
+	</model>
 	<model name="com.sphms.common.service.model.Booking">
 		<field name="bookingId" type="long" />
+		<field name="customCompanyId" type="long" />
 		<field name="campaignTitle" type="String">
 			<hint name="max-length">100</hint>
 		</field>
@@ -76,6 +88,41 @@
 		<field name="contactPersonPhoneNo" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="createdBy" type="long" />
+	</model>
+	<model name="com.sphms.common.service.model.CreditNote">
+		<field name="creditNoteId" type="long" />
+		<field name="clientId" type="long" />
+		<field name="creditNoteAmount" type="double" />
+		<field name="creditNoteTax" type="double" />
+		<field name="paymentDate" type="Date" />
+		<field name="chequeNo" type="String" />
+		<field name="bankName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="long" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="long" />
+	</model>
+	<model name="com.sphms.common.service.model.CustomCompany">
+		<field name="companyId" type="long" />
+		<field name="name" type="String" />
+		<field name="GSTNo" type="String" />
+		<field name="PANNo" type="String" />
+		<field name="bankName" type="String" />
+		<field name="accountDetail" type="String" />
+		<field name="poPrefix" type="String" />
+	</model>
+	<model name="com.sphms.common.service.model.Expense">
+		<field name="expenseId" type="long" />
+		<field name="type" type="String" />
+		<field name="amount" type="double" />
+		<field name="description" type="String">
+			<hint name="max-length">500</hint>
+		</field>
+		<field name="expenseDate" type="Date" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="long" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="long" />
 	</model>
 	<model name="com.sphms.common.service.model.Hording">
 		<field name="hordingId" type="long" />
@@ -130,6 +177,8 @@
 		<field name="landLoadId" type="long" />
 		<field name="hordingId" type="long" />
 		<field name="amount" type="double" />
+		<field name="chequeNo" type="String" />
+		<field name="bankName" type="String" />
 		<field name="paymentDate" type="Date" />
 		<field name="createDate" type="Date" />
 		<field name="createdBy" type="long" />

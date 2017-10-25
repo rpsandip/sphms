@@ -84,6 +84,13 @@
             	                    			
             	                    			displayData = displayData +  '<a href="'+paymentURL+'" class="btn btn-block btn-primary">Payment</a>';
             	                    			
+            	                    			var poDetailURL = Liferay.PortletURL.createRenderURL();
+            	                    			poDetailURL.setParameter("billingId",row.billingId);
+            	                    			poDetailURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
+            	                    			poDetailURL.setParameter("mvcRenderCommandName","/po_detail");
+            	                    			
+            	                    			displayData = displayData +  '<a href="'+poDetailURL+'" class="btn btn-block btn-primary">PO Detail</a>';
+            	                    			
             	                    			return displayData;
             	                    	 }
             	                    }

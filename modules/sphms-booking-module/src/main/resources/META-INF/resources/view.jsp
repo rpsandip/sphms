@@ -54,12 +54,16 @@
             $(function() {  
             	 AUI().use('aui-base','liferay-portlet-url', function(A) {
             		 
+            		 var resourceURL= Liferay.PortletURL.createResourceURL();
+            		 resourceURL.setPortletId('com_booking_portlet_portlet_BookongModulePortlet');
+            		 resourceURL.setResourceId('/getBookingList');
+            		 
             		 bookingDataTable =  $('#bookings').DataTable({
             		 "processing": true,
             	     "serverSide": true,
             	     "searching": false,
             	     "pageLength": 50,
-            	     "ajax": '${getBookingListURL}',
+            	     "ajax": resourceURL.toString(),
             		 "order": [],
             		 "columns": [
             	                    { "data": "campaign", "name" : "campaign", "title" : "Campaign"  },

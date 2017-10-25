@@ -5,12 +5,20 @@
 	<bean class="com.sphms.common.service.service.persistence.impl.BillingPersistenceImpl" id="com.sphms.common.service.service.persistence.BillingPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.Billing_HordingLocalServiceImpl" id="com.sphms.common.service.service.Billing_HordingLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.Billing_HordingPersistenceImpl" id="com.sphms.common.service.service.persistence.Billing_HordingPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.Billing_POLocalServiceImpl" id="com.sphms.common.service.service.Billing_POLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.Billing_POPersistenceImpl" id="com.sphms.common.service.service.persistence.Billing_POPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.BookingLocalServiceImpl" id="com.sphms.common.service.service.BookingLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.BookingPersistenceImpl" id="com.sphms.common.service.service.persistence.BookingPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.Booking_HordingLocalServiceImpl" id="com.sphms.common.service.service.Booking_HordingLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.Booking_HordingPersistenceImpl" id="com.sphms.common.service.service.persistence.Booking_HordingPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.ClientLocalServiceImpl" id="com.sphms.common.service.service.ClientLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.ClientPersistenceImpl" id="com.sphms.common.service.service.persistence.ClientPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.CreditNoteLocalServiceImpl" id="com.sphms.common.service.service.CreditNoteLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.CreditNotePersistenceImpl" id="com.sphms.common.service.service.persistence.CreditNotePersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.CustomCompanyLocalServiceImpl" id="com.sphms.common.service.service.CustomCompanyLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.CustomCompanyPersistenceImpl" id="com.sphms.common.service.service.persistence.CustomCompanyPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.ExpenseLocalServiceImpl" id="com.sphms.common.service.service.ExpenseLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.ExpensePersistenceImpl" id="com.sphms.common.service.service.persistence.ExpensePersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.HordingLocalServiceImpl" id="com.sphms.common.service.service.HordingLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.HordingPersistenceImpl" id="com.sphms.common.service.service.persistence.HordingPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.LandLordLocalServiceImpl" id="com.sphms.common.service.service.LandLordLocalService" />

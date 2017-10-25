@@ -59,17 +59,19 @@ public class LandLordPaymentLocalServiceImpl extends LandLordPaymentLocalService
 	
 	Log _log = LogFactoryUtil.getLog(LandLordPaymentLocalServiceImpl.class.getName());
 	
-	public LandLordPayment addLandLordPayment(long landLordId, long hordingId, double amount, Date paymentDate, long createdBy){
+	public LandLordPayment addLandLordPayment(long landLordId, long hordingId, double amount, Date paymentDate, String chequeNo, String bankName,long createdBy){
 	
-		_log.info("Add LandLord Payment : " + "landLordId ->" + landLordId + " hordingId->" + hordingId + " amount->" + amount + " paymentDate->" + paymentDate  );
+		_log.info("Add LandLord Payment : " + "landLordId ->" + landLordId + " hordingId->" + hordingId + " amount->" + amount + " paymentDate->" + paymentDate + " chequeNo->"+chequeNo + " bankName->"+bankName );
 		
-		boolean isValidParam = validateParam(landLordId, hordingId, amount, paymentDate, createdBy);
+		boolean isValidParam = validateParam(landLordId, hordingId, amount, paymentDate,createdBy);
 		
 		if(isValidParam){
 		LandLordPayment landLordPayment = LandLordPaymentLocalServiceUtil.createLandLordPayment(CounterLocalServiceUtil.increment());
 		landLordPayment.setLandLoadId(landLordId);
 		landLordPayment.setHordingId(hordingId);
 		landLordPayment.setAmount(amount);
+		landLordPayment.setChequeNo(chequeNo);
+		landLordPayment.setBankName(bankName);
 		landLordPayment.setPaymentDate(paymentDate);
 		landLordPayment.setCreateDate(new Date());
 		landLordPayment.setCreatedBy(createdBy);
@@ -84,16 +86,18 @@ public class LandLordPaymentLocalServiceImpl extends LandLordPaymentLocalService
 	/*
 	 * Method for update Land Lord Payment 
 	 */
-	public LandLordPayment updateLandLordPayment(long landLordPaymentId, long landLordId, long hordingId, double amount, Date paymentDate, long createdBy) throws PortalException{
+	public LandLordPayment updateLandLordPayment(long landLordPaymentId, long landLordId, long hordingId, double amount, Date paymentDate, String chequeNo, String bankName, long createdBy) throws PortalException{
 	
 		_log.info("Update LandLord Payment : " + "landLordId ->" + landLordId + " hordingId->" + hordingId + " amount->" + amount + " paymentDate->" + paymentDate  );
 		
-		boolean isValidParam = validateParam(landLordId, hordingId, amount, paymentDate, createdBy);
+		boolean isValidParam = validateParam(landLordId, hordingId, amount, paymentDate,createdBy);
 		if(isValidParam){
 			LandLordPayment landLordPayment = LandLordPaymentLocalServiceUtil.getLandLordPayment(landLordPaymentId);
 			landLordPayment.setLandLoadId(landLordId);
 			landLordPayment.setHordingId(hordingId);
 			landLordPayment.setAmount(amount);
+			landLordPayment.setChequeNo(chequeNo);
+			landLordPayment.setBankName(bankName);
 			landLordPayment.setPaymentDate(paymentDate);
 			landLordPayment.setCreatedBy(createdBy);
 			landLordPayment.setCreateDate(new Date());
@@ -118,7 +122,7 @@ public class LandLordPaymentLocalServiceImpl extends LandLordPaymentLocalService
 		return landLordPaymentBeansList;
 	}
 	
-	private boolean validateParam(long landLordId, long hordingId, double amount, Date paymentDate, long createdBy){
+	private boolean validateParam(long landLordId, long hordingId, double amount, Date paymentDate,long createdBy){
 		boolean isValidParams = true;
 		
 		if(landLordId<=0 || hordingId<=0 || amount<=0 || Validator.isNull(paymentDate) || createdBy<=0){

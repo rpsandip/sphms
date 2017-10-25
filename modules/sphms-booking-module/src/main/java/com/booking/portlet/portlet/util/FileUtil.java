@@ -39,6 +39,7 @@ import com.sphms.common.service.beans.Billing_HordingBean;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Client;
+import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.model.Proposal;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
@@ -50,14 +51,14 @@ public class FileUtil {
 	private static final int MAX_ColUMN=7;
 	private static final int MIN_COLUMN=1;
 	
-	public static FileEntry createBillXlsForBooking(Booking booking, Billing billing,List<Billing_HordingBean> billiingHordingBeanList, boolean isEdit) throws FileNotFoundException, IOException, PortalException{
+	public static FileEntry createBillXlsForBooking(Booking booking, Billing billing,List<Billing_HordingBean> billiingHordingBeanList, boolean isEdit, CustomCompany company) throws FileNotFoundException, IOException, PortalException{
 		long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
 		Folder bookingParentFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, PropsUtil.get("booking.document.folder"));
 		FileEntry fileEntry = null;
 		if(globalSiteGroupId!=0 && Validator.isNotNull(bookingParentFolder)){																																
 			Folder billingFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, bookingParentFolder.getFolderId(), String.valueOf(billing.getBillingId()));
 			if(Validator.isNotNull(billingFolder)){
-				File xlsxFile = createBillXlsFile(booking, billing,billiingHordingBeanList);
+				File xlsxFile = createBillXlsFile(booking, billing,billiingHordingBeanList,company);
 				ServiceContext serviceContext = new ServiceContext(); 
 				if(!isEdit){
 					try{
@@ -76,7 +77,7 @@ public class FileUtil {
 	}
 	
 	
-	public static File createBillXlsFile(Booking booking,  Billing billing,List<Billing_HordingBean> billingHordingList) throws IOException{
+	public static File createBillXlsFile(Booking booking,  Billing billing,List<Billing_HordingBean> billingHordingList, CustomCompany company) throws IOException{
 		
 		int index=1;
 		
@@ -132,7 +133,7 @@ public class FileUtil {
 		
 		index = createBlankRow(sheet, wb,index);
 		
-		index = createGSTNoRow(sheet, wb, index, font);
+		index = createGSTNoRow(sheet, wb, index, font, company);
 		
 
 		index = createBlankRow(sheet, wb,index);
@@ -148,7 +149,7 @@ public class FileUtil {
 		}
 		
 		// Write the output to a file
-		String fileName = booking.getCampaignTitle()+"_Proposal.xlsx";
+		String fileName = booking.getCampaignTitle()+".xlsx";
 		File file = new File(System.getProperty("catalina.home")+"/temp/"+fileName);
 		
 		FileOutputStream fileOut = new FileOutputStream(file);
@@ -549,8 +550,6 @@ public class FileUtil {
 			cell5.setCellStyle(getBottomBorderStyle(wb));
 		}
 		
-		
-		long displayDurationDays = getDisplayDuration(booking.getStartDate(), booking.getEndDate());
 		double displayCharges =  billingHordingBean.getTotalHordingCharge();  //SPHMSCommonLocalServiceUtil.getDisplayCharges(hording.getPricePerMonth(), displayDurationDays); 
 		XSSFCell cell7 = hordingTableRow.createCell(MAX_ColUMN);
 		cell7.setCellValue(displayCharges);
@@ -704,7 +703,7 @@ public class FileUtil {
 	}
 	
 	
-	private static int createGSTNoRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font){
+	private static int createGSTNoRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, CustomCompany company){
 		
 		// GST Row
 		XSSFRow gstNoRow = sheet.createRow(index);
@@ -712,7 +711,7 @@ public class FileUtil {
 		style.setAlignment(HorizontalAlignment.LEFT);
 		style.setFont(font);
 		XSSFCell cell1 = gstNoRow.createCell(1);
-		cell1.setCellValue("GST No   : "+PropsUtil.get("sphms.gst.no"));
+		cell1.setCellValue("GST No   : "+ company.getGSTNo());
 		cell1.setCellStyle(style);
 		
 		XSSFCell cell6 = gstNoRow.createCell(6);
@@ -726,7 +725,7 @@ public class FileUtil {
 		style.setAlignment(HorizontalAlignment.LEFT);
 		
 		XSSFCell cell11 = panNoRow.createCell(MIN_COLUMN);
-		cell11.setCellValue("PAN No : " + PropsUtil.get("sphms.pan.no")+ "  (For Search Publicity)");
+		cell11.setCellValue("PAN No : " + company.getPANNo() + "  (For "+ company.getName()+" )");
 		cell11.setCellStyle(style);
 		
 		XSSFCell cell66 = panNoRow.createCell(MAX_ColUMN);
@@ -746,7 +745,7 @@ public class FileUtil {
 		XSSFCell cell26_2 = bankrow.createCell(2);
 		XSSFCellStyle style2 = wb.createCellStyle();
 		style2.setFont(font);
-		cell26_2.setCellValue(PropsUtil.get("sphms.bank.name"));
+		cell26_2.setCellValue(company.getBankName());
 		cell26_2.setCellStyle(style2);
 		
 		XSSFCell cell26_6 = bankrow.createCell(MAX_ColUMN);
@@ -766,7 +765,7 @@ public class FileUtil {
 		XSSFCell cell27_2 = bankrow2.createCell(2);
 		XSSFCellStyle style1 = getBottomBorderStyle(wb);
 		style1.setFont(font);
-		cell27_2.setCellValue(PropsUtil.get("sphms.bank.account.no"));
+		cell27_2.setCellValue(company.getAccountDetail());
 		cell27_2.setCellStyle(style1);
 		
 		XSSFCell cell27_3 = bankrow2.createCell(3);
