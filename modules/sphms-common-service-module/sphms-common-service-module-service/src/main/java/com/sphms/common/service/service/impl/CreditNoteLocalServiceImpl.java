@@ -20,9 +20,14 @@ import java.util.Date;
 import java.util.List;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.Order;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.sphms.common.service.model.CreditNote;
 import com.sphms.common.service.service.CreditNoteLocalServiceUtil;
+import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
 import com.sphms.common.service.service.base.CreditNoteLocalServiceBaseImpl;
 
 /**
@@ -47,13 +52,16 @@ public class CreditNoteLocalServiceImpl extends CreditNoteLocalServiceBaseImpl {
 	 * Never reference this class directly. Always use {@link com.sphms.common.service.service.CreditNoteLocalServiceUtil} to access the credit note local service.
 	 */
 	
-	public CreditNote addCreditNote(long clientId, double creditNoteAmount, double creditNoteTax, String chequeNo,
+	public CreditNote addCreditNote(long clientId, long billingId ,double creditNoteAmount, double creditNoteTax, String chequeNo,
 			String bankName, Date paymentDate, long createdBy){
 		
 		CreditNote creditNote = CreditNoteLocalServiceUtil.createCreditNote(CounterLocalServiceUtil.increment());
 		creditNote.setClientId(clientId);
+		creditNote.setBillingId(billingId);
 		creditNote.setCreditNoteAmount(creditNoteAmount);
 		creditNote.setCreditNoteTax(creditNoteTax);
+		creditNote.setCreditNoteNumber(getNextCreditNoteNumber());
+		creditNote.setFinancialYear(SPHMSCommonLocalServiceUtil.getFinancialYear());
 		creditNote.setChequeNo(chequeNo);
 		creditNote.setBankName(bankName);
 		creditNote.setPaymentDate(paymentDate);
@@ -67,7 +75,7 @@ public class CreditNoteLocalServiceImpl extends CreditNoteLocalServiceBaseImpl {
 		return creditNote;
 	}
 	
-	public CreditNote updateCreditNote(long creditNoteId,double creditNoteAmount, double creditNoteTax, String chequeNo,
+	public CreditNote updateCreditNote(long creditNoteId, long billingId,double creditNoteAmount, double creditNoteTax, String chequeNo,
 			String bankName, Date paymentDate, long modifiedBy) throws PortalException{
 		
 		
@@ -76,7 +84,9 @@ public class CreditNoteLocalServiceImpl extends CreditNoteLocalServiceBaseImpl {
 		creditNote.setCreditNoteAmount(creditNoteAmount);
 		creditNote.setCreditNoteTax(creditNoteTax);
 		creditNote.setChequeNo(chequeNo);
+		creditNote.setBillingId(billingId);
 		creditNote.setBankName(bankName);
+		creditNote.setFinancialYear(SPHMSCommonLocalServiceUtil.getFinancialYear());
 		creditNote.setPaymentDate(paymentDate);
 		creditNote.setModifiedBy(modifiedBy);
 		creditNote.setModifiedDate(new Date());
@@ -89,5 +99,21 @@ public class CreditNoteLocalServiceImpl extends CreditNoteLocalServiceBaseImpl {
 	
 	public List<CreditNote> getClientCreditNoteList(long clientId){
 		return creditNotePersistence.findByclientId(clientId);
+	}
+	
+	public String getNextCreditNoteNumber(){
+		DynamicQuery dynamicQuery = CreditNoteLocalServiceUtil.dynamicQuery();
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("financialYear", SPHMSCommonLocalServiceUtil.getFinancialYear()));
+		Order defaultOrder = OrderFactoryUtil.desc("createDate");
+		dynamicQuery.addOrder(defaultOrder);
+		dynamicQuery.setLimit(0, 1);
+		List<CreditNote> creditNoteList = CreditNoteLocalServiceUtil.dynamicQuery(dynamicQuery);
+		
+		if(creditNoteList.size()==0){
+			return String.format("%03d", 1);
+		}else{
+			return String.format("%03d", Integer.parseInt(creditNoteList.get(0).getCreditNoteNumber())+1);
+		}
+		
 	}
 }

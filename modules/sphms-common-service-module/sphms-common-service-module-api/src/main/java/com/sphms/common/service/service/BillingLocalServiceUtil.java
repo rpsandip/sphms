@@ -266,6 +266,11 @@ public class BillingLocalServiceUtil {
 		return getService().getBillings(start, end);
 	}
 
+	public static java.util.List<com.sphms.common.service.beans.BillingBean> getClientBillings(
+		long clientId) {
+		return getService().getClientBillings(clientId);
+	}
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*
@@ -295,10 +300,19 @@ public class BillingLocalServiceUtil {
 		return getService().getBillingCount(clientId, startDate, endDate);
 	}
 
+	public static void updateBillingHordingWhileUpdateBooking(
+		com.sphms.common.service.model.Billing billing,
+		com.sphms.common.service.model.Booking booking)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateBillingHordingWhileUpdateBooking(billing, booking);
+	}
+
 	public static void updateBillingHordings(
 		com.sphms.common.service.model.Billing billing,
-		com.sphms.common.service.model.Booking booking) {
-		getService().updateBillingHordings(billing, booking);
+		com.sphms.common.service.model.Booking booking,
+		com.sphms.common.service.model.CustomCompany company)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateBillingHordings(billing, booking, company);
 	}
 
 	public static BillingLocalService getService() {

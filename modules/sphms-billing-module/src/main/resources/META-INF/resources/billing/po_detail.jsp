@@ -73,23 +73,7 @@
             });
             
             $(".po-download").on('click', function(){
-            	
             	window.location.href = '${downLoadPOURL}' + '&<portlet:namespace/>billingId='+$(this).data('billing-id')+'&<portlet:namespace/>landlordId='+ $(this).data('landlord-id');
-            	/*
-            	$.ajax( '${downLoadPOURL}', {
-            		  data:{ '<portlet:namespace/>billingId': $(this).data('billing-id'),
-            			  	 '<portlet:namespace/>hordingId': $(this).data('hording-id')
-            			    },
-            		  type: "POST",
-            	      success: function(data) {
-            	        console.log("file uploaded successfully");
-            	      },
-            	      error: function() {
-            	    	  alert("Error while downlaod file.");
-            	      }
-            	 });*/
-            	 
-            	 console.log("clicked");
             });
         })(jQuery);
     </script>     

@@ -27,13 +27,21 @@
        		<div class="box-body">
        			<aui:form name="addCreditNoteFm" action="${addCreditNoteURL}" cssClass="row contact_form">	
        				<div class="row">		 
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-4">
+							 <aui:select name="billingId" label="credit.note.bill" cssClass="form-control">
+							 	<aui:option value="">Select Bill</aui:option>
+							 	<c:forEach items="${billingList }" var="billing">
+							 		<aui:option value="${billing.billingId }" selected="${creditNote.billingId eq billing.billingId ? true:false }"> ${billing.billNo }</aui:option>
+							 	</c:forEach>
+							 </aui:select>
+	       				</div>
+						<div class="form-group col-md-4">
 							 <aui:input name="amount" label="credit.note.amount" cssClass="form-control" placeholder="Rs." value="${creditNote.creditNoteAmount }"> 
 						     	<aui:validator name="required" />
 						     	<aui:validator name="number" />
 							 </aui:input>
 	       				</div>
-	       				<div class="form-group col-md-6">
+	       				<div class="form-group col-md-4">
 							 <aui:input name="tax" label="credit.note.tax" cssClass="form-control" placeholder="Rs." value="${creditNote.creditNoteTax }"> 
 						     	<aui:validator name="required" />
 						     	<aui:validator name="number" />
@@ -100,7 +108,13 @@ jQuery.noConflict();
 	  
 	  $('#'+'<portlet:namespace/>'+'tax').keyup(function () { 
 		    this.value = this.value.replace(/[^0-9]/g,'');
-	  });	  
+	  });	 
+	  
+	  $('#'+ '<portlet:namespace/>' + 'paymentDate').datepicker({
+	  		format: 'dd/mm/yyyy',  
+	  	    autoclose: true
+	  });
+	  	 
 	  
     });
 
@@ -118,4 +132,4 @@ AUI().use('aui-base','aui-form-validator', function(A) {
 		}
 	});
 });
-</aui:script>      			
+</aui:script>

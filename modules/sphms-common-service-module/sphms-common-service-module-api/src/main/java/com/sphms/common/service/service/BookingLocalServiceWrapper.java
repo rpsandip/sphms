@@ -33,6 +33,12 @@ public class BookingLocalServiceWrapper implements BookingLocalService,
 	}
 
 	@Override
+	public boolean updateBookingStatus(long bookingId, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _bookingLocalService.updateBookingStatus(bookingId, status);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _bookingLocalService.getActionableDynamicQuery();
 	}

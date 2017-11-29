@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.sphms.common.service.model.Client;
 import com.sphms.common.service.model.CreditNote;
+import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.CreditNoteLocalServiceUtil;
 
@@ -39,6 +40,7 @@ public class AddCreditNoteRenderCommand implements MVCRenderCommand{
 				Client client = ClientLocalServiceUtil.getClient(clientId);
 				renderRequest.setAttribute("client", client);
 				renderRequest.setAttribute("clientId", clientId);
+				renderRequest.setAttribute("billingList", BillingLocalServiceUtil.getClientBillings(clientId));
 			} catch (PortalException e) {
 				_log.error(e);
 			}

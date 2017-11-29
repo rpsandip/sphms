@@ -51,14 +51,15 @@ public class FileUtil {
 	private static final int MAX_ColUMN=7;
 	private static final int MIN_COLUMN=1;
 	
-	public static FileEntry createBillXlsForBooking(Booking booking, Billing billing,List<Billing_HordingBean> billiingHordingBeanList, boolean isEdit, CustomCompany company) throws FileNotFoundException, IOException, PortalException{
-		long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
-		Folder bookingParentFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, PropsUtil.get("booking.document.folder"));
-		FileEntry fileEntry = null;
-		if(globalSiteGroupId!=0 && Validator.isNotNull(bookingParentFolder)){																																
-			Folder billingFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, bookingParentFolder.getFolderId(), String.valueOf(billing.getBillingId()));
-			if(Validator.isNotNull(billingFolder)){
+	public static File createBillXlsForBooking(Booking booking, Billing billing,List<Billing_HordingBean> billiingHordingBeanList, CustomCompany company) throws FileNotFoundException, IOException, PortalException{
+		//long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
+		//Folder bookingParentFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, PropsUtil.get("booking.document.folder"));
+		//FileEntry fileEntry = null;
+		//if(globalSiteGroupId!=0 && Validator.isNotNull(bookingParentFolder)){																																
+			//Folder billingFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, bookingParentFolder.getFolderId(), String.valueOf(billing.getBillingId()));
+			//if(Validator.isNotNull(billingFolder)){
 				File xlsxFile = createBillXlsFile(booking, billing,billiingHordingBeanList,company);
+				/*
 				ServiceContext serviceContext = new ServiceContext(); 
 				if(!isEdit){
 					try{
@@ -70,14 +71,14 @@ public class FileUtil {
 				}else{
 					fileEntry = DLAppServiceUtil.updateFileEntry(booking.getBillId(), xlsxFile.getName(), MimeTypesUtil.getContentType(xlsxFile), xlsxFile.getName(),
 							StringPool.BLANK, StringPool.BLANK, false, xlsxFile, serviceContext);
-				}
-			}
-		}
-		return fileEntry;
+				}*/
+			//}
+		//}
+		return xlsxFile;
 	}
 	
 	
-	public static File createBillXlsFile(Booking booking,  Billing billing,List<Billing_HordingBean> billingHordingList, CustomCompany company) throws IOException{
+	private static File createBillXlsFile(Booking booking,  Billing billing,List<Billing_HordingBean> billingHordingList, CustomCompany company) throws IOException{
 		
 		int index=1;
 		

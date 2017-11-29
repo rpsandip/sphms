@@ -18,17 +18,23 @@
             	<table id="creditnotes" class="display table table-bordered table-hover table-striped" cellspacing="0" width="100%">
 					<thead>
 			            <tr>
+			            	<th>Credit Note No</th>
+			            	<th>Bill No</th>
 			                <th>Client Name</th>
 			                <th>Credit Note Amount</th>
 			                <th>Credit Note Tax</th>
 			                <th>Payment Date</th>
 			                <th>Payment Type</th>
+			                <th>Download</th>
+			                <th>Action</th>
 			            </tr>
      			   </thead>
         		   <tbody>
             	      <c:forEach items="${creditNoteList }" var="creditNote">
             			<tr>
-            				<td>${client.clientName}</td>
+            				<td>${creditNotePrefix}-${creditNote.creditNoteNumber }/${creditNote.financialYear}</td>
+            				<td>${creditNote.billNo}</td>
+            				<td>${creditNote.clientName}</td>
             				<td>${creditNote.creditNoteAmount}</td>
             				<td>${creditNote.creditNoteTax}</td>
             				<fmt:formatDate pattern = "dd/MM/yyyy" value = "${creditNote.paymentDate}" var="paymentDate"/>
@@ -41,9 +47,19 @@
 			               		 Cash
 			               	</c:if>	
 			               	</td>
+			               	<td>
+			               	    <c:if test="${not empty creditNote.billNo }">
+				               		<portlet:resourceURL id="/generateCreditNote" var="generateCrediteNoteURL" >
+										<portlet:param name="clientId" value="${ creditNote.clientId}" />
+	       							    <portlet:param name="creditNoteId" value="${ creditNote.creditNoteId}" />
+	       							    <portlet:param name="billingId" value="${ creditNote.billingId}" />
+				               		</portlet:resourceURL>
+				               		<a href="${generateCrediteNoteURL }" class="btn btn-block btn-primary">Download</a>
+			               		</c:if>
+			               	</td>
 			                <portlet:renderURL var="editCreditNoteURL">
        							 <portlet:param name="mvcRenderCommandName" value="/add_credit_note" />
-       							 <portlet:param name="clientId" value="${ client.clientId}" />
+       							 <portlet:param name="clientId" value="${ creditNote.clientId}" />
        							 <portlet:param name="creditNoteId" value="${ creditNote.creditNoteId}" />
 							</portlet:renderURL>
 			                <td><a href="${editCreditNoteURL }" class="btn btn-block btn-primary">Edit</a></td>

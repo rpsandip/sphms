@@ -65,7 +65,7 @@ public class BookingCacheModel implements CacheModel<Booking>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{bookingId=");
 		sb.append(bookingId);
@@ -77,6 +77,8 @@ public class BookingCacheModel implements CacheModel<Booking>, Externalizable {
 		sb.append(client);
 		sb.append(", billId=");
 		sb.append(billId);
+		sb.append(", status=");
+		sb.append(status);
 		sb.append(", startDate=");
 		sb.append(startDate);
 		sb.append(", endDate=");
@@ -110,6 +112,7 @@ public class BookingCacheModel implements CacheModel<Booking>, Externalizable {
 
 		bookingImpl.setClient(client);
 		bookingImpl.setBillId(billId);
+		bookingImpl.setStatus(status);
 
 		if (startDate == Long.MIN_VALUE) {
 			bookingImpl.setStartDate(null);
@@ -158,6 +161,8 @@ public class BookingCacheModel implements CacheModel<Booking>, Externalizable {
 		client = objectInput.readLong();
 
 		billId = objectInput.readLong();
+
+		status = objectInput.readInt();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
 		createDate = objectInput.readLong();
@@ -185,6 +190,8 @@ public class BookingCacheModel implements CacheModel<Booking>, Externalizable {
 		objectOutput.writeLong(client);
 
 		objectOutput.writeLong(billId);
+
+		objectOutput.writeInt(status);
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
 		objectOutput.writeLong(createDate);
@@ -200,6 +207,7 @@ public class BookingCacheModel implements CacheModel<Booking>, Externalizable {
 	public String campaignTitle;
 	public long client;
 	public long billId;
+	public int status;
 	public long startDate;
 	public long endDate;
 	public long createDate;

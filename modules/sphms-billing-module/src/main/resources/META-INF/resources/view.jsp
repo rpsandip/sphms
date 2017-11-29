@@ -65,6 +65,15 @@
             	                    { "data": "billDocument", "name" : "billDocument" , "title" : "Bill",
             	                    	"render": function(data, type, row, meta){
             	                    		var displayData = '<a href="'+ row.billDocumentURL +'" class="">Download</a>';
+            	                    		
+            	                    		var downloadBillURL = Liferay.PortletURL.createResourceURL();
+            	                    		downloadBillURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
+            	                    		downloadBillURL.setResourceId('/download-bill');
+            	                    		downloadBillURL.setParameter("billType",'ad-space-bill');
+            	                    		downloadBillURL.setParameter("billingId",row.billingId);
+            	                    		
+            	                    		displayData = displayData +  '<a href="'+downloadBillURL.toString()+'" class="btn btn-block btn-primary">Download1</a>';
+            	                    		
             	                    		return displayData;
             	                    	 }
             	                    },
@@ -89,7 +98,14 @@
             	                    			poDetailURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
             	                    			poDetailURL.setParameter("mvcRenderCommandName","/po_detail");
             	                    			
-            	                    			displayData = displayData +  '<a href="'+poDetailURL+'" class="btn btn-block btn-primary">PO Detail</a>';
+            	                    			displayData = displayData +  '<a href="'+poDetailURL+'" class="btn btn-block btn-primary">Generated PO</a>';
+            	                    			
+            	                    			var poDetailURL = Liferay.PortletURL.createRenderURL();
+            	                    			poDetailURL.setParameter("billingId",row.billingId);
+            	                    			poDetailURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
+            	                    			poDetailURL.setParameter("mvcRenderCommandName","/upload_client_po");
+            	                    			
+            	                    			displayData = displayData +  '<a href="'+poDetailURL+'" class="btn btn-block btn-primary">Client PO</a>';
             	                    			
             	                    			return displayData;
             	                    	 }

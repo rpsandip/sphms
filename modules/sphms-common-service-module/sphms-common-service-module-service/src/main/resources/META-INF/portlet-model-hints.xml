@@ -50,6 +50,7 @@
 		</field>
 		<field name="client" type="long" />
 		<field name="billId" type="long" />
+		<field name="status" type="int" />
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
 		<field name="createDate" type="Date" />
@@ -92,11 +93,14 @@
 	<model name="com.sphms.common.service.model.CreditNote">
 		<field name="creditNoteId" type="long" />
 		<field name="clientId" type="long" />
+		<field name="billingId" type="long" />
+		<field name="creditNoteNumber" type="String" />
 		<field name="creditNoteAmount" type="double" />
 		<field name="creditNoteTax" type="double" />
 		<field name="paymentDate" type="Date" />
 		<field name="chequeNo" type="String" />
 		<field name="bankName" type="String" />
+		<field name="financialYear" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="createdBy" type="long" />
 		<field name="modifiedDate" type="Date" />

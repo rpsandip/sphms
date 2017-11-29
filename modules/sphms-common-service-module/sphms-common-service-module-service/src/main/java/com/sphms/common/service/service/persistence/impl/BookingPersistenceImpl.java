@@ -341,6 +341,7 @@ public class BookingPersistenceImpl extends BasePersistenceImpl<Booking>
 		bookingImpl.setCampaignTitle(booking.getCampaignTitle());
 		bookingImpl.setClient(booking.getClient());
 		bookingImpl.setBillId(booking.getBillId());
+		bookingImpl.setStatus(booking.getStatus());
 		bookingImpl.setStartDate(booking.getStartDate());
 		bookingImpl.setEndDate(booking.getEndDate());
 		bookingImpl.setCreateDate(booking.getCreateDate());

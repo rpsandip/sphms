@@ -273,6 +273,12 @@ public class BillingLocalServiceWrapper implements BillingLocalService,
 		return _billingLocalService.getBillings(start, end);
 	}
 
+	@Override
+	public java.util.List<com.sphms.common.service.beans.BillingBean> getClientBillings(
+		long clientId) {
+		return _billingLocalService.getClientBillings(clientId);
+	}
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*
@@ -306,10 +312,21 @@ public class BillingLocalServiceWrapper implements BillingLocalService,
 	}
 
 	@Override
+	public void updateBillingHordingWhileUpdateBooking(
+		com.sphms.common.service.model.Billing billing,
+		com.sphms.common.service.model.Booking booking)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_billingLocalService.updateBillingHordingWhileUpdateBooking(billing,
+			booking);
+	}
+
+	@Override
 	public void updateBillingHordings(
 		com.sphms.common.service.model.Billing billing,
-		com.sphms.common.service.model.Booking booking) {
-		_billingLocalService.updateBillingHordings(billing, booking);
+		com.sphms.common.service.model.Booking booking,
+		com.sphms.common.service.model.CustomCompany company)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_billingLocalService.updateBillingHordings(billing, booking, company);
 	}
 
 	@Override

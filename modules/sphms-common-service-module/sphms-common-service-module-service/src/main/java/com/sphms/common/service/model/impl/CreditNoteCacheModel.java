@@ -66,12 +66,16 @@ public class CreditNoteCacheModel implements CacheModel<CreditNote>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{creditNoteId=");
 		sb.append(creditNoteId);
 		sb.append(", clientId=");
 		sb.append(clientId);
+		sb.append(", billingId=");
+		sb.append(billingId);
+		sb.append(", creditNoteNumber=");
+		sb.append(creditNoteNumber);
 		sb.append(", creditNoteAmount=");
 		sb.append(creditNoteAmount);
 		sb.append(", creditNoteTax=");
@@ -82,6 +86,8 @@ public class CreditNoteCacheModel implements CacheModel<CreditNote>,
 		sb.append(chequeNo);
 		sb.append(", bankName=");
 		sb.append(bankName);
+		sb.append(", financialYear=");
+		sb.append(financialYear);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", createdBy=");
@@ -101,6 +107,15 @@ public class CreditNoteCacheModel implements CacheModel<CreditNote>,
 
 		creditNoteImpl.setCreditNoteId(creditNoteId);
 		creditNoteImpl.setClientId(clientId);
+		creditNoteImpl.setBillingId(billingId);
+
+		if (creditNoteNumber == null) {
+			creditNoteImpl.setCreditNoteNumber(StringPool.BLANK);
+		}
+		else {
+			creditNoteImpl.setCreditNoteNumber(creditNoteNumber);
+		}
+
 		creditNoteImpl.setCreditNoteAmount(creditNoteAmount);
 		creditNoteImpl.setCreditNoteTax(creditNoteTax);
 
@@ -123,6 +138,13 @@ public class CreditNoteCacheModel implements CacheModel<CreditNote>,
 		}
 		else {
 			creditNoteImpl.setBankName(bankName);
+		}
+
+		if (financialYear == null) {
+			creditNoteImpl.setFinancialYear(StringPool.BLANK);
+		}
+		else {
+			creditNoteImpl.setFinancialYear(financialYear);
 		}
 
 		if (createDate == Long.MIN_VALUE) {
@@ -154,12 +176,16 @@ public class CreditNoteCacheModel implements CacheModel<CreditNote>,
 
 		clientId = objectInput.readLong();
 
+		billingId = objectInput.readLong();
+		creditNoteNumber = objectInput.readUTF();
+
 		creditNoteAmount = objectInput.readDouble();
 
 		creditNoteTax = objectInput.readDouble();
 		paymentDate = objectInput.readLong();
 		chequeNo = objectInput.readUTF();
 		bankName = objectInput.readUTF();
+		financialYear = objectInput.readUTF();
 		createDate = objectInput.readLong();
 
 		createdBy = objectInput.readLong();
@@ -174,6 +200,15 @@ public class CreditNoteCacheModel implements CacheModel<CreditNote>,
 		objectOutput.writeLong(creditNoteId);
 
 		objectOutput.writeLong(clientId);
+
+		objectOutput.writeLong(billingId);
+
+		if (creditNoteNumber == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(creditNoteNumber);
+		}
 
 		objectOutput.writeDouble(creditNoteAmount);
 
@@ -194,6 +229,13 @@ public class CreditNoteCacheModel implements CacheModel<CreditNote>,
 			objectOutput.writeUTF(bankName);
 		}
 
+		if (financialYear == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(financialYear);
+		}
+
 		objectOutput.writeLong(createDate);
 
 		objectOutput.writeLong(createdBy);
@@ -204,11 +246,14 @@ public class CreditNoteCacheModel implements CacheModel<CreditNote>,
 
 	public long creditNoteId;
 	public long clientId;
+	public long billingId;
+	public String creditNoteNumber;
 	public double creditNoteAmount;
 	public double creditNoteTax;
 	public long paymentDate;
 	public String chequeNo;
 	public String bankName;
+	public String financialYear;
 	public long createDate;
 	public long createdBy;
 	public long modifiedDate;

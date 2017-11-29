@@ -863,11 +863,14 @@ public class CreditNotePersistenceImpl extends BasePersistenceImpl<CreditNote>
 
 		creditNoteImpl.setCreditNoteId(creditNote.getCreditNoteId());
 		creditNoteImpl.setClientId(creditNote.getClientId());
+		creditNoteImpl.setBillingId(creditNote.getBillingId());
+		creditNoteImpl.setCreditNoteNumber(creditNote.getCreditNoteNumber());
 		creditNoteImpl.setCreditNoteAmount(creditNote.getCreditNoteAmount());
 		creditNoteImpl.setCreditNoteTax(creditNote.getCreditNoteTax());
 		creditNoteImpl.setPaymentDate(creditNote.getPaymentDate());
 		creditNoteImpl.setChequeNo(creditNote.getChequeNo());
 		creditNoteImpl.setBankName(creditNote.getBankName());
+		creditNoteImpl.setFinancialYear(creditNote.getFinancialYear());
 		creditNoteImpl.setCreateDate(creditNote.getCreateDate());
 		creditNoteImpl.setCreatedBy(creditNote.getCreatedBy());
 		creditNoteImpl.setModifiedDate(creditNote.getModifiedDate());

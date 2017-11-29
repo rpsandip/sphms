@@ -134,6 +134,20 @@ public interface BookingModel extends BaseModel<Booking> {
 	public void setBillId(long billId);
 
 	/**
+	 * Returns the status of this booking.
+	 *
+	 * @return the status of this booking
+	 */
+	public int getStatus();
+
+	/**
+	 * Sets the status of this booking.
+	 *
+	 * @param status the status of this booking
+	 */
+	public void setStatus(int status);
+
+	/**
 	 * Returns the start date of this booking.
 	 *
 	 * @return the start date of this booking

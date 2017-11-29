@@ -90,9 +90,10 @@ public interface CreditNoteLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public CreditNote addCreditNote(CreditNote creditNote);
 
-	public CreditNote addCreditNote(long clientId, double creditNoteAmount,
-		double creditNoteTax, java.lang.String chequeNo,
-		java.lang.String bankName, Date paymentDate, long createdBy);
+	public CreditNote addCreditNote(long clientId, long billingId,
+		double creditNoteAmount, double creditNoteTax,
+		java.lang.String chequeNo, java.lang.String bankName, Date paymentDate,
+		long createdBy);
 
 	/**
 	* Creates a new credit note with the primary key. Does not add the credit note to the database.
@@ -145,7 +146,7 @@ public interface CreditNoteLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public CreditNote updateCreditNote(CreditNote creditNote);
 
-	public CreditNote updateCreditNote(long creditNoteId,
+	public CreditNote updateCreditNote(long creditNoteId, long billingId,
 		double creditNoteAmount, double creditNoteTax,
 		java.lang.String chequeNo, java.lang.String bankName, Date paymentDate,
 		long modifiedBy) throws PortalException;
@@ -157,6 +158,9 @@ public interface CreditNoteLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCreditNotesCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.String getNextCreditNoteNumber();
 
 	/**
 	* Returns the OSGi service identifier.

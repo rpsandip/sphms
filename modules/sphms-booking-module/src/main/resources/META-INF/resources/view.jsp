@@ -10,6 +10,9 @@
 <liferay-ui:success key="booking-added-successfully" message="booking-added-successfully"/>
 <liferay-ui:success key="booking-updated-successfully" message="booking-updated-successfully"/>
 
+<liferay-ui:success key="booking-delete-success" message="booking-delete-success"/>
+<liferay-ui:error key="booking-delete-error" message="booking-delete-error"/>
+
 
 <a href="${addBookingURL}" class="btn btn-primary">Add Booking</a>
 
@@ -51,6 +54,7 @@
             	                    { "data": "client", "name" : "client" , "title" : "Client"},
             	                    { "data": "startDate", "name" : "startDate" , "title" : "Start Date"},
             	                    { "data": "endDate", "name" : "endDate" , "title" : "End Date"},
+            	                    { "data": "status", "name" : "status" , "title" : "Status"},
             	                    { "data": "action", "name" : "Action" , "title" : "Action",
             	                    	"render": function(data, type, row, meta){
             	                    		var displayData="";
@@ -65,6 +69,12 @@
             	                    			viewBookingURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
             	                    			viewBookingURL.setParameter("mvcRenderCommandName","/prepare_booking");
             	                    			displayData = displayData +   '<a href="'+viewBookingURL+'" class="btn btn-block btn-primary">Edit</a>';
+            	                    			
+            	                    			var deleteBookingURL = Liferay.PortletURL.createActionURL();
+            	                    			deleteBookingURL.setParameter("bookingId",row.bookingId);
+            	                    			deleteBookingURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
+            	                    			deleteBookingURL.setName("/delete_booking");
+            	                    			displayData = displayData +   '<a href="'+deleteBookingURL+'" class="btn btn-block btn-primary">Delete</a>';
             	                    			
             	                    		return displayData;
             	                    	 }

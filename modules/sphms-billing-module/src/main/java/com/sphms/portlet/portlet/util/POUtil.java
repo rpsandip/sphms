@@ -490,8 +490,7 @@ private static int createTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int in
 		style.setFont(font);
 		
 		XSSFCell cell1 = regNoRow.createCell(1);
-		// TODO : Need to make dynamic
-		cell1.setCellValue("Reg No: AHD-III/MEH-I/ADV/189");
+		cell1.setCellValue("GST No: " + company.getGSTNo());
 		cell1.setCellStyle(style);
 		
 		XSSFCell cell6 = regNoRow.createCell(6);
@@ -505,8 +504,7 @@ private static int createTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int in
 		style.setFont(font);
 		
 		XSSFCell cell11 = serviceTaxRow.createCell(1);
-		// TODO : Need to make dynamic
-		cell11.setCellValue("Service Tax No : AKDPP4161 CST001");
+		cell11.setCellValue("PAN No :" + company.getPANNo());
 		cell11.setCellStyle(style);
 		
 		XSSFCell cell61 = serviceTaxRow.createCell(6);

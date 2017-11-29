@@ -29,6 +29,7 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -45,6 +46,8 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.HordingBean;
 import com.sphms.common.service.model.Hording;
+import com.sphms.common.service.service.BookingLocalServiceUtil;
+import com.sphms.common.service.service.Booking_HordingLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.base.SPHMSCommonLocalServiceBaseImpl;
 
@@ -144,7 +147,27 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 		}
 		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
 			 // TODO :: need to check hording in booking table
-			//dynamicQuery.add(PropertyFactoryUtil.forName("bookingDate").between(startDate, endDate));
+			
+			DynamicQuery bookingQuery = BookingLocalServiceUtil.dynamicQuery();
+			bookingQuery.setProjection(ProjectionFactoryUtil.property("bookingId"));
+			Criterion dateCriteria = RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.between("startDate", startDate, endDate),
+					RestrictionsFactoryUtil.between("endDate", startDate, endDate));
+			
+			Criterion dateCriteria2 =  RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.le("startDate", startDate), RestrictionsFactoryUtil.le("startDate", endDate)),
+					RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.ge("endDate", startDate), RestrictionsFactoryUtil.ge("endDate", endDate)));
+			
+			Criterion dateCriteria3 = RestrictionsFactoryUtil.or(dateCriteria, dateCriteria2);
+			
+			bookingQuery.add(dateCriteria3);
+			
+			
+			DynamicQuery bookingHordingQuery = Booking_HordingLocalServiceUtil.dynamicQuery();
+			bookingHordingQuery.setProjection(ProjectionFactoryUtil.property("primaryKey.hordingId"));
+			bookingHordingQuery.add(PropertyFactoryUtil.forName("primaryKey.bookingId").in(bookingQuery));
+			
+			Criterion finalDateCriteria = PropertyFactoryUtil.forName("hordingId").notIn(bookingHordingQuery);
+			
+			criterion = RestrictionsFactoryUtil.and(criterion, finalDateCriteria);
 		}
 		
 		if(Validator.isNotNull(criterion)){

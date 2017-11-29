@@ -32,12 +32,14 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.sphms.common.service.beans.BillingBean;
 import com.sphms.common.service.beans.Billing_HordingBean;
 import com.sphms.common.service.beans.Booking_HordingBean;
 import com.sphms.common.service.beans.OwnerType;
 import com.sphms.common.service.exception.NoSuchBillingException;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Billing_Hording;
+import com.sphms.common.service.model.Billing_PO;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Booking_Hording;
 import com.sphms.common.service.model.CustomCompany;
@@ -49,6 +51,8 @@ import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
 import com.sphms.common.service.service.base.BillingLocalServiceBaseImpl;
 import com.sphms.common.service.service.persistence.Billing_HordingPK;
+import com.sphms.common.service.service.persistence.Billing_POPK;
+import com.sphms.common.service.service.persistence.Booking_HordingPK;
 
 /**
  * The implementation of the billing local service.
@@ -124,16 +128,23 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		}
 	}
 	
-	public void updateBillingHordings(Billing billing, Booking booking){
+	public void updateBillingHordings(Billing billing, Booking booking, CustomCompany company) throws PortalException{
+		
 		List<Booking_Hording> bookingHordingList = Booking_HordingLocalServiceUtil.getBookingHordingsList(booking.getBookingId());
+		List<Long> bookingHordingIdList = new ArrayList<Long>();
+		
+		// Update Existing billing hoardings which are exist in booking hoardngs. 
 		for(Booking_Hording bookingHording : bookingHordingList){
+			
 			Booking_HordingBean bookingHordingBean = new Booking_HordingBean(bookingHording);
 			double totalMountingCharge =  bookingHording.getUnits()*(bookingHording.getMountingCharge()*SPHMSCommonLocalServiceUtil.getTotalSqFt(SPHMSCommonLocalServiceUtil.getHeightOrWidth(bookingHordingBean.getHoring().getSize())));
 			double totalPrintingCharge = bookingHording.getUnits()*(bookingHording.getPrintingCharge()*SPHMSCommonLocalServiceUtil.getTotalSqFt(SPHMSCommonLocalServiceUtil.getHeightOrWidth(bookingHordingBean.getHoring().getSize())));
 			long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(booking.getStartDate(), booking.getEndDate());
 			double displayCharge = bookingHording.getUnits() * SPHMSCommonLocalServiceUtil.getDisplayCharges(bookingHordingBean.getHoring().getPricePerMonth(), displayDurationDays);
-		
+			bookingHordingIdList.add(bookingHording.getHordingId());
+			
 			Billing_HordingPK billingHordingPK = new Billing_HordingPK(billing.getBillingId(),bookingHording.getHordingId());
+			
 			try {
 				Billing_Hording billingHording = Billing_HordingLocalServiceUtil.getBilling_Hording(billingHordingPK);
 				billingHording.setUnits(bookingHordingBean.getUnits());
@@ -146,7 +157,59 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			} catch (PortalException e) {
 				_log.error(e);
 			}
+		}
+		
+		// Get billing hoardings Ids 
+		List<Long> billingHordingsIdList = new ArrayList<Long>();
+		List<Billing_Hording> billingHordingList = Billing_HordingLocalServiceUtil.getBillingHordingList(billing.getBillingId());
+		for(Billing_Hording billingHording : billingHordingList){
+			billingHordingsIdList.add(billingHording.getHordingId());
+		}
+		
+		// Find booking hording which are not in billing hordings list and need to add it
+		for(Long bookingHordingId : bookingHordingIdList){
+			if(!billingHordingsIdList.contains(bookingHordingId)){
+				// Need to add in Billing Hording
+				Booking_HordingPK bookingHordingPK = new Booking_HordingPK(booking.getBookingId(),bookingHordingId);
+				Booking_Hording bookingHording = Booking_HordingLocalServiceUtil.getBooking_Hording(bookingHordingPK);
+				Booking_HordingBean bookingHordingBean = new Booking_HordingBean(bookingHording);
+				double totalMountingCharge =  bookingHording.getUnits()*(bookingHording.getMountingCharge()*SPHMSCommonLocalServiceUtil.getTotalSqFt(SPHMSCommonLocalServiceUtil.getHeightOrWidth(bookingHordingBean.getHoring().getSize())));
+				double totalPrintingCharge = bookingHording.getUnits()*(bookingHording.getPrintingCharge()*SPHMSCommonLocalServiceUtil.getTotalSqFt(SPHMSCommonLocalServiceUtil.getHeightOrWidth(bookingHordingBean.getHoring().getSize())));
+				long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(booking.getStartDate(), booking.getEndDate());
+				double displayCharge = bookingHording.getUnits() * SPHMSCommonLocalServiceUtil.getDisplayCharges(bookingHordingBean.getHoring().getPricePerMonth(), displayDurationDays);
+				Billing_HordingLocalServiceUtil.addBillingHording(billing.getBillingId(), bookingHording.getHordingId(), totalMountingCharge,
+						totalPrintingCharge, bookingHordingBean.getUnits(), displayCharge/*+totalMountingCharge+totalPrintingCharge*/);
 			
+				// If hoarding is not own then Need to generate PO for Billing.
+				if(bookingHordingBean.getHoring().getOwnerType()==OwnerType.TRADE.getValue()){
+					Billing_POLocalServiceUtil.addBillingPO(billing.getBillingId(), bookingHordingBean.getHordingId(), 
+							displayCharge, billing.getCreatedBy(), company);
+				}
+			}
+		}
+		
+		
+		// Find Billing hording which are not in booking hording and need to delete it.
+		for(Long billingHordingId : billingHordingsIdList){
+			if(!bookingHordingIdList.contains(billingHordingId)){
+				// Need to delete in Billing Hording
+				Billing_HordingPK billing_HordingPK = new Billing_HordingPK(billing.getBillingId(), billingHordingId);
+				try {
+					Billing_Hording billingHording = Billing_HordingLocalServiceUtil.getBilling_Hording(billing_HordingPK);
+					Billing_HordingLocalServiceUtil.deleteBilling_Hording(billingHording);
+				} catch (PortalException e) {
+					_log.error(e.getMessage());
+				}
+				
+				// Need to delete repsective Billing PO
+				Billing_POPK billingPOPK = new Billing_POPK(billing.getBillingId(), billingHordingId);
+				try{
+					Billing_PO billingPO = Billing_POLocalServiceUtil.getBilling_PO(billingPOPK);
+					Billing_POLocalServiceUtil.deleteBilling_PO(billingPO);
+				}catch(PortalException e){
+					_log.error(e.getMessage());
+				}
+			}
 		}
 	}
 	
@@ -184,6 +247,23 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		}
 		
 		return billing;
+	}
+	
+	public void updateBillingHordingWhileUpdateBooking(Billing billing, Booking booking) throws PortalException{
+		// While update billing hording, we will delete all old entries and add new 
+		List<Billing_Hording> billingHordingList = Billing_HordingLocalServiceUtil.getBillingHordingList(billing.getBillingId());
+		for(Billing_Hording billingHording : billingHordingList){
+			Billing_HordingLocalServiceUtil.deleteBilling_Hording(billingHording);
+		}
+		
+		// Delete billing Billing_PO
+		List<Billing_PO> billingPOList = Billing_POLocalServiceUtil.getBillingPOListByBillingId(billing.getBillingId());
+		for(Billing_PO billingPO : billingPOList){
+			Billing_POLocalServiceUtil.deleteBilling_PO(billingPO);
+		}
+		
+		// Add new billing hordings
+		addBillingHordings(billing, booking);
 	}
 	
 	
@@ -234,9 +314,19 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			int year = Calendar.getInstance().get(Calendar.YEAR);
 			int yearDiff= (year-Integer.parseInt(baseYear));
 			int prefixDiff = Integer.parseInt(prefix)+yearDiff;
-			return prefixDiff+String.format("%03d", 1);
+			return prefixDiff+String.format("%04d", 1);
 		}else{
 			return String.format("%04d", Integer.parseInt(billingList.get(0).getBillNo())+1);
 		}
+	}
+	
+	public List<BillingBean> getClientBillings(long clientId){
+		List<BillingBean> billingBeanList = new ArrayList<BillingBean>();
+		List<Billing> billingList = billingPersistence.findByclientId(clientId);
+		for(Billing billing : billingList){
+			BillingBean billingBean = new BillingBean(billing);
+			billingBeanList.add(billingBean);
+		}
+		return billingBeanList;
 	}
 }

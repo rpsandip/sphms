@@ -67,6 +67,7 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 			{ "campaignTitle", Types.VARCHAR },
 			{ "client", Types.BIGINT },
 			{ "billId", Types.BIGINT },
+			{ "status", Types.INTEGER },
 			{ "startDate", Types.TIMESTAMP },
 			{ "endDate", Types.TIMESTAMP },
 			{ "createDate", Types.TIMESTAMP },
@@ -82,6 +83,7 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 		TABLE_COLUMNS_MAP.put("campaignTitle", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("client", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("billId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
@@ -90,7 +92,7 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 		TABLE_COLUMNS_MAP.put("modifiedBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Booking (bookingId LONG not null primary key,customCompanyId LONG,campaignTitle VARCHAR(100) null,client LONG,billId LONG,startDate DATE null,endDate DATE null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Booking (bookingId LONG not null primary key,customCompanyId LONG,campaignTitle VARCHAR(100) null,client LONG,billId LONG,status INTEGER,startDate DATE null,endDate DATE null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Booking";
 	public static final String ORDER_BY_JPQL = " ORDER BY booking.bookingId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Booking.bookingId ASC";
@@ -149,6 +151,7 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 		attributes.put("campaignTitle", getCampaignTitle());
 		attributes.put("client", getClient());
 		attributes.put("billId", getBillId());
+		attributes.put("status", getStatus());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
 		attributes.put("createDate", getCreateDate());
@@ -192,6 +195,12 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 
 		if (billId != null) {
 			setBillId(billId);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
 		}
 
 		Date startDate = (Date)attributes.get("startDate");
@@ -284,6 +293,16 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 	@Override
 	public void setBillId(long billId) {
 		_billId = billId;
+	}
+
+	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_status = status;
 	}
 
 	@Override
@@ -384,6 +403,7 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 		bookingImpl.setCampaignTitle(getCampaignTitle());
 		bookingImpl.setClient(getClient());
 		bookingImpl.setBillId(getBillId());
+		bookingImpl.setStatus(getStatus());
 		bookingImpl.setStartDate(getStartDate());
 		bookingImpl.setEndDate(getEndDate());
 		bookingImpl.setCreateDate(getCreateDate());
@@ -475,6 +495,8 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 
 		bookingCacheModel.billId = getBillId();
 
+		bookingCacheModel.status = getStatus();
+
 		Date startDate = getStartDate();
 
 		if (startDate != null) {
@@ -520,7 +542,7 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{bookingId=");
 		sb.append(getBookingId());
@@ -532,6 +554,8 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 		sb.append(getClient());
 		sb.append(", billId=");
 		sb.append(getBillId());
+		sb.append(", status=");
+		sb.append(getStatus());
 		sb.append(", startDate=");
 		sb.append(getStartDate());
 		sb.append(", endDate=");
@@ -551,7 +575,7 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Booking");
@@ -576,6 +600,10 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 		sb.append(
 			"<column><column-name>billId</column-name><column-value><![CDATA[");
 		sb.append(getBillId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>startDate</column-name><column-value><![CDATA[");
@@ -616,6 +644,7 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 	private String _campaignTitle;
 	private long _client;
 	private long _billId;
+	private int _status;
 	private Date _startDate;
 	private Date _endDate;
 	private Date _createDate;

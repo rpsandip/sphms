@@ -1,5 +1,6 @@
 package sphms.client.module.portlet.rendercommand;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.PortletException;
@@ -13,10 +14,12 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.sphms.common.service.beans.CreditNoteBean;
 import com.sphms.common.service.model.Client;
 import com.sphms.common.service.model.CreditNote;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.CreditNoteLocalServiceUtil;
+import com.sphms.common.service.util.SPHMSConstant;
 
 import sphms.client.module.portlet.util.ClientPortletConstant;
 
@@ -38,8 +41,13 @@ public class CreditNoteListRenderCommand implements MVCRenderCommand{
 		renderRequest.setAttribute("clientId", clientId);
 
 		List<CreditNote> creditNoteList = CreditNoteLocalServiceUtil.getClientCreditNoteList(clientId);
+		List<CreditNoteBean> creditNoteBeanList = new ArrayList<CreditNoteBean>();
 		
-		renderRequest.setAttribute("creditNoteList", creditNoteList);
+		for(CreditNote creditNote : creditNoteList){
+			CreditNoteBean creditNoteBean = new CreditNoteBean(creditNote);
+			creditNoteBeanList.add(creditNoteBean);
+		}
+		renderRequest.setAttribute("creditNoteList", creditNoteBeanList);
 		
 		try {
 			Client client = ClientLocalServiceUtil.getClient(clientId);
@@ -48,7 +56,7 @@ public class CreditNoteListRenderCommand implements MVCRenderCommand{
 			_log.error(e);
 		}
 		
-		
+		renderRequest.setAttribute("creditNotePrefix", SPHMSConstant.CREDIT_NOTE_PREFIX);
 		return "/client/credit_notes.jsp";
 		
 	}

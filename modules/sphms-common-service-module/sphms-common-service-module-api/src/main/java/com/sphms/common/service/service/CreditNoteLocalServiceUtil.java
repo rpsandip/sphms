@@ -80,12 +80,12 @@ public class CreditNoteLocalServiceUtil {
 	}
 
 	public static com.sphms.common.service.model.CreditNote addCreditNote(
-		long clientId, double creditNoteAmount, double creditNoteTax,
-		java.lang.String chequeNo, java.lang.String bankName,
-		java.util.Date paymentDate, long createdBy) {
+		long clientId, long billingId, double creditNoteAmount,
+		double creditNoteTax, java.lang.String chequeNo,
+		java.lang.String bankName, java.util.Date paymentDate, long createdBy) {
 		return getService()
-				   .addCreditNote(clientId, creditNoteAmount, creditNoteTax,
-			chequeNo, bankName, paymentDate, createdBy);
+				   .addCreditNote(clientId, billingId, creditNoteAmount,
+			creditNoteTax, chequeNo, bankName, paymentDate, createdBy);
 	}
 
 	/**
@@ -153,12 +153,12 @@ public class CreditNoteLocalServiceUtil {
 	}
 
 	public static com.sphms.common.service.model.CreditNote updateCreditNote(
-		long creditNoteId, double creditNoteAmount, double creditNoteTax,
-		java.lang.String chequeNo, java.lang.String bankName,
-		java.util.Date paymentDate, long modifiedBy)
+		long creditNoteId, long billingId, double creditNoteAmount,
+		double creditNoteTax, java.lang.String chequeNo,
+		java.lang.String bankName, java.util.Date paymentDate, long modifiedBy)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
-				   .updateCreditNote(creditNoteId, creditNoteAmount,
+				   .updateCreditNote(creditNoteId, billingId, creditNoteAmount,
 			creditNoteTax, chequeNo, bankName, paymentDate, modifiedBy);
 	}
 
@@ -169,6 +169,10 @@ public class CreditNoteLocalServiceUtil {
 	*/
 	public static int getCreditNotesCount() {
 		return getService().getCreditNotesCount();
+	}
+
+	public static java.lang.String getNextCreditNoteNumber() {
+		return getService().getNextCreditNoteNumber();
 	}
 
 	/**

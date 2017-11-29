@@ -79,10 +79,10 @@ public class CreditNoteLocalServiceWrapper implements CreditNoteLocalService,
 
 	@Override
 	public com.sphms.common.service.model.CreditNote addCreditNote(
-		long clientId, double creditNoteAmount, double creditNoteTax,
-		java.lang.String chequeNo, java.lang.String bankName,
-		java.util.Date paymentDate, long createdBy) {
-		return _creditNoteLocalService.addCreditNote(clientId,
+		long clientId, long billingId, double creditNoteAmount,
+		double creditNoteTax, java.lang.String chequeNo,
+		java.lang.String bankName, java.util.Date paymentDate, long createdBy) {
+		return _creditNoteLocalService.addCreditNote(clientId, billingId,
 			creditNoteAmount, creditNoteTax, chequeNo, bankName, paymentDate,
 			createdBy);
 	}
@@ -159,13 +159,13 @@ public class CreditNoteLocalServiceWrapper implements CreditNoteLocalService,
 
 	@Override
 	public com.sphms.common.service.model.CreditNote updateCreditNote(
-		long creditNoteId, double creditNoteAmount, double creditNoteTax,
-		java.lang.String chequeNo, java.lang.String bankName,
-		java.util.Date paymentDate, long modifiedBy)
+		long creditNoteId, long billingId, double creditNoteAmount,
+		double creditNoteTax, java.lang.String chequeNo,
+		java.lang.String bankName, java.util.Date paymentDate, long modifiedBy)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _creditNoteLocalService.updateCreditNote(creditNoteId,
-			creditNoteAmount, creditNoteTax, chequeNo, bankName, paymentDate,
-			modifiedBy);
+			billingId, creditNoteAmount, creditNoteTax, chequeNo, bankName,
+			paymentDate, modifiedBy);
 	}
 
 	/**
@@ -176,6 +176,11 @@ public class CreditNoteLocalServiceWrapper implements CreditNoteLocalService,
 	@Override
 	public int getCreditNotesCount() {
 		return _creditNoteLocalService.getCreditNotesCount();
+	}
+
+	@Override
+	public java.lang.String getNextCreditNoteNumber() {
+		return _creditNoteLocalService.getNextCreditNoteNumber();
 	}
 
 	/**

@@ -50,13 +50,13 @@
 	       				</div>
 	       				<fmt:formatDate pattern = "dd/MM/yyyy"  value = "${booking.startDate}"  var="startDate"/>
 	       				<div class="form-group col-md-4">
-	       					<aui:input name="startDate" label="start.date" cssClass="form-control" value="${startDate }">
+	       					<aui:input name="startDate" label="start.date" cssClass="form-control" value="${startDate }" readonly="true">
 	       						<aui:validator name="required"></aui:validator>
 	       					</aui:input> 
 	       				</div>
-	       				 <fmt:formatDate pattern = "dd/MM/yyyy"  value = "${booking.endDate}"  var="endDate"/>
+	       				 <fmt:formatDate pattern = "dd/MM/yyyy"  value = "${booking.endDate}"  var="endDate" />
 	       				<div class="form-group col-md-4">
-	       					<aui:input name="endDate" label="end.date" cssClass="form-control" value="${endDate }">
+	       					<aui:input name="endDate" label="end.date" cssClass="form-control" value="${endDate }" readonly="true">
 	       						<aui:validator name="required"></aui:validator>
 	       					</aui:input> 
 	       				</div>
@@ -78,7 +78,23 @@
 		       					 	<aui:input type="text" name="printingCharge${loop.index}" label="printingCharge" />	
 	     						</div>
 	     						<div class="form-group col-md-3">
-		       					 	<aui:input type="text" name="units${loop.index}" label="units" value="1"/>	
+		       					 	<aui:input type="text" name="units${loop.index}" label="units" value="1">
+		       					 		<aui:validator name="required" />
+		       					 		<aui:validator name="number" />
+		       					 		<aui:validator name="custom" errorMessage="err-valid-unit">
+											function(val, fieldNode, ruleValue) {
+						             			if(isNaN(val)){
+						             				return false;
+						             			}
+						             			if(val<= 0){
+						            				return false;
+						            			}
+				                                else {
+						            				return true;
+						            			}
+											}
+						         		</aui:validator>
+		       					 	</aui:input>	
 	     						</div>
 	     						<hr/>
 	     					</c:forEach>
@@ -96,7 +112,23 @@
 		       					 	<aui:input type="text" name="printingCharge${loop.index}" label="printingCharge" value="${bookingHordingBean.printingCharge }"/>	
 	     						</div>
 	     						<div class="form-group col-md-3">
-		       					 	<aui:input type="text" name="units${loop.index}" label="units" value="${bookingHordingBean.units }"/>	
+		       					 	<aui:input type="text" name="units${loop.index}" label="units" value="${bookingHordingBean.units }">
+		       					 		<aui:validator name="required" />
+		       					 		<aui:validator name="number" />
+		       					 		<aui:validator name="custom" errorMessage="err-valid-unit">
+											function(val, fieldNode, ruleValue) {
+						             			if(isNaN(val)){
+						             				return false;
+						             			}
+						             			if(val<= 0){
+						            				return false;
+						            			}
+				                                else {
+						            				return true;
+						            			}
+											}
+						         		</aui:validator>
+		       					 	</aui:input>	
 	     						</div>
 	     						<hr/>
      						</c:forEach>
@@ -114,7 +146,7 @@
 						</div>
 					</div>
 					<aui:input type="hidden"  name="selectedHordingIds" value="${ selectedHordingIds}"/>
-					<aui:input type="hidden"  name="selectedHordingIds" value="${ selectedBookinghordings}"/>
+					<aui:input type="hidden"  name="selectedBookinghordings" value="${ selectedBookinghordings}"/>
 					<aui:input type="hidden" name="bookingId" value="${bookingId }"/>
        			</aui:form>
        		</div>

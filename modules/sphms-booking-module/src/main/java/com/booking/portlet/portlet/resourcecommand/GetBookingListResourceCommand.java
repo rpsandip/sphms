@@ -29,6 +29,7 @@ import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Client;
 import com.sphms.common.service.service.BookingLocalServiceUtil;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
+import com.sphms.common.service.util.BookingStatus;
 
 @Component(
 	    property = {
@@ -70,8 +71,8 @@ public class GetBookingListResourceCommand implements MVCResourceCommand{
 		List<Booking> proposalList = BookingLocalServiceUtil.getBookingList(clientId, startDate, endDate, start, start+length);
 		long totalProposalList = BookingLocalServiceUtil.getBookingCount(clientId, startDate, endDate);
 		for(Booking booking : proposalList){
-			JSONObject proposalJsonObj = JSONFactoryUtil.createJSONObject();
-			proposalJsonObj.put("campaign", booking.getCampaignTitle());
+			JSONObject bookingObj = JSONFactoryUtil.createJSONObject();
+			bookingObj.put("campaign", booking.getCampaignTitle());
 			String clienTitle = StringPool.BLANK;
 			try {
 				Client client = ClientLocalServiceUtil.getClient(booking.getClient());
@@ -79,13 +80,14 @@ public class GetBookingListResourceCommand implements MVCResourceCommand{
 			} catch (PortalException e) {
 				_log.error(e);
 			}
-			proposalJsonObj.put("campaign", booking.getCampaignTitle());
-			proposalJsonObj.put("client", clienTitle);
-			proposalJsonObj.put("bookingId",  booking.getBookingId());
-			proposalJsonObj.put("startDate", df.format(booking.getStartDate()));
-			proposalJsonObj.put("endDate", df.format(booking.getEndDate()));
+			bookingObj.put("campaign", booking.getCampaignTitle());
+			bookingObj.put("client", clienTitle);
+			bookingObj.put("bookingId",  booking.getBookingId());
+			bookingObj.put("startDate", df.format(booking.getStartDate()));
+			bookingObj.put("endDate", df.format(booking.getEndDate()));
+			bookingObj.put("status", BookingStatus.findByValue(booking.getStatus()).getLabel());
 			
-			dataArray.put(proposalJsonObj);
+			dataArray.put(bookingObj);
 		}
 		
 		

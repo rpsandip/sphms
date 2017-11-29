@@ -32,10 +32,12 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import com.sphms.common.service.beans.BillingBean;
 import com.sphms.common.service.beans.Billing_HordingBean;
 import com.sphms.common.service.exception.NoSuchBillingException;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Booking;
+import com.sphms.common.service.model.CustomCompany;
 
 import java.io.Serializable;
 
@@ -230,6 +232,9 @@ public interface BillingLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Billing> getBillings(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BillingBean> getClientBillings(long clientId);
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*
@@ -251,5 +256,9 @@ public interface BillingLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getBillingCount(long clientId, Date startDate, Date endDate);
 
-	public void updateBillingHordings(Billing billing, Booking booking);
+	public void updateBillingHordingWhileUpdateBooking(Billing billing,
+		Booking booking) throws PortalException;
+
+	public void updateBillingHordings(Billing billing, Booking booking,
+		CustomCompany company) throws PortalException;
 }

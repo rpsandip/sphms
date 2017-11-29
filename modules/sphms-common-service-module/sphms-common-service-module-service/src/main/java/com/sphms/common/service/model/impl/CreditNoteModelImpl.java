@@ -64,11 +64,14 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "creditNoteId", Types.BIGINT },
 			{ "clientId", Types.BIGINT },
+			{ "billingId", Types.BIGINT },
+			{ "creditNoteNumber", Types.VARCHAR },
 			{ "creditNoteAmount", Types.DOUBLE },
 			{ "creditNoteTax", Types.DOUBLE },
 			{ "paymentDate", Types.TIMESTAMP },
 			{ "chequeNo", Types.VARCHAR },
 			{ "bankName", Types.VARCHAR },
+			{ "financialYear", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "createdBy", Types.BIGINT },
 			{ "modifiedDate", Types.TIMESTAMP },
@@ -79,18 +82,21 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 	static {
 		TABLE_COLUMNS_MAP.put("creditNoteId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("clientId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("billingId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("creditNoteNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("creditNoteAmount", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("creditNoteTax", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("paymentDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("chequeNo", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("bankName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("financialYear", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createdBy", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_CreditNote (creditNoteId LONG not null primary key,clientId LONG,creditNoteAmount DOUBLE,creditNoteTax DOUBLE,paymentDate DATE null,chequeNo VARCHAR(75) null,bankName VARCHAR(75) null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_CreditNote (creditNoteId LONG not null primary key,clientId LONG,billingId LONG,creditNoteNumber VARCHAR(75) null,creditNoteAmount DOUBLE,creditNoteTax DOUBLE,paymentDate DATE null,chequeNo VARCHAR(75) null,bankName VARCHAR(75) null,financialYear VARCHAR(75) null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_CreditNote";
 	public static final String ORDER_BY_JPQL = " ORDER BY creditNote.creditNoteId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_CreditNote.creditNoteId ASC";
@@ -150,11 +156,14 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 
 		attributes.put("creditNoteId", getCreditNoteId());
 		attributes.put("clientId", getClientId());
+		attributes.put("billingId", getBillingId());
+		attributes.put("creditNoteNumber", getCreditNoteNumber());
 		attributes.put("creditNoteAmount", getCreditNoteAmount());
 		attributes.put("creditNoteTax", getCreditNoteTax());
 		attributes.put("paymentDate", getPaymentDate());
 		attributes.put("chequeNo", getChequeNo());
 		attributes.put("bankName", getBankName());
+		attributes.put("financialYear", getFinancialYear());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -178,6 +187,18 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 
 		if (clientId != null) {
 			setClientId(clientId);
+		}
+
+		Long billingId = (Long)attributes.get("billingId");
+
+		if (billingId != null) {
+			setBillingId(billingId);
+		}
+
+		String creditNoteNumber = (String)attributes.get("creditNoteNumber");
+
+		if (creditNoteNumber != null) {
+			setCreditNoteNumber(creditNoteNumber);
 		}
 
 		Double creditNoteAmount = (Double)attributes.get("creditNoteAmount");
@@ -208,6 +229,12 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 
 		if (bankName != null) {
 			setBankName(bankName);
+		}
+
+		String financialYear = (String)attributes.get("financialYear");
+
+		if (financialYear != null) {
+			setFinancialYear(financialYear);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -268,6 +295,31 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 	}
 
 	@Override
+	public long getBillingId() {
+		return _billingId;
+	}
+
+	@Override
+	public void setBillingId(long billingId) {
+		_billingId = billingId;
+	}
+
+	@Override
+	public String getCreditNoteNumber() {
+		if (_creditNoteNumber == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _creditNoteNumber;
+		}
+	}
+
+	@Override
+	public void setCreditNoteNumber(String creditNoteNumber) {
+		_creditNoteNumber = creditNoteNumber;
+	}
+
+	@Override
 	public double getCreditNoteAmount() {
 		return _creditNoteAmount;
 	}
@@ -325,6 +377,21 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 	@Override
 	public void setBankName(String bankName) {
 		_bankName = bankName;
+	}
+
+	@Override
+	public String getFinancialYear() {
+		if (_financialYear == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _financialYear;
+		}
+	}
+
+	@Override
+	public void setFinancialYear(String financialYear) {
+		_financialYear = financialYear;
 	}
 
 	@Override
@@ -406,11 +473,14 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 
 		creditNoteImpl.setCreditNoteId(getCreditNoteId());
 		creditNoteImpl.setClientId(getClientId());
+		creditNoteImpl.setBillingId(getBillingId());
+		creditNoteImpl.setCreditNoteNumber(getCreditNoteNumber());
 		creditNoteImpl.setCreditNoteAmount(getCreditNoteAmount());
 		creditNoteImpl.setCreditNoteTax(getCreditNoteTax());
 		creditNoteImpl.setPaymentDate(getPaymentDate());
 		creditNoteImpl.setChequeNo(getChequeNo());
 		creditNoteImpl.setBankName(getBankName());
+		creditNoteImpl.setFinancialYear(getFinancialYear());
 		creditNoteImpl.setCreateDate(getCreateDate());
 		creditNoteImpl.setCreatedBy(getCreatedBy());
 		creditNoteImpl.setModifiedDate(getModifiedDate());
@@ -494,6 +564,16 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 
 		creditNoteCacheModel.clientId = getClientId();
 
+		creditNoteCacheModel.billingId = getBillingId();
+
+		creditNoteCacheModel.creditNoteNumber = getCreditNoteNumber();
+
+		String creditNoteNumber = creditNoteCacheModel.creditNoteNumber;
+
+		if ((creditNoteNumber != null) && (creditNoteNumber.length() == 0)) {
+			creditNoteCacheModel.creditNoteNumber = null;
+		}
+
 		creditNoteCacheModel.creditNoteAmount = getCreditNoteAmount();
 
 		creditNoteCacheModel.creditNoteTax = getCreditNoteTax();
@@ -523,6 +603,14 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 			creditNoteCacheModel.bankName = null;
 		}
 
+		creditNoteCacheModel.financialYear = getFinancialYear();
+
+		String financialYear = creditNoteCacheModel.financialYear;
+
+		if ((financialYear != null) && (financialYear.length() == 0)) {
+			creditNoteCacheModel.financialYear = null;
+		}
+
 		Date createDate = getCreateDate();
 
 		if (createDate != null) {
@@ -550,12 +638,16 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{creditNoteId=");
 		sb.append(getCreditNoteId());
 		sb.append(", clientId=");
 		sb.append(getClientId());
+		sb.append(", billingId=");
+		sb.append(getBillingId());
+		sb.append(", creditNoteNumber=");
+		sb.append(getCreditNoteNumber());
 		sb.append(", creditNoteAmount=");
 		sb.append(getCreditNoteAmount());
 		sb.append(", creditNoteTax=");
@@ -566,6 +658,8 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 		sb.append(getChequeNo());
 		sb.append(", bankName=");
 		sb.append(getBankName());
+		sb.append(", financialYear=");
+		sb.append(getFinancialYear());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
 		sb.append(", createdBy=");
@@ -581,7 +675,7 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(46);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.CreditNote");
@@ -594,6 +688,14 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 		sb.append(
 			"<column><column-name>clientId</column-name><column-value><![CDATA[");
 		sb.append(getClientId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>billingId</column-name><column-value><![CDATA[");
+		sb.append(getBillingId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>creditNoteNumber</column-name><column-value><![CDATA[");
+		sb.append(getCreditNoteNumber());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>creditNoteAmount</column-name><column-value><![CDATA[");
@@ -614,6 +716,10 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 		sb.append(
 			"<column><column-name>bankName</column-name><column-value><![CDATA[");
 		sb.append(getBankName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>financialYear</column-name><column-value><![CDATA[");
+		sb.append(getFinancialYear());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
@@ -645,11 +751,14 @@ public class CreditNoteModelImpl extends BaseModelImpl<CreditNote>
 	private long _clientId;
 	private long _originalClientId;
 	private boolean _setOriginalClientId;
+	private long _billingId;
+	private String _creditNoteNumber;
 	private double _creditNoteAmount;
 	private double _creditNoteTax;
 	private Date _paymentDate;
 	private String _chequeNo;
 	private String _bankName;
+	private String _financialYear;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

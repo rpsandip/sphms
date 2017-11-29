@@ -1,24 +1,21 @@
 package com.booking.portlet.portlet.actioncommand;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
 import org.osgi.service.component.annotations.Component;
 
 import com.booking.portlet.portlet.util.BookingPortletConstant;
-import com.booking.portlet.portlet.util.FileUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -110,6 +107,7 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 						_log.error(e1);
 					}
 				
+					/*
 					FileEntry xlsxFileEntry= null;
 					try {
 						xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,billing_HordingBeansList, false, company);
@@ -129,7 +127,7 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 							billing.setBillFileEntryId(xlsxFileEntry.getFileEntryId());
 							BillingLocalServiceUtil.updateBilling(billing);
 						}
-					}
+					}*/
 					SessionMessages.add(actionRequest, "booking-added-successfully");
 				}else{
 					SessionErrors.add(actionRequest, "err-add-booking");
@@ -162,12 +160,13 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 					_log.error(e1);
 				}
 				
+				/*
 				FileEntry xlsxFileEntry= null;
 				try {
 					xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,billing_HordingBeansList, true, company);
 				} catch (PortalException | IOException e) {
 					_log.error(e);
-				}
+				}*/
 				
 				SessionMessages.add(actionRequest, "booking-updated-successfully");
 			}else{

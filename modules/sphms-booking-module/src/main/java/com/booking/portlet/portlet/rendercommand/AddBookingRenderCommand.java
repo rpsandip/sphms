@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.Booking_HordingBean;
@@ -43,6 +44,11 @@ public class AddBookingRenderCommand implements MVCRenderCommand{
 	
 	@Override
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {
+		
+		String startDate = ParamUtil.getString(renderRequest, "startDate");
+		String endDate = ParamUtil.getString(renderRequest, "endDate");
+		
+		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
 		
 		String selectedHordings = ParamUtil.getString(renderRequest, "selectedHordingIds");
 		String selectedBookinghordings = ParamUtil.getString(renderRequest, "selectedBookingHordings");
@@ -74,6 +80,8 @@ public class AddBookingRenderCommand implements MVCRenderCommand{
 				}
 			}
 			renderRequest.setAttribute("hordindList", hordingList);
+			renderRequest.setAttribute("startDate", startDate);
+			renderRequest.setAttribute("endDate", endDate);
 		}else{
 			List<Booking_HordingBean> bookingHordingBeanList = new ArrayList<Booking_HordingBean>();
 			for(String hordingId  : selectedHordingIds){
@@ -114,7 +122,13 @@ public class AddBookingRenderCommand implements MVCRenderCommand{
 		renderRequest.setAttribute("bookingId", bookingId);
 		renderRequest.setAttribute("selectedHordingIds", selectedHordings);
 		renderRequest.setAttribute("selectedBookinghordings", selectedBookinghordings);
+		
 		return "/booking/add_booking.jsp";
+		
+		}else{
+			SessionErrors.add(renderRequest, "select-start-end-date");
+			return "/booking/prepare_booking.jsp";
+		}
 	}
 
 }

@@ -38,6 +38,7 @@ public class BookingSoap implements Serializable {
 		soapModel.setCampaignTitle(model.getCampaignTitle());
 		soapModel.setClient(model.getClient());
 		soapModel.setBillId(model.getBillId());
+		soapModel.setStatus(model.getStatus());
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setEndDate(model.getEndDate());
 		soapModel.setCreateDate(model.getCreateDate());
@@ -136,6 +137,14 @@ public class BookingSoap implements Serializable {
 		_billId = billId;
 	}
 
+	public int getStatus() {
+		return _status;
+	}
+
+	public void setStatus(int status) {
+		_status = status;
+	}
+
 	public Date getStartDate() {
 		return _startDate;
 	}
@@ -189,6 +198,7 @@ public class BookingSoap implements Serializable {
 	private String _campaignTitle;
 	private long _client;
 	private long _billId;
+	private int _status;
 	private Date _startDate;
 	private Date _endDate;
 	private Date _createDate;

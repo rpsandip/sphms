@@ -31,14 +31,19 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.Booking_HordingBean;
+import com.sphms.common.service.exception.NoSuchBillingException;
 import com.sphms.common.service.model.Billing;
+import com.sphms.common.service.model.Billing_Hording;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Booking_Hording;
+import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_HordingLocalServiceUtil;
 import com.sphms.common.service.service.BookingLocalServiceUtil;
 import com.sphms.common.service.service.Booking_HordingLocalServiceUtil;
+import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.common.service.service.base.BookingLocalServiceBaseImpl;
+import com.sphms.common.service.util.BookingStatus;
 
 /**
  * The implementation of the booking local service.
@@ -73,7 +78,7 @@ public class BookingLocalServiceImpl extends BookingLocalServiceBaseImpl {
 		booking.setEndDate(endDate);
 		booking.setCreatedBy(createdBy);
 		booking.setModifiedBy(modifiedBy);
-		
+		booking.setStatus(BookingStatus.ACTIVE.getValue());
 		booking = BookingLocalServiceUtil.addBooking(booking);
 		
 		if(Validator.isNotNull(booking)){
@@ -116,6 +121,8 @@ public class BookingLocalServiceImpl extends BookingLocalServiceBaseImpl {
 			
 			booking = BookingLocalServiceUtil.updateBooking(booking);
 			
+			CustomCompany company = CustomCompanyLocalServiceUtil.getCustomCompany(booking.getCustomCompanyId());
+			
 			if(Validator.isNotNull(booking)){
 				
 				// Update Booking Hordings
@@ -127,7 +134,7 @@ public class BookingLocalServiceImpl extends BookingLocalServiceBaseImpl {
 				BillingLocalServiceUtil.updateBilling(billing);
 				
 				// Update Billing Hording units, total printing charge, total mounting charge.
-				BillingLocalServiceUtil.updateBillingHordings(billing, booking);
+				BillingLocalServiceUtil.updateBillingHordings(billing, booking, company);
 				
 			}
 		
@@ -170,6 +177,19 @@ public class BookingLocalServiceImpl extends BookingLocalServiceBaseImpl {
 	
 	public long getBookingCount(long clientId, Date startDate, Date endDate){
 		return getBookingList(clientId, startDate, endDate, -1, -1).size();
+	}
+	
+	public boolean updateBookingStatus(long bookingId, int status) throws PortalException{
+		
+		Booking booking = BookingLocalServiceUtil.getBooking(bookingId);
+		booking.setStatus(status);
+		booking = BookingLocalServiceUtil.updateBooking(booking);
+			
+		Billing billing = BillingLocalServiceUtil.getBillingFromBookingId(bookingId);
+		billing.setStatus(status);
+		billing = BillingLocalServiceUtil.updateBilling(billing);
+	
+		return true;
 	}
 	
 }

@@ -21,12 +21,14 @@ public class BookingBean {
 	private Date startDate;
 	private Date endDate;
 	private String billURL;
+	private int status;
 	
 	public BookingBean(Booking booking){
 		this.bookingId = booking.getBookingId();
 		this.campaignTitle = booking.getCampaignTitle();
 		this.startDate = booking.getStartDate();
 		this.endDate = booking.getEndDate();
+		this.status = booking.getStatus();
 		
 		if(booking.getClient()>0){
 			try {
@@ -82,6 +84,14 @@ public class BookingBean {
 	}
 	public void setBillURL(String billURL) {
 		this.billURL = billURL;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	

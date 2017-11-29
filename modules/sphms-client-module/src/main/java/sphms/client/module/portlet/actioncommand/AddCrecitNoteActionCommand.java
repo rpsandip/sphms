@@ -43,6 +43,7 @@ public class AddCrecitNoteActionCommand extends BaseMVCActionCommand {
 		
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		long clientId = ParamUtil.getLong(actionRequest, "clientId");
+		long billingId = ParamUtil.getLong(actionRequest, "billingId");
 		double amount = ParamUtil.getDouble(actionRequest, "amount");
 		double tax = ParamUtil.getDouble(actionRequest, "tax");
 		String paymentDateStr = ParamUtil.getString(actionRequest, "paymentDate");
@@ -53,7 +54,7 @@ public class AddCrecitNoteActionCommand extends BaseMVCActionCommand {
 		
 		if(creditNoteId==0){
 			// Add Credit Note
-			CreditNote creditNote = CreditNoteLocalServiceUtil.addCreditNote(clientId, amount, tax,
+			CreditNote creditNote = CreditNoteLocalServiceUtil.addCreditNote(clientId, billingId,amount, tax,
 					chequeNo, bankName, paymentDate, themeDisplay.getUserId());
 			
 			if(Validator.isNotNull(creditNote)){
@@ -65,7 +66,7 @@ public class AddCrecitNoteActionCommand extends BaseMVCActionCommand {
 			}
 		}else{
 			
-			CreditNote creditNote = CreditNoteLocalServiceUtil.updateCreditNote(creditNoteId, amount, 
+			CreditNote creditNote = CreditNoteLocalServiceUtil.updateCreditNote(creditNoteId, billingId,amount, 
 					tax, chequeNo, bankName, paymentDate, themeDisplay.getUserId());
 			
 			if(Validator.isNotNull(creditNote)){

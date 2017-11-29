@@ -9,6 +9,7 @@
         <portlet:param name="mvcRenderCommandName" value="/add_proposal" />
 </portlet:renderURL>
 
+<liferay-ui:error key="select-start-end-date" message="select-start-end-date"/>
 
 <section class="content-header">
 	<h1>
@@ -38,32 +39,24 @@
 						<aui:input type="text" name="city" label="city"/>
 				 </div>
 				 <div class="form-group col-md-12">
-				 	<aui:select name="width" label="width" cssClass="form-control">
-	       					 	<aui:option value="">Select Width</aui:option>
-	       					 	<aui:option value="5" selected='${hordingBean.height eq 5 ? true : false }'>5</aui:option>
-	       					 	<aui:option value="10" selected='${hordingBean.height eq 10 ? true : false }'>10</aui:option>
-	       					 	<aui:option value="15" selected='${hordingBean.height eq 15 ? true : false }'>15</aui:option>
-	       					 	<aui:option value="20" selected='${hordingBean.height eq 20 ? true : false }'>20</aui:option>
-	       					 	<aui:option value="25" selected='${hordingBean.height eq 25 ? true : false }'>25</aui:option>
-	       					 	<aui:option value="30" selected='${hordingBean.height eq 30 ? true : false }'>30</aui:option>
-					</aui:select>
+				 	<aui:input type="text" name="width" label="width">
+				 		<aui:validator name="number"></aui:validator>
+				 	</aui:input>
 				 </div>
 				 <div class="form-group col-md-12">
-				 	<aui:select name="height" label="hight" cssClass="form-control">
-	       					 	<aui:option value="">Select Height</aui:option>
-	       					 	<aui:option value="5" selected='${hordingBean.height eq 5 ? true : false }'>5</aui:option>
-	       					 	<aui:option value="10" selected='${hordingBean.height eq 10 ? true : false }'>10</aui:option>
-	       					 	<aui:option value="15" selected='${hordingBean.height eq 15 ? true : false }'>15</aui:option>
-	       					 	<aui:option value="20" selected='${hordingBean.height eq 20 ? true : false }'>20</aui:option>
-	       					 	<aui:option value="25" selected='${hordingBean.height eq 25 ? true : false }'>25</aui:option>
-	       					 	<aui:option value="30" selected='${hordingBean.height eq 30 ? true : false }'>30</aui:option>
-					</aui:select>
+				 	<aui:input type="text" name="height" label="height">
+				 		<aui:validator name="number"></aui:validator>
+				 	</aui:input>
 				 </div>
 				 <div class="form-group col-md-12">
-				 	<aui:input name="startDate" label="start.date" cssClass="form-control"/> 
+				 	<aui:input name="startDate" label="start.date" cssClass="form-control">
+				 		<aui:validator name="required"></aui:validator>
+				 	</aui:input> 
 				 </div>
 				  <div class="form-group col-md-12">
-				 	<aui:input name="endDate" label="end.date" cssClass="form-control"/> 
+				 	<aui:input name="endDate" label="end.date" cssClass="form-control">
+				 		<aui:validator name="required"></aui:validator>
+				 	</aui:input> 
 				 </div>
 				 <div class="col-sm-12">
                        	<aui:button type="button" value="Search"  cssClass="submitserarchBtn btn btn-primary"/>
@@ -99,7 +92,7 @@ jQuery.noConflict();
 (function($) {
     $(function() {
     	
-    	
+     AUI().use('aui-base','liferay-portlet-url', function(A) {
     	
 	  //Date picker
 	  $('#'+ '<portlet:namespace/>' + 'startDate').datepicker({
@@ -112,9 +105,9 @@ jQuery.noConflict();
 		    autoclose: true
 	  });
 	  
-	  AUI().use('aui-base','liferay-portlet-url', function(A) {
-		  
-		  var keyword = $('#'+ '<portlet:namespace/>' + 'keyword').val();
+	  
+		  // TODO : Need some work here 
+		  var keyword = "dcdsavjkdsnvjkvdnvjkdvndsjknvjvnjnvnj";//$('#'+ '<portlet:namespace/>' + 'keyword').val();
 		  var city = $('#'+ '<portlet:namespace/>' + 'city').val();
 		  var height = $('#'+ '<portlet:namespace/>' + 'height').val();
 		  var width = $('#'+ '<portlet:namespace/>' + 'width').val();
@@ -138,8 +131,7 @@ jQuery.noConflict();
      	                    }
      	                ]
      	 });
-      });
-    });
+    
     
     var renderHordingDate = function(data){
     	var dataHtml='';
@@ -185,6 +177,12 @@ jQuery.noConflict();
     
     $(".submitserarchBtn").on('click',function(){
     	
+    	var formValidator = Liferay.Form.get('<portlet:namespace />searchHordingFrm').formValidator;
+		formValidator.validate();
+		if(formValidator.hasErrors()){
+			return false;
+		}
+    	
     	var keyword = $('#'+ '<portlet:namespace/>' + 'keyword').val();
 		  var city = $('#'+ '<portlet:namespace/>' + 'city').val();
 		  var height = $('#'+ '<portlet:namespace/>' + 'height').val();
@@ -226,8 +224,15 @@ jQuery.noConflict();
     
     $(document).on('click', '.add-proposal', function() {
     	var addProposalURL = '${addProposalURL}';
+    	
+    	var formValidator = Liferay.Form.get('<portlet:namespace />searchHordingFrm').formValidator;
+		formValidator.validate();
+		if(formValidator.hasErrors()){
+			return false;
+		}
+    	
     	var selectedHordingList = $("#<portlet:namespace/>selectedhordings").val();
-    	addProposalURL = addProposalURL + "&<portlet:namespace/>selectedHordingIds="+selectedHordingList;
+    	addProposalURL = addProposalURL + "&<portlet:namespace/>selectedHordingIds="+selectedHordingList+"&<portlet:namespace/>startDate="+A.one("#<portlet:namespace />startDate").val()+"&<portlet:namespace/>endDate="+A.one("#<portlet:namespace />endDate").val();;
     	window.location.href=addProposalURL;
     });
     
@@ -248,5 +253,8 @@ jQuery.noConflict();
     	}
     }
 
+	  });
+    });
+    
 })(jQuery);
 </script>

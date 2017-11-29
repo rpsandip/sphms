@@ -62,6 +62,9 @@ public interface BookingLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link BookingLocalServiceUtil} to access the booking local service. Add custom service methods to {@link com.sphms.common.service.service.impl.BookingLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public boolean updateBookingStatus(long bookingId, int status)
+		throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

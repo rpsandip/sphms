@@ -73,6 +73,7 @@
 		<property name="campaignTitle" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="client" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="billId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
@@ -109,11 +110,14 @@
 			<generator class="assigned" />
 		</id>
 		<property name="clientId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="billingId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="creditNoteNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="creditNoteAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="creditNoteTax" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="paymentDate" type="org.hibernate.type.TimestampType" />
 		<property name="chequeNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="bankName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="financialYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />

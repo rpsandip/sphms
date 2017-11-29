@@ -91,6 +91,35 @@ public interface CreditNoteModel extends BaseModel<CreditNote> {
 	public void setClientId(long clientId);
 
 	/**
+	 * Returns the billing ID of this credit note.
+	 *
+	 * @return the billing ID of this credit note
+	 */
+	public long getBillingId();
+
+	/**
+	 * Sets the billing ID of this credit note.
+	 *
+	 * @param billingId the billing ID of this credit note
+	 */
+	public void setBillingId(long billingId);
+
+	/**
+	 * Returns the credit note number of this credit note.
+	 *
+	 * @return the credit note number of this credit note
+	 */
+	@AutoEscape
+	public String getCreditNoteNumber();
+
+	/**
+	 * Sets the credit note number of this credit note.
+	 *
+	 * @param creditNoteNumber the credit note number of this credit note
+	 */
+	public void setCreditNoteNumber(String creditNoteNumber);
+
+	/**
 	 * Returns the credit note amount of this credit note.
 	 *
 	 * @return the credit note amount of this credit note
@@ -161,6 +190,21 @@ public interface CreditNoteModel extends BaseModel<CreditNote> {
 	 * @param bankName the bank name of this credit note
 	 */
 	public void setBankName(String bankName);
+
+	/**
+	 * Returns the financial year of this credit note.
+	 *
+	 * @return the financial year of this credit note
+	 */
+	@AutoEscape
+	public String getFinancialYear();
+
+	/**
+	 * Sets the financial year of this credit note.
+	 *
+	 * @param financialYear the financial year of this credit note
+	 */
+	public void setFinancialYear(String financialYear);
 
 	/**
 	 * Returns the create date of this credit note.

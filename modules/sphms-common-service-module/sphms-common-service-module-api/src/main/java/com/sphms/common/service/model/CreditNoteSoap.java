@@ -35,11 +35,14 @@ public class CreditNoteSoap implements Serializable {
 
 		soapModel.setCreditNoteId(model.getCreditNoteId());
 		soapModel.setClientId(model.getClientId());
+		soapModel.setBillingId(model.getBillingId());
+		soapModel.setCreditNoteNumber(model.getCreditNoteNumber());
 		soapModel.setCreditNoteAmount(model.getCreditNoteAmount());
 		soapModel.setCreditNoteTax(model.getCreditNoteTax());
 		soapModel.setPaymentDate(model.getPaymentDate());
 		soapModel.setChequeNo(model.getChequeNo());
 		soapModel.setBankName(model.getBankName());
+		soapModel.setFinancialYear(model.getFinancialYear());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setCreatedBy(model.getCreatedBy());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -112,6 +115,22 @@ public class CreditNoteSoap implements Serializable {
 		_clientId = clientId;
 	}
 
+	public long getBillingId() {
+		return _billingId;
+	}
+
+	public void setBillingId(long billingId) {
+		_billingId = billingId;
+	}
+
+	public String getCreditNoteNumber() {
+		return _creditNoteNumber;
+	}
+
+	public void setCreditNoteNumber(String creditNoteNumber) {
+		_creditNoteNumber = creditNoteNumber;
+	}
+
 	public double getCreditNoteAmount() {
 		return _creditNoteAmount;
 	}
@@ -152,6 +171,14 @@ public class CreditNoteSoap implements Serializable {
 		_bankName = bankName;
 	}
 
+	public String getFinancialYear() {
+		return _financialYear;
+	}
+
+	public void setFinancialYear(String financialYear) {
+		_financialYear = financialYear;
+	}
+
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -186,11 +213,14 @@ public class CreditNoteSoap implements Serializable {
 
 	private long _creditNoteId;
 	private long _clientId;
+	private long _billingId;
+	private String _creditNoteNumber;
 	private double _creditNoteAmount;
 	private double _creditNoteTax;
 	private Date _paymentDate;
 	private String _chequeNo;
 	private String _bankName;
+	private String _financialYear;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

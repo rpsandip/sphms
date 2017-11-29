@@ -12,6 +12,7 @@ Import-Package: !com.sun.javadoc,\
     com.liferay.document.library.kernel.*,\
     com.liferay.journal.model.*,\
     com.sphms.common.service.service.*,\
+     com.sphms.common.service.util.*,\
     com.sphms.common.service.beans.*,\
     com.sphms.common.service.model.*
 Export-Package: com.booking.portlet.portlet.util    

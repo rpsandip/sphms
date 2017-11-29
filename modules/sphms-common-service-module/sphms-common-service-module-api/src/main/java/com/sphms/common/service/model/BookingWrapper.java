@@ -62,6 +62,7 @@ public class BookingWrapper implements Booking, ModelWrapper<Booking> {
 		attributes.put("campaignTitle", getCampaignTitle());
 		attributes.put("client", getClient());
 		attributes.put("billId", getBillId());
+		attributes.put("status", getStatus());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
 		attributes.put("createDate", getCreateDate());
@@ -102,6 +103,12 @@ public class BookingWrapper implements Booking, ModelWrapper<Booking> {
 
 		if (billId != null) {
 			setBillId(billId);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
 		}
 
 		Date startDate = (Date)attributes.get("startDate");
@@ -179,6 +186,16 @@ public class BookingWrapper implements Booking, ModelWrapper<Booking> {
 	@Override
 	public int compareTo(Booking booking) {
 		return _booking.compareTo(booking);
+	}
+
+	/**
+	* Returns the status of this booking.
+	*
+	* @return the status of this booking
+	*/
+	@Override
+	public int getStatus() {
+		return _booking.getStatus();
 	}
 
 	@Override
@@ -480,6 +497,16 @@ public class BookingWrapper implements Booking, ModelWrapper<Booking> {
 	@Override
 	public void setStartDate(Date startDate) {
 		_booking.setStartDate(startDate);
+	}
+
+	/**
+	* Sets the status of this booking.
+	*
+	* @param status the status of this booking
+	*/
+	@Override
+	public void setStatus(int status) {
+		_booking.setStatus(status);
 	}
 
 	@Override

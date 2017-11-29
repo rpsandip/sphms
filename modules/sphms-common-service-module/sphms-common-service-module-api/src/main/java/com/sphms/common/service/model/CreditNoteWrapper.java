@@ -59,11 +59,14 @@ public class CreditNoteWrapper implements CreditNote, ModelWrapper<CreditNote> {
 
 		attributes.put("creditNoteId", getCreditNoteId());
 		attributes.put("clientId", getClientId());
+		attributes.put("billingId", getBillingId());
+		attributes.put("creditNoteNumber", getCreditNoteNumber());
 		attributes.put("creditNoteAmount", getCreditNoteAmount());
 		attributes.put("creditNoteTax", getCreditNoteTax());
 		attributes.put("paymentDate", getPaymentDate());
 		attributes.put("chequeNo", getChequeNo());
 		attributes.put("bankName", getBankName());
+		attributes.put("financialYear", getFinancialYear());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -84,6 +87,18 @@ public class CreditNoteWrapper implements CreditNote, ModelWrapper<CreditNote> {
 
 		if (clientId != null) {
 			setClientId(clientId);
+		}
+
+		Long billingId = (Long)attributes.get("billingId");
+
+		if (billingId != null) {
+			setBillingId(billingId);
+		}
+
+		String creditNoteNumber = (String)attributes.get("creditNoteNumber");
+
+		if (creditNoteNumber != null) {
+			setCreditNoteNumber(creditNoteNumber);
 		}
 
 		Double creditNoteAmount = (Double)attributes.get("creditNoteAmount");
@@ -114,6 +129,12 @@ public class CreditNoteWrapper implements CreditNote, ModelWrapper<CreditNote> {
 
 		if (bankName != null) {
 			setBankName(bankName);
+		}
+
+		String financialYear = (String)attributes.get("financialYear");
+
+		if (financialYear != null) {
+			setFinancialYear(financialYear);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -236,6 +257,26 @@ public class CreditNoteWrapper implements CreditNote, ModelWrapper<CreditNote> {
 		return _creditNote.getChequeNo();
 	}
 
+	/**
+	* Returns the credit note number of this credit note.
+	*
+	* @return the credit note number of this credit note
+	*/
+	@Override
+	public java.lang.String getCreditNoteNumber() {
+		return _creditNote.getCreditNoteNumber();
+	}
+
+	/**
+	* Returns the financial year of this credit note.
+	*
+	* @return the financial year of this credit note
+	*/
+	@Override
+	public java.lang.String getFinancialYear() {
+		return _creditNote.getFinancialYear();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _creditNote.toString();
@@ -274,6 +315,16 @@ public class CreditNoteWrapper implements CreditNote, ModelWrapper<CreditNote> {
 	@Override
 	public Date getPaymentDate() {
 		return _creditNote.getPaymentDate();
+	}
+
+	/**
+	* Returns the billing ID of this credit note.
+	*
+	* @return the billing ID of this credit note
+	*/
+	@Override
+	public long getBillingId() {
+		return _creditNote.getBillingId();
 	}
 
 	/**
@@ -339,6 +390,16 @@ public class CreditNoteWrapper implements CreditNote, ModelWrapper<CreditNote> {
 	@Override
 	public void setBankName(java.lang.String bankName) {
 		_creditNote.setBankName(bankName);
+	}
+
+	/**
+	* Sets the billing ID of this credit note.
+	*
+	* @param billingId the billing ID of this credit note
+	*/
+	@Override
+	public void setBillingId(long billingId) {
+		_creditNote.setBillingId(billingId);
 	}
 
 	@Override
@@ -407,6 +468,16 @@ public class CreditNoteWrapper implements CreditNote, ModelWrapper<CreditNote> {
 	}
 
 	/**
+	* Sets the credit note number of this credit note.
+	*
+	* @param creditNoteNumber the credit note number of this credit note
+	*/
+	@Override
+	public void setCreditNoteNumber(java.lang.String creditNoteNumber) {
+		_creditNote.setCreditNoteNumber(creditNoteNumber);
+	}
+
+	/**
 	* Sets the credit note tax of this credit note.
 	*
 	* @param creditNoteTax the credit note tax of this credit note
@@ -430,6 +501,16 @@ public class CreditNoteWrapper implements CreditNote, ModelWrapper<CreditNote> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_creditNote.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the financial year of this credit note.
+	*
+	* @param financialYear the financial year of this credit note
+	*/
+	@Override
+	public void setFinancialYear(java.lang.String financialYear) {
+		_creditNote.setFinancialYear(financialYear);
 	}
 
 	/**

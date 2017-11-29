@@ -38,12 +38,24 @@ public class PrepareBookingRenderCommand implements MVCRenderCommand{
 		long bookingId = ParamUtil.getLong(renderRequest, "bookingId");
 		renderRequest.setAttribute("bookingId", bookingId);
 		String selectedHordingList = StringPool.BLANK;
-		List<Booking_Hording> bookingHoridngList = Booking_HordingLocalServiceUtil.getBookingHordingsList(bookingId);
 		List<Booking_HordingBean> bookingHordingBeanList = new ArrayList<Booking_HordingBean>();
-		for(Booking_Hording bookingHording : bookingHoridngList){
-			Booking_HordingBean bookingHordingBean = new Booking_HordingBean(bookingHording);
-			bookingHordingBeanList.add(bookingHordingBean);
-			selectedHordingList += bookingHording.getHordingId()+StringPool.COMMA;
+		
+		if(bookingId>0){
+			List<Booking_Hording> bookingHoridngList = Booking_HordingLocalServiceUtil.getBookingHordingsList(bookingId);
+			
+			for(Booking_Hording bookingHording : bookingHoridngList){
+				Booking_HordingBean bookingHordingBean = new Booking_HordingBean(bookingHording);
+				bookingHordingBeanList.add(bookingHordingBean);
+				selectedHordingList += bookingHording.getHordingId()+StringPool.COMMA;
+			}
+			
+			try {
+				Booking booking = BookingLocalServiceUtil.getBooking(bookingId);
+				renderRequest.setAttribute("booking", booking);
+			} catch (PortalException e) {
+				_log.error(e);
+				return "/view.jsp";
+			}
 		}
 		renderRequest.setAttribute("selectedHordings", selectedHordingList);
 		renderRequest.setAttribute("bookingHordingBeanList", bookingHordingBeanList);

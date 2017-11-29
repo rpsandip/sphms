@@ -96,13 +96,13 @@ public class UpdateBillingActionCommand extends BaseMVCActionCommand{
 				Billing_HordingBean billingHordingBean = new Billing_HordingBean(billingHording);
 				billing_HordingBeansList.add(billingHordingBean);
 			}
-			
+			/*
 			FileEntry xlsxFileEntry= null;
 			try {
 				xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,billing_HordingBeansList, true, company);
 			} catch (PortalException | IOException e) {
 				_log.error(e);
-			}
+			}*/
 			
 			SessionMessages.add(actionRequest, "billing-updated-successfully");
 		}else{
