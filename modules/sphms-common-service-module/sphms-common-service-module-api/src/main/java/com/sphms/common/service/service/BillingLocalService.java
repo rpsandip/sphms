@@ -168,6 +168,9 @@ public interface BillingLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getBillingsCount();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.String getDisplayBillNo(Billing billing);
+
 	/**
 	* Returns the OSGi service identifier.
 	*

@@ -11,7 +11,7 @@
     		<liferay-ui:message key="edit.billing"/> 
     	</span>
     	<span class="pull-right">
-    		<h4>Bill No : </h4> ${billingBean.billNo }
+    		<h4>Bill No : </h4> ${billingBean.displayBillNo }
     	</span>
   	</h1>
 </section>

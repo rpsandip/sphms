@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.BillingBean;
 import com.sphms.common.service.beans.Billing_HordingBean;
@@ -89,7 +90,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			billing.setAccessAmount(accessAmount);
 			billing.setPendingAmount(pendingAmount);
 			billing.setClientGSTNumber(clientGSTNum);
-			billing.setBillNo(getNextBillNo());
+			billing.setBillNo(getNextBillNo(companyId));
 			billing.setFinancialYear(SPHMSCommonLocalServiceUtil.getFinancialYear());
 			billing.setCreatedBy(createdBy);
 			billing.setModifiedBy(createdBy);
@@ -300,21 +301,22 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		return getBillingList(clientId, startDate, endDate, -1, -1).size();
 	}
 	
-	private String getNextBillNo(){
+	private String getNextBillNo(long companyId){
 		DynamicQuery dynamicQuery = BillingLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("financialYear", SPHMSCommonLocalServiceUtil.getFinancialYear()));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", companyId));
 		Order defaultOrder = OrderFactoryUtil.desc("createDate");
 		dynamicQuery.addOrder(defaultOrder);
 		dynamicQuery.setLimit(0, 1);
 		List<Billing> billingList = BillingLocalServiceUtil.dynamicQuery(dynamicQuery);
 		
 		if(billingList.size()==0){
-			String baseYear = "2017"; //PropsUtil.get("base.year.bill.no");
-			String prefix = "9"; // PropsUtil.get("base.prefix.bill.no");
-			int year = Calendar.getInstance().get(Calendar.YEAR);
-			int yearDiff= (year-Integer.parseInt(baseYear));
-			int prefixDiff = Integer.parseInt(prefix)+yearDiff;
-			return prefixDiff+String.format("%04d", 1);
+//			String baseYear = "2017"; //PropsUtil.get("base.year.bill.no");
+//			String prefix = "9"; // PropsUtil.get("base.prefix.bill.no");
+//			int year = Calendar.getInstance().get(Calendar.YEAR);
+//			int yearDiff= (year-Integer.parseInt(baseYear));
+//			int prefixDiff = Integer.parseInt(prefix)+yearDiff;
+			return String.format("%04d", 1);
 		}else{
 			return String.format("%04d", Integer.parseInt(billingList.get(0).getBillNo())+1);
 		}
@@ -328,5 +330,20 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			billingBeanList.add(billingBean);
 		}
 		return billingBeanList;
+	}
+	
+	public String getDisplayBillNo(Billing billing){
+		String displayBillNo = StringPool.BLANK;
+		if(Validator.isNotNull(billing)){
+			try {
+				CustomCompany customCompany = CustomCompanyLocalServiceUtil.getCustomCompany(billing.getCustomCompanyId());
+				return customCompany.getPoPrefix()+StringPool.SLASH+billing.getBillNo()+StringPool.SLASH+billing.getFinancialYear();
+			} catch (PortalException e) {
+				_log.error(e);
+			}
+			
+		}
+		
+		return displayBillNo;
 	}
 }

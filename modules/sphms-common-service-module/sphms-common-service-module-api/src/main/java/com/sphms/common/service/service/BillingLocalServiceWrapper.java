@@ -185,6 +185,12 @@ public class BillingLocalServiceWrapper implements BillingLocalService,
 		return _billingLocalService.getBillingsCount();
 	}
 
+	@Override
+	public java.lang.String getDisplayBillNo(
+		com.sphms.common.service.model.Billing billing) {
+		return _billingLocalService.getDisplayBillNo(billing);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

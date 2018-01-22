@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Client;
+import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.BookingLocalServiceUtil;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
@@ -41,6 +42,7 @@ public class BillingBean {
 	private Date modifiedDate;
 	private long createdBy;
 	private long modifiedBy;
+	private String displayBillNo;
 	
 	public BillingBean(Billing billing){
 		this.billingId = billing.getBillingId();
@@ -60,6 +62,7 @@ public class BillingBean {
 		this.createdBy = billing.getCreatedBy();
 		this.modifiedDate = billing.getModifiedDate();
 		this.modifiedBy = billing.getModifiedBy();
+		this.displayBillNo = BillingLocalServiceUtil.getDisplayBillNo(billing);
 		
 		if(this.clientId>0){
 			try {
@@ -222,5 +225,16 @@ public class BillingBean {
 	public void setBillDocumentURL(String billDocumentURL) {
 		this.billDocumentURL = billDocumentURL;
 	}
+
+
+	public String getDisplayBillNo() {
+		return displayBillNo;
+	}
+
+
+	public void setDisplayBillNo(String displayBillNo) {
+		this.displayBillNo = displayBillNo;
+	}
+	
 	
 }

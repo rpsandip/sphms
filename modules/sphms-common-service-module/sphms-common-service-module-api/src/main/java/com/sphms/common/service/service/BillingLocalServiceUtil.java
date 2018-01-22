@@ -184,6 +184,11 @@ public class BillingLocalServiceUtil {
 		return getService().getBillingsCount();
 	}
 
+	public static java.lang.String getDisplayBillNo(
+		com.sphms.common.service.model.Billing billing) {
+		return getService().getDisplayBillNo(billing);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

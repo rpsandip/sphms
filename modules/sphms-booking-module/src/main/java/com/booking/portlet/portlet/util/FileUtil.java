@@ -42,6 +42,7 @@ import com.sphms.common.service.model.Client;
 import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.model.Proposal;
+import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
 import com.booking.portlet.portlet.util.NumberToWord;
@@ -99,6 +100,7 @@ public class FileUtil {
 		index = createBlankRow(sheet, wb,index);
 		
 		// Ad-Space lebel,
+		int billTypeLabelRowindex = index;
 		index = createAddSpaceChargeLabelRow(sheet,wb,index, font);
 		
 		//PO Number Section
@@ -110,12 +112,29 @@ public class FileUtil {
 		
 		// Hoarding data
 		List<Double> hordingsTotalAmountList = new ArrayList<Double>();
+		List<Double> totalPrintingChargeList = new ArrayList<Double>();
+		List<Double> totalMountingChargeList = new ArrayList<Double>();
 		for(int i=0;i<billingHordingList.size();i++){
-			index =  createHordingDataRow(sheet, wb, index, i,billingHordingList.size(), billingHordingList.get(i).getHording(),booking, billingHordingList.get(i),hordingsTotalAmountList);
+			index =  createHordingDataRow(sheet, wb, index, i,billingHordingList.size(), billingHordingList.get(i).getHording(),booking, billingHordingList.get(i),hordingsTotalAmountList,totalPrintingChargeList, totalMountingChargeList);
 		}
 		
 		double totalHordingDisplayCharges = getTotalHordingDisplayCharges(hordingsTotalAmountList);
 
+				
+		double totalPrintingCharge = getTotalPrintingChage(totalPrintingChargeList);
+		double totalMoutingCharge = getTotalMountingChage(totalMountingChargeList);
+		
+		if(totalPrintingCharge>0){
+			index = createPrintingChargeAmountRow(sheet, wb, index, totalPrintingCharge);
+			totalHordingDisplayCharges +=totalPrintingCharge;
+		}
+		
+		if(totalMoutingCharge>0){
+			index = createMountingAmountRow(sheet, wb, index, totalMoutingCharge);
+			totalHordingDisplayCharges+=totalMoutingCharge;
+		}
+		
+				
 		//  Total amount
 		index =  createSubTotalAmountRow(sheet, wb, index, totalHordingDisplayCharges);
 		
@@ -223,7 +242,7 @@ public class FileUtil {
 		XSSFCellStyle style2 = getTopBorderStyle(wb);
 		style2.setFont(font);
 		cell4.setCellStyle(style2);
-		cell4.setCellValue("Bill No : " + billing.getBillNo());
+		cell4.setCellValue("Bill No : " + BillingLocalServiceUtil.getDisplayBillNo(billing));
 		mergedRegion(index, index, MIN_COLUMN, 3, sheet);
 		mergedRegion(index, index, 4, MAX_ColUMN, sheet);
 		
@@ -506,7 +525,7 @@ public class FileUtil {
 	}
 	
 	
-	private static int createHordingDataRow(XSSFSheet sheet, XSSFWorkbook wb, int index, int loopIndex,int totalList, Hording hording, Booking booking, Billing_HordingBean billingHordingBean,List<Double> hordingsTotalAmountList){
+	private static int createHordingDataRow(XSSFSheet sheet, XSSFWorkbook wb, int index, int loopIndex,int totalList, Hording hording, Booking booking, Billing_HordingBean billingHordingBean,List<Double> hordingsTotalAmountList, List<Double> totalPrintingCharge, List<Double> totalMountingCharge){
 		XSSFRow hordingTableRow = sheet.createRow(index);
 		XSSFCellStyle style = getRowStyle(hordingTableRow, wb);
 		style.setAlignment(HorizontalAlignment.CENTER);
@@ -561,11 +580,81 @@ public class FileUtil {
 		}
 		
 		hordingsTotalAmountList.add(displayCharges);
+		totalPrintingCharge.add(billingHordingBean.getTotalPrintingCharge());
+		totalMountingCharge.add(billingHordingBean.getTotalMountingCharge());
 		
 		index++;
 		return index;
 		
 	}
+	
+	
+	private static int createPrintingChargeAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int index, double totalPrintingCharge){
+		XSSFRow totalAmountRow = sheet.createRow(index);
+		
+		XSSFCell cell1 = totalAmountRow.createCell(MIN_COLUMN);
+		cell1.setCellStyle(getLeftBottomBorderStyle(wb));
+		
+		XSSFCell cell2 = totalAmountRow.createCell(2);
+		cell2.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell3 = totalAmountRow.createCell(3);
+		cell3.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell4 = totalAmountRow.createCell(4);
+		cell4.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell5 = totalAmountRow.createCell(5);
+		cell5.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell6 = totalAmountRow.createCell(6);
+		cell6.setCellValue("Printing Charge: ");
+		cell6.setCellStyle(getAllBorderStyle(wb));
+		
+		XSSFCell cell7 = totalAmountRow.createCell(MAX_ColUMN);
+		cell7.setCellValue(totalPrintingCharge);
+		XSSFCellStyle style = getRightBottomBorderStyle(wb);
+		style.setAlignment(HorizontalAlignment.LEFT);
+		cell7.setCellStyle(style);
+		
+		mergedRegion(index, index, MIN_COLUMN, 5, sheet);
+		index++;
+		return index;
+	}
+	
+	private static int createMountingAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int index, double totalMountingCharge){
+		XSSFRow totalAmountRow = sheet.createRow(index);
+		
+		XSSFCell cell1 = totalAmountRow.createCell(MIN_COLUMN);
+		cell1.setCellStyle(getLeftBottomBorderStyle(wb));
+		
+		XSSFCell cell2 = totalAmountRow.createCell(2);
+		cell2.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell3 = totalAmountRow.createCell(3);
+		cell3.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell4 = totalAmountRow.createCell(4);
+		cell4.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell5 = totalAmountRow.createCell(5);
+		cell5.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell6 = totalAmountRow.createCell(6);
+		cell6.setCellValue("Mounting Charge: ");
+		cell6.setCellStyle(getAllBorderStyle(wb));
+		
+		XSSFCell cell7 = totalAmountRow.createCell(MAX_ColUMN);
+		cell7.setCellValue(totalMountingCharge);
+		XSSFCellStyle style = getRightBottomBorderStyle(wb);
+		style.setAlignment(HorizontalAlignment.LEFT);
+		cell7.setCellStyle(style);
+		
+		mergedRegion(index, index, MIN_COLUMN, 5, sheet);
+		index++;
+		return index;
+	}
+	
 	
 	private static int createSubTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int index, double totalHordingDisplayCharges){
 		XSSFRow totalAmountRow = sheet.createRow(index);
@@ -969,6 +1058,22 @@ public class FileUtil {
 			totalHordingDisplayCharges+=hordingDisplayCharge;
 		}
 		return totalHordingDisplayCharges;
+	}
+	
+	private static double getTotalPrintingChage(List<Double> printingChargeList){
+		double totalPrintingChargeList =0d;
+		for(Double printingCharge : printingChargeList){
+			totalPrintingChargeList+=printingCharge;
+		}
+		return totalPrintingChargeList;
+	}
+	
+	private static double getTotalMountingChage(List<Double> mountingChargeList){
+		double totalMoutingChargeList =0d;
+		for(Double moutingCharge : mountingChargeList){
+			totalMoutingChargeList+=moutingCharge;
+		}
+		return totalMoutingChargeList;
 	}
 	
 	private static long getDisplayDuration(Date startDate, Date endDate){

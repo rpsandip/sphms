@@ -31,10 +31,10 @@
 	       			</div>
 	       			<div class="row">
 	       				<div class="form-group col-md-6">
-	       					<aui:input name="startDate" label="start.date" cssClass="form-control"/> 
+	       					<aui:input name="startDate" label="start.date" cssClass="form-control" readonly="true"/> 
 	       				</div>
 	       				<div class="form-group col-md-6">
-	       					<aui:input name="endDate" label="end.date" cssClass="form-control"/> 
+	       					<aui:input name="endDate" label="end.date" cssClass="form-control" readonly="true"/> 
 	       				</div>
 	       			</div>	
        				<div class="row">

@@ -64,7 +64,8 @@
             	                    { "data": "bookingDate", "name" : "bookingDate" , "title" : "Booking Date"},
             	                    { "data": "billDocument", "name" : "billDocument" , "title" : "Bill",
             	                    	"render": function(data, type, row, meta){
-            	                    		var displayData = '<a href="'+ row.billDocumentURL +'" class="">Download</a>';
+            	                    		var displayData = '';
+            	                    			//'<a href="'+ row.billDocumentURL +'" class="">Download</a>';
             	                    		
             	                    		var downloadBillURL = Liferay.PortletURL.createResourceURL();
             	                    		downloadBillURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
@@ -72,7 +73,7 @@
             	                    		downloadBillURL.setParameter("billType",'ad-space-bill');
             	                    		downloadBillURL.setParameter("billingId",row.billingId);
             	                    		
-            	                    		displayData = displayData +  '<a href="'+downloadBillURL.toString()+'" class="btn btn-block btn-primary">Download1</a>';
+            	                    		displayData = displayData +  '<a href="'+downloadBillURL.toString()+'" class="btn btn-block btn-primary">Download</a>';
             	                    		
             	                    		return displayData;
             	                    	 }
