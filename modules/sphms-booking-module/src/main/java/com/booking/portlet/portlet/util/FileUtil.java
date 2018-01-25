@@ -91,6 +91,7 @@ public class FileUtil {
 	    font.setBold(true);
 	    font.setFontName("Arial");
 		
+	    
 	    // TAX INVOICE label
 	    index = createTaxInvoiceLabelRow(sheet, wb, index);
 	    
@@ -107,29 +108,38 @@ public class FileUtil {
 		index = createPONumberRow(sheet, wb, index, font, booking, billing);
 		index =  createBlankRow(sheet, wb,index);
 		
-		// Hoarding table header
-		index = createHordingTableHeader(sheet, wb, index);
 		
-		// Hoarding data
-		List<Double> hordingsTotalAmountList = new ArrayList<Double>();
-		List<Double> totalPrintingChargeList = new ArrayList<Double>();
-		List<Double> totalMountingChargeList = new ArrayList<Double>();
-		for(int i=0;i<billingHordingList.size();i++){
-			index =  createHordingDataRow(sheet, wb, index, i,billingHordingList.size(), billingHordingList.get(i).getHording(),booking, billingHordingList.get(i),hordingsTotalAmountList,totalPrintingChargeList, totalMountingChargeList);
+		double totalHordingDisplayCharges = getTotalHordingDisplayCharges(billingHordingList);
+		double totalPrintingCharge = getTotalPrintingChage(billingHordingList);
+		double totalMoutingCharge = getTotalMountingChage(billingHordingList);
+		
+		String billType=StringPool.BLANK;
+		
+		if(totalHordingDisplayCharges>0){
+			billType="ad";
+		}else if(totalPrintingCharge>0 && totalMoutingCharge==0){
+			billType="printing";
+		}else if(totalMoutingCharge>0 && totalPrintingCharge==0){
+			billType="mounting";
 		}
 		
-		double totalHordingDisplayCharges = getTotalHordingDisplayCharges(hordingsTotalAmountList);
-
-				
-		double totalPrintingCharge = getTotalPrintingChage(totalPrintingChargeList);
-		double totalMoutingCharge = getTotalMountingChage(totalMountingChargeList);
 		
-		if(totalPrintingCharge>0){
+		// Hoarding table header
+		index = createHordingTableHeader(sheet, wb, index,billType);
+		
+		// Hoarding data
+		for(int i=0;i<billingHordingList.size();i++){
+			index =  createHordingDataRow(sheet, wb, index, i,billingHordingList.size(), billingHordingList.get(i).getHording(),booking, billingHordingList.get(i), billType);
+		}
+		
+	
+		
+		if(totalPrintingCharge>0 && billType.equals("ad")){
 			index = createPrintingChargeAmountRow(sheet, wb, index, totalPrintingCharge);
 			totalHordingDisplayCharges +=totalPrintingCharge;
 		}
 		
-		if(totalMoutingCharge>0){
+		if(totalMoutingCharge>0 && billType.equals("ad")){
 			index = createMountingAmountRow(sheet, wb, index, totalMoutingCharge);
 			totalHordingDisplayCharges+=totalMoutingCharge;
 		}
@@ -479,7 +489,7 @@ public class FileUtil {
 		
 	}
 	
-	private static int createHordingTableHeader(XSSFSheet sheet, XSSFWorkbook wb, int index){
+	private static int createHordingTableHeader(XSSFSheet sheet, XSSFWorkbook wb, int index,String billType){
 		XSSFRow hordingTableRow = sheet.createRow(index);
 		hordingTableRow.setHeight((short)500);
 		XSSFCellStyle style = getAllBorderStyle(wb);
@@ -509,13 +519,25 @@ public class FileUtil {
 		cell12_4.setCellValue("Size");
 		cell12_4.setCellStyle(style);
 		
-		XSSFCell cell12_5 = hordingTableRow.createCell(5);
-		cell12_5.setCellValue("Rate Per Month");
-		cell12_5.setCellStyle(style);
+		if(billType.equals("add")){
+			XSSFCell cell12_5 = hordingTableRow.createCell(5);
+			cell12_5.setCellValue("Rate Per Month");
+			cell12_5.setCellStyle(style);
+		}else{
+			XSSFCell cell12_5 = hordingTableRow.createCell(5);
+			cell12_5.setCellValue("Sq.ft");
+			cell12_5.setCellStyle(style);
+		}
 		
-		XSSFCell cell12_6 = hordingTableRow.createCell(6);
-		cell12_6.setCellValue("Period");
-		cell12_6.setCellStyle(style);
+		if(billType.equals("add")){
+			XSSFCell cell12_6 = hordingTableRow.createCell(6);
+			cell12_6.setCellValue("Period");
+			cell12_6.setCellStyle(style);
+		}else{
+			XSSFCell cell12_6 = hordingTableRow.createCell(6);
+			cell12_6.setCellValue("Rate");
+			cell12_6.setCellStyle(style);
+		}
 		
 		XSSFCell cell12_7 = hordingTableRow.createCell(MAX_ColUMN);
 		cell12_7.setCellValue("Amount");
@@ -525,7 +547,7 @@ public class FileUtil {
 	}
 	
 	
-	private static int createHordingDataRow(XSSFSheet sheet, XSSFWorkbook wb, int index, int loopIndex,int totalList, Hording hording, Booking booking, Billing_HordingBean billingHordingBean,List<Double> hordingsTotalAmountList, List<Double> totalPrintingCharge, List<Double> totalMountingCharge){
+	private static int createHordingDataRow(XSSFSheet sheet, XSSFWorkbook wb, int index, int loopIndex,int totalList, Hording hording, Booking booking, Billing_HordingBean billingHordingBean, String billType){
 		XSSFRow hordingTableRow = sheet.createRow(index);
 		XSSFCellStyle style = getRowStyle(hordingTableRow, wb);
 		style.setAlignment(HorizontalAlignment.CENTER);
@@ -558,17 +580,39 @@ public class FileUtil {
 			cell4.setCellStyle(getBottomBorderStyle(wb));
 		}
 		
-		XSSFCell cell5 = hordingTableRow.createCell(5);
-		cell5.setCellValue(hording.getPricePerMonth());
-		if(loopIndex==(totalList-1)){
-			cell5.setCellStyle(getBottomBorderStyle(wb));
+		if(billType.equals("ad")){
+			XSSFCell cell5 = hordingTableRow.createCell(5);
+			cell5.setCellValue(hording.getPricePerMonth());
+			if(loopIndex==(totalList-1)){
+				cell5.setCellStyle(getBottomBorderStyle(wb));
+			}
+		}else{
+			XSSFCell cell5 = hordingTableRow.createCell(5);
+			String[] heightWidthArray = SPHMSCommonLocalServiceUtil.getHeightOrWidth(hording.getSize());
+			cell5.setCellValue(SPHMSCommonLocalServiceUtil.getTotalSqFt(heightWidthArray));
+			if(loopIndex==(totalList-1)){
+				cell5.setCellStyle(getBottomBorderStyle(wb));
+			}
 		}
 		
-		XSSFCell cell6 = hordingTableRow.createCell(6);
-		cell6.setCellValue(SPHMSCommonLocalServiceUtil.getDateTimeDiff(booking.getStartDate(), booking.getEndDate()));
-		if(loopIndex==(totalList-1)){
-			cell5.setCellStyle(getBottomBorderStyle(wb));
+		if(billType.equals("ad")){
+			XSSFCell cell6 = hordingTableRow.createCell(6);
+			cell6.setCellValue(SPHMSCommonLocalServiceUtil.getDateTimeDiff(booking.getStartDate(), booking.getEndDate()));
+			if(loopIndex==(totalList-1)){
+				cell6.setCellStyle(getBottomBorderStyle(wb));
+			}
+		}else{
+			XSSFCell cell6 = hordingTableRow.createCell(6);
+			if(billType.equals("printing")){
+				cell6.setCellValue(billingHordingBean.getTotalPrintingCharge());
+			}else{
+				cell6.setCellValue(billingHordingBean.getTotalMountingCharge());
+			}
+			if(loopIndex==(totalList-1)){
+				cell6.setCellStyle(getBottomBorderStyle(wb));
+			}
 		}
+		
 		
 		double displayCharges =  billingHordingBean.getTotalHordingCharge();  //SPHMSCommonLocalServiceUtil.getDisplayCharges(hording.getPricePerMonth(), displayDurationDays); 
 		XSSFCell cell7 = hordingTableRow.createCell(MAX_ColUMN);
@@ -578,10 +622,6 @@ public class FileUtil {
 		}else{
 			cell7.setCellStyle(getRightBorderStyle(wb));
 		}
-		
-		hordingsTotalAmountList.add(displayCharges);
-		totalPrintingCharge.add(billingHordingBean.getTotalPrintingCharge());
-		totalMountingCharge.add(billingHordingBean.getTotalMountingCharge());
 		
 		index++;
 		return index;
@@ -1052,29 +1092,31 @@ public class FileUtil {
 		sheet.addMergedRegion(cellRnage);
 	}
 	
-	private static double getTotalHordingDisplayCharges(List<Double> hordingDisplayCharges){
+	private static double getTotalHordingDisplayCharges(List<Billing_HordingBean> billingHordingList){
 		double totalHordingDisplayCharges=0d;
-		for(Double hordingDisplayCharge : hordingDisplayCharges){
-			totalHordingDisplayCharges+=hordingDisplayCharge;
+		for(Billing_HordingBean billingHording : billingHordingList){
+			totalHordingDisplayCharges+=billingHording.getTotalHordingCharge();
 		}
 		return totalHordingDisplayCharges;
 	}
 	
-	private static double getTotalPrintingChage(List<Double> printingChargeList){
+	private static double getTotalPrintingChage(List<Billing_HordingBean> billingHordingList){
 		double totalPrintingChargeList =0d;
-		for(Double printingCharge : printingChargeList){
-			totalPrintingChargeList+=printingCharge;
+		for(Billing_HordingBean billingHording : billingHordingList){
+			totalPrintingChargeList+=billingHording.getTotalPrintingCharge();
 		}
 		return totalPrintingChargeList;
 	}
 	
-	private static double getTotalMountingChage(List<Double> mountingChargeList){
+	private static double getTotalMountingChage(List<Billing_HordingBean> billingHordingList){
 		double totalMoutingChargeList =0d;
-		for(Double moutingCharge : mountingChargeList){
-			totalMoutingChargeList+=moutingCharge;
+		for(Billing_HordingBean billingHording : billingHordingList){
+			totalMoutingChargeList+=billingHording.getTotalMountingCharge();
 		}
 		return totalMoutingChargeList;
 	}
+	
+	
 	
 	private static long getDisplayDuration(Date startDate, Date endDate){
 	    long diff = endDate.getTime() - startDate.getTime();
