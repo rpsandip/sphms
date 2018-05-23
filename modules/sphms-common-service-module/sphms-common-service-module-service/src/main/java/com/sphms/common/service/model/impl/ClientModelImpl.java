@@ -68,6 +68,8 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 			{ "address1", Types.VARCHAR },
 			{ "address2", Types.VARCHAR },
 			{ "city", Types.VARCHAR },
+			{ "panNo", Types.VARCHAR },
+			{ "gstNo", Types.VARCHAR },
 			{ "state_", Types.VARCHAR },
 			{ "contactPersonName", Types.VARCHAR },
 			{ "contactPersonEmail", Types.VARCHAR },
@@ -83,6 +85,8 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		TABLE_COLUMNS_MAP.put("address1", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("address2", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("city", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("panNo", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("gstNo", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("state_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactPersonName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactPersonEmail", Types.VARCHAR);
@@ -91,7 +95,7 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		TABLE_COLUMNS_MAP.put("createdBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Client (clientId LONG not null primary key,clientName VARCHAR(100) null,address1 VARCHAR(100) null,address2 VARCHAR(100) null,city VARCHAR(50) null,state_ VARCHAR(75) null,contactPersonName VARCHAR(50) null,contactPersonEmail VARCHAR(50) null,contactPersonPhoneNo VARCHAR(75) null,createDate DATE null,createdBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Client (clientId LONG not null primary key,clientName VARCHAR(100) null,address1 VARCHAR(100) null,address2 VARCHAR(100) null,city VARCHAR(50) null,panNo VARCHAR(75) null,gstNo VARCHAR(75) null,state_ VARCHAR(75) null,contactPersonName VARCHAR(50) null,contactPersonEmail VARCHAR(50) null,contactPersonPhoneNo VARCHAR(75) null,createDate DATE null,createdBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Client";
 	public static final String ORDER_BY_JPQL = " ORDER BY client.createDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Client.createDate DESC";
@@ -150,6 +154,8 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		attributes.put("address1", getAddress1());
 		attributes.put("address2", getAddress2());
 		attributes.put("city", getCity());
+		attributes.put("panNo", getPanNo());
+		attributes.put("gstNo", getGstNo());
 		attributes.put("state", getState());
 		attributes.put("contactPersonName", getContactPersonName());
 		attributes.put("contactPersonEmail", getContactPersonEmail());
@@ -193,6 +199,18 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 
 		if (city != null) {
 			setCity(city);
+		}
+
+		String panNo = (String)attributes.get("panNo");
+
+		if (panNo != null) {
+			setPanNo(panNo);
+		}
+
+		String gstNo = (String)attributes.get("gstNo");
+
+		if (gstNo != null) {
+			setGstNo(gstNo);
 		}
 
 		String state = (String)attributes.get("state");
@@ -301,6 +319,36 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 	@Override
 	public void setCity(String city) {
 		_city = city;
+	}
+
+	@Override
+	public String getPanNo() {
+		if (_panNo == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _panNo;
+		}
+	}
+
+	@Override
+	public void setPanNo(String panNo) {
+		_panNo = panNo;
+	}
+
+	@Override
+	public String getGstNo() {
+		if (_gstNo == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _gstNo;
+		}
+	}
+
+	@Override
+	public void setGstNo(String gstNo) {
+		_gstNo = gstNo;
 	}
 
 	@Override
@@ -415,6 +463,8 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		clientImpl.setAddress1(getAddress1());
 		clientImpl.setAddress2(getAddress2());
 		clientImpl.setCity(getCity());
+		clientImpl.setPanNo(getPanNo());
+		clientImpl.setGstNo(getGstNo());
 		clientImpl.setState(getState());
 		clientImpl.setContactPersonName(getContactPersonName());
 		clientImpl.setContactPersonEmail(getContactPersonEmail());
@@ -521,6 +571,22 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 			clientCacheModel.city = null;
 		}
 
+		clientCacheModel.panNo = getPanNo();
+
+		String panNo = clientCacheModel.panNo;
+
+		if ((panNo != null) && (panNo.length() == 0)) {
+			clientCacheModel.panNo = null;
+		}
+
+		clientCacheModel.gstNo = getGstNo();
+
+		String gstNo = clientCacheModel.gstNo;
+
+		if ((gstNo != null) && (gstNo.length() == 0)) {
+			clientCacheModel.gstNo = null;
+		}
+
 		clientCacheModel.state = getState();
 
 		String state = clientCacheModel.state;
@@ -570,7 +636,7 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{clientId=");
 		sb.append(getClientId());
@@ -582,6 +648,10 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		sb.append(getAddress2());
 		sb.append(", city=");
 		sb.append(getCity());
+		sb.append(", panNo=");
+		sb.append(getPanNo());
+		sb.append(", gstNo=");
+		sb.append(getGstNo());
 		sb.append(", state=");
 		sb.append(getState());
 		sb.append(", contactPersonName=");
@@ -601,7 +671,7 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Client");
@@ -626,6 +696,14 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		sb.append(
 			"<column><column-name>city</column-name><column-value><![CDATA[");
 		sb.append(getCity());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>panNo</column-name><column-value><![CDATA[");
+		sb.append(getPanNo());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>gstNo</column-name><column-value><![CDATA[");
+		sb.append(getGstNo());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>state</column-name><column-value><![CDATA[");
@@ -666,6 +744,8 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 	private String _address1;
 	private String _address2;
 	private String _city;
+	private String _panNo;
+	private String _gstNo;
 	private String _state;
 	private String _contactPersonName;
 	private String _contactPersonEmail;

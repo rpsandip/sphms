@@ -314,6 +314,8 @@ public class ClientPersistenceImpl extends BasePersistenceImpl<Client>
 		clientImpl.setAddress1(client.getAddress1());
 		clientImpl.setAddress2(client.getAddress2());
 		clientImpl.setCity(client.getCity());
+		clientImpl.setPanNo(client.getPanNo());
+		clientImpl.setGstNo(client.getGstNo());
 		clientImpl.setState(client.getState());
 		clientImpl.setContactPersonName(client.getContactPersonName());
 		clientImpl.setContactPersonEmail(client.getContactPersonEmail());

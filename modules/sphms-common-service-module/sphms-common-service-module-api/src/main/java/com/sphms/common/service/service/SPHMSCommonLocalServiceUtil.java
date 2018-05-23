@@ -72,7 +72,7 @@ public class SPHMSCommonLocalServiceUtil {
 		return getService().getDisplayCharges(pricePerMonth, displayDurationDays);
 	}
 
-	public static int getTotalSqFt(java.lang.String[] heigthWidthArray) {
+	public static float getTotalSqFt(java.lang.String[] heigthWidthArray) {
 		return getService().getTotalSqFt(heigthWidthArray);
 	}
 
@@ -118,6 +118,14 @@ public class SPHMSCommonLocalServiceUtil {
 
 	public static long getGlobalGroupId() {
 		return getService().getGlobalGroupId();
+	}
+
+	public static long searchHordingCount(java.lang.String keyword,
+		java.lang.String city, int height, int width, java.util.Date startDate,
+		java.util.Date endDate) {
+		return getService()
+				   .searchHordingCount(keyword, city, height, width, startDate,
+			endDate);
 	}
 
 	public static SPHMSCommonLocalService getService() {

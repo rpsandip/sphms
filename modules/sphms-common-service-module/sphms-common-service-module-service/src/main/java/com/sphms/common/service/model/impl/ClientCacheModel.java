@@ -65,7 +65,7 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{clientId=");
 		sb.append(clientId);
@@ -77,6 +77,10 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 		sb.append(address2);
 		sb.append(", city=");
 		sb.append(city);
+		sb.append(", panNo=");
+		sb.append(panNo);
+		sb.append(", gstNo=");
+		sb.append(gstNo);
 		sb.append(", state=");
 		sb.append(state);
 		sb.append(", contactPersonName=");
@@ -128,6 +132,20 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 			clientImpl.setCity(city);
 		}
 
+		if (panNo == null) {
+			clientImpl.setPanNo(StringPool.BLANK);
+		}
+		else {
+			clientImpl.setPanNo(panNo);
+		}
+
+		if (gstNo == null) {
+			clientImpl.setGstNo(StringPool.BLANK);
+		}
+		else {
+			clientImpl.setGstNo(gstNo);
+		}
+
 		if (state == null) {
 			clientImpl.setState(StringPool.BLANK);
 		}
@@ -177,6 +195,8 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 		address1 = objectInput.readUTF();
 		address2 = objectInput.readUTF();
 		city = objectInput.readUTF();
+		panNo = objectInput.readUTF();
+		gstNo = objectInput.readUTF();
 		state = objectInput.readUTF();
 		contactPersonName = objectInput.readUTF();
 		contactPersonEmail = objectInput.readUTF();
@@ -219,6 +239,20 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 			objectOutput.writeUTF(city);
 		}
 
+		if (panNo == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(panNo);
+		}
+
+		if (gstNo == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(gstNo);
+		}
+
 		if (state == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -257,6 +291,8 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 	public String address1;
 	public String address2;
 	public String city;
+	public String panNo;
+	public String gstNo;
 	public String state;
 	public String contactPersonName;
 	public String contactPersonEmail;

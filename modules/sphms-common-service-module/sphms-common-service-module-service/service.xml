@@ -60,6 +60,8 @@
 		<column name="address1" type="String"></column>
 		<column name="address2" type="String"></column>
 		<column name="city" type="String"></column>
+		<column name="panNo" type="String"></column>
+		<column name="gstNo" type="String"></column>
 		<column name="state" type="String"></column>
 		<column name="contactPersonName" type="String"></column>
 		<column name="contactPersonEmail" type="String"></column>
@@ -344,6 +346,7 @@
 		<column name="bankName" type="String"></column>
 		<column name="accountDetail" type="String"></column>
 		<column name="poPrefix" type="String"></column>
+		<column name="shortName" type="String"></column>
 	</entity>
 	
 	

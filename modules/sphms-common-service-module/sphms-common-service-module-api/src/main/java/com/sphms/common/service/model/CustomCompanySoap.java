@@ -39,6 +39,7 @@ public class CustomCompanySoap implements Serializable {
 		soapModel.setBankName(model.getBankName());
 		soapModel.setAccountDetail(model.getAccountDetail());
 		soapModel.setPoPrefix(model.getPoPrefix());
+		soapModel.setShortName(model.getShortName());
 
 		return soapModel;
 	}
@@ -147,6 +148,14 @@ public class CustomCompanySoap implements Serializable {
 		_poPrefix = poPrefix;
 	}
 
+	public String getShortName() {
+		return _shortName;
+	}
+
+	public void setShortName(String shortName) {
+		_shortName = shortName;
+	}
+
 	private long _companyId;
 	private String _name;
 	private String _GSTNo;
@@ -154,4 +163,5 @@ public class CustomCompanySoap implements Serializable {
 	private String _bankName;
 	private String _accountDetail;
 	private String _poPrefix;
+	private String _shortName;
 }

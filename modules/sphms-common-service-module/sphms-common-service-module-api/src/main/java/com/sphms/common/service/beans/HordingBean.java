@@ -25,8 +25,8 @@ public class HordingBean {
 	private String hordingType;
 	private String mediaVehicle;
 	private String size;
-	private int height;
-	private int width;
+	private float height;
+	private float width;
 	private double pricePerMonth;
 	private long normalImageId;
 	private long shortImageId;
@@ -100,8 +100,8 @@ public class HordingBean {
 		}
 		if(this.size.indexOf("X")>0){
 			String[] sizeArray = this.size.split("X");
-			this.height = Integer.parseInt(sizeArray[1]);
-			this.width = Integer.parseInt(sizeArray[0]);
+			this.height = Float.parseFloat(sizeArray[1]);
+			this.width = Float.parseFloat(sizeArray[0]);
 		}
 	}
 	
@@ -233,15 +233,7 @@ public class HordingBean {
 	public void setLandLordName(String landLordName) {
 		this.landLordName = landLordName;
 	}
-	public int getHeight() {
-		return height;
-	}
-	public void setHeight(int height) {
-		this.height = height;
-	}
-	public int getWidth() {
-		return width;
-	}
+
 	public void setWidth(int width) {
 		this.width = width;
 	}
@@ -263,5 +255,31 @@ public class HordingBean {
 	public void setMediaVehicle(String mediaVehicle) {
 		this.mediaVehicle = mediaVehicle;
 	}
+
+
+
+	public float getHeight() {
+		return height;
+	}
+
+
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+
+
+	public float getWidth() {
+		return width;
+	}
+
+
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+	
+	
 	
 }

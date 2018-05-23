@@ -68,6 +68,7 @@
             	     "serverSide": true,
             	     "searching": false,
             	     "pageLength": 50,
+            	     "bSort": false,
             	     "ajax": resourceURL.toString(),
             		 "order": [],
             		 "columns": [

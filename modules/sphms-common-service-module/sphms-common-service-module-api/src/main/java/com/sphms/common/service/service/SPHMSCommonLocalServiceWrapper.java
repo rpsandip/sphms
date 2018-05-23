@@ -73,7 +73,7 @@ public class SPHMSCommonLocalServiceWrapper implements SPHMSCommonLocalService,
 	}
 
 	@Override
-	public int getTotalSqFt(java.lang.String[] heigthWidthArray) {
+	public float getTotalSqFt(java.lang.String[] heigthWidthArray) {
 		return _sphmsCommonLocalService.getTotalSqFt(heigthWidthArray);
 	}
 
@@ -126,6 +126,14 @@ public class SPHMSCommonLocalServiceWrapper implements SPHMSCommonLocalService,
 	@Override
 	public long getGlobalGroupId() {
 		return _sphmsCommonLocalService.getGlobalGroupId();
+	}
+
+	@Override
+	public long searchHordingCount(java.lang.String keyword,
+		java.lang.String city, int height, int width, java.util.Date startDate,
+		java.util.Date endDate) {
+		return _sphmsCommonLocalService.searchHordingCount(keyword, city,
+			height, width, startDate, endDate);
 	}
 
 	@Override

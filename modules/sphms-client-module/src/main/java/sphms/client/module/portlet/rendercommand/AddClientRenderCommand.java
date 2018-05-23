@@ -35,7 +35,9 @@ public class AddClientRenderCommand implements MVCRenderCommand{
 			Client client = ClientLocalServiceUtil.getClient(clientId);
 			renderRequest.setAttribute("client", client);
 		} catch (PortalException e) {
-			_log.error(e);
+			if(clientId!=0){
+				_log.error(e.getMessage());
+			}
 		}
 		
 		return "/client/add_client.jsp";

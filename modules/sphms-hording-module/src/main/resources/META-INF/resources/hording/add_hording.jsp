@@ -72,6 +72,7 @@
 	       					 	<aui:option value="AL" selected='${hordingBean.hordingType eq "AL" ? true : false }' >AL</aui:option>
 	       					 	<aui:option value="BL" selected='${hordingBean.hordingType eq "BL" ? true : false }'>BL</aui:option>
 	       					 	<aui:option value="NL" selected='${hordingBean.hordingType eq "NL" ? true : false }'>NL</aui:option>
+	       					 	<aui:option value="FL" selected='${hordingBean.hordingType eq "FL" ? true : false }'>FL</aui:option>
 							 </aui:select>
 						</div>
 						<div class="form-group col-md-3">
@@ -88,13 +89,13 @@
 						<div class="form-group col-md-3">
 	       					  <aui:input name="width" label="width" cssClass="form-control" value="${hordingBean.width }">
 						     	<aui:validator name="required" />
-						     	<aui:validator name="maxLength">3</aui:validator>
+						     	<aui:validator name="number"></aui:validator>
 							 </aui:input>
 						</div>
 						<div class="form-group col-md-3">
 	       					 <aui:input name="height" label="height" cssClass="form-control" value="${hordingBean.height }">
 						     	<aui:validator name="required" />
-						     	<aui:validator name="maxLength">3</aui:validator>
+						     	<aui:validator name="number"></aui:validator>
 							 </aui:input>
 						</div>
 					</div>

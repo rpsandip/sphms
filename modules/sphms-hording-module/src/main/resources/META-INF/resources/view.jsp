@@ -45,9 +45,6 @@
 	        								<b>Size :</b> ${hordingBean.size }(Sq. Ft)
 	        							</div>
 	        							<div style="clear: both;">
-	        								<b>Land Lord : </b> ${hordingBean.landLordName }
-	        							</div>
-	        							<div style="clear: both;">
 	        								<div class="pull-right">
 		        								<portlet:renderURL var="editHordingURL">
 	       							 				<portlet:param name="mvcRenderCommandName" value="/add_hording" />

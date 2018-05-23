@@ -133,6 +133,7 @@ jQuery.noConflict();
 		  hordinfDataTable =  $('#hordinglist').DataTable({
      		 "processing": true,
      	     "serverSide": true,
+     	    "bSort": false,
      	     "ajax": searchHordingURL,
      		 "order": [],
      		 "columns": [

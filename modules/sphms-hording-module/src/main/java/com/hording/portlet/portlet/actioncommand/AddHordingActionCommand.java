@@ -39,15 +39,15 @@ public class AddHordingActionCommand extends BaseMVCActionCommand{
 		
 		 long hordingId = ParamUtil.getLong(actionRequest, "hordingId");
 		 String title = ParamUtil.getString(actionRequest, "title");
-		 long landLordId = ParamUtil.getShort(actionRequest, "landLordId");
+		 long landLordId = ParamUtil.getLong(actionRequest, "landLordId");
 		 String location = ParamUtil.getString(actionRequest, "location");
 		 String city = ParamUtil.getString(actionRequest, "city");
 		 String district = ParamUtil.getString(actionRequest, "district");
 		 String state = ParamUtil.getString(actionRequest, "state");
 		 String hordingType = ParamUtil.getString(actionRequest, "type");
 		 String mediaVehicle = ParamUtil.getString(actionRequest, "mediaVehicle");
-		 int height = ParamUtil.getInteger(actionRequest, "height");
-		 int width = ParamUtil.getInteger(actionRequest, "width");
+		 String height = ParamUtil.getString(actionRequest, "height");
+		 String width = ParamUtil.getString(actionRequest, "width");
 		 int ownerType = ParamUtil.getInteger(actionRequest, "owerType");
 		 String upinNo = ParamUtil.getString(actionRequest, "upinNo");
 		 double mncTax = ParamUtil.getDouble(actionRequest, "mncTax");

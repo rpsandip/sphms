@@ -35,17 +35,19 @@
      						<h4><liferay-ui:message key="selected.hoardings"/> </h4>
      					</div>
      					<c:forEach items="${ proposalHordingBeaList}"  var="proposalHording">
-     						<div class="form-group col-md-3">
-	       					 	<b>Hoarding: </b> ${proposalHording.hordingTitle }
-     						</div>
-     						<div class="form-group col-md-3">
-	       					 	<b>Mounting Charge: </b> Rs. ${ proposalHording.mountingCharge}/SqFt
-     						</div>
-     						<div class="form-group col-md-3">
-	       					 	<b>Printing Charge: </b> Rs. ${ proposalHording.printingCharge}/SqFt
-     						</div>
-     						<div class="form-group col-md-3">
-	       					 	<b>Units: </b>  ${ proposalHording.units}
+     						<div class="form-group col-md-12">
+	     						<div class="form-group col-md-3">
+		       					 	<b>Hoarding: </b> ${proposalHording.hordingTitle }
+	     						</div>
+	     						<div class="form-group col-md-3">
+		       					 	<b>Mounting Charge: </b> Rs. ${ proposalHording.mountingCharge}/SqFt
+	     						</div>
+	     						<div class="form-group col-md-3">
+		       					 	<b>Printing Charge: </b> Rs. ${ proposalHording.printingCharge}/SqFt
+	     						</div>
+	     						<div class="form-group col-md-3">
+		       					 	<b>Units: </b>  ${ proposalHording.units}
+	     						</div>
      						</div>
      					</c:forEach>
      				</div>		

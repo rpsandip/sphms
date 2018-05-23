@@ -26,6 +26,7 @@ public class BillingBean {
 	private long clientId;
 	private String billDocumentURL;
 	private String clientName;
+	private String clientCity;
 	private String campaign;
 	private String billFileURL;
 	private long billFileEntryId;
@@ -68,6 +69,7 @@ public class BillingBean {
 			try {
 				Client client = ClientLocalServiceUtil.getClient(this.clientId);
 				this.clientName = client.getClientName();
+				this.clientCity = client.getCity();
 			} catch (PortalException e) {
 				_log.error(e);
 			}
@@ -235,6 +237,17 @@ public class BillingBean {
 	public void setDisplayBillNo(String displayBillNo) {
 		this.displayBillNo = displayBillNo;
 	}
+
+
+	public String getClientCity() {
+		return clientCity;
+	}
+
+
+	public void setClientCity(String clientCity) {
+		this.clientCity = clientCity;
+	}
+	
 	
 	
 }

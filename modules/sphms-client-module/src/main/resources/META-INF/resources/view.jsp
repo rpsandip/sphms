@@ -28,6 +28,8 @@
 			                <th>Contact Person Name</th>
 			                <th>Contact Person Email</th>
 			                <th>Contact Person Phone No</th>
+			                <th>PAN No</th>
+			                <th>GST No</th>
 			                <th>Action</th>
 			            </tr>
      			   </thead>
@@ -42,6 +44,8 @@
 			                <td>${client.contactPersonName }</td>
 			                <td>${client.contactPersonEmail }</td>
 			                <td>${client.contactPersonPhoneNo }</td>
+			                <td>${client.panNo }</td>
+			                <td>${client.gstNo }</td>
 			                <portlet:renderURL var="editClientURL">
        							 <portlet:param name="mvcRenderCommandName" value="/add_client" />
        							 <portlet:param name="clientId" value="${ client.clientId}" />

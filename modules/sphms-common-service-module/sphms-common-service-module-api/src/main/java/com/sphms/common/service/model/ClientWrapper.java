@@ -62,6 +62,8 @@ public class ClientWrapper implements Client, ModelWrapper<Client> {
 		attributes.put("address1", getAddress1());
 		attributes.put("address2", getAddress2());
 		attributes.put("city", getCity());
+		attributes.put("panNo", getPanNo());
+		attributes.put("gstNo", getGstNo());
 		attributes.put("state", getState());
 		attributes.put("contactPersonName", getContactPersonName());
 		attributes.put("contactPersonEmail", getContactPersonEmail());
@@ -102,6 +104,18 @@ public class ClientWrapper implements Client, ModelWrapper<Client> {
 
 		if (city != null) {
 			setCity(city);
+		}
+
+		String panNo = (String)attributes.get("panNo");
+
+		if (panNo != null) {
+			setPanNo(panNo);
+		}
+
+		String gstNo = (String)attributes.get("gstNo");
+
+		if (gstNo != null) {
+			setGstNo(gstNo);
 		}
 
 		String state = (String)attributes.get("state");
@@ -265,6 +279,26 @@ public class ClientWrapper implements Client, ModelWrapper<Client> {
 	@Override
 	public java.lang.String getContactPersonPhoneNo() {
 		return _client.getContactPersonPhoneNo();
+	}
+
+	/**
+	* Returns the gst no of this client.
+	*
+	* @return the gst no of this client
+	*/
+	@Override
+	public java.lang.String getGstNo() {
+		return _client.getGstNo();
+	}
+
+	/**
+	* Returns the pan no of this client.
+	*
+	* @return the pan no of this client
+	*/
+	@Override
+	public java.lang.String getPanNo() {
+		return _client.getPanNo();
 	}
 
 	/**
@@ -453,9 +487,29 @@ public class ClientWrapper implements Client, ModelWrapper<Client> {
 		_client.setExpandoBridgeAttributes(serviceContext);
 	}
 
+	/**
+	* Sets the gst no of this client.
+	*
+	* @param gstNo the gst no of this client
+	*/
+	@Override
+	public void setGstNo(java.lang.String gstNo) {
+		_client.setGstNo(gstNo);
+	}
+
 	@Override
 	public void setNew(boolean n) {
 		_client.setNew(n);
+	}
+
+	/**
+	* Sets the pan no of this client.
+	*
+	* @param panNo the pan no of this client
+	*/
+	@Override
+	public void setPanNo(java.lang.String panNo) {
+		_client.setPanNo(panNo);
 	}
 
 	/**

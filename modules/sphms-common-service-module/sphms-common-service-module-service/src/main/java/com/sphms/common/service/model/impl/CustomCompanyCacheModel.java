@@ -64,7 +64,7 @@ public class CustomCompanyCacheModel implements CacheModel<CustomCompany>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{companyId=");
 		sb.append(companyId);
@@ -80,6 +80,8 @@ public class CustomCompanyCacheModel implements CacheModel<CustomCompany>,
 		sb.append(accountDetail);
 		sb.append(", poPrefix=");
 		sb.append(poPrefix);
+		sb.append(", shortName=");
+		sb.append(shortName);
 		sb.append("}");
 
 		return sb.toString();
@@ -133,6 +135,13 @@ public class CustomCompanyCacheModel implements CacheModel<CustomCompany>,
 			customCompanyImpl.setPoPrefix(poPrefix);
 		}
 
+		if (shortName == null) {
+			customCompanyImpl.setShortName(StringPool.BLANK);
+		}
+		else {
+			customCompanyImpl.setShortName(shortName);
+		}
+
 		customCompanyImpl.resetOriginalValues();
 
 		return customCompanyImpl;
@@ -147,6 +156,7 @@ public class CustomCompanyCacheModel implements CacheModel<CustomCompany>,
 		bankName = objectInput.readUTF();
 		accountDetail = objectInput.readUTF();
 		poPrefix = objectInput.readUTF();
+		shortName = objectInput.readUTF();
 	}
 
 	@Override
@@ -195,6 +205,13 @@ public class CustomCompanyCacheModel implements CacheModel<CustomCompany>,
 		else {
 			objectOutput.writeUTF(poPrefix);
 		}
+
+		if (shortName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(shortName);
+		}
 	}
 
 	public long companyId;
@@ -204,4 +221,5 @@ public class CustomCompanyCacheModel implements CacheModel<CustomCompany>,
 	public String bankName;
 	public String accountDetail;
 	public String poPrefix;
+	public String shortName;
 }

@@ -74,6 +74,8 @@ create table SPHMS_Client (
 	address1 VARCHAR(100) null,
 	address2 VARCHAR(100) null,
 	city VARCHAR(50) null,
+	panNo VARCHAR(75) null,
+	gstNo VARCHAR(75) null,
 	state_ VARCHAR(75) null,
 	contactPersonName VARCHAR(50) null,
 	contactPersonEmail VARCHAR(50) null,
@@ -106,7 +108,8 @@ create table SPHMS_CustomCompany (
 	PANNo VARCHAR(75) null,
 	bankName VARCHAR(75) null,
 	accountDetail VARCHAR(75) null,
-	poPrefix VARCHAR(75) null
+	poPrefix VARCHAR(75) null,
+	shortName VARCHAR(75) null
 );
 
 create table SPHMS_Expense (

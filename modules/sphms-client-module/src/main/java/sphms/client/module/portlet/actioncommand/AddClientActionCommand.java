@@ -41,11 +41,13 @@ public class AddClientActionCommand extends BaseMVCActionCommand{
 		String contactPersonName = ParamUtil.getString(actionRequest, "contactPersonName");
 		String contactPersonEmail = ParamUtil.getString(actionRequest, "contactPersonEmail");
 		String contactPersonPhoneNo = ParamUtil.getString(actionRequest, "contactPersonPhoneNo");
+		String panNo = ParamUtil.getString(actionRequest, "panNo");
+		String gstNo = ParamUtil.getString(actionRequest, "gstNo");
 		long clientId = ParamUtil.getLong(actionRequest, "clientId");
 		
 		if(clientId==0){
 			// Add Client
-			Client client = ClientLocalServiceUtil.addClient(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail, themeDisplay.getUserId());
+			Client client = ClientLocalServiceUtil.addClient(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail, panNo, gstNo,themeDisplay.getUserId());
 			if(Validator.isNotNull(client)){
 				SessionMessages.add(actionRequest, "client-added-successfully");
 			}else{
@@ -55,7 +57,7 @@ public class AddClientActionCommand extends BaseMVCActionCommand{
 			}
 		}else{
 			// Update Client
-			Client client = ClientLocalServiceUtil.updateClient(clientId, clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail, themeDisplay.getUserId());
+			Client client = ClientLocalServiceUtil.updateClient(clientId, clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail, panNo, gstNo,themeDisplay.getUserId());
 			if(Validator.isNotNull(client)){
 				SessionMessages.add(actionRequest, "client-updated-successfully");
 			}else{

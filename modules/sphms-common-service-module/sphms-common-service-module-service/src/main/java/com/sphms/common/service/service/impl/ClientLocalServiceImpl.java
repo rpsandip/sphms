@@ -15,6 +15,7 @@
 package com.sphms.common.service.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import aQute.bnd.properties.GapTextStore;
 
 import java.util.Date;
 
@@ -50,13 +51,13 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 	 * Method for add Client detail
 	 */
 	public Client addClient(String clientName, String address1, String address2, String city, String state,
-			String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail, long createdBy){
+			String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail, String panNo, String gstNo,long createdBy){
 		
 		_log.info("Adding Client :: clientName->" + clientName + " Address1->" + address1 + " Address2->" + address2 +
 				" city->" + city + " state ->" + state + " contactPersonName ->" + contactPersonName + " contactPersonEmail ->" +
 				contactPersonEmail + " contactPersonPhoneNo->" + contactPersonPhoneNo); 
 		
-		boolean isValidParams = isValidParam(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail);
+		boolean isValidParams = isValidParam(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail, panNo, gstNo);
 		
 		if(isValidParams){
 		Client client = ClientLocalServiceUtil.createClient(CounterLocalServiceUtil.increment());
@@ -65,6 +66,8 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 		client.setAddress2(address2);
 		client.setCity(city);
 		client.setState(state);
+		client.setPanNo(panNo);
+		client.setGstNo(gstNo);
 		client.setContactPersonName(contactPersonName);
 		client.setContactPersonPhoneNo(contactPersonPhoneNo);
 		client.setContactPersonEmail(contactPersonEmail);
@@ -84,14 +87,14 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 	 * Method for update client detail
 	 */
 	public Client updateClient(long clientId,String clientName, String address1, String address2, String city, String state,
-			String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail, long createdBy) throws PortalException{
+			String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail, String panNo, String gstNo,long createdBy) throws PortalException{
 		
 		_log.info("Updating Client :: clientName->" + clientName + " Address1->" + address1 + " Address2->" + address2 +
 				" city->" + city + " state ->" + state + " contactPersonName ->" + contactPersonName + " contactPersonEmail ->" +
 				contactPersonEmail + " contactPersonPhoneNo->" + contactPersonPhoneNo); 
 		
 		
-		boolean isValidParams = isValidParam(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail);
+		boolean isValidParams = isValidParam(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail, panNo, gstNo);
 		
 		if(isValidParams){
 		Client client = ClientLocalServiceUtil.getClient(clientId);
@@ -100,6 +103,8 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 		client.setAddress2(address2);
 		client.setCity(city);
 		client.setState(state);
+		client.setPanNo(panNo);
+		client.setGstNo(gstNo);
 		client.setContactPersonName(contactPersonName);
 		client.setContactPersonPhoneNo(contactPersonPhoneNo);
 		client.setContactPersonEmail(contactPersonEmail);
@@ -115,10 +120,10 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 		}
 	}
 	
-	private boolean isValidParam (String clientName, String address1 ,String address2, String city, String state, String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail){
+	private boolean isValidParam (String clientName, String address1 ,String address2, String city, String state, String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail, String panNo, String gsgtNo){
 		boolean isValidParams = false;
 		if(Validator.isNotNull(clientName) && Validator.isNotNull(address1) && Validator.isNotNull(address2) && Validator.isNotNull(city) &&
-				Validator.isNotNull(state) && Validator.isNotNull(contactPersonName) && Validator.isNotNull(contactPersonPhoneNo) && Validator.isNotNull(contactPersonEmail)){
+				Validator.isNotNull(state) && Validator.isNotNull(contactPersonName) && Validator.isNotNull(contactPersonPhoneNo) && Validator.isNotNull(contactPersonEmail) && Validator.isNotNull(panNo) && Validator.isNotNull(gsgtNo)){
 			isValidParams = true;
 		}
 		return isValidParams;

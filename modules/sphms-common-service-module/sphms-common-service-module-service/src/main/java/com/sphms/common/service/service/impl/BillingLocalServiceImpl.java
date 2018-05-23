@@ -316,9 +316,9 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 //			int year = Calendar.getInstance().get(Calendar.YEAR);
 //			int yearDiff= (year-Integer.parseInt(baseYear));
 //			int prefixDiff = Integer.parseInt(prefix)+yearDiff;
-			return String.format("%04d", 1);
+			return String.format("%03d", 1);
 		}else{
-			return String.format("%04d", Integer.parseInt(billingList.get(0).getBillNo())+1);
+			return String.format("%03d", Integer.parseInt(billingList.get(0).getBillNo())+1);
 		}
 	}
 	
@@ -337,11 +337,10 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		if(Validator.isNotNull(billing)){
 			try {
 				CustomCompany customCompany = CustomCompanyLocalServiceUtil.getCustomCompany(billing.getCustomCompanyId());
-				return customCompany.getPoPrefix()+StringPool.SLASH+billing.getBillNo()+StringPool.SLASH+billing.getFinancialYear();
+				return customCompany.getShortName()+StringPool.SLASH+billing.getBillNo()+StringPool.SLASH+billing.getFinancialYear();
 			} catch (PortalException e) {
 				_log.error(e);
 			}
-			
 		}
 		
 		return displayBillNo;

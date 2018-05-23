@@ -55,10 +55,12 @@
             	     "serverSide": true,
             	     "searching": false,
             	     "pageLength": 50,
+            	     "bSort": false,
             	     "ajax": resourceURL.toString(),
             		 "order": [],
             		 "columns": [
             		           		{ "data": "client", "name" : "client" , "title" : "Client"},
+            		           		{ "data": "clientCity", "name" : "clientCity" , "title" : "Client City"},
             	                    { "data": "campaign", "name" : "campaign", "title" : "Campaign"  },
             	                    { "data": "financeYear", "name" : "financeYear", "title" : "Finance Year"  },
             	                    { "data": "bookingDate", "name" : "bookingDate" , "title" : "Booking Date"},

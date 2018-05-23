@@ -64,6 +64,7 @@ public class CustomCompanyWrapper implements CustomCompany,
 		attributes.put("bankName", getBankName());
 		attributes.put("accountDetail", getAccountDetail());
 		attributes.put("poPrefix", getPoPrefix());
+		attributes.put("shortName", getShortName());
 
 		return attributes;
 	}
@@ -110,6 +111,12 @@ public class CustomCompanyWrapper implements CustomCompany,
 
 		if (poPrefix != null) {
 			setPoPrefix(poPrefix);
+		}
+
+		String shortName = (String)attributes.get("shortName");
+
+		if (shortName != null) {
+			setShortName(shortName);
 		}
 	}
 
@@ -226,6 +233,16 @@ public class CustomCompanyWrapper implements CustomCompany,
 	@Override
 	public java.lang.String getPoPrefix() {
 		return _customCompany.getPoPrefix();
+	}
+
+	/**
+	* Returns the short name of this custom company.
+	*
+	* @return the short name of this custom company
+	*/
+	@Override
+	public java.lang.String getShortName() {
+		return _customCompany.getShortName();
 	}
 
 	@Override
@@ -372,6 +389,16 @@ public class CustomCompanyWrapper implements CustomCompany,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_customCompany.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the short name of this custom company.
+	*
+	* @param shortName the short name of this custom company
+	*/
+	@Override
+	public void setShortName(java.lang.String shortName) {
+		_customCompany.setShortName(shortName);
 	}
 
 	@Override

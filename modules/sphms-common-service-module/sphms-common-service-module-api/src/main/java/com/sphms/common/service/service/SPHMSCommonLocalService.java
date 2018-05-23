@@ -75,7 +75,7 @@ public interface SPHMSCommonLocalService extends BaseLocalService {
 		long displayDurationDays);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getTotalSqFt(java.lang.String[] heigthWidthArray);
+	public float getTotalSqFt(java.lang.String[] heigthWidthArray);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.lang.String getDLFileURL(DLFileEntry file);
@@ -106,4 +106,9 @@ public interface SPHMSCommonLocalService extends BaseLocalService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getGlobalGroupId();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long searchHordingCount(java.lang.String keyword,
+		java.lang.String city, int height, int width, Date startDate,
+		Date endDate);
 }

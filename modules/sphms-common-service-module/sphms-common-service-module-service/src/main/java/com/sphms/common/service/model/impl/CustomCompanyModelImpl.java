@@ -67,7 +67,8 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 			{ "PANNo", Types.VARCHAR },
 			{ "bankName", Types.VARCHAR },
 			{ "accountDetail", Types.VARCHAR },
-			{ "poPrefix", Types.VARCHAR }
+			{ "poPrefix", Types.VARCHAR },
+			{ "shortName", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -79,9 +80,10 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 		TABLE_COLUMNS_MAP.put("bankName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("accountDetail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("poPrefix", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("shortName", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_CustomCompany (companyId LONG not null primary key,name VARCHAR(75) null,GSTNo VARCHAR(75) null,PANNo VARCHAR(75) null,bankName VARCHAR(75) null,accountDetail VARCHAR(75) null,poPrefix VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_CustomCompany (companyId LONG not null primary key,name VARCHAR(75) null,GSTNo VARCHAR(75) null,PANNo VARCHAR(75) null,bankName VARCHAR(75) null,accountDetail VARCHAR(75) null,poPrefix VARCHAR(75) null,shortName VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_CustomCompany";
 	public static final String ORDER_BY_JPQL = " ORDER BY customCompany.companyId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_CustomCompany.companyId ASC";
@@ -142,6 +144,7 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 		attributes.put("bankName", getBankName());
 		attributes.put("accountDetail", getAccountDetail());
 		attributes.put("poPrefix", getPoPrefix());
+		attributes.put("shortName", getShortName());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -191,6 +194,12 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 
 		if (poPrefix != null) {
 			setPoPrefix(poPrefix);
+		}
+
+		String shortName = (String)attributes.get("shortName");
+
+		if (shortName != null) {
+			setShortName(shortName);
 		}
 	}
 
@@ -295,6 +304,21 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 	}
 
 	@Override
+	public String getShortName() {
+		if (_shortName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _shortName;
+		}
+	}
+
+	@Override
+	public void setShortName(String shortName) {
+		_shortName = shortName;
+	}
+
+	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			CustomCompany.class.getName(), getPrimaryKey());
@@ -328,6 +352,7 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 		customCompanyImpl.setBankName(getBankName());
 		customCompanyImpl.setAccountDetail(getAccountDetail());
 		customCompanyImpl.setPoPrefix(getPoPrefix());
+		customCompanyImpl.setShortName(getShortName());
 
 		customCompanyImpl.resetOriginalValues();
 
@@ -444,12 +469,20 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 			customCompanyCacheModel.poPrefix = null;
 		}
 
+		customCompanyCacheModel.shortName = getShortName();
+
+		String shortName = customCompanyCacheModel.shortName;
+
+		if ((shortName != null) && (shortName.length() == 0)) {
+			customCompanyCacheModel.shortName = null;
+		}
+
 		return customCompanyCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{companyId=");
 		sb.append(getCompanyId());
@@ -465,6 +498,8 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 		sb.append(getAccountDetail());
 		sb.append(", poPrefix=");
 		sb.append(getPoPrefix());
+		sb.append(", shortName=");
+		sb.append(getShortName());
 		sb.append("}");
 
 		return sb.toString();
@@ -472,7 +507,7 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.CustomCompany");
@@ -506,6 +541,10 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 			"<column><column-name>poPrefix</column-name><column-value><![CDATA[");
 		sb.append(getPoPrefix());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>shortName</column-name><column-value><![CDATA[");
+		sb.append(getShortName());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -523,5 +562,6 @@ public class CustomCompanyModelImpl extends BaseModelImpl<CustomCompany>
 	private String _bankName;
 	private String _accountDetail;
 	private String _poPrefix;
+	private String _shortName;
 	private CustomCompany _escapedModel;
 }

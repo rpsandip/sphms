@@ -137,6 +137,36 @@ public interface ClientModel extends BaseModel<Client> {
 	public void setCity(String city);
 
 	/**
+	 * Returns the pan no of this client.
+	 *
+	 * @return the pan no of this client
+	 */
+	@AutoEscape
+	public String getPanNo();
+
+	/**
+	 * Sets the pan no of this client.
+	 *
+	 * @param panNo the pan no of this client
+	 */
+	public void setPanNo(String panNo);
+
+	/**
+	 * Returns the gst no of this client.
+	 *
+	 * @return the gst no of this client
+	 */
+	@AutoEscape
+	public String getGstNo();
+
+	/**
+	 * Sets the gst no of this client.
+	 *
+	 * @param gstNo the gst no of this client
+	 */
+	public void setGstNo(String gstNo);
+
+	/**
 	 * Returns the state of this client.
 	 *
 	 * @return the state of this client

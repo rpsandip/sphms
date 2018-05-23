@@ -94,7 +94,8 @@ public interface ClientLocalService extends BaseLocalService,
 		java.lang.String city, java.lang.String state,
 		java.lang.String contactPersonName,
 		java.lang.String contactPersonPhoneNo,
-		java.lang.String contactPersonEmail, long createdBy);
+		java.lang.String contactPersonEmail, java.lang.String panNo,
+		java.lang.String gstNo, long createdBy);
 
 	/**
 	* Creates a new client with the primary key. Does not add the client to the database.
@@ -150,8 +151,8 @@ public interface ClientLocalService extends BaseLocalService,
 		java.lang.String city, java.lang.String state,
 		java.lang.String contactPersonName,
 		java.lang.String contactPersonPhoneNo,
-		java.lang.String contactPersonEmail, long createdBy)
-		throws PortalException;
+		java.lang.String contactPersonEmail, java.lang.String panNo,
+		java.lang.String gstNo, long createdBy) throws PortalException;
 
 	/**
 	* Returns the number of clients.

@@ -38,6 +38,8 @@ public class ClientSoap implements Serializable {
 		soapModel.setAddress1(model.getAddress1());
 		soapModel.setAddress2(model.getAddress2());
 		soapModel.setCity(model.getCity());
+		soapModel.setPanNo(model.getPanNo());
+		soapModel.setGstNo(model.getGstNo());
 		soapModel.setState(model.getState());
 		soapModel.setContactPersonName(model.getContactPersonName());
 		soapModel.setContactPersonEmail(model.getContactPersonEmail());
@@ -136,6 +138,22 @@ public class ClientSoap implements Serializable {
 		_city = city;
 	}
 
+	public String getPanNo() {
+		return _panNo;
+	}
+
+	public void setPanNo(String panNo) {
+		_panNo = panNo;
+	}
+
+	public String getGstNo() {
+		return _gstNo;
+	}
+
+	public void setGstNo(String gstNo) {
+		_gstNo = gstNo;
+	}
+
 	public String getState() {
 		return _state;
 	}
@@ -189,6 +207,8 @@ public class ClientSoap implements Serializable {
 	private String _address1;
 	private String _address2;
 	private String _city;
+	private String _panNo;
+	private String _gstNo;
 	private String _state;
 	private String _contactPersonName;
 	private String _contactPersonEmail;

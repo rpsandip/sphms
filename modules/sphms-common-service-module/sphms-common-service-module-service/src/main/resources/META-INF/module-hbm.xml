@@ -98,6 +98,8 @@
 		<property name="address1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="address2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="panNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="gstNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="state_" name="state" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactPersonName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactPersonEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -133,6 +135,7 @@
 		<property name="bankName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="accountDetail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="poPrefix" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="shortName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.sphms.common.service.model.impl.ExpenseImpl" table="SPHMS_Expense">
 		<id name="expenseId" type="long">

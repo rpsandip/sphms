@@ -327,6 +327,7 @@ public class CustomCompanyPersistenceImpl extends BasePersistenceImpl<CustomComp
 		customCompanyImpl.setBankName(customCompany.getBankName());
 		customCompanyImpl.setAccountDetail(customCompany.getAccountDetail());
 		customCompanyImpl.setPoPrefix(customCompany.getPoPrefix());
+		customCompanyImpl.setShortName(customCompany.getShortName());
 
 		return customCompanyImpl;
 	}

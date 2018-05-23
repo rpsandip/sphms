@@ -84,11 +84,12 @@ public class ClientLocalServiceUtil {
 		java.lang.String address2, java.lang.String city,
 		java.lang.String state, java.lang.String contactPersonName,
 		java.lang.String contactPersonPhoneNo,
-		java.lang.String contactPersonEmail, long createdBy) {
+		java.lang.String contactPersonEmail, java.lang.String panNo,
+		java.lang.String gstNo, long createdBy) {
 		return getService()
 				   .addClient(clientName, address1, address2, city, state,
-			contactPersonName, contactPersonPhoneNo, contactPersonEmail,
-			createdBy);
+			contactPersonName, contactPersonPhoneNo, contactPersonEmail, panNo,
+			gstNo, createdBy);
 	}
 
 	/**
@@ -159,12 +160,13 @@ public class ClientLocalServiceUtil {
 		java.lang.String address2, java.lang.String city,
 		java.lang.String state, java.lang.String contactPersonName,
 		java.lang.String contactPersonPhoneNo,
-		java.lang.String contactPersonEmail, long createdBy)
+		java.lang.String contactPersonEmail, java.lang.String panNo,
+		java.lang.String gstNo, long createdBy)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateClient(clientId, clientName, address1, address2,
 			city, state, contactPersonName, contactPersonPhoneNo,
-			contactPersonEmail, createdBy);
+			contactPersonEmail, panNo, gstNo, createdBy);
 	}
 
 	/**

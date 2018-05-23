@@ -132,7 +132,7 @@ public class FileUtil {
 			
 	    List<XSLFShape> shapes= slide.getShapes();
 	 
-	    setSlideTitle(shapes.get(0), hording.getTitle());
+	    setSlideTitle(shapes.get(0), hording.getTitle(), hording.getCity(), hording.getSize());
 
 	    setSlidePicture(shapes.get(1), ppt, slide, hording);
 
@@ -198,12 +198,12 @@ public class FileUtil {
 		return ppt.createSlide(slidelayout);
 	}
 	
-	private static void setSlideTitle(XSLFShape title, String hordingTitle){
+	private static void setSlideTitle(XSLFShape title, String hordingTitle, String city, String size){
 		XSLFTextShape textShape = (XSLFTextShape) title;
         textShape.clearText();
         XSLFTextParagraph p = textShape.addNewTextParagraph();
         XSLFTextRun r1 = p.addNewTextRun();
-        r1.setText(hordingTitle);
+        r1.setText(hordingTitle + " " + city + " " + size);
         r1.setFontColor(Color.BLACK);
         r1.setFontSize(24.);
 	}
@@ -486,7 +486,7 @@ public class FileUtil {
     	
     	// Height
     	XSSFCell cell8 = hordingRow.createCell(8);
-    	cell8.setCellValue(heightWidthArray[1]);
+    	cell8.setCellValue(heightWidthArray[0]);
     	cell8.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
 			cell8.setCellStyle(style1);
@@ -494,7 +494,7 @@ public class FileUtil {
     	
     	// Width
     	XSSFCell cell9 = hordingRow.createCell(9);
-    	cell9.setCellValue(heightWidthArray[0]);
+    	cell9.setCellValue(heightWidthArray[1]);
     	cell9.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
 			cell9.setCellStyle(style1);
@@ -521,7 +521,7 @@ public class FileUtil {
     	
     	
     	// Sql Ft
-    	int totalSqFt = SPHMSCommonLocalServiceUtil.getTotalSqFt(heightWidthArray);
+    	float totalSqFt = SPHMSCommonLocalServiceUtil.getTotalSqFt(heightWidthArray);
     	XSSFCell cell11 = hordingRow.createCell(11);
     	cell11.setCellValue(totalSqFt);
     	cell11.setCellStyle(commonStyle);
@@ -701,7 +701,7 @@ public class FileUtil {
 		
 	}
 
-	private static double getMountingCharges(int totalSq, Proposal_Hording moutingCharges){
+	private static double getMountingCharges(float totalSq, Proposal_Hording moutingCharges){
 		if(Validator.isNotNull(moutingCharges)){
 			return totalSq*moutingCharges.getMountingCharge();
 		}else{
@@ -709,7 +709,7 @@ public class FileUtil {
 		}
 	}
 	
-	private static double getPrintingCharges(int totalSq, Proposal_Hording printingCharges){
+	private static double getPrintingCharges(float totalSq, Proposal_Hording printingCharges){
 		if(Validator.isNotNull(printingCharges)){
 			return totalSq*printingCharges.getPrintingCharge();
 		}else{

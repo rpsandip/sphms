@@ -71,6 +71,7 @@ public class GetBillingListResourceCommand implements MVCResourceCommand{
 			JSONObject billingJsonObject = JSONFactoryUtil.createJSONObject();
 			BillingBean billingBean = new BillingBean(billing);
 			billingJsonObject.put("client", billingBean.getClientName());
+			billingJsonObject.put("clientCity", billingBean.getClientCity());
 			billingJsonObject.put("campaign", billingBean.getCampaign());
 			billingJsonObject.put("financeYear", billingBean.getFinancialYear());
 			billingJsonObject.put("billingId", billingBean.getBillingId());

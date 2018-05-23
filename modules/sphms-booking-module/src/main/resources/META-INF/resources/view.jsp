@@ -46,6 +46,7 @@
             		 "processing": true,
             	     "serverSide": true,
             	     "searching": false,
+            	     "bSort": false,
             	     "pageLength": 50,
             	     "ajax": resourceURL.toString(),
             		 "order": [],

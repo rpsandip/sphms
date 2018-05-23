@@ -69,7 +69,7 @@ public class SearchHordingResourceCommand implements MVCResourceCommand{
 		}
 		
 		List<HordingBean> hordingBeanList = SPHMSCommonLocalServiceUtil.searchHordings(keyword, city, height, width, startDate, endDate, start, start+length);
-		
+		long totalHordingList = SPHMSCommonLocalServiceUtil.searchHordingCount(keyword, city, height, width, startDate, endDate);
 		_log.info("hordingBeanList->" + hordingBeanList.size());
 		
 		for(HordingBean hordingBean : hordingBeanList){
@@ -89,8 +89,8 @@ public class SearchHordingResourceCommand implements MVCResourceCommand{
 			dataArray.put(jsonObject);
 		}
 		
-	    responseObj.put("iTotalRecords", hordingBeanList.size());
-	    responseObj.put("iTotalDisplayRecords", hordingBeanList.size());
+	    responseObj.put("iTotalRecords", totalHordingList);
+	    responseObj.put("iTotalDisplayRecords", totalHordingList);
 	    responseObj.put("aaData", dataArray);
 	    
 	    try {

@@ -82,10 +82,11 @@ public class ClientLocalServiceWrapper implements ClientLocalService,
 		java.lang.String address2, java.lang.String city,
 		java.lang.String state, java.lang.String contactPersonName,
 		java.lang.String contactPersonPhoneNo,
-		java.lang.String contactPersonEmail, long createdBy) {
+		java.lang.String contactPersonEmail, java.lang.String panNo,
+		java.lang.String gstNo, long createdBy) {
 		return _clientLocalService.addClient(clientName, address1, address2,
 			city, state, contactPersonName, contactPersonPhoneNo,
-			contactPersonEmail, createdBy);
+			contactPersonEmail, panNo, gstNo, createdBy);
 	}
 
 	/**
@@ -160,11 +161,12 @@ public class ClientLocalServiceWrapper implements ClientLocalService,
 		java.lang.String address2, java.lang.String city,
 		java.lang.String state, java.lang.String contactPersonName,
 		java.lang.String contactPersonPhoneNo,
-		java.lang.String contactPersonEmail, long createdBy)
+		java.lang.String contactPersonEmail, java.lang.String panNo,
+		java.lang.String gstNo, long createdBy)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _clientLocalService.updateClient(clientId, clientName, address1,
 			address2, city, state, contactPersonName, contactPersonPhoneNo,
-			contactPersonEmail, createdBy);
+			contactPersonEmail, panNo, gstNo, createdBy);
 	}
 
 	/**

@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Dummy;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -50,6 +51,7 @@ import com.sphms.common.service.service.BookingLocalServiceUtil;
 import com.sphms.common.service.service.Booking_HordingLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.base.SPHMSCommonLocalServiceBaseImpl;
+import com.sphms.common.service.util.BookingStatus;
 
 /**
  * The implementation of the s p h m s common local service.
@@ -130,6 +132,32 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 	public List<HordingBean> searchHordings(String keyword, String city, int height, int width, Date startDate, Date endDate, int start, int end){
 		List<HordingBean> searchedHordingList = new ArrayList<HordingBean>();
 		
+		DynamicQuery dynamicQuery = getDynamicQueryForSearchHording(keyword, city, height, width, startDate, endDate, start, end);
+		
+		List<Hording> hordingList = HordingLocalServiceUtil.dynamicQuery(dynamicQuery);
+		
+		for(Hording hording : hordingList){
+			HordingBean hordingBean = new HordingBean(hording);
+			searchedHordingList.add(hordingBean);
+		}
+		
+		return searchedHordingList;
+	}
+	
+	public long searchHordingCount(String keyword, String city, int height, int width, Date startDate, Date endDate){
+		
+		long totalHording=0;
+		
+		DynamicQuery dynamicQuery = getDynamicQueryForSearchHording(keyword, city, height, width, startDate, endDate, -1, -1);
+		
+		totalHording = HordingLocalServiceUtil.dynamicQueryCount(dynamicQuery);
+		
+		return totalHording;
+	}
+	
+	
+	private DynamicQuery getDynamicQueryForSearchHording(String keyword, String city, int height, int width, Date startDate, Date endDate, int start, int end){
+		
 		DynamicQuery dynamicQuery = HordingLocalServiceUtil.dynamicQuery();
 
 		Criterion criterion = RestrictionsFactoryUtil.like("title", StringPool.PERCENT +keyword+StringPool.PERCENT);
@@ -158,7 +186,13 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 			
 			Criterion dateCriteria3 = RestrictionsFactoryUtil.or(dateCriteria, dateCriteria2);
 			
-			bookingQuery.add(dateCriteria3);
+
+			Criterion statusCriteria = RestrictionsFactoryUtil.eq("status", BookingStatus.ACTIVE.getValue());
+			
+			Criterion finalCriteria = RestrictionsFactoryUtil.and(dateCriteria3, statusCriteria);
+			
+			
+			bookingQuery.add(finalCriteria);
 			
 			
 			DynamicQuery bookingHordingQuery = Booking_HordingLocalServiceUtil.dynamicQuery();
@@ -174,16 +208,11 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 			dynamicQuery.add(criterion);
 		}
 		
-		dynamicQuery.setLimit(start, end);
-		
-		List<Hording> hordingList = HordingLocalServiceUtil.dynamicQuery(dynamicQuery);
-		
-		for(Hording hording : hordingList){
-			HordingBean hordingBean = new HordingBean(hording);
-			searchedHordingList.add(hordingBean);
+		if(start!=-1 && end!=-1){
+			dynamicQuery.setLimit(start, end);
 		}
 		
-		return searchedHordingList;
+		return dynamicQuery;
 	}
 	
 	@Override
@@ -249,9 +278,9 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 		return sizeArray;
 	}
 	
-	public  int getTotalSqFt(String[] heigthWidthArray){
-		int height = Integer.parseInt(heigthWidthArray[1]);
-		int width  = Integer.parseInt(heigthWidthArray[0]);
+	public float getTotalSqFt(String[] heigthWidthArray){
+		float height = Float.parseFloat(heigthWidthArray[1]);
+		float width  = Float.parseFloat(heigthWidthArray[0]);
 		return height*width;
 	}
 	

@@ -79,6 +79,8 @@
 		<field name="city" type="String">
 			<hint name="max-length">50</hint>
 		</field>
+		<field name="panNo" type="String" />
+		<field name="gstNo" type="String" />
 		<field name="state" type="String" />
 		<field name="contactPersonName" type="String">
 			<hint name="max-length">50</hint>
@@ -114,6 +116,7 @@
 		<field name="bankName" type="String" />
 		<field name="accountDetail" type="String" />
 		<field name="poPrefix" type="String" />
+		<field name="shortName" type="String" />
 	</model>
 	<model name="com.sphms.common.service.model.Expense">
 		<field name="expenseId" type="long" />

@@ -168,6 +168,21 @@ public interface CustomCompanyModel extends BaseModel<CustomCompany>,
 	 */
 	public void setPoPrefix(String poPrefix);
 
+	/**
+	 * Returns the short name of this custom company.
+	 *
+	 * @return the short name of this custom company
+	 */
+	@AutoEscape
+	public String getShortName();
+
+	/**
+	 * Sets the short name of this custom company.
+	 *
+	 * @param shortName the short name of this custom company
+	 */
+	public void setShortName(String shortName);
+
 	@Override
 	public boolean isNew();
 
