@@ -89,6 +89,7 @@
 		<property name="mountingCharge" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="printingCharge" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="units" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="hsnNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.sphms.common.service.model.impl.ClientImpl" table="SPHMS_Client">
 		<id name="clientId" type="long">

@@ -86,13 +86,11 @@
        				<div class="row">
        					<div class="form-group col-md-6">
 	       					 <aui:input name="panNo" label="Pan No" cssClass="form-control" value="${client.panNo }">
-						     	<aui:validator name="required" />
 						     	<aui:validator name="maxLength">70</aui:validator>
 							 </aui:input>
 						</div>
 						<div class="form-group col-md-6">
 	       					 <aui:input name="gstNo" label="GST No" cssClass="form-control" value="${client.gstNo }">
-						     	<aui:validator name="required" />
 						     	<aui:validator name="maxLength">70</aui:validator>
 							 </aui:input>
 						</div>	 

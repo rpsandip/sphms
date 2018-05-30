@@ -2,7 +2,8 @@
 <%@page import="com.sphms.common.service.service.LandLordLocalServiceUtil"%>
 <%@ include file="../init.jsp" %>
 
-<portlet:resourceURL id="/download-po" var="downLoadPOURL" />
+<portlet:resourceURL id="/download-po" var="
+" />
 
 <section class="content-header">
   <h1>

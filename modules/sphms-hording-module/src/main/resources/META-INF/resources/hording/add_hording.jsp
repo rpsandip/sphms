@@ -69,7 +69,6 @@
 					<div class="row">
 	       				<div class="form-group col-md-3">
 	       					 <aui:select name="type" label="type" cssClass="form-control">
-	       					 	<aui:option value="AL" selected='${hordingBean.hordingType eq "AL" ? true : false }' >AL</aui:option>
 	       					 	<aui:option value="BL" selected='${hordingBean.hordingType eq "BL" ? true : false }'>BL</aui:option>
 	       					 	<aui:option value="NL" selected='${hordingBean.hordingType eq "NL" ? true : false }'>NL</aui:option>
 	       					 	<aui:option value="FL" selected='${hordingBean.hordingType eq "FL" ? true : false }'>FL</aui:option>

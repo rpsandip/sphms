@@ -62,6 +62,7 @@ public class Booking_HordingWrapper implements Booking_Hording,
 		attributes.put("mountingCharge", getMountingCharge());
 		attributes.put("printingCharge", getPrintingCharge());
 		attributes.put("units", getUnits());
+		attributes.put("hsnNo", getHsnNo());
 
 		return attributes;
 	}
@@ -96,6 +97,12 @@ public class Booking_HordingWrapper implements Booking_Hording,
 
 		if (units != null) {
 			setUnits(units);
+		}
+
+		String hsnNo = (String)attributes.get("hsnNo");
+
+		if (hsnNo != null) {
+			setHsnNo(hsnNo);
 		}
 	}
 
@@ -194,6 +201,16 @@ public class Booking_HordingWrapper implements Booking_Hording,
 		return new Booking_HordingWrapper((Booking_Hording)_booking_Hording.clone());
 	}
 
+	/**
+	* Returns the hsn no of this booking_ hording.
+	*
+	* @return the hsn no of this booking_ hording
+	*/
+	@Override
+	public java.lang.String getHsnNo() {
+		return _booking_Hording.getHsnNo();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _booking_Hording.toString();
@@ -268,6 +285,16 @@ public class Booking_HordingWrapper implements Booking_Hording,
 	@Override
 	public void setHordingId(long hordingId) {
 		_booking_Hording.setHordingId(hordingId);
+	}
+
+	/**
+	* Sets the hsn no of this booking_ hording.
+	*
+	* @param hsnNo the hsn no of this booking_ hording
+	*/
+	@Override
+	public void setHsnNo(java.lang.String hsnNo) {
+		_booking_Hording.setHsnNo(hsnNo);
 	}
 
 	/**

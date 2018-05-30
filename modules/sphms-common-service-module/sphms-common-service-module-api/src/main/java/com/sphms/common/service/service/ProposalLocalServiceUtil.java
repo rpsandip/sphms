@@ -41,6 +41,11 @@ public class ProposalLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.sphms.common.service.service.impl.ProposalLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean deleteProposalDetail(long proposalId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().deleteProposalDetail(proposalId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}

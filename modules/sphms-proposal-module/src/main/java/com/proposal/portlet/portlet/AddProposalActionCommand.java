@@ -53,7 +53,7 @@ public class AddProposalActionCommand extends BaseMVCActionCommand{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		String selectedHordings = ParamUtil.getString(actionRequest, "selectedHordingIds");
 		String campaignTitle = ParamUtil.getString(actionRequest, "camapaignTitle");
-		long clientId = ParamUtil.getLong(actionRequest, "clientId");
+		long clientId = ParamUtil.getLong(actionRequest, "client");
 		Date startDate = ParamUtil.getDate(actionRequest, "startDate", dateFormat);
 		Date endDate = ParamUtil.getDate(actionRequest, "endDate", dateFormat);
 		List<Hording> hordingList = new ArrayList<Hording>();

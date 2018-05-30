@@ -39,6 +39,7 @@ public class Booking_HordingSoap implements Serializable {
 		soapModel.setMountingCharge(model.getMountingCharge());
 		soapModel.setPrintingCharge(model.getPrintingCharge());
 		soapModel.setUnits(model.getUnits());
+		soapModel.setHsnNo(model.getHsnNo());
 
 		return soapModel;
 	}
@@ -134,9 +135,18 @@ public class Booking_HordingSoap implements Serializable {
 		_units = units;
 	}
 
+	public String getHsnNo() {
+		return _hsnNo;
+	}
+
+	public void setHsnNo(String hsnNo) {
+		_hsnNo = hsnNo;
+	}
+
 	private long _bookingId;
 	private long _hordingId;
 	private double _mountingCharge;
 	private double _printingCharge;
 	private int _units;
+	private String _hsnNo;
 }

@@ -1,4 +1,8 @@
 <%@ include file="../init.jsp" %>
+<portlet:resourceURL id="/download-bill" var="downloadBillURL">
+	<portlet:param name="billType" value="ad-space-bill"/>
+	<portlet:param name="bookingId" value="${bookingBean.bookingId }"/>
+</portlet:resourceURL>
 <section class="content-header">
 	<h1>
     	${bookingBean.campaignTitle }
@@ -24,7 +28,8 @@
 	       			</div>
 	       			<div class="row">
 	       				<div class="form-group col-md-12">
-	       					<b> <a href="${bookingBean.billURL }">DownLoad Bill </a></b>
+	       					
+	       					<b> <a href="${downloadBillURL}">DownLoad Bill </a></b>
 	       				</div>
 	       			</div>	
 	       			<div class="row">
@@ -32,16 +37,19 @@
      						<h4><liferay-ui:message key="selected.hoardings"/> </h4>
      					</div>
      					<c:forEach items="${ bookingHordingBeanList}"  var="bookingHording">
-     						<div class="form-group col-md-3">
+     						<div class="form-group col-md-4">
 	       					 	<b>Hoarding: </b> ${bookingHording.hordingTitle }
      						</div>
-     						<div class="form-group col-md-3">
+     						<div class="form-group col-md-2">
+	       					 	<b>HSN Code: </b> ${bookingHording.hsnNo }
+     						</div>
+     						<div class="form-group col-md-2">
 	       					 	<b>Mounting Charge: </b> Rs. ${ bookingHording.mountingCharge}/SqFt
      						</div>
-     						<div class="form-group col-md-3">
+     						<div class="form-group col-md-2">
 	       					 	<b>Printing Charge: </b> Rs. ${ bookingHording.printingCharge}/SqFt
      						</div>
-     						<div class="form-group col-md-3">
+     						<div class="form-group col-md-2">
 	       					 	<b>Units: </b>  ${ bookingHording.units}
      						</div>
      					</c:forEach>

@@ -69,10 +69,11 @@ public class Billing_HordingLocalServiceWrapper
 	@Override
 	public com.sphms.common.service.model.Billing_Hording addBillingHording(
 		long billingId, long hordingId, double totalMountingCharge,
-		double totalPrintingCharge, int units, double totalHordingCharge) {
+		double totalPrintingCharge, int units, double totalHordingCharge,
+		java.lang.String hsnNo) {
 		return _billing_HordingLocalService.addBillingHording(billingId,
 			hordingId, totalMountingCharge, totalPrintingCharge, units,
-			totalHordingCharge);
+			totalHordingCharge, hsnNo);
 	}
 
 	/**

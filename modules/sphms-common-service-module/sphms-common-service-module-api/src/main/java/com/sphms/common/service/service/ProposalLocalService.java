@@ -62,6 +62,9 @@ public interface ProposalLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ProposalLocalServiceUtil} to access the proposal local service. Add custom service methods to {@link com.sphms.common.service.service.impl.ProposalLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public boolean deleteProposalDetail(long proposalId)
+		throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

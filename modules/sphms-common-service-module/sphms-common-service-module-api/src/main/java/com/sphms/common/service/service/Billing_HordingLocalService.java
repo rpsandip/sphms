@@ -83,7 +83,7 @@ public interface Billing_HordingLocalService extends BaseLocalService,
 
 	public Billing_Hording addBillingHording(long billingId, long hordingId,
 		double totalMountingCharge, double totalPrintingCharge, int units,
-		double totalHordingCharge);
+		double totalHordingCharge, java.lang.String hsnNo);
 
 	/**
 	* Adds the billing_ hording to the database. Also notifies the appropriate model listeners.

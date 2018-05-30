@@ -1,12 +1,10 @@
 package com.booking.portlet.portlet.util;
 
 import java.io.File;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,35 +20,26 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.liferay.document.library.kernel.exception.DuplicateFileEntryException;
-import com.liferay.document.library.kernel.model.DLFolderConstants;
-import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.repository.model.FileEntry;
-import com.liferay.portal.kernel.repository.model.Folder;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.Billing_HordingBean;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Client;
 import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Hording;
-import com.sphms.common.service.model.Proposal;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
-import com.booking.portlet.portlet.util.NumberToWord;
 
 public class FileUtil {
 	private static Log _log = LogFactoryUtil.getLog(FileUtil.class.getName());
 	private static final int MAX_ColUMN=7;
 	private static final int MIN_COLUMN=1;
+	private static final SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
 	
 	public static File createBillXlsForBooking(Booking booking, Billing billing,List<Billing_HordingBean> billiingHordingBeanList, CustomCompany company) throws FileNotFoundException, IOException, PortalException{
 		//long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
@@ -131,8 +120,7 @@ public class FileUtil {
 		for(int i=0;i<billingHordingList.size();i++){
 			index =  createHordingDataRow(sheet, wb, index, i,billingHordingList.size(), billingHordingList.get(i).getHording(),booking, billingHordingList.get(i), billType);
 		}
-		
-	
+			
 		
 		if(totalPrintingCharge>0 && billType.equals("ad")){
 			index = createPrintingChargeAmountRow(sheet, wb, index, totalPrintingCharge);
@@ -422,6 +410,7 @@ public class FileUtil {
 	}
 	
 	private static int createPONumberRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, Booking booking, Billing billing){
+		
 		XSSFRow poNumberRow = sheet.createRow(index);
 		XSSFCellStyle style = getLeftTopBorderStyle(wb);
 		style.setFont(font);
@@ -447,7 +436,7 @@ public class FileUtil {
 		cell81.setCellStyle(style2);
 		
 		XSSFCell cell82 = billingPeriodRow.createCell(2);
-		cell82.setCellValue(SPHMSCommonLocalServiceUtil.getDateTimeDiff(booking.getStartDate(), booking.getEndDate()));
+		cell82.setCellValue(dateformat.format(booking.getStartDate()) + " -  " + dateformat.format(booking.getEndDate()));
 		
 		XSSFCell cell86 = billingPeriodRow.createCell(MAX_ColUMN);
 		cell86.setCellStyle(getRightBorderStyle(wb));
@@ -519,7 +508,7 @@ public class FileUtil {
 		cell12_4.setCellValue("Size");
 		cell12_4.setCellStyle(style);
 		
-		if(billType.equals("add")){
+		if(billType.equals("ad")){
 			XSSFCell cell12_5 = hordingTableRow.createCell(5);
 			cell12_5.setCellValue("Rate Per Month");
 			cell12_5.setCellStyle(style);
@@ -529,7 +518,7 @@ public class FileUtil {
 			cell12_5.setCellStyle(style);
 		}
 		
-		if(billType.equals("add")){
+		if(billType.equals("ad")){
 			XSSFCell cell12_6 = hordingTableRow.createCell(6);
 			cell12_6.setCellValue("Period");
 			cell12_6.setCellStyle(style);

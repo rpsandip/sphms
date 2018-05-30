@@ -42,6 +42,7 @@
 						     	<aui:option value="Travelling" selected='${expense.type eq "Travelling" ? true : false }'>Travelling</aui:option>
 						     	<aui:option value="Food" selected='${expense.type eq "Food" ? true : false }'>Food</aui:option>
 						     	<aui:option value="Entertainment" selected='${expense.type eq "Entertainment" ? true : false }'>Entertainment</aui:option>
+						     	<aui:option value="Other" selected='${expense.type eq "Other" ? true : false }'>Other</aui:option>
 							 </aui:select>
 						</div>
 					</div>

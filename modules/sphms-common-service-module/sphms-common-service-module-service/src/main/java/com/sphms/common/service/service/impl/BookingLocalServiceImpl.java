@@ -101,7 +101,7 @@ public class BookingLocalServiceImpl extends BookingLocalServiceBaseImpl {
 		for(Booking_HordingBean bookingHording : bookingHordingList){
 			bookingHording.setBookingId(booking.getBookingId());
 			Booking_HordingLocalServiceUtil.addBookingHoarding(booking.getBookingId(), bookingHording.getHordingId(),
-					bookingHording.getMountingCharge(), bookingHording.getPrintingCharge(), bookingHording.getUnits());
+					bookingHording.getMountingCharge(), bookingHording.getPrintingCharge(), bookingHording.getUnits(), bookingHording.getHsnNo());
 		}
 	}
 	

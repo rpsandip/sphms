@@ -128,6 +128,6 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 	}
 	
 	public String getPONumber(Billing_PO billingPO, CustomCompany company){
-		return company.getPoPrefix()+ "-"+ billingPO.getPoNumber() +"/"+ billingPO.getFinancialYear();
+		return company.getShortName()+ "-"+ billingPO.getPoNumber() +"/"+ billingPO.getFinancialYear();
 	}
 }

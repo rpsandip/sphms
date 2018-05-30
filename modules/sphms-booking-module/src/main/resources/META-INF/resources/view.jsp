@@ -21,6 +21,25 @@
  	 <div class="col-xs-12">
      	<div class="box">
             <div class="box-body">
+	              <form id="filterProposal">
+	              	<div class="form-group col-md-3">
+	                  <select name="client" id="client" class="form-control">
+						<option value="0">Select Client</option>
+							<c:forEach items="${clientList }" var="client">
+								<option value="${client.clientId }">${client.clientName }</option>
+							</c:forEach>	
+						</select>
+	                </div>
+	              	<div class="form-group col-md-3">
+	                  <input type="text" class="form-control" name="searchStartDate" id="searchStartDate" placeholder="Start Date"/>
+	                </div>
+	                <div class="form-group col-md-3">
+	                  <input type="text" class="form-control" name="searchEndDate" id="searchEndDate" placeholder="End Date"/>
+	                </div>
+	                <div class="form-group col-md-3">
+	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearch">
+	                </div>
+	              </form>
 	              <br/>
 	             <table id="bookings" class="display table table-bordered table-hover table-striped" cellspacing="0" width="100%">
             		<tbody></tbody>
@@ -85,21 +104,21 @@
             });
           });
           
-          $('#startDate').datepicker({
+          $('#searchStartDate').datepicker({
         		format: 'dd/mm/yyyy',  
         	    autoclose: true
           }); 
           
-          $('#endDate').datepicker({
+          $('#searchEndDate').datepicker({
       		format: 'dd/mm/yyyy',  
       	    autoclose: true
         }); 
             
           $("#filterSearch").on('click',function(){
             	var clientId = $("#client").val();
-            	var startDate = $("#startDate").val();
-            	var endDate = $("#endDate").val();
-            	var getDocumentURL = '${getBookingListURL}&<portlet:namespace />searchClient='+clientId+'&<portlet:namespace />searchStartDate='+startDate+'&<portlet:namespace />searchEndDate='+endDate;
+            	var startDate = $("#searchStartDate").val();
+            	var endDate = $("#searchEndDate").val();
+            	var getDocumentURL = '${getBookingListURL}&<portlet:namespace />searchclient='+clientId+'&<portlet:namespace />searchStartDate='+startDate+'&<portlet:namespace />searchEndDate='+endDate;
                 bookingDataTable.ajax.url(getDocumentURL).load();
 			});  
         })(jQuery);

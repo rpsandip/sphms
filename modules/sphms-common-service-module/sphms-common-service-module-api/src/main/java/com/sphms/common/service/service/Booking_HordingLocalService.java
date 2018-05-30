@@ -82,7 +82,8 @@ public interface Booking_HordingLocalService extends BaseLocalService,
 		throws PortalException;
 
 	public Booking_Hording addBookingHoarding(long bookingId, long hordingId,
-		double mountingCharge, double printingChrage, int units);
+		double mountingCharge, double printingChrage, int units,
+		java.lang.String hsnNo);
 
 	/**
 	* Adds the booking_ hording to the database. Also notifies the appropriate model listeners.

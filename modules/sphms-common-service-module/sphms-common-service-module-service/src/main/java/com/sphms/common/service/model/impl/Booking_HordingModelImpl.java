@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import com.sphms.common.service.model.Booking_Hording;
 import com.sphms.common.service.model.Booking_HordingModel;
@@ -61,7 +62,8 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 			{ "hordingId", Types.BIGINT },
 			{ "mountingCharge", Types.DOUBLE },
 			{ "printingCharge", Types.DOUBLE },
-			{ "units", Types.INTEGER }
+			{ "units", Types.INTEGER },
+			{ "hsnNo", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -71,9 +73,10 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 		TABLE_COLUMNS_MAP.put("mountingCharge", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("printingCharge", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("units", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("hsnNo", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Booking_Hording (bookingId LONG not null,hordingId LONG not null,mountingCharge DOUBLE,printingCharge DOUBLE,units INTEGER,primary key (bookingId, hordingId))";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Booking_Hording (bookingId LONG not null,hordingId LONG not null,mountingCharge DOUBLE,printingCharge DOUBLE,units INTEGER,hsnNo VARCHAR(75) null,primary key (bookingId, hordingId))";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Booking_Hording";
 	public static final String ORDER_BY_JPQL = " ORDER BY booking_Hording.id.bookingId ASC, booking_Hording.id.hordingId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Booking_Hording.bookingId ASC, SPHMS_Booking_Hording.hordingId ASC";
@@ -137,6 +140,7 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 		attributes.put("mountingCharge", getMountingCharge());
 		attributes.put("printingCharge", getPrintingCharge());
 		attributes.put("units", getUnits());
+		attributes.put("hsnNo", getHsnNo());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -174,6 +178,12 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 
 		if (units != null) {
 			setUnits(units);
+		}
+
+		String hsnNo = (String)attributes.get("hsnNo");
+
+		if (hsnNo != null) {
+			setHsnNo(hsnNo);
 		}
 	}
 
@@ -239,6 +249,21 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 		_units = units;
 	}
 
+	@Override
+	public String getHsnNo() {
+		if (_hsnNo == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _hsnNo;
+		}
+	}
+
+	@Override
+	public void setHsnNo(String hsnNo) {
+		_hsnNo = hsnNo;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -262,6 +287,7 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 		booking_HordingImpl.setMountingCharge(getMountingCharge());
 		booking_HordingImpl.setPrintingCharge(getPrintingCharge());
 		booking_HordingImpl.setUnits(getUnits());
+		booking_HordingImpl.setHsnNo(getHsnNo());
 
 		booking_HordingImpl.resetOriginalValues();
 
@@ -339,12 +365,20 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 
 		booking_HordingCacheModel.units = getUnits();
 
+		booking_HordingCacheModel.hsnNo = getHsnNo();
+
+		String hsnNo = booking_HordingCacheModel.hsnNo;
+
+		if ((hsnNo != null) && (hsnNo.length() == 0)) {
+			booking_HordingCacheModel.hsnNo = null;
+		}
+
 		return booking_HordingCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{bookingId=");
 		sb.append(getBookingId());
@@ -356,6 +390,8 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 		sb.append(getPrintingCharge());
 		sb.append(", units=");
 		sb.append(getUnits());
+		sb.append(", hsnNo=");
+		sb.append(getHsnNo());
 		sb.append("}");
 
 		return sb.toString();
@@ -363,7 +399,7 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Booking_Hording");
@@ -389,6 +425,10 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 			"<column><column-name>units</column-name><column-value><![CDATA[");
 		sb.append(getUnits());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>hsnNo</column-name><column-value><![CDATA[");
+		sb.append(getHsnNo());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -406,6 +446,7 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 	private double _mountingCharge;
 	private double _printingCharge;
 	private int _units;
+	private String _hsnNo;
 	private long _columnBitmask;
 	private Booking_Hording _escapedModel;
 }

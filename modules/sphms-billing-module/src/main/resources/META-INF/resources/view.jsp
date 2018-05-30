@@ -123,9 +123,9 @@
                      	var resourceURL= Liferay.PortletURL.createResourceURL();
                		 	resourceURL.setPortletId('com_sphms_portlet_portlet_BillingModulePortlet');
                		 	resourceURL.setResourceId('/getBillingList');
-               		 resourceURL.setParameter('searchclient',clientId);
-               		 resourceURL.setParameter('searchStartDate',startDate);
-               		 resourceURL.setParameter('searchEndDate',endDate);
+               		    resourceURL.setParameter('searchclient',clientId);
+               		    resourceURL.setParameter('searchStartDate',startDate);
+               		    resourceURL.setParameter('searchEndDate',endDate);
                      	var getDocumentURL = resourceURL.toString();
                          bookingDataTable.ajax.url(getDocumentURL).load();
          			});  	 

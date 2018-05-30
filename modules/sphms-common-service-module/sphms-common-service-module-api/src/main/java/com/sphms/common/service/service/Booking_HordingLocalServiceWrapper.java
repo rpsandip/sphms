@@ -69,9 +69,9 @@ public class Booking_HordingLocalServiceWrapper
 	@Override
 	public com.sphms.common.service.model.Booking_Hording addBookingHoarding(
 		long bookingId, long hordingId, double mountingCharge,
-		double printingChrage, int units) {
+		double printingChrage, int units, java.lang.String hsnNo) {
 		return _booking_HordingLocalService.addBookingHoarding(bookingId,
-			hordingId, mountingCharge, printingChrage, units);
+			hordingId, mountingCharge, printingChrage, units, hsnNo);
 	}
 
 	/**

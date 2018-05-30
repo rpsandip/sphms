@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import com.sphms.common.service.model.Booking_Hording;
 import com.sphms.common.service.service.persistence.Booking_HordingPK;
@@ -65,7 +66,7 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{bookingId=");
 		sb.append(bookingId);
@@ -77,6 +78,8 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 		sb.append(printingCharge);
 		sb.append(", units=");
 		sb.append(units);
+		sb.append(", hsnNo=");
+		sb.append(hsnNo);
 		sb.append("}");
 
 		return sb.toString();
@@ -91,6 +94,13 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 		booking_HordingImpl.setMountingCharge(mountingCharge);
 		booking_HordingImpl.setPrintingCharge(printingCharge);
 		booking_HordingImpl.setUnits(units);
+
+		if (hsnNo == null) {
+			booking_HordingImpl.setHsnNo(StringPool.BLANK);
+		}
+		else {
+			booking_HordingImpl.setHsnNo(hsnNo);
+		}
 
 		booking_HordingImpl.resetOriginalValues();
 
@@ -108,6 +118,7 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 		printingCharge = objectInput.readDouble();
 
 		units = objectInput.readInt();
+		hsnNo = objectInput.readUTF();
 
 		booking_HordingPK = new Booking_HordingPK(bookingId, hordingId);
 	}
@@ -124,6 +135,13 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 		objectOutput.writeDouble(printingCharge);
 
 		objectOutput.writeInt(units);
+
+		if (hsnNo == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(hsnNo);
+		}
 	}
 
 	public long bookingId;
@@ -131,5 +149,6 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 	public double mountingCharge;
 	public double printingCharge;
 	public int units;
+	public String hsnNo;
 	public transient Booking_HordingPK booking_HordingPK;
 }

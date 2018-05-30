@@ -65,6 +65,7 @@ create table SPHMS_Booking_Hording (
 	mountingCharge DOUBLE,
 	printingCharge DOUBLE,
 	units INTEGER,
+	hsnNo VARCHAR(75) null,
 	primary key (bookingId, hordingId)
 );
 

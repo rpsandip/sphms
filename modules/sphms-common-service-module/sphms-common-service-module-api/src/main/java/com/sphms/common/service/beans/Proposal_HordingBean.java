@@ -15,6 +15,7 @@ public class Proposal_HordingBean {
 	private long proposalId;
 	private long hordingId;
 	private String hordingTitle;
+	private String hoardingCity;
 	private double mountingCharge;
 	private double printingCharge;
 	private int units;
@@ -29,6 +30,7 @@ public class Proposal_HordingBean {
 		try {
 			Hording hording = HordingLocalServiceUtil.getHording(this.hordingId);
 			this.hordingTitle = hording.getTitle();
+			this.hoardingCity = hording.getCity();
 		} catch (PortalException e) {
 			_log.error(e);
 		}
@@ -74,6 +76,15 @@ public class Proposal_HordingBean {
 	public void setUnits(int units) {
 		this.units = units;
 	}
+
+	public String getHoardingCity() {
+		return hoardingCity;
+	}
+
+	public void setHoardingCity(String hoardingCity) {
+		this.hoardingCity = hoardingCity;
+	}
+	
 	
 	
 	

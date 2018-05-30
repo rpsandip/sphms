@@ -32,7 +32,7 @@
 	        						<div class="col-md-8">
 	        							<div>
 	        								<span class="pull-left">
-	        									<h4>${hordingBean.title }, ${ hordingBean.city}</h3>
+	        									<h4> ${ hordingBean.city}, ${hordingBean.title }</h3>
 	        								</span>
 	        								<span class="pull-right">
 	        									<h4>Rs. ${hordingBean.pricePerMonth }/PM</h4>

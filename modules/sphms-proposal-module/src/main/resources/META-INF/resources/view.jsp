@@ -7,6 +7,10 @@
 </portlet:resourceURL>
 
 <liferay-ui:success key="proposal-added-successfully" message="proposal-added-successfully"/>
+<liferay-ui:success key="delete-proposal-successs" message="delete-proposal-successs"/>
+<liferay-ui:error key="delete-proposal-err" message="delete-proposal-err"/>
+
+
 
 <a href="${addClientURL}" class="btn btn-primary">Add Proposal</a>
 
@@ -25,10 +29,10 @@
 						</select>
 	                </div>
 	              	<div class="form-group col-md-3">
-	                  <input type="text" class="form-control" name="startDate" id="startDate" placeholder="Start Date"/>
+	                  <input type="text" class="form-control" name="searchStartDate" id="searchStartDate" placeholder="Start Date"/>
 	                </div>
 	                <div class="form-group col-md-3">
-	                  <input type="text" class="form-control" name="endDate" id="endDate" placeholder="End Date"/>
+	                  <input type="text" class="form-control" name="searchEndDate" id="searchEndDate" placeholder="End Date"/>
 	                </div>
 	                <div class="form-group col-md-3">
 	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearch">
@@ -79,21 +83,21 @@
             });
           });
           
-          $('#startDate').datepicker({
+          $('#searchStartDate').datepicker({
         		format: 'dd/mm/yyyy',  
         	    autoclose: true
           }); 
           
-          $('#endDate').datepicker({
+          $('#searchEndDate').datepicker({
       		format: 'dd/mm/yyyy',  
       	    autoclose: true
         }); 
             
           $("#filterSearch").on('click',function(){
             	var clientId = $("#client").val();
-            	var startDate = $("#startDate").val();
-            	var endDate = $("#endDate").val();
-            	var getDocumentURL = '${getProposalListURL}&<portlet:namespace />clientId='+clientId+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate;
+            	var startDate = $("#searchStartDate").val();
+            	var endDate = $("#searchEndDate").val();
+            	var getDocumentURL = '${getProposalListURL}&<portlet:namespace />clientId='+clientId+'&<portlet:namespace />searchStartDate='+startDate+'&<portlet:namespace />searchEndDate='+endDate;
                 proposalDataTable.ajax.url(getDocumentURL).load();
 			});  
         })(jQuery);

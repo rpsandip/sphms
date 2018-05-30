@@ -19,18 +19,25 @@ import java.util.Date;
 import java.util.List;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Order;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.repository.model.Folder;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.Proposal_HordingBean;
 import com.sphms.common.service.model.Proposal;
+import com.sphms.common.service.model.Proposal_Hording;
 import com.sphms.common.service.service.ProposalLocalServiceUtil;
 import com.sphms.common.service.service.Proposal_HordingLocalServiceUtil;
+import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
 import com.sphms.common.service.service.base.ProposalLocalServiceBaseImpl;
 
 import aQute.bnd.annotation.ProviderType;
@@ -82,6 +89,28 @@ public class ProposalLocalServiceImpl extends ProposalLocalServiceBaseImpl {
 			proposalHoringBean.setProposalId(proposal.getProposalId());
 			Proposal_HordingLocalServiceUtil.addProposalHording(proposal.getProposalId(), proposalHoringBean.getHordingId() , proposalHoringBean.getMountingCharge(),proposalHoringBean.getPrintingCharge(),proposalHoringBean.getUnits());
 		}
+	}
+	
+	
+	public boolean deleteProposalDetail(long proposalId) throws PortalException{
+		
+		boolean isDeleted = false;
+		
+		// Delete Proposal Hording
+		List<Proposal_Hording>  proposalHordingList  = Proposal_HordingLocalServiceUtil.getProposalHording(proposalId);
+		for(Proposal_Hording proposalHoridng : proposalHordingList){
+			Proposal_HordingLocalServiceUtil.deleteProposal_Hording(proposalHoridng);
+		}
+		
+		// Delete Proposal Folder
+		long globalSiteGroupId = SPHMSCommonLocalServiceUtil.getGlobalGroupId();
+		Folder proposalParentFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, PropsUtil.get("proposal.document.folder"));
+		DLAppServiceUtil.deleteFolder(proposalParentFolder.getFolderId());
+		
+		// Delete Proposal
+		ProposalLocalServiceUtil.deleteProposal(proposalId);
+		
+		return isDeleted;
 	}
 	
 	public List<Proposal> getProposalList(long clientId, Date startDate, Date endDate, int start, int end){

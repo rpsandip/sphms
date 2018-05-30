@@ -34,6 +34,12 @@ public class ProposalLocalServiceWrapper implements ProposalLocalService,
 	}
 
 	@Override
+	public boolean deleteProposalDetail(long proposalId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _proposalLocalService.deleteProposalDetail(proposalId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _proposalLocalService.getActionableDynamicQuery();
 	}

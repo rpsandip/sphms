@@ -21,7 +21,7 @@
 	       					<aui:input type="text" name="camapaignTitle" label="campaign" />
 	       				</div>
 	       				<div class="form-group col-md-6">
-	       					<aui:select name="clientId" label="client" cssClass="form-control">
+	       					<aui:select name="client" label="client" cssClass="form-control">
 	       					 	<aui:option value="">Select Client</aui:option>
 	       					 	<c:forEach items="${allClientList }" var="client">
 	       					 		<aui:option value="${client.clientId }" > ${client.clientName}</aui:option>

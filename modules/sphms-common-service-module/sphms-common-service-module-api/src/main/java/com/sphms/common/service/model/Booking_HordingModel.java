@@ -18,6 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 
+import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -130,6 +131,21 @@ public interface Booking_HordingModel extends BaseModel<Booking_Hording> {
 	 * @param units the units of this booking_ hording
 	 */
 	public void setUnits(int units);
+
+	/**
+	 * Returns the hsn no of this booking_ hording.
+	 *
+	 * @return the hsn no of this booking_ hording
+	 */
+	@AutoEscape
+	public String getHsnNo();
+
+	/**
+	 * Sets the hsn no of this booking_ hording.
+	 *
+	 * @param hsnNo the hsn no of this booking_ hording
+	 */
+	public void setHsnNo(String hsnNo);
 
 	@Override
 	public boolean isNew();

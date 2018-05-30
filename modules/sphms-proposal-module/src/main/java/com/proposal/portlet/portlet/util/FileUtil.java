@@ -203,7 +203,7 @@ public class FileUtil {
         textShape.clearText();
         XSLFTextParagraph p = textShape.addNewTextParagraph();
         XSLFTextRun r1 = p.addNewTextRun();
-        r1.setText(hordingTitle + " " + city + " " + size);
+        r1.setText(city + " " + hordingTitle + " " + size);
         r1.setFontColor(Color.BLACK);
         r1.setFontSize(24.);
 	}

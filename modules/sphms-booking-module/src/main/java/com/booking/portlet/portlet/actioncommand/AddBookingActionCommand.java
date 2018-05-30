@@ -73,6 +73,7 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 					bookingHordingBean.setMountingCharge(ParamUtil.getDouble(actionRequest, "moutingCharge"+hordingIndex));
 					bookingHordingBean.setPrintingCharge(ParamUtil.getDouble(actionRequest, "printingCharge"+hordingIndex));
 					bookingHordingBean.setUnits(ParamUtil.getInteger(actionRequest, "units"+hordingIndex));
+					bookingHordingBean.setHsnNo(ParamUtil.getString(actionRequest,"hsnNo"+hordingIndex));
 					bookingHordingBeanList.add(bookingHordingBean);
 					hordingList.add(hording);
 				} catch (NumberFormatException e) {

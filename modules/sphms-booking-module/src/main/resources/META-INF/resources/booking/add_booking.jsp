@@ -67,17 +67,20 @@
      					</div>
      					<c:if test="${bookingId eq 0 }">
 	     					<c:forEach items="${hordindList }" var="hording" varStatus="loop">
-	     						<div class="form-group col-md-3">
+	     						<div class="form-group col-md-4">
 		       					 	<aui:input type="text" name="title${loop.index}" label="title" value="${hording.title }" readonly="true"/>	
 		       					 	<aui:input type="hidden" name="hordingId${index }" label="title" />
 	     						</div>
 	     						<div class="form-group col-md-3">
+		       					 	<aui:input type="text" name="hsnNo${loop.index}" label="HSN Code" />	
+	     						</div>
+	     						<div class="form-group col-md-2">
 		       					 	<aui:input type="text" name="moutingCharge${loop.index}" label="mountingCharge" />	
 	     						</div>
-	     						<div class="form-group col-md-3">
+	     						<div class="form-group col-md-2">
 		       					 	<aui:input type="text" name="printingCharge${loop.index}" label="printingCharge" />	
 	     						</div>
-	     						<div class="form-group col-md-3">
+	     						<div class="form-group col-md-1">
 		       					 	<aui:input type="text" name="units${loop.index}" label="units" value="1">
 		       					 		<aui:validator name="required" />
 		       					 		<aui:validator name="number" />
@@ -101,17 +104,20 @@
      					</c:if>
      					<c:if test="${bookingId ne 0 }">
      						<c:forEach items="${bookingHordingBeanList }" var="bookingHordingBean" varStatus="loop">
-     							<div class="form-group col-md-3">
+     							<div class="form-group col-md-4">
 		       					 	<aui:input type="text" name="title${loop.index}" label="title" value="${bookingHordingBean.hordingTitle }" readonly="true"/>	
 		       					 	<aui:input type="hidden" name="hordingId${index }" value="${bookingHordingBean.hordingId }" label="title" />
 	     						</div>
 	     						<div class="form-group col-md-3">
+		       					 	<aui:input type="text" name="hsnNo${loop.index}" label="HSN Code" value="${bookingHordingBean.hsnNo }"/>	
+	     						</div>
+	     						<div class="form-group col-md-2">
 		       					 	<aui:input type="text" name="moutingCharge${loop.index}" label="mountingCharge" value="${bookingHordingBean.mountingCharge }"/>	
 	     						</div>
-	     						<div class="form-group col-md-3">
+	     						<div class="form-group col-md-2">
 		       					 	<aui:input type="text" name="printingCharge${loop.index}" label="printingCharge" value="${bookingHordingBean.printingCharge }"/>	
 	     						</div>
-	     						<div class="form-group col-md-3">
+	     						<div class="form-group col-md-1">
 		       					 	<aui:input type="text" name="units${loop.index}" label="units" value="${bookingHordingBean.units }">
 		       					 		<aui:validator name="required" />
 		       					 		<aui:validator name="number" />

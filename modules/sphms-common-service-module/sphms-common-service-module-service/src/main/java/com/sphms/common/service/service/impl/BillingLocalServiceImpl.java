@@ -118,7 +118,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(booking.getStartDate(), booking.getEndDate());
 			double displayCharge = bookingHording.getUnits() * SPHMSCommonLocalServiceUtil.getDisplayCharges(bookingHordingBean.getHoring().getPricePerMonth(), displayDurationDays);
 			Billing_HordingLocalServiceUtil.addBillingHording(billing.getBillingId(), bookingHording.getHordingId(), totalMountingCharge,
-					totalPrintingCharge, bookingHordingBean.getUnits(), displayCharge/*+totalMountingCharge+totalPrintingCharge*/);
+					totalPrintingCharge, bookingHordingBean.getUnits(), displayCharge/*+totalMountingCharge+totalPrintingCharge*/, bookingHording.getHsnNo());
 			
 			// If hoarding is not own then Need to generate PO for Billing.
 			if(bookingHordingBean.getHoring().getOwnerType()==OwnerType.TRADE.getValue()){
@@ -152,6 +152,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 				billingHording.setTotalMountingCharge(totalMountingCharge);
 				billingHording.setTotalPrintingCharge(totalPrintingCharge);
 				billingHording.setTotalHordingCharge(displayCharge);
+				billingHording.setHsnNo(bookingHording.getHsnNo());
 				
 				Billing_HordingLocalServiceUtil.updateBilling_Hording(billingHording);
 				
@@ -179,7 +180,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 				long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(booking.getStartDate(), booking.getEndDate());
 				double displayCharge = bookingHording.getUnits() * SPHMSCommonLocalServiceUtil.getDisplayCharges(bookingHordingBean.getHoring().getPricePerMonth(), displayDurationDays);
 				Billing_HordingLocalServiceUtil.addBillingHording(billing.getBillingId(), bookingHording.getHordingId(), totalMountingCharge,
-						totalPrintingCharge, bookingHordingBean.getUnits(), displayCharge/*+totalMountingCharge+totalPrintingCharge*/);
+						totalPrintingCharge, bookingHordingBean.getUnits(), displayCharge/*+totalMountingCharge+totalPrintingCharge*/, bookingHording.getHsnNo());
 			
 				// If hoarding is not own then Need to generate PO for Billing.
 				if(bookingHordingBean.getHoring().getOwnerType()==OwnerType.TRADE.getValue()){
@@ -285,7 +286,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			dynamicQuery.add(RestrictionsFactoryUtil.eq("clientId", clientId));
 		}
 		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
-			dynamicQuery.add(RestrictionsFactoryUtil.between("modifiedDate", startDate, endDate));
+			dynamicQuery.add(RestrictionsFactoryUtil.between("createDate", startDate, endDate));
 		}
 		dynamicQuery.setLimit(start, end);
 		

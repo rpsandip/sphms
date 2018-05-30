@@ -18,6 +18,7 @@ public class Booking_HordingBean {
 	private double mountingCharge;
 	private double printingCharge;
 	private int units;
+	private String hsnNo;
 	private Hording horing;
 	public  Booking_HordingBean(){
 		
@@ -29,6 +30,7 @@ public class Booking_HordingBean {
 		this.mountingCharge = bookingHording.getMountingCharge();
 		this.printingCharge = bookingHording.getPrintingCharge();
 		this.units = bookingHording.getUnits();
+		this.hsnNo = bookingHording.getHsnNo();
 		
 		try {
 			Hording hording = HordingLocalServiceUtil.getHording(this.hordingId);
@@ -83,6 +85,15 @@ public class Booking_HordingBean {
 	public void setHoring(Hording horing) {
 		this.horing = horing;
 	}
+
+	public String getHsnNo() {
+		return hsnNo;
+	}
+
+	public void setHsnNo(String hsnNo) {
+		this.hsnNo = hsnNo;
+	}
+	
 	
 	
 }

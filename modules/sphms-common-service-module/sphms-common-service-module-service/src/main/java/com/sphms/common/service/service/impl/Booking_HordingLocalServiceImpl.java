@@ -41,12 +41,13 @@ import com.sphms.common.service.service.persistence.Booking_HordingPK;
 public class Booking_HordingLocalServiceImpl
 	extends Booking_HordingLocalServiceBaseImpl {
 	
-	public Booking_Hording addBookingHoarding(long bookingId, long hordingId, double mountingCharge, double printingChrage, int units){
+	public Booking_Hording addBookingHoarding(long bookingId, long hordingId, double mountingCharge, double printingChrage, int units, String hsnNo){
 		Booking_HordingPK booking_HordingPK = new Booking_HordingPK(bookingId, hordingId);
 		Booking_Hording bookingHording = Booking_HordingLocalServiceUtil.createBooking_Hording(booking_HordingPK);
 		bookingHording.setMountingCharge(mountingCharge);
 		bookingHording.setPrintingCharge(printingChrage);
 		bookingHording.setUnits(units);
+		bookingHording.setHsnNo(hsnNo);
 		bookingHording = Booking_HordingLocalServiceUtil.addBooking_Hording(bookingHording);
 		return bookingHording;
 	}

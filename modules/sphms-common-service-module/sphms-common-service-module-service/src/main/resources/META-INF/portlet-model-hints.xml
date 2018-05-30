@@ -64,6 +64,7 @@
 		<field name="mountingCharge" type="double" />
 		<field name="printingCharge" type="double" />
 		<field name="units" type="int" />
+		<field name="hsnNo" type="String" />
 	</model>
 	<model name="com.sphms.common.service.model.Client">
 		<field name="clientId" type="long" />

@@ -70,10 +70,12 @@ public class Billing_HordingLocalServiceUtil {
 
 	public static com.sphms.common.service.model.Billing_Hording addBillingHording(
 		long billingId, long hordingId, double totalMountingCharge,
-		double totalPrintingCharge, int units, double totalHordingCharge) {
+		double totalPrintingCharge, int units, double totalHordingCharge,
+		java.lang.String hsnNo) {
 		return getService()
 				   .addBillingHording(billingId, hordingId,
-			totalMountingCharge, totalPrintingCharge, units, totalHordingCharge);
+			totalMountingCharge, totalPrintingCharge, units,
+			totalHordingCharge, hsnNo);
 	}
 
 	/**
