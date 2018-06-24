@@ -67,6 +67,7 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("modifiedBy", getModifiedBy());
+		attributes.put("status", getStatus());
 
 		return attributes;
 	}
@@ -132,6 +133,12 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 		if (modifiedBy != null) {
 			setModifiedBy(modifiedBy);
 		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
 	}
 
 	@Override
@@ -192,6 +199,16 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	@Override
 	public int compareTo(Billing_PO billing_PO) {
 		return _billing_PO.compareTo(billing_PO);
+	}
+
+	/**
+	* Returns the status of this billing_ p o.
+	*
+	* @return the status of this billing_ p o
+	*/
+	@Override
+	public int getStatus() {
+		return _billing_PO.getStatus();
 	}
 
 	@Override
@@ -444,6 +461,16 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_billing_PO.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the status of this billing_ p o.
+	*
+	* @param status the status of this billing_ p o
+	*/
+	@Override
+	public void setStatus(int status) {
+		_billing_PO.setStatus(status);
 	}
 
 	/**

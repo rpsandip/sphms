@@ -38,10 +38,11 @@ public class AddPaymentActionCommand extends BaseMVCActionCommand{
 		double amount = ParamUtil.getDouble(actionRequest, "amount");
 		String chequeNo = ParamUtil.getString(actionRequest, "chequeNo");
 		double tds = ParamUtil.getDouble(actionRequest, "tds");
+		String description = ParamUtil.getString(actionRequest, "description");
 		double deduction = ParamUtil.getDouble(actionRequest, "deduction");
 		
 		if(paymentId==0){
-			Payment payment = PaymentLocalServiceUtil.addPayment(billingId, amount, chequeNo, tds, deduction, themDisplay.getUserId());
+			Payment payment = PaymentLocalServiceUtil.addPayment(billingId, amount, chequeNo, tds, deduction, description,themDisplay.getUserId());
 			if(Validator.isNotNull(payment)){
 				SessionMessages.add(actionRequest, "payment-added-successfully");
 				actionResponse.setRenderParameter("mvcRenderCommandName", "/payment");
@@ -52,7 +53,7 @@ public class AddPaymentActionCommand extends BaseMVCActionCommand{
 				actionResponse.setRenderParameter("paymentId", String.valueOf(paymentId));
 			}
 		}else{
-			Payment payment = PaymentLocalServiceUtil.updatePayment(paymentId, billingId, amount, chequeNo, tds, deduction, themDisplay.getUserId());
+			Payment payment = PaymentLocalServiceUtil.updatePayment(paymentId, billingId, amount, chequeNo, tds, deduction, description, themDisplay.getUserId());
 			if(Validator.isNotNull(payment)){
 				SessionMessages.add(actionRequest, "payment-updated-successfully");
 				actionResponse.setRenderParameter("mvcRenderCommandName", "/payment");

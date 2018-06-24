@@ -17,6 +17,8 @@ import org.osgi.service.component.annotations.Component;
 import com.sphms.common.service.beans.BillingBean;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
+import com.sphms.common.service.util.BillingStatus;
+import com.sphms.common.service.util.BookingStatus;
 import com.sphms.portlet.portlet.util.BillingConstant;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -47,12 +49,15 @@ public class GetBillingListResourceCommand implements MVCResourceCommand{
 		int start = Integer.parseInt(httpRequest.getParameter("start"));
 		int length = Integer.parseInt(httpRequest.getParameter("length"));
 		long clientId = ParamUtil.getLong(resourceRequest, "searchclient");
+		long customCompanyId = ParamUtil.getLong(resourceRequest, "customCompany");
 		String startDateStr = ParamUtil.getString(resourceRequest, "searchStartDate");
 		String endDateStr = ParamUtil.getString(resourceRequest, "searchEndDate");
+		String statusStr = ParamUtil.getString(resourceRequest, "status");
 		JSONObject responseObj = JSONFactoryUtil.createJSONObject();
 		JSONArray dataArray = JSONFactoryUtil.createJSONArray();
 		Date startDate = null;
 		Date endDate = null;
+		int status=-1;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		if(Validator.isNotNull(startDateStr) && Validator.isNotNull(endDateStr)){
 			try {
@@ -64,8 +69,12 @@ public class GetBillingListResourceCommand implements MVCResourceCommand{
 			
 		}
 		
-		List<Billing> billingList = BillingLocalServiceUtil.getBillingList(clientId, startDate, endDate, start, start+length);
-		long totalBillingList = BillingLocalServiceUtil.getBillingCount(clientId, startDate, endDate);
+		if(Validator.isNotNull(statusStr)){
+			status = Integer.parseInt(statusStr);
+		}
+		
+		List<Billing> billingList = BillingLocalServiceUtil.getBillingList(customCompanyId, clientId, status,startDate, endDate, start, start+length);
+		long totalBillingList = BillingLocalServiceUtil.getBillingCount(customCompanyId, clientId, status, startDate, endDate);
 		
 		for(Billing billing : billingList){
 			JSONObject billingJsonObject = JSONFactoryUtil.createJSONObject();
@@ -76,7 +85,9 @@ public class GetBillingListResourceCommand implements MVCResourceCommand{
 			billingJsonObject.put("financeYear", billingBean.getFinancialYear());
 			billingJsonObject.put("billingId", billingBean.getBillingId());
 			billingJsonObject.put("billDocumentURL", billingBean.getBillDocumentURL());
+			billingJsonObject.put("billNo", BillingLocalServiceUtil.getDisplayBillNo(billing));
 			billingJsonObject.put("bookingDate", dateFormat.format(billingBean.getBookingDate()));
+			billingJsonObject.put("status", BillingStatus.findByValue(billingBean.getStatus()).getLabel());
 			dataArray.put(billingJsonObject);
 		}
 		

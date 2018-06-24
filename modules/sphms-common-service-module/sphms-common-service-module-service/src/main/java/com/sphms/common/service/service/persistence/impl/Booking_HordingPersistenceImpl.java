@@ -853,6 +853,8 @@ public class Booking_HordingPersistenceImpl extends BasePersistenceImpl<Booking_
 		booking_HordingImpl.setPrintingCharge(booking_Hording.getPrintingCharge());
 		booking_HordingImpl.setUnits(booking_Hording.getUnits());
 		booking_HordingImpl.setHsnNo(booking_Hording.getHsnNo());
+		booking_HordingImpl.setHordingBookingStartDate(booking_Hording.getHordingBookingStartDate());
+		booking_HordingImpl.setHordingBookingEndDate(booking_Hording.getHordingBookingEndDate());
 
 		return booking_HordingImpl;
 	}

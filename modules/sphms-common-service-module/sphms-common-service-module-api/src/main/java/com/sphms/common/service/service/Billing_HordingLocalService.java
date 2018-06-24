@@ -37,6 +37,7 @@ import com.sphms.common.service.service.persistence.Billing_HordingPK;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -83,7 +84,8 @@ public interface Billing_HordingLocalService extends BaseLocalService,
 
 	public Billing_Hording addBillingHording(long billingId, long hordingId,
 		double totalMountingCharge, double totalPrintingCharge, int units,
-		double totalHordingCharge, java.lang.String hsnNo);
+		double totalHordingCharge, java.lang.String hsnNo,
+		Date hordingBookingStartDate, Date hordingBookingEndDate);
 
 	/**
 	* Adds the billing_ hording to the database. Also notifies the appropriate model listeners.
@@ -127,6 +129,9 @@ public interface Billing_HordingLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Billing_Hording fetchBilling_Hording(
 		Billing_HordingPK billing_HordingPK);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Billing_Hording getBillingHording(long hordingId, long billingId);
 
 	/**
 	* Returns the billing_ hording with the primary key.

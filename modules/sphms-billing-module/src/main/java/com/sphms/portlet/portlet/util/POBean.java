@@ -2,16 +2,20 @@ package com.sphms.portlet.portlet.util;
 
 import java.util.List;
 
+import com.sphms.common.service.beans.POHordingDTO;
 import com.sphms.common.service.model.Hording;
 
 public class POBean {
 	private long billingId;
 	private long landlordId;
 	private long hordingId;
+	private String status;
 	private String landLordName;
-	private List<String> hordingList;
+	private List<POHordingDTO> hordingList;
 	private String financialYear;
 	private String poNumber;
+	
+	
 	public long getBillingId() {
 		return billingId;
 	}
@@ -48,11 +52,20 @@ public class POBean {
 	public void setHordingId(long hordingId) {
 		this.hordingId = hordingId;
 	}
-	public List<String> getHordingList() {
+	public List<POHordingDTO> getHordingList() {
 		return hordingList;
 	}
-	public void setHordingList(List<String> hordingList) {
+	public void setHordingList(List<POHordingDTO> hordingList) {
 		this.hordingList = hordingList;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	
+	
 	
 }

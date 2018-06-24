@@ -67,7 +67,7 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{billingId=");
 		sb.append(billingId);
@@ -89,6 +89,8 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		sb.append(modifiedDate);
 		sb.append(", modifiedBy=");
 		sb.append(modifiedBy);
+		sb.append(", status=");
+		sb.append(status);
 		sb.append("}");
 
 		return sb.toString();
@@ -135,6 +137,7 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		}
 
 		billing_POImpl.setModifiedBy(modifiedBy);
+		billing_POImpl.setStatus(status);
 
 		billing_POImpl.resetOriginalValues();
 
@@ -158,6 +161,8 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		modifiedDate = objectInput.readLong();
 
 		modifiedBy = objectInput.readLong();
+
+		status = objectInput.readInt();
 
 		billing_POPK = new Billing_POPK(billingId, hordingId);
 	}
@@ -192,6 +197,8 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		objectOutput.writeLong(modifiedDate);
 
 		objectOutput.writeLong(modifiedBy);
+
+		objectOutput.writeInt(status);
 	}
 
 	public long billingId;
@@ -204,5 +211,6 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 	public long createdBy;
 	public long modifiedDate;
 	public long modifiedBy;
+	public int status;
 	public transient Billing_POPK billing_POPK;
 }

@@ -54,6 +54,8 @@ import com.sphms.common.service.service.base.BillingLocalServiceBaseImpl;
 import com.sphms.common.service.service.persistence.Billing_HordingPK;
 import com.sphms.common.service.service.persistence.Billing_POPK;
 import com.sphms.common.service.service.persistence.Booking_HordingPK;
+import com.sphms.common.service.util.BillingStatus;
+import com.sphms.common.service.util.SPHMSConstant;
 
 /**
  * The implementation of the billing local service.
@@ -90,13 +92,14 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			billing.setAccessAmount(accessAmount);
 			billing.setPendingAmount(pendingAmount);
 			billing.setClientGSTNumber(clientGSTNum);
-			billing.setBillNo(getNextBillNo(companyId));
+			billing.setBillNo(StringPool.BLANK);
+			billing.setInternalBillNo(getNextInternalBillNo(companyId));
 			billing.setFinancialYear(SPHMSCommonLocalServiceUtil.getFinancialYear());
 			billing.setCreatedBy(createdBy);
 			billing.setModifiedBy(createdBy);
 			billing.setCreateDate(new Date());
 			billing.setModifiedDate(new Date());
-			billing.setStatus(0);
+			billing.setStatus(BillingStatus.CREATED.getValue());
 			
 			billing = BillingLocalServiceUtil.addBilling(billing);
 			
@@ -115,10 +118,10 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			Booking_HordingBean bookingHordingBean = new Booking_HordingBean(bookingHording);
 			double totalMountingCharge =  bookingHording.getUnits()*(bookingHording.getMountingCharge()*SPHMSCommonLocalServiceUtil.getTotalSqFt(SPHMSCommonLocalServiceUtil.getHeightOrWidth(bookingHordingBean.getHoring().getSize())));
 			double totalPrintingCharge = bookingHording.getUnits()*(bookingHording.getPrintingCharge()*SPHMSCommonLocalServiceUtil.getTotalSqFt(SPHMSCommonLocalServiceUtil.getHeightOrWidth(bookingHordingBean.getHoring().getSize())));
-			long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(booking.getStartDate(), booking.getEndDate());
+			long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(bookingHording.getHordingBookingStartDate(), bookingHording.getHordingBookingEndDate());
 			double displayCharge = bookingHording.getUnits() * SPHMSCommonLocalServiceUtil.getDisplayCharges(bookingHordingBean.getHoring().getPricePerMonth(), displayDurationDays);
 			Billing_HordingLocalServiceUtil.addBillingHording(billing.getBillingId(), bookingHording.getHordingId(), totalMountingCharge,
-					totalPrintingCharge, bookingHordingBean.getUnits(), displayCharge/*+totalMountingCharge+totalPrintingCharge*/, bookingHording.getHsnNo());
+					totalPrintingCharge, bookingHordingBean.getUnits(), displayCharge/*+totalMountingCharge+totalPrintingCharge*/, bookingHording.getHsnNo(), bookingHording.getHordingBookingStartDate(), bookingHording.getHordingBookingEndDate());
 			
 			// If hoarding is not own then Need to generate PO for Billing.
 			if(bookingHordingBean.getHoring().getOwnerType()==OwnerType.TRADE.getValue()){
@@ -140,7 +143,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			Booking_HordingBean bookingHordingBean = new Booking_HordingBean(bookingHording);
 			double totalMountingCharge =  bookingHording.getUnits()*(bookingHording.getMountingCharge()*SPHMSCommonLocalServiceUtil.getTotalSqFt(SPHMSCommonLocalServiceUtil.getHeightOrWidth(bookingHordingBean.getHoring().getSize())));
 			double totalPrintingCharge = bookingHording.getUnits()*(bookingHording.getPrintingCharge()*SPHMSCommonLocalServiceUtil.getTotalSqFt(SPHMSCommonLocalServiceUtil.getHeightOrWidth(bookingHordingBean.getHoring().getSize())));
-			long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(booking.getStartDate(), booking.getEndDate());
+			long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(bookingHordingBean.getHordingBookingStartDate(), bookingHordingBean.getHordingbookingEndDate());
 			double displayCharge = bookingHording.getUnits() * SPHMSCommonLocalServiceUtil.getDisplayCharges(bookingHordingBean.getHoring().getPricePerMonth(), displayDurationDays);
 			bookingHordingIdList.add(bookingHording.getHordingId());
 			
@@ -153,6 +156,8 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 				billingHording.setTotalPrintingCharge(totalPrintingCharge);
 				billingHording.setTotalHordingCharge(displayCharge);
 				billingHording.setHsnNo(bookingHording.getHsnNo());
+				billingHording.setHordingBookingStartDate(bookingHording.getHordingBookingStartDate());
+				billingHording.setHordingBookingEndDate(bookingHording.getHordingBookingEndDate());
 				
 				Billing_HordingLocalServiceUtil.updateBilling_Hording(billingHording);
 				
@@ -177,10 +182,10 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 				Booking_HordingBean bookingHordingBean = new Booking_HordingBean(bookingHording);
 				double totalMountingCharge =  bookingHording.getUnits()*(bookingHording.getMountingCharge()*SPHMSCommonLocalServiceUtil.getTotalSqFt(SPHMSCommonLocalServiceUtil.getHeightOrWidth(bookingHordingBean.getHoring().getSize())));
 				double totalPrintingCharge = bookingHording.getUnits()*(bookingHording.getPrintingCharge()*SPHMSCommonLocalServiceUtil.getTotalSqFt(SPHMSCommonLocalServiceUtil.getHeightOrWidth(bookingHordingBean.getHoring().getSize())));
-				long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(booking.getStartDate(), booking.getEndDate());
+				long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(bookingHording.getHordingBookingStartDate(), bookingHording.getHordingBookingEndDate());
 				double displayCharge = bookingHording.getUnits() * SPHMSCommonLocalServiceUtil.getDisplayCharges(bookingHordingBean.getHoring().getPricePerMonth(), displayDurationDays);
 				Billing_HordingLocalServiceUtil.addBillingHording(billing.getBillingId(), bookingHording.getHordingId(), totalMountingCharge,
-						totalPrintingCharge, bookingHordingBean.getUnits(), displayCharge/*+totalMountingCharge+totalPrintingCharge*/, bookingHording.getHsnNo());
+						totalPrintingCharge, bookingHordingBean.getUnits(), displayCharge/*+totalMountingCharge+totalPrintingCharge*/, bookingHording.getHsnNo(), bookingHording.getHordingBookingStartDate(), bookingHording.getHordingBookingEndDate());
 			
 				// If hoarding is not own then Need to generate PO for Billing.
 				if(bookingHordingBean.getHoring().getOwnerType()==OwnerType.TRADE.getValue()){
@@ -277,17 +282,29 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 	 * Method for get billing list based on search criteria 
 	 * @see com.sphms.common.service.service.BillingLocalService#getBillingList(long, java.util.Date, java.util.Date, int, int)
 	 */
-	public List<Billing> getBillingList(long clientId, Date startDate, Date endDate, int start, int end){
+	public List<Billing> getBillingList(long customComanyId, long clientId, int status ,Date startDate, Date endDate, int start, int end){
 		List<Billing> billingList = new ArrayList<Billing>();
 		
 		DynamicQuery dynamicQuery = BillingLocalServiceUtil.dynamicQuery();
 		
+		if(customComanyId>0){
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", customComanyId));
+		}
+		
 		if(clientId>0){
 			dynamicQuery.add(RestrictionsFactoryUtil.eq("clientId", clientId));
 		}
+		
 		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
 			dynamicQuery.add(RestrictionsFactoryUtil.between("createDate", startDate, endDate));
 		}
+		
+		if(status==-1){
+			dynamicQuery.add(RestrictionsFactoryUtil.ne("status", BillingStatus.DELETE.getValue()));
+		}else{
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("status", status));
+		}
+		
 		dynamicQuery.setLimit(start, end);
 		
 		Order order = OrderFactoryUtil.desc("modifiedDate");
@@ -298,11 +315,41 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		return billingList;
 	}
 	
-	public long getBillingCount(long clientId, Date startDate, Date endDate){
-		return getBillingList(clientId, startDate, endDate, -1, -1).size();
+	public long getBillingCount(long customCompanyId, long clientId, int status,Date startDate, Date endDate){
+		return getBillingList(customCompanyId, clientId, status,startDate, endDate, -1, -1).size();
+	}
+	
+	public boolean publishBilling(long billingId) throws PortalException{
+		Billing billing = BillingLocalServiceUtil.getBilling(billingId);
+		if(billing.getStatus()==BillingStatus.CREATED.getValue()){
+			billing.setBillNo(getNextBillNo(billing.getCustomCompanyId()));
+			billing.setStatus(BillingStatus.PUBLISHED.getValue());
+			billing = BillingLocalServiceUtil.updateBilling(billing);
+			return true;
+		}else{
+			return false;
+		}
+		
 	}
 	
 	private String getNextBillNo(long companyId){
+		DynamicQuery dynamicQuery = BillingLocalServiceUtil.dynamicQuery();
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("financialYear", SPHMSCommonLocalServiceUtil.getFinancialYear()));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", companyId));
+		dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("billNo"));
+		Order defaultOrder = OrderFactoryUtil.desc("createDate");
+		dynamicQuery.addOrder(defaultOrder);
+		dynamicQuery.setLimit(0, 1);
+		List<Billing> billingList = BillingLocalServiceUtil.dynamicQuery(dynamicQuery);
+		
+		if(billingList.size()==0 || Validator.isNull(billingList.get(0).getBillNo())){
+			return String.format("%03d", 1);
+		}else{
+			return String.format("%03d", Integer.parseInt(billingList.get(0).getBillNo())+1);
+		}
+	}
+	
+	private String getNextInternalBillNo(long companyId){
 		DynamicQuery dynamicQuery = BillingLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("financialYear", SPHMSCommonLocalServiceUtil.getFinancialYear()));
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", companyId));
@@ -311,15 +358,10 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		dynamicQuery.setLimit(0, 1);
 		List<Billing> billingList = BillingLocalServiceUtil.dynamicQuery(dynamicQuery);
 		
-		if(billingList.size()==0){
-//			String baseYear = "2017"; //PropsUtil.get("base.year.bill.no");
-//			String prefix = "9"; // PropsUtil.get("base.prefix.bill.no");
-//			int year = Calendar.getInstance().get(Calendar.YEAR);
-//			int yearDiff= (year-Integer.parseInt(baseYear));
-//			int prefixDiff = Integer.parseInt(prefix)+yearDiff;
+		if(billingList.size()==0 || Validator.isNull(billingList.get(0).getInternalBillNo())){
 			return String.format("%03d", 1);
 		}else{
-			return String.format("%03d", Integer.parseInt(billingList.get(0).getBillNo())+1);
+			return String.format("%03d", Integer.parseInt(billingList.get(0).getInternalBillNo())+1);
 		}
 	}
 	
@@ -336,11 +378,20 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 	public String getDisplayBillNo(Billing billing){
 		String displayBillNo = StringPool.BLANK;
 		if(Validator.isNotNull(billing)){
-			try {
-				CustomCompany customCompany = CustomCompanyLocalServiceUtil.getCustomCompany(billing.getCustomCompanyId());
-				return customCompany.getShortName()+StringPool.SLASH+billing.getBillNo()+StringPool.SLASH+billing.getFinancialYear();
-			} catch (PortalException e) {
-				_log.error(e);
+			if(billing.getStatus()==BillingStatus.PUBLISHED.getValue()){
+				try {
+					CustomCompany customCompany = CustomCompanyLocalServiceUtil.getCustomCompany(billing.getCustomCompanyId());
+					return customCompany.getShortName()+StringPool.SLASH+billing.getBillNo()+StringPool.SLASH+billing.getFinancialYear();
+				} catch (PortalException e) {
+					_log.error(e);
+				}
+			}else if(billing.getStatus()==BillingStatus.CREATED.getValue()){
+				try {
+					CustomCompany customCompany = CustomCompanyLocalServiceUtil.getCustomCompany(billing.getCustomCompanyId());
+					return SPHMSConstant.INTERNAL_BILL_PREFIX +StringPool.SLASH + customCompany.getShortName()+StringPool.SLASH+billing.getInternalBillNo()+StringPool.SLASH+billing.getFinancialYear();
+				} catch (PortalException e) {
+					_log.error(e);
+				}
 			}
 		}
 		

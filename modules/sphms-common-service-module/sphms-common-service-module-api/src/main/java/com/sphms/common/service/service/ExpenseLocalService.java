@@ -91,7 +91,8 @@ public interface ExpenseLocalService extends BaseLocalService,
 	public Expense addExpense(Expense expense);
 
 	public Expense addExpense(java.lang.String type, double amount,
-		java.lang.String description, Date expenseDate, long createdBy);
+		java.lang.String description, Date expenseDate, long customCompanyId,
+		long createdBy);
 
 	/**
 	* Creates a new expense with the primary key. Does not add the expense to the database.
@@ -144,7 +145,7 @@ public interface ExpenseLocalService extends BaseLocalService,
 
 	public Expense updateExpense(long expenseId, java.lang.String type,
 		double amount, java.lang.String description, Date expenseDate,
-		long modifiedBy) throws PortalException;
+		long customCompanyId, long modifiedBy) throws PortalException;
 
 	/**
 	* Returns the number of expenses.
@@ -202,7 +203,7 @@ public interface ExpenseLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Expense> getExpenseList(java.lang.String type, Date startDate,
-		Date endDate, int start, int end);
+		Date endDate, long customCompanyId, int start, int end);
 
 	/**
 	* Returns a range of all the expenses.
@@ -238,5 +239,5 @@ public interface ExpenseLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getExpenseCount(java.lang.String type, Date startDate,
-		Date endDate);
+		Date endDate, long customCompanyId);
 }

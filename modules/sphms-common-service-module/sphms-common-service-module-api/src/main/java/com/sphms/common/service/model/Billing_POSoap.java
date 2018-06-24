@@ -45,6 +45,7 @@ public class Billing_POSoap implements Serializable {
 		soapModel.setCreatedBy(model.getCreatedBy());
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setModifiedBy(model.getModifiedBy());
+		soapModel.setStatus(model.getStatus());
 
 		return soapModel;
 	}
@@ -178,6 +179,14 @@ public class Billing_POSoap implements Serializable {
 		_modifiedBy = modifiedBy;
 	}
 
+	public int getStatus() {
+		return _status;
+	}
+
+	public void setStatus(int status) {
+		_status = status;
+	}
+
 	private long _billingId;
 	private long _hordingId;
 	private long _landLordId;
@@ -188,4 +197,5 @@ public class Billing_POSoap implements Serializable {
 	private long _createdBy;
 	private Date _modifiedDate;
 	private long _modifiedBy;
+	private int _status;
 }

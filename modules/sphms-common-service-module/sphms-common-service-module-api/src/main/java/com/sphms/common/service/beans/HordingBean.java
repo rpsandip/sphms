@@ -27,6 +27,8 @@ public class HordingBean {
 	private String size;
 	private float height;
 	private float width;
+	private String displayHeight;
+	private String displayWidth;
 	private double pricePerMonth;
 	private long normalImageId;
 	private long shortImageId;
@@ -101,7 +103,9 @@ public class HordingBean {
 		if(this.size.indexOf("X")>0){
 			String[] sizeArray = this.size.split("X");
 			this.height = Float.parseFloat(sizeArray[1]);
+			this.displayHeight = formatFloat(this.height);
 			this.width = Float.parseFloat(sizeArray[0]);
+			this.displayWidth = formatFloat(this.width);
 		}
 	}
 	
@@ -278,6 +282,39 @@ public class HordingBean {
 
 	public void setWidth(float width) {
 		this.width = width;
+	}
+	
+	
+	private static String formatFloat(double d)
+	{
+	    if(d == (long) d)
+	        return String.format("%d",(long)d);
+	    else
+	        return String.format("%s",d);
+	}
+
+
+
+	public String getDisplayHeight() {
+		return displayHeight;
+	}
+
+
+
+	public void setDisplayHeight(String displayHeight) {
+		this.displayHeight = displayHeight;
+	}
+
+
+
+	public String getDisplayWidth() {
+		return displayWidth;
+	}
+
+
+
+	public void setDisplayWidth(String displayWidth) {
+		this.displayWidth = displayWidth;
 	}
 	
 	

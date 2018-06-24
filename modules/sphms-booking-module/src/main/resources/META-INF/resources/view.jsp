@@ -22,7 +22,17 @@
      	<div class="box">
             <div class="box-body">
 	              <form id="filterProposal">
-	              	<div class="form-group col-md-3">
+	              	
+	              	<div class="form-group col-md-2">
+	                  <select name="customCompany" id="customCompany" class="form-control">
+						<option value="0">Select Company</option>
+							<c:forEach items="${companyList }" var="company">
+								<option value="${company.companyId }">${company.name }</option>
+							</c:forEach>	
+						</select>
+	                </div>
+	                
+	              	<div class="form-group col-md-2">
 	                  <select name="client" id="client" class="form-control">
 						<option value="0">Select Client</option>
 							<c:forEach items="${clientList }" var="client">
@@ -30,13 +40,22 @@
 							</c:forEach>	
 						</select>
 	                </div>
+	                
+	                <div class="form-group col-md-2">
+	                  <select name="status" id="status" class="form-control">
+						<option value="">Select Status</option>
+							<option value="0">Active</option>
+							<option value="1">In Active</option>
+						</select>
+	                </div>
+	                
 	              	<div class="form-group col-md-3">
 	                  <input type="text" class="form-control" name="searchStartDate" id="searchStartDate" placeholder="Start Date"/>
 	                </div>
 	                <div class="form-group col-md-3">
 	                  <input type="text" class="form-control" name="searchEndDate" id="searchEndDate" placeholder="End Date"/>
 	                </div>
-	                <div class="form-group col-md-3">
+	                <div class="form-group col-md-2">
 	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearch">
 	                </div>
 	              </form>
@@ -116,9 +135,11 @@
             
           $("#filterSearch").on('click',function(){
             	var clientId = $("#client").val();
+            	var companyId = $("#customCompany").val();
             	var startDate = $("#searchStartDate").val();
             	var endDate = $("#searchEndDate").val();
-            	var getDocumentURL = '${getBookingListURL}&<portlet:namespace />searchclient='+clientId+'&<portlet:namespace />searchStartDate='+startDate+'&<portlet:namespace />searchEndDate='+endDate;
+            	var status = $("#status").val();
+            	var getDocumentURL = '${getBookingListURL}&<portlet:namespace />status='+status+'&<portlet:namespace />customCompany='+companyId+'&<portlet:namespace />searchclient='+clientId+'&<portlet:namespace />searchStartDate='+startDate+'&<portlet:namespace />searchEndDate='+endDate;
                 bookingDataTable.ajax.url(getDocumentURL).load();
 			});  
         })(jQuery);

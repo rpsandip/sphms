@@ -66,6 +66,8 @@ public interface BillingLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link BillingLocalServiceUtil} to access the billing local service. Add custom service methods to {@link com.sphms.common.service.service.impl.BillingLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public boolean publishBilling(long billingId) throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -218,8 +220,8 @@ public interface BillingLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Billing> getBillingList(long clientId, Date startDate,
-		Date endDate, int start, int end);
+	public List<Billing> getBillingList(long customComanyId, long clientId,
+		int status, Date startDate, Date endDate, int start, int end);
 
 	/**
 	* Returns a range of all the billings.
@@ -257,7 +259,8 @@ public interface BillingLocalService extends BaseLocalService,
 		Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public long getBillingCount(long clientId, Date startDate, Date endDate);
+	public long getBillingCount(long customCompanyId, long clientId,
+		int status, Date startDate, Date endDate);
 
 	public void updateBillingHordingWhileUpdateBooking(Billing billing,
 		Booking booking) throws PortalException;

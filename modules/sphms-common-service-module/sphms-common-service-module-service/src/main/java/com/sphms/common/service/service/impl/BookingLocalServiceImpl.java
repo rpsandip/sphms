@@ -101,7 +101,8 @@ public class BookingLocalServiceImpl extends BookingLocalServiceBaseImpl {
 		for(Booking_HordingBean bookingHording : bookingHordingList){
 			bookingHording.setBookingId(booking.getBookingId());
 			Booking_HordingLocalServiceUtil.addBookingHoarding(booking.getBookingId(), bookingHording.getHordingId(),
-					bookingHording.getMountingCharge(), bookingHording.getPrintingCharge(), bookingHording.getUnits(), bookingHording.getHsnNo());
+					bookingHording.getMountingCharge(), bookingHording.getPrintingCharge(), bookingHording.getUnits(), bookingHording.getHsnNo(),
+					bookingHording.getHordingBookingStartDate(),bookingHording.getHordingbookingEndDate());
 		}
 	}
 	
@@ -155,13 +156,22 @@ public class BookingLocalServiceImpl extends BookingLocalServiceBaseImpl {
 	 * Method for get booking list based on search criteria
 	 * @see com.sphms.common.service.service.BookingLocalService#getBookingList(long, java.util.Date, java.util.Date, int, int)
 	 */
-	public  List<Booking> getBookingList(long clientId, Date startDate, Date endDate, int start, int end){
+	public  List<Booking> getBookingList(long customComanyId, long clientId, Date startDate, Date endDate, int start, int end, int status){
 		List<Booking> bookingList = new ArrayList<Booking>();
 		DynamicQuery dynamicQuery = BookingLocalServiceUtil.dynamicQuery();
+		
+		if(customComanyId>0){
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", customComanyId));
+		}
 		
 		if(clientId>0){
 			dynamicQuery.add(RestrictionsFactoryUtil.eq("client", clientId));
 		}
+	
+		if(Validator.isNotNull(status) && status>=0){
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("status", status));
+		}	
+		
 		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
 			dynamicQuery.add(RestrictionsFactoryUtil.between("startDate", startDate, endDate));
 		}
@@ -175,8 +185,8 @@ public class BookingLocalServiceImpl extends BookingLocalServiceBaseImpl {
 		return bookingList;
 	}
 	
-	public long getBookingCount(long clientId, Date startDate, Date endDate){
-		return getBookingList(clientId, startDate, endDate, -1, -1).size();
+	public long getBookingCount(long customComanyId, long clientId, Date startDate, Date endDate, int status){
+		return getBookingList(customComanyId, clientId, startDate, endDate, -1, -1, status).size();
 	}
 	
 	public boolean updateBookingStatus(long bookingId, int status) throws PortalException{

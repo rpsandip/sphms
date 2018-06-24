@@ -63,6 +63,7 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 	public static final String TABLE_NAME = "SPHMS_Expense";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "expenseId", Types.BIGINT },
+			{ "customCompanyId", Types.BIGINT },
 			{ "type_", Types.VARCHAR },
 			{ "amount", Types.DOUBLE },
 			{ "description", Types.VARCHAR },
@@ -76,6 +77,7 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 
 	static {
 		TABLE_COLUMNS_MAP.put("expenseId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("customCompanyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("type_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("amount", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
@@ -86,7 +88,7 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 		TABLE_COLUMNS_MAP.put("modifiedBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Expense (expenseId LONG not null primary key,type_ VARCHAR(75) null,amount DOUBLE,description VARCHAR(500) null,expenseDate DATE null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Expense (expenseId LONG not null primary key,customCompanyId LONG,type_ VARCHAR(75) null,amount DOUBLE,description VARCHAR(500) null,expenseDate DATE null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Expense";
 	public static final String ORDER_BY_JPQL = " ORDER BY expense.expenseId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Expense.expenseId ASC";
@@ -141,6 +143,7 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("expenseId", getExpenseId());
+		attributes.put("customCompanyId", getCustomCompanyId());
 		attributes.put("type", getType());
 		attributes.put("amount", getAmount());
 		attributes.put("description", getDescription());
@@ -162,6 +165,12 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 
 		if (expenseId != null) {
 			setExpenseId(expenseId);
+		}
+
+		Long customCompanyId = (Long)attributes.get("customCompanyId");
+
+		if (customCompanyId != null) {
+			setCustomCompanyId(customCompanyId);
 		}
 
 		String type = (String)attributes.get("type");
@@ -221,6 +230,16 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 	@Override
 	public void setExpenseId(long expenseId) {
 		_expenseId = expenseId;
+	}
+
+	@Override
+	public long getCustomCompanyId() {
+		return _customCompanyId;
+	}
+
+	@Override
+	public void setCustomCompanyId(long customCompanyId) {
+		_customCompanyId = customCompanyId;
 	}
 
 	@Override
@@ -347,6 +366,7 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 		ExpenseImpl expenseImpl = new ExpenseImpl();
 
 		expenseImpl.setExpenseId(getExpenseId());
+		expenseImpl.setCustomCompanyId(getCustomCompanyId());
 		expenseImpl.setType(getType());
 		expenseImpl.setAmount(getAmount());
 		expenseImpl.setDescription(getDescription());
@@ -426,6 +446,8 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 
 		expenseCacheModel.expenseId = getExpenseId();
 
+		expenseCacheModel.customCompanyId = getCustomCompanyId();
+
 		expenseCacheModel.type = getType();
 
 		String type = expenseCacheModel.type;
@@ -480,10 +502,12 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{expenseId=");
 		sb.append(getExpenseId());
+		sb.append(", customCompanyId=");
+		sb.append(getCustomCompanyId());
 		sb.append(", type=");
 		sb.append(getType());
 		sb.append(", amount=");
@@ -507,7 +531,7 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Expense");
@@ -516,6 +540,10 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 		sb.append(
 			"<column><column-name>expenseId</column-name><column-value><![CDATA[");
 		sb.append(getExpenseId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>customCompanyId</column-name><column-value><![CDATA[");
+		sb.append(getCustomCompanyId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>type</column-name><column-value><![CDATA[");
@@ -560,6 +588,7 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 			Expense.class
 		};
 	private long _expenseId;
+	private long _customCompanyId;
 	private String _type;
 	private double _amount;
 	private String _description;

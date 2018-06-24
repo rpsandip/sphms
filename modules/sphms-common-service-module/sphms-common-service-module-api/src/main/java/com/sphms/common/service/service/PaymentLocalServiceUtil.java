@@ -81,10 +81,10 @@ public class PaymentLocalServiceUtil {
 
 	public static com.sphms.common.service.model.Payment addPayment(
 		long billingId, double amount, java.lang.String chequeNo, double tds,
-		double deduction, long createdBy) {
+		double deduction, java.lang.String description, long createdBy) {
 		return getService()
 				   .addPayment(billingId, amount, chequeNo, tds, deduction,
-			createdBy);
+			description, createdBy);
 	}
 
 	/**
@@ -153,10 +153,11 @@ public class PaymentLocalServiceUtil {
 
 	public static com.sphms.common.service.model.Payment updatePayment(
 		long paymentId, long billingId, double amount,
-		java.lang.String chequeNo, double tds, double deduction, long modifiedBy) {
+		java.lang.String chequeNo, double tds, double deduction,
+		java.lang.String description, long modifiedBy) {
 		return getService()
 				   .updatePayment(paymentId, billingId, amount, chequeNo, tds,
-			deduction, modifiedBy);
+			deduction, description, modifiedBy);
 	}
 
 	/**

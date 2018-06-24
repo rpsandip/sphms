@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -63,6 +64,8 @@ public class Booking_HordingWrapper implements Booking_Hording,
 		attributes.put("printingCharge", getPrintingCharge());
 		attributes.put("units", getUnits());
 		attributes.put("hsnNo", getHsnNo());
+		attributes.put("hordingBookingStartDate", getHordingBookingStartDate());
+		attributes.put("hordingBookingEndDate", getHordingBookingEndDate());
 
 		return attributes;
 	}
@@ -103,6 +106,20 @@ public class Booking_HordingWrapper implements Booking_Hording,
 
 		if (hsnNo != null) {
 			setHsnNo(hsnNo);
+		}
+
+		Date hordingBookingStartDate = (Date)attributes.get(
+				"hordingBookingStartDate");
+
+		if (hordingBookingStartDate != null) {
+			setHordingBookingStartDate(hordingBookingStartDate);
+		}
+
+		Date hordingBookingEndDate = (Date)attributes.get(
+				"hordingBookingEndDate");
+
+		if (hordingBookingEndDate != null) {
+			setHordingBookingEndDate(hordingBookingEndDate);
 		}
 	}
 
@@ -222,6 +239,26 @@ public class Booking_HordingWrapper implements Booking_Hording,
 	}
 
 	/**
+	* Returns the hording booking end date of this booking_ hording.
+	*
+	* @return the hording booking end date of this booking_ hording
+	*/
+	@Override
+	public Date getHordingBookingEndDate() {
+		return _booking_Hording.getHordingBookingEndDate();
+	}
+
+	/**
+	* Returns the hording booking start date of this booking_ hording.
+	*
+	* @return the hording booking start date of this booking_ hording
+	*/
+	@Override
+	public Date getHordingBookingStartDate() {
+		return _booking_Hording.getHordingBookingStartDate();
+	}
+
+	/**
 	* Returns the booking ID of this booking_ hording.
 	*
 	* @return the booking ID of this booking_ hording
@@ -275,6 +312,26 @@ public class Booking_HordingWrapper implements Booking_Hording,
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_booking_Hording.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the hording booking end date of this booking_ hording.
+	*
+	* @param hordingBookingEndDate the hording booking end date of this booking_ hording
+	*/
+	@Override
+	public void setHordingBookingEndDate(Date hordingBookingEndDate) {
+		_booking_Hording.setHordingBookingEndDate(hordingBookingEndDate);
+	}
+
+	/**
+	* Sets the hording booking start date of this booking_ hording.
+	*
+	* @param hordingBookingStartDate the hording booking start date of this booking_ hording
+	*/
+	@Override
+	public void setHordingBookingStartDate(Date hordingBookingStartDate) {
+		_booking_Hording.setHordingBookingStartDate(hordingBookingStartDate);
 	}
 
 	/**

@@ -64,6 +64,7 @@ public class PaymentWrapper implements Payment, ModelWrapper<Payment> {
 		attributes.put("chequeNo", getChequeNo());
 		attributes.put("tds", getTds());
 		attributes.put("deduction", getDeduction());
+		attributes.put("description", getDescription());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -114,6 +115,12 @@ public class PaymentWrapper implements Payment, ModelWrapper<Payment> {
 
 		if (deduction != null) {
 			setDeduction(deduction);
+		}
+
+		String description = (String)attributes.get("description");
+
+		if (description != null) {
+			setDescription(description);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -234,6 +241,16 @@ public class PaymentWrapper implements Payment, ModelWrapper<Payment> {
 	@Override
 	public java.lang.String getChequeNo() {
 		return _payment.getChequeNo();
+	}
+
+	/**
+	* Returns the description of this payment.
+	*
+	* @return the description of this payment
+	*/
+	@Override
+	public java.lang.String getDescription() {
+		return _payment.getDescription();
 	}
 
 	@Override
@@ -404,6 +421,16 @@ public class PaymentWrapper implements Payment, ModelWrapper<Payment> {
 	@Override
 	public void setDeduction(double deduction) {
 		_payment.setDeduction(deduction);
+	}
+
+	/**
+	* Sets the description of this payment.
+	*
+	* @param description the description of this payment
+	*/
+	@Override
+	public void setDescription(java.lang.String description) {
+		_payment.setDescription(description);
 	}
 
 	@Override

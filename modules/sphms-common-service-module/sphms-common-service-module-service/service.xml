@@ -207,6 +207,9 @@
 		<column name="printingCharge"  type="double" />
 		<column name="units"  type="int" />
 		<column name="hsnNo"  type="String" />
+		<column name="hordingBookingStartDate"  type="Date" />
+		<column name="hordingBookingEndDate"  type="Date" />
+		
 		
 		<finder return-type="Collection" name="bookingId">
 			<finder-column name="bookingId"></finder-column>
@@ -220,6 +223,7 @@
 		<column name="billingId" primary="true" type="long" />
 		<column name="customCompanyId" type="long"></column>
 		<column name="billNo"  type="String" />
+		<column name="internalBillNo"  type="String" />
 		<column name="bookingId" type="long" />
 		<column name="clientId"  type="long" />
 		<column name="billFileEntryId" type="long"/>
@@ -258,7 +262,8 @@
 		<column name="units"  type="int" />
 		<column name="totalHordingCharge"  type="double" />
 		<column name="hsnNo"  type="String" />
-		
+		<column name="hordingBookingStartDate"  type="Date" />
+		<column name="hordingBookingEndDate"  type="Date" />
 		
 		<finder return-type="Collection" name="billingId">
 			<finder-column name="billingId"></finder-column>
@@ -286,6 +291,9 @@
 		<column name="modifiedDate" type="Date"></column>
 		<column name="modifiedBy" type="long"></column>
 		
+		<column name="status"  type="int" />
+		
+		
 		<finder return-type="Collection" name="billingId">
 			<finder-column name="billingId"></finder-column>
 		</finder>
@@ -308,6 +316,7 @@
 		<column name="chequeNo" type="String"></column>
 		<column name="tds" type="double"></column>
 		<column name="deduction" type="double"></column>
+		<column name="description" type="String"></column>
 		
 		<column name="createDate" type="Date"></column>
 		<column name="createdBy" type="long"></column>
@@ -325,6 +334,7 @@
 	<entity name="Expense" local-service="true" remote-service="false">
 		<!-- PK fields -->
 		<column name="expenseId" primary="true" type="long" />
+		<column name="customCompanyId" type="long"></column>
 		<column name="type"  type="String" />
 		<column name="amount"  type="double" />
 		<column name="description"  type="String" />

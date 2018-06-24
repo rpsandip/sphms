@@ -5,6 +5,7 @@
 		<field name="billingId" type="long" />
 		<field name="customCompanyId" type="long" />
 		<field name="billNo" type="String" />
+		<field name="internalBillNo" type="String" />
 		<field name="bookingId" type="long" />
 		<field name="clientId" type="long" />
 		<field name="billFileEntryId" type="long" />
@@ -29,6 +30,8 @@
 		<field name="units" type="int" />
 		<field name="totalHordingCharge" type="double" />
 		<field name="hsnNo" type="String" />
+		<field name="hordingBookingStartDate" type="Date" />
+		<field name="hordingBookingEndDate" type="Date" />
 	</model>
 	<model name="com.sphms.common.service.model.Billing_PO">
 		<field name="billingId" type="long" />
@@ -41,6 +44,7 @@
 		<field name="createdBy" type="long" />
 		<field name="modifiedDate" type="Date" />
 		<field name="modifiedBy" type="long" />
+		<field name="status" type="int" />
 	</model>
 	<model name="com.sphms.common.service.model.Booking">
 		<field name="bookingId" type="long" />
@@ -65,6 +69,8 @@
 		<field name="printingCharge" type="double" />
 		<field name="units" type="int" />
 		<field name="hsnNo" type="String" />
+		<field name="hordingBookingStartDate" type="Date" />
+		<field name="hordingBookingEndDate" type="Date" />
 	</model>
 	<model name="com.sphms.common.service.model.Client">
 		<field name="clientId" type="long" />
@@ -121,6 +127,7 @@
 	</model>
 	<model name="com.sphms.common.service.model.Expense">
 		<field name="expenseId" type="long" />
+		<field name="customCompanyId" type="long" />
 		<field name="type" type="String" />
 		<field name="amount" type="double" />
 		<field name="description" type="String">
@@ -199,6 +206,9 @@
 		<field name="chequeNo" type="String" />
 		<field name="tds" type="double" />
 		<field name="deduction" type="double" />
+		<field name="description" type="String">
+			<hint name="max-length">200</hint>
+		</field>
 		<field name="createDate" type="Date" />
 		<field name="createdBy" type="long" />
 		<field name="modifiedDate" type="Date" />

@@ -33,6 +33,12 @@ public class BillingLocalServiceWrapper implements BillingLocalService,
 	}
 
 	@Override
+	public boolean publishBilling(long billingId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _billingLocalService.publishBilling(billingId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _billingLocalService.getActionableDynamicQuery();
 	}
@@ -256,10 +262,10 @@ public class BillingLocalServiceWrapper implements BillingLocalService,
 
 	@Override
 	public java.util.List<com.sphms.common.service.model.Billing> getBillingList(
-		long clientId, java.util.Date startDate, java.util.Date endDate,
-		int start, int end) {
-		return _billingLocalService.getBillingList(clientId, startDate,
-			endDate, start, end);
+		long customComanyId, long clientId, int status,
+		java.util.Date startDate, java.util.Date endDate, int start, int end) {
+		return _billingLocalService.getBillingList(customComanyId, clientId,
+			status, startDate, endDate, start, end);
 	}
 
 	/**
@@ -312,9 +318,10 @@ public class BillingLocalServiceWrapper implements BillingLocalService,
 	}
 
 	@Override
-	public long getBillingCount(long clientId, java.util.Date startDate,
-		java.util.Date endDate) {
-		return _billingLocalService.getBillingCount(clientId, startDate, endDate);
+	public long getBillingCount(long customCompanyId, long clientId,
+		int status, java.util.Date startDate, java.util.Date endDate) {
+		return _billingLocalService.getBillingCount(customCompanyId, clientId,
+			status, startDate, endDate);
 	}
 
 	@Override

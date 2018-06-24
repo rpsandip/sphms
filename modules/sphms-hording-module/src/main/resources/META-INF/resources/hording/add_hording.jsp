@@ -76,23 +76,23 @@
 						</div>
 						<div class="form-group col-md-3">
 	       					 <aui:select name="mediaVehicle" label="mediaVehicle" cssClass="form-control">
-	       					 	<aui:option value="Unipole" selected='${hordingBean.mediaVehicle eq "unipole" ? true : false }' >UniPole</aui:option>
-	       					 	<aui:option value="Bill Board" selected='${hordingBean.mediaVehicle eq "billboard" ? true : false }'>Bill Board</aui:option>
-	       					 	<aui:option value="Kiosk" selected='${hordingBean.mediaVehicle eq "kiosk" ? true : false }'>Kiosk</aui:option>
-	       					 	<aui:option value="BQS" selected='${hordingBean.mediaVehicle eq "bqs" ? true : false }'>BQS</aui:option>
-	       					 	<aui:option value="Mobile Van" selected='${hordingBean.mediaVehicle eq "mobilevan" ? true : false }'>Mobile Van</aui:option>
-	       					 	<aui:option value="Tricycle" selected='${hordingBean.mediaVehicle eq "tricycle" ? true : false }'>Tricycle</aui:option>
-	       					 	<aui:option value="Bus Branding" selected='${hordingBean.mediaVehicle eq "busbranding" ? true : false }'>Bus Branding</aui:option>
+	       					 	<aui:option value="Unipole" selected='${hordingBean.mediaVehicle eq "Unipole" ? true : false }' >UniPole</aui:option>
+	       					 	<aui:option value="Bill Board" selected='${hordingBean.mediaVehicle eq "Bill Board" ? true : false }'>Bill Board</aui:option>
+	       					 	<aui:option value="Kiosk" selected='${hordingBean.mediaVehicle eq "Kiosk" ? true : false }'>Kiosk</aui:option>
+	       					 	<aui:option value="BQS" selected='${hordingBean.mediaVehicle eq "BQS" ? true : false }'>BQS</aui:option>
+	       					 	<aui:option value="Mobile Van" selected='${hordingBean.mediaVehicle eq "Mobile Van" ? true : false }'>Mobile Van</aui:option>
+	       					 	<aui:option value="Tricycle" selected='${hordingBean.mediaVehicle eq "Tricycle" ? true : false }'>Tricycle</aui:option>
+	       					 	<aui:option value="Bus Branding" selected='${hordingBean.mediaVehicle eq "Bus Branding" ? true : false }'>Bus Branding</aui:option>
 							 </aui:select>
 						</div>
 						<div class="form-group col-md-3">
-	       					  <aui:input name="width" label="width" cssClass="form-control" value="${hordingBean.width }">
+	       					  <aui:input name="width" label="width" cssClass="form-control" value="${hordingBean.displayWidth }">
 						     	<aui:validator name="required" />
 						     	<aui:validator name="number"></aui:validator>
 							 </aui:input>
 						</div>
 						<div class="form-group col-md-3">
-	       					 <aui:input name="height" label="height" cssClass="form-control" value="${hordingBean.height }">
+	       					 <aui:input name="height" label="height" cssClass="form-control" value="${hordingBean.displayHeight }">
 						     	<aui:validator name="required" />
 						     	<aui:validator name="number"></aui:validator>
 							 </aui:input>

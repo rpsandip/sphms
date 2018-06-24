@@ -864,6 +864,7 @@ public class PaymentPersistenceImpl extends BasePersistenceImpl<Payment>
 		paymentImpl.setChequeNo(payment.getChequeNo());
 		paymentImpl.setTds(payment.getTds());
 		paymentImpl.setDeduction(payment.getDeduction());
+		paymentImpl.setDescription(payment.getDescription());
 		paymentImpl.setCreateDate(payment.getCreateDate());
 		paymentImpl.setCreatedBy(payment.getCreatedBy());
 		paymentImpl.setModifiedDate(payment.getModifiedDate());

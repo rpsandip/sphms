@@ -206,6 +206,20 @@ public interface Billing_POModel extends BaseModel<Billing_PO> {
 	 */
 	public void setModifiedBy(long modifiedBy);
 
+	/**
+	 * Returns the status of this billing_ p o.
+	 *
+	 * @return the status of this billing_ p o
+	 */
+	public int getStatus();
+
+	/**
+	 * Sets the status of this billing_ p o.
+	 *
+	 * @param status the status of this billing_ p o
+	 */
+	public void setStatus(int status);
+
 	@Override
 	public boolean isNew();
 

@@ -41,6 +41,11 @@ public class BillingLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.sphms.common.service.service.impl.BillingLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean publishBilling(long billingId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().publishBilling(billingId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -249,10 +254,11 @@ public class BillingLocalServiceUtil {
 	}
 
 	public static java.util.List<com.sphms.common.service.model.Billing> getBillingList(
-		long clientId, java.util.Date startDate, java.util.Date endDate,
-		int start, int end) {
+		long customComanyId, long clientId, int status,
+		java.util.Date startDate, java.util.Date endDate, int start, int end) {
 		return getService()
-				   .getBillingList(clientId, startDate, endDate, start, end);
+				   .getBillingList(customComanyId, clientId, status, startDate,
+			endDate, start, end);
 	}
 
 	/**
@@ -300,9 +306,11 @@ public class BillingLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static long getBillingCount(long clientId, java.util.Date startDate,
-		java.util.Date endDate) {
-		return getService().getBillingCount(clientId, startDate, endDate);
+	public static long getBillingCount(long customCompanyId, long clientId,
+		int status, java.util.Date startDate, java.util.Date endDate) {
+		return getService()
+				   .getBillingCount(customCompanyId, clientId, status,
+			startDate, endDate);
 	}
 
 	public static void updateBillingHordingWhileUpdateBooking(

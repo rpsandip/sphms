@@ -60,6 +60,7 @@ public class BillingWrapper implements Billing, ModelWrapper<Billing> {
 		attributes.put("billingId", getBillingId());
 		attributes.put("customCompanyId", getCustomCompanyId());
 		attributes.put("billNo", getBillNo());
+		attributes.put("internalBillNo", getInternalBillNo());
 		attributes.put("bookingId", getBookingId());
 		attributes.put("clientId", getClientId());
 		attributes.put("billFileEntryId", getBillFileEntryId());
@@ -97,6 +98,12 @@ public class BillingWrapper implements Billing, ModelWrapper<Billing> {
 
 		if (billNo != null) {
 			setBillNo(billNo);
+		}
+
+		String internalBillNo = (String)attributes.get("internalBillNo");
+
+		if (internalBillNo != null) {
+			setInternalBillNo(internalBillNo);
 		}
 
 		Long bookingId = (Long)attributes.get("bookingId");
@@ -333,6 +340,16 @@ public class BillingWrapper implements Billing, ModelWrapper<Billing> {
 	@Override
 	public java.lang.String getFinancialYear() {
 		return _billing.getFinancialYear();
+	}
+
+	/**
+	* Returns the internal bill no of this billing.
+	*
+	* @return the internal bill no of this billing
+	*/
+	@Override
+	public java.lang.String getInternalBillNo() {
+		return _billing.getInternalBillNo();
 	}
 
 	@Override
@@ -609,6 +626,16 @@ public class BillingWrapper implements Billing, ModelWrapper<Billing> {
 	@Override
 	public void setFinancialYear(java.lang.String financialYear) {
 		_billing.setFinancialYear(financialYear);
+	}
+
+	/**
+	* Sets the internal bill no of this billing.
+	*
+	* @param internalBillNo the internal bill no of this billing
+	*/
+	@Override
+	public void setInternalBillNo(java.lang.String internalBillNo) {
+		_billing.setInternalBillNo(internalBillNo);
 	}
 
 	/**

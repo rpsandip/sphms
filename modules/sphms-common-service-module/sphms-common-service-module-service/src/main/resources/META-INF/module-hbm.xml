@@ -24,6 +24,7 @@
 		</id>
 		<property name="customCompanyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="billNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="internalBillNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="bookingId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="clientId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="billFileEntryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
@@ -50,6 +51,8 @@
 		<property name="units" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="totalHordingCharge" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="hsnNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="hordingBookingStartDate" type="org.hibernate.type.TimestampType" />
+		<property name="hordingBookingEndDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="com.sphms.common.service.model.impl.Billing_POImpl" table="SPHMS_Billing_PO">
 		<composite-id class="com.sphms.common.service.service.persistence.Billing_POPK" name="primaryKey">
@@ -64,6 +67,7 @@
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
 	<class name="com.sphms.common.service.model.impl.BookingImpl" table="SPHMS_Booking">
 		<id name="bookingId" type="long">
@@ -90,6 +94,8 @@
 		<property name="printingCharge" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="units" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="hsnNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="hordingBookingStartDate" type="org.hibernate.type.TimestampType" />
+		<property name="hordingBookingEndDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="com.sphms.common.service.model.impl.ClientImpl" table="SPHMS_Client">
 		<id name="clientId" type="long">
@@ -142,6 +148,7 @@
 		<id name="expenseId" type="long">
 			<generator class="assigned" />
 		</id>
+		<property name="customCompanyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property column="type_" name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="amount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -214,6 +221,7 @@
 		<property name="chequeNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="tds" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="deduction" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />

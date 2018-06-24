@@ -57,7 +57,7 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 				" city->" + city + " state ->" + state + " contactPersonName ->" + contactPersonName + " contactPersonEmail ->" +
 				contactPersonEmail + " contactPersonPhoneNo->" + contactPersonPhoneNo); 
 		
-		boolean isValidParams = isValidParam(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail);
+		boolean isValidParams = isValidParam(clientName, address1, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail);
 		
 		if(isValidParams){
 		Client client = ClientLocalServiceUtil.createClient(CounterLocalServiceUtil.increment());
@@ -94,7 +94,7 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 				contactPersonEmail + " contactPersonPhoneNo->" + contactPersonPhoneNo); 
 		
 		
-		boolean isValidParams = isValidParam(clientName, address1, address2, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail);
+		boolean isValidParams = isValidParam(clientName, address1, city, state, contactPersonName, contactPersonPhoneNo, contactPersonEmail);
 		
 		if(isValidParams){
 		Client client = ClientLocalServiceUtil.getClient(clientId);
@@ -120,9 +120,9 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 		}
 	}
 	
-	private boolean isValidParam (String clientName, String address1 ,String address2, String city, String state, String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail){
+	private boolean isValidParam (String clientName, String address1, String city, String state, String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail){
 		boolean isValidParams = false;
-		if(Validator.isNotNull(clientName) && Validator.isNotNull(address1) && Validator.isNotNull(address2) && Validator.isNotNull(city) &&
+		if(Validator.isNotNull(clientName) && Validator.isNotNull(address1) && Validator.isNotNull(city) &&
 				Validator.isNotNull(state) && Validator.isNotNull(contactPersonName) && Validator.isNotNull(contactPersonPhoneNo) && Validator.isNotNull(contactPersonEmail)){
 			isValidParams = true;
 		}

@@ -51,7 +51,7 @@ public class ExpenseLocalServiceImpl extends ExpenseLocalServiceBaseImpl {
 	/*
 	 * Add Expense
 	 */
-	public Expense addExpense(String type, double amount, String description, Date expenseDate, long createdBy){
+	public Expense addExpense(String type, double amount, String description, Date expenseDate, long customCompanyId,long createdBy){
 		Expense expense = ExpenseLocalServiceUtil.createExpense(CounterLocalServiceUtil.increment());
 		expense.setType(type);
 		expense.setDescription(description);
@@ -61,7 +61,7 @@ public class ExpenseLocalServiceImpl extends ExpenseLocalServiceBaseImpl {
 		expense.setModifiedBy(createdBy);
 		expense.setCreateDate(new Date());
 		expense.setModifiedDate(new Date());
-		
+		expense.setCustomCompanyId(customCompanyId);
 		expense = ExpenseLocalServiceUtil.addExpense(expense);
 		
 		return expense;
@@ -70,7 +70,7 @@ public class ExpenseLocalServiceImpl extends ExpenseLocalServiceBaseImpl {
 	/*
 	 * Update Expense
 	 */
-	public Expense updateExpense(long expenseId,String type,double amount, String description, Date expenseDate, long modifiedBy) throws PortalException{
+	public Expense updateExpense(long expenseId,String type,double amount, String description, Date expenseDate, long customCompanyId ,long modifiedBy) throws PortalException{
 		Expense expense = ExpenseLocalServiceUtil.getExpense(expenseId);
 		expense.setType(type);
 		expense.setAmount(amount);
@@ -78,7 +78,7 @@ public class ExpenseLocalServiceImpl extends ExpenseLocalServiceBaseImpl {
 		expense.setExpenseDate(expenseDate);
 		expense.setModifiedBy(modifiedBy);
 		expense.setModifiedDate(new Date());
-		
+		expense.setCustomCompanyId(customCompanyId);
 		expense = ExpenseLocalServiceUtil.updateExpense(expense);
 		
 		return expense;
@@ -87,12 +87,16 @@ public class ExpenseLocalServiceImpl extends ExpenseLocalServiceBaseImpl {
 	/*
 	 * Search Expense
 	 */
-	public List<Expense> getExpenseList(String type, Date startDate, Date endDate, int start, int end){
+	public List<Expense> getExpenseList(String type, Date startDate, Date endDate, long customCompanyId, int start, int end){
 		List<Expense> expenseList = new ArrayList<Expense>();
 		
 		DynamicQuery dynamicQuery = ExpenseLocalServiceUtil.dynamicQuery();
 		if(Validator.isNotNull(type)){
 			dynamicQuery.add(RestrictionsFactoryUtil.eq("type", type));
+		}
+		
+		if(customCompanyId>0){
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", customCompanyId));
 		}
 		
 		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
@@ -109,7 +113,7 @@ public class ExpenseLocalServiceImpl extends ExpenseLocalServiceBaseImpl {
 		
 	}
 	
-	public long getExpenseCount(String type, Date startDate, Date endDate){
-		return getExpenseList(type, startDate, endDate, -1, -1).size();
+	public long getExpenseCount(String type, Date startDate, Date endDate, long customCompanyId){
+		return getExpenseList(type, startDate, endDate, customCompanyId,-1, -1).size();
 	}
 }

@@ -36,6 +36,7 @@ public class BillingSoap implements Serializable {
 		soapModel.setBillingId(model.getBillingId());
 		soapModel.setCustomCompanyId(model.getCustomCompanyId());
 		soapModel.setBillNo(model.getBillNo());
+		soapModel.setInternalBillNo(model.getInternalBillNo());
 		soapModel.setBookingId(model.getBookingId());
 		soapModel.setClientId(model.getClientId());
 		soapModel.setBillFileEntryId(model.getBillFileEntryId());
@@ -125,6 +126,14 @@ public class BillingSoap implements Serializable {
 
 	public void setBillNo(String billNo) {
 		_billNo = billNo;
+	}
+
+	public String getInternalBillNo() {
+		return _internalBillNo;
+	}
+
+	public void setInternalBillNo(String internalBillNo) {
+		_internalBillNo = internalBillNo;
 	}
 
 	public long getBookingId() {
@@ -250,6 +259,7 @@ public class BillingSoap implements Serializable {
 	private long _billingId;
 	private long _customCompanyId;
 	private String _billNo;
+	private String _internalBillNo;
 	private long _bookingId;
 	private long _clientId;
 	private long _billFileEntryId;

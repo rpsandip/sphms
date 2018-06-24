@@ -1,5 +1,7 @@
 package com.sphms.common.service.beans;
 
+import java.util.Date;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -19,6 +21,8 @@ public class Billing_HordingBean {
 	private int units;
 	private double totalHordingCharge;
 	private String hsnNo;
+	private Date hordingBookingStartDate;
+	private Date hordingbookingEndDate;
 	
 	public Billing_HordingBean(){
 		
@@ -32,7 +36,8 @@ public class Billing_HordingBean {
 		this.totalHordingCharge = billingHording.getTotalHordingCharge();
 		this.units = billingHording.getUnits();
 		this.hsnNo = billingHording.getHsnNo();
-		
+		this.hordingBookingStartDate = billingHording.getHordingBookingStartDate();
+		this.hordingbookingEndDate = billingHording.getHordingBookingEndDate();
 		if(this.hordingId>0){
 			try {
 				Hording hording = HordingLocalServiceUtil.getHording(hordingId);
@@ -94,6 +99,24 @@ public class Billing_HordingBean {
 	public void setHording(Hording hording) {
 		this.hording = hording;
 	}
+
+	public Date getHordingBookingStartDate() {
+		return hordingBookingStartDate;
+	}
+
+	public void setHordingBookingStartDate(Date hordingBookingStartDate) {
+		this.hordingBookingStartDate = hordingBookingStartDate;
+	}
+
+	public Date getHordingbookingEndDate() {
+		return hordingbookingEndDate;
+	}
+
+	public void setHordingbookingEndDate(Date hordingbookingEndDate) {
+		this.hordingbookingEndDate = hordingbookingEndDate;
+	}
+	
+	
 	
 	
 }

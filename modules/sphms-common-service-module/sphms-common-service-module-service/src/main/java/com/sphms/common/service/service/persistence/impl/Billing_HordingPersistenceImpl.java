@@ -1160,6 +1160,8 @@ public class Billing_HordingPersistenceImpl extends BasePersistenceImpl<Billing_
 		billing_HordingImpl.setUnits(billing_Hording.getUnits());
 		billing_HordingImpl.setTotalHordingCharge(billing_Hording.getTotalHordingCharge());
 		billing_HordingImpl.setHsnNo(billing_Hording.getHsnNo());
+		billing_HordingImpl.setHordingBookingStartDate(billing_Hording.getHordingBookingStartDate());
+		billing_HordingImpl.setHordingBookingEndDate(billing_Hording.getHordingBookingEndDate());
 
 		return billing_HordingImpl;
 	}

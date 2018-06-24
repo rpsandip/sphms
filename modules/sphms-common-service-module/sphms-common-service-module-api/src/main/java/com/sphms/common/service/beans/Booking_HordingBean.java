@@ -1,5 +1,7 @@
 package com.sphms.common.service.beans;
 
+import java.util.Date;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -18,8 +20,11 @@ public class Booking_HordingBean {
 	private double mountingCharge;
 	private double printingCharge;
 	private int units;
+	private Date hordingBookingStartDate;
+	private Date hordingbookingEndDate;
 	private String hsnNo;
 	private Hording horing;
+	private String hoardingCity;
 	public  Booking_HordingBean(){
 		
 	}
@@ -29,6 +34,8 @@ public class Booking_HordingBean {
 		this.hordingId = bookingHording.getHordingId();
 		this.mountingCharge = bookingHording.getMountingCharge();
 		this.printingCharge = bookingHording.getPrintingCharge();
+		this.hordingBookingStartDate = bookingHording.getHordingBookingStartDate();
+		this.hordingbookingEndDate  = bookingHording.getHordingBookingEndDate();
 		this.units = bookingHording.getUnits();
 		this.hsnNo = bookingHording.getHsnNo();
 		
@@ -36,6 +43,7 @@ public class Booking_HordingBean {
 			Hording hording = HordingLocalServiceUtil.getHording(this.hordingId);
 			this.hordingTitle = hording.getTitle();
 			this.horing = hording;
+			this.hoardingCity = hording.getCity();
 		} catch (PortalException e) {
 			_log.error(e);
 		}		
@@ -92,6 +100,30 @@ public class Booking_HordingBean {
 
 	public void setHsnNo(String hsnNo) {
 		this.hsnNo = hsnNo;
+	}
+
+	public Date getHordingBookingStartDate() {
+		return hordingBookingStartDate;
+	}
+
+	public void setHordingBookingStartDate(Date hordingBookingStartDate) {
+		this.hordingBookingStartDate = hordingBookingStartDate;
+	}
+
+	public Date getHordingbookingEndDate() {
+		return hordingbookingEndDate;
+	}
+
+	public void setHordingbookingEndDate(Date hordingbookingEndDate) {
+		this.hordingbookingEndDate = hordingbookingEndDate;
+	}
+
+	public String getHoardingCity() {
+		return hoardingCity;
+	}
+
+	public void setHoardingCity(String hoardingCity) {
+		this.hoardingCity = hoardingCity;
 	}
 	
 	

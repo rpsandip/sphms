@@ -209,8 +209,8 @@ public interface BookingLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Booking> getBookingList(long clientId, Date startDate,
-		Date endDate, int start, int end);
+	public List<Booking> getBookingList(long customComanyId, long clientId,
+		Date startDate, Date endDate, int start, int end, int status);
 
 	/**
 	* Returns a range of all the bookings.
@@ -245,5 +245,6 @@ public interface BookingLocalService extends BaseLocalService,
 		Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public long getBookingCount(long clientId, Date startDate, Date endDate);
+	public long getBookingCount(long customComanyId, long clientId,
+		Date startDate, Date endDate, int status);
 }

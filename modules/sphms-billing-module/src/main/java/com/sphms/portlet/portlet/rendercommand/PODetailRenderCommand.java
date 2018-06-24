@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.BillingPOBean;
+import com.sphms.common.service.beans.POHordingDTO;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Billing_PO;
 import com.sphms.common.service.model.CustomCompany;
@@ -27,6 +28,8 @@ import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_POLocalServiceUtil;
 import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
+import com.sphms.common.service.util.BillingStatus;
+import com.sphms.common.service.util.Billing_PO_Status;
 import com.sphms.portlet.portlet.util.BillingConstant;
 import com.sphms.portlet.portlet.util.POBean;
 
@@ -60,20 +63,31 @@ public class PODetailRenderCommand implements MVCRenderCommand{
 					if(Validator.isNull(poBeanMap.get(billingPO.getLandLordId()))){
 						
 						POBean poBean = new POBean();
-						List<String> hordingList = new ArrayList<String>();
+						List<POHordingDTO> hordingList = new ArrayList<POHordingDTO>();
+						POHordingDTO poHordingDTO = new POHordingDTO();
+						poHordingDTO.setBillingId(billingId);
+						poHordingDTO.setHordingId(billingPO.getHordingId());
+						poHordingDTO.setStatus(billingPO.getStatus());
+						poHordingDTO.setHordingTitle(billingPOBean.getHordingTitle());
 						poBean.setBillingId(billingPO.getBillingId());
 						poBean.setLandlordId(billingPO.getLandLordId());
 						poBean.setPoNumber(Billing_POLocalServiceUtil.getPONumber(billingPO,company));
 						poBean.setFinancialYear(billingPO.getFinancialYear());
 						poBean.setHordingId(billingPO.getHordingId());
-						hordingList.add(billingPOBean.getHordingTitle());
+						poBean.setStatus(Billing_PO_Status.findByValue(billingPO.getStatus()).getLabel());
+						hordingList.add(poHordingDTO);
 						poBean.setHordingList(hordingList);
 						poBeanMap.put(billingPO.getLandLordId(), poBean);
 						
 					}else{
 						POBean poBean = poBeanMap.get(billingPO.getLandLordId());
-						List<String> hordingList = poBean.getHordingList();
-						hordingList.add(billingPOBean.getHordingTitle());
+						List<POHordingDTO> hordingList = poBean.getHordingList();
+						POHordingDTO poHordingDTO = new POHordingDTO();
+						poHordingDTO.setBillingId(billingId);
+						poHordingDTO.setHordingId(billingPO.getHordingId());
+						poHordingDTO.setStatus(billingPO.getStatus());
+						poHordingDTO.setHordingTitle(billingPOBean.getHordingTitle());
+						hordingList.add(poHordingDTO);
 						poBean.setHordingList(hordingList);
 						poBeanMap.put(billingPO.getLandLordId(), poBean);
 					}

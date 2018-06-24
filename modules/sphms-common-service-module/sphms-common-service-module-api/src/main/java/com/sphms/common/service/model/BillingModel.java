@@ -106,6 +106,21 @@ public interface BillingModel extends BaseModel<Billing> {
 	public void setBillNo(String billNo);
 
 	/**
+	 * Returns the internal bill no of this billing.
+	 *
+	 * @return the internal bill no of this billing
+	 */
+	@AutoEscape
+	public String getInternalBillNo();
+
+	/**
+	 * Sets the internal bill no of this billing.
+	 *
+	 * @param internalBillNo the internal bill no of this billing
+	 */
+	public void setInternalBillNo(String internalBillNo);
+
+	/**
 	 * Returns the booking ID of this billing.
 	 *
 	 * @return the booking ID of this billing

@@ -37,20 +37,25 @@
      						<h4><liferay-ui:message key="selected.hoardings"/> </h4>
      					</div>
      					<c:forEach items="${ bookingHordingBeanList}"  var="bookingHording">
-     						<div class="form-group col-md-4">
-	       					 	<b>Hoarding: </b> ${bookingHording.hordingTitle }
-     						</div>
-     						<div class="form-group col-md-2">
-	       					 	<b>HSN Code: </b> ${bookingHording.hsnNo }
-     						</div>
-     						<div class="form-group col-md-2">
-	       					 	<b>Mounting Charge: </b> Rs. ${ bookingHording.mountingCharge}/SqFt
-     						</div>
-     						<div class="form-group col-md-2">
-	       					 	<b>Printing Charge: </b> Rs. ${ bookingHording.printingCharge}/SqFt
-     						</div>
-     						<div class="form-group col-md-2">
-	       					 	<b>Units: </b>  ${ bookingHording.units}
+     						<div class="form-group col-md-12">
+	     						<div class="form-group col-md-2">
+		       					 	<b>City: </b> ${bookingHording.hoardingCity }
+	     						</div>
+	     						<div class="form-group col-md-3">
+		       					 	<b>Hoarding: </b> ${bookingHording.hordingTitle }
+	     						</div>
+	     						<div class="form-group col-md-2">
+		       					 	<b>HSN Code: </b> ${bookingHording.hsnNo }
+	     						</div>
+	     						<div class="form-group col-md-2">
+		       					 	<b>Mounting Charge: </b> Rs. ${ bookingHording.mountingCharge}/SqFt
+	     						</div>
+	     						<div class="form-group col-md-2">
+		       					 	<b>Printing Charge: </b> Rs. ${ bookingHording.printingCharge}/SqFt
+	     						</div>
+	     						<div class="form-group col-md-1">
+		       					 	<b>Units: </b>  ${ bookingHording.units}
+	     						</div>
      						</div>
      					</c:forEach>
      				</div>		

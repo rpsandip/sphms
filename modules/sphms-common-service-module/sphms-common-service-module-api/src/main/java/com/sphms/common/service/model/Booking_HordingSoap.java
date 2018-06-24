@@ -21,6 +21,7 @@ import com.sphms.common.service.service.persistence.Booking_HordingPK;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +41,8 @@ public class Booking_HordingSoap implements Serializable {
 		soapModel.setPrintingCharge(model.getPrintingCharge());
 		soapModel.setUnits(model.getUnits());
 		soapModel.setHsnNo(model.getHsnNo());
+		soapModel.setHordingBookingStartDate(model.getHordingBookingStartDate());
+		soapModel.setHordingBookingEndDate(model.getHordingBookingEndDate());
 
 		return soapModel;
 	}
@@ -143,10 +146,28 @@ public class Booking_HordingSoap implements Serializable {
 		_hsnNo = hsnNo;
 	}
 
+	public Date getHordingBookingStartDate() {
+		return _hordingBookingStartDate;
+	}
+
+	public void setHordingBookingStartDate(Date hordingBookingStartDate) {
+		_hordingBookingStartDate = hordingBookingStartDate;
+	}
+
+	public Date getHordingBookingEndDate() {
+		return _hordingBookingEndDate;
+	}
+
+	public void setHordingBookingEndDate(Date hordingBookingEndDate) {
+		_hordingBookingEndDate = hordingBookingEndDate;
+	}
+
 	private long _bookingId;
 	private long _hordingId;
 	private double _mountingCharge;
 	private double _printingCharge;
 	private int _units;
 	private String _hsnNo;
+	private Date _hordingBookingStartDate;
+	private Date _hordingBookingEndDate;
 }

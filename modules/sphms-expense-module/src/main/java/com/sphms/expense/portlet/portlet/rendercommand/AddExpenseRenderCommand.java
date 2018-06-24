@@ -1,5 +1,7 @@
 package com.sphms.expense.portlet.portlet.rendercommand;
 
+import java.util.List;
+
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -11,7 +13,11 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.sphms.common.service.model.Client;
+import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Expense;
+import com.sphms.common.service.service.ClientLocalServiceUtil;
+import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.common.service.service.ExpenseLocalServiceUtil;
 import com.sphms.expense.portlet.portlet.util.ExpensePortletConstant;
 
@@ -37,6 +43,12 @@ public class AddExpenseRenderCommand implements MVCRenderCommand{
 				_log.error(e);
 			}
 		}
+		
+		//Get Company List
+		List<CustomCompany> companyList = CustomCompanyLocalServiceUtil.getCustomCompanies(-1, -1);
+		renderRequest.setAttribute("companyList", companyList);
+				
+		
 		renderRequest.setAttribute("expenseId", expenseId);
 		return "/add_expense.jsp";
 	}

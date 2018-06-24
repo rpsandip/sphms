@@ -70,10 +70,13 @@ public class Booking_HordingLocalServiceUtil {
 
 	public static com.sphms.common.service.model.Booking_Hording addBookingHoarding(
 		long bookingId, long hordingId, double mountingCharge,
-		double printingChrage, int units, java.lang.String hsnNo) {
+		double printingChrage, int units, java.lang.String hsnNo,
+		java.util.Date hordingBookingStartDate,
+		java.util.Date hordingBookingEndDate) {
 		return getService()
 				   .addBookingHoarding(bookingId, hordingId, mountingCharge,
-			printingChrage, units, hsnNo);
+			printingChrage, units, hsnNo, hordingBookingStartDate,
+			hordingBookingEndDate);
 	}
 
 	/**

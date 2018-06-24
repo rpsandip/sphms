@@ -43,7 +43,6 @@
 						</div>
 						<div class="form-group col-md-6">
 	       					 <aui:input name="address2" label="address2" cssClass="form-control" value="${client.address2 }">
-						     	<aui:validator name="required" />
 						     	<aui:validator name="maxLength">70</aui:validator>
 							 </aui:input>
 						</div>	 

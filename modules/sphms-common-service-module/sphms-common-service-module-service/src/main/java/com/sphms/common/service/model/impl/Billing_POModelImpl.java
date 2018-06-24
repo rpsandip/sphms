@@ -68,7 +68,8 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 			{ "createDate", Types.TIMESTAMP },
 			{ "createdBy", Types.BIGINT },
 			{ "modifiedDate", Types.TIMESTAMP },
-			{ "modifiedBy", Types.BIGINT }
+			{ "modifiedBy", Types.BIGINT },
+			{ "status", Types.INTEGER }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -83,9 +84,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		TABLE_COLUMNS_MAP.put("createdBy", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedBy", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing_PO (billingId LONG not null,hordingId LONG not null,landLordId LONG,poNumber VARCHAR(75) null,financialYear VARCHAR(75) null,totalAmount DOUBLE,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG,primary key (billingId, hordingId))";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing_PO (billingId LONG not null,hordingId LONG not null,landLordId LONG,poNumber VARCHAR(75) null,financialYear VARCHAR(75) null,totalAmount DOUBLE,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG,status INTEGER,primary key (billingId, hordingId))";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Billing_PO";
 	public static final String ORDER_BY_JPQL = " ORDER BY billing_PO.id.billingId ASC, billing_PO.id.hordingId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Billing_PO.billingId ASC, SPHMS_Billing_PO.hordingId ASC";
@@ -155,6 +157,7 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("modifiedBy", getModifiedBy());
+		attributes.put("status", getStatus());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -222,6 +225,12 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 		if (modifiedBy != null) {
 			setModifiedBy(modifiedBy);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
 		}
 	}
 
@@ -365,6 +374,16 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		_modifiedBy = modifiedBy;
 	}
 
+	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_status = status;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -393,6 +412,7 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		billing_POImpl.setCreatedBy(getCreatedBy());
 		billing_POImpl.setModifiedDate(getModifiedDate());
 		billing_POImpl.setModifiedBy(getModifiedBy());
+		billing_POImpl.setStatus(getStatus());
 
 		billing_POImpl.resetOriginalValues();
 
@@ -512,12 +532,14 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 		billing_POCacheModel.modifiedBy = getModifiedBy();
 
+		billing_POCacheModel.status = getStatus();
+
 		return billing_POCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{billingId=");
 		sb.append(getBillingId());
@@ -539,6 +561,8 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		sb.append(getModifiedDate());
 		sb.append(", modifiedBy=");
 		sb.append(getModifiedBy());
+		sb.append(", status=");
+		sb.append(getStatus());
 		sb.append("}");
 
 		return sb.toString();
@@ -546,7 +570,7 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Billing_PO");
@@ -592,6 +616,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 			"<column><column-name>modifiedBy</column-name><column-value><![CDATA[");
 		sb.append(getModifiedBy());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -617,6 +645,7 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _modifiedBy;
+	private int _status;
 	private long _columnBitmask;
 	private Billing_PO _escapedModel;
 }

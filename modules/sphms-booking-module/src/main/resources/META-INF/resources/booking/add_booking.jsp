@@ -74,11 +74,17 @@
 	     						<div class="form-group col-md-3">
 		       					 	<aui:input type="text" name="hsnNo${loop.index}" label="HSN Code" />	
 	     						</div>
-	     						<div class="form-group col-md-2">
-		       					 	<aui:input type="text" name="moutingCharge${loop.index}" label="mountingCharge" />	
+	     						<div class="form-group col-md-1">
+		       					 	<aui:input type="text" name="hordingStartDate${loop.index}" label="Start Date"  value="${startDate }"/>	
 	     						</div>
-	     						<div class="form-group col-md-2">
-		       					 	<aui:input type="text" name="printingCharge${loop.index}" label="printingCharge" />	
+	     						<div class="form-group col-md-1">
+		       					 	<aui:input type="text" name="hordingEndDate${loop.index}" label="End Date" value="${endDate }"/>	
+	     						</div>
+	     						<div class="form-group col-md-1">
+		       					 	<aui:input type="text" name="moutingCharge${loop.index}" label="Mnt Chrg" />	
+	     						</div>
+	     						<div class="form-group col-md-1">
+		       					 	<aui:input type="text" name="printingCharge${loop.index}" label="Prnt Chrg" />	
 	     						</div>
 	     						<div class="form-group col-md-1">
 		       					 	<aui:input type="text" name="units${loop.index}" label="units" value="1">
@@ -110,12 +116,19 @@
 	     						</div>
 	     						<div class="form-group col-md-3">
 		       					 	<aui:input type="text" name="hsnNo${loop.index}" label="HSN Code" value="${bookingHordingBean.hsnNo }"/>	
+	     						</div><div class="form-group col-md-1">
+	     						 	 <fmt:formatDate pattern = "dd/MM/yyyy"  value = "${bookingHordingBean.hordingBookingStartDate}"  var="hordingStartDate" />
+		       					 	<aui:input type="text" name="hordingStartDate${loop.index}" label="Start Date"  value="${hordingStartDate }"/>	
 	     						</div>
-	     						<div class="form-group col-md-2">
-		       					 	<aui:input type="text" name="moutingCharge${loop.index}" label="mountingCharge" value="${bookingHordingBean.mountingCharge }"/>	
+	     						<div class="form-group col-md-1">
+	     							<fmt:formatDate pattern = "dd/MM/yyyy"  value = "${bookingHordingBean.hordingbookingEndDate}"  var="hordingEndDate" />
+		       					 	<aui:input type="text" name="hordingEndDate${loop.index}" label="End Date" value="${hordingEndDate}"/>	
 	     						</div>
-	     						<div class="form-group col-md-2">
-		       					 	<aui:input type="text" name="printingCharge${loop.index}" label="printingCharge" value="${bookingHordingBean.printingCharge }"/>	
+	     						<div class="form-group col-md-1">
+		       					 	<aui:input type="text" name="moutingCharge${loop.index}" label="Mnt Chrg" value="${bookingHordingBean.mountingCharge }"/>	
+	     						</div>
+	     						<div class="form-group col-md-1">
+		       					 	<aui:input type="text" name="printingCharge${loop.index}" label="Prnt Chrg" value="${bookingHordingBean.printingCharge }"/>	
 	     						</div>
 	     						<div class="form-group col-md-1">
 		       					 	<aui:input type="text" name="units${loop.index}" label="units" value="${bookingHordingBean.units }">
@@ -178,33 +191,40 @@ jQuery.noConflict();
 	 });
 })(jQuery);
 </script>
-
-<aui:script>
-var userModuleNameSpace =  '<portlet:namespace/>';
-AUI().use('aui-base','aui-form-validator', function(A) {
-	var addBookingBtn= A.one(".addBookingBtn");
-	
-	var clientValidator = new A.FormValidator({
-		boundingBox: document.<portlet:namespace/>addBookingFm,
-		rules: {
-			<portlet:namespace/>clientId: {
-				required: true
-			}
-		},
-		fieldStrings: {
-			<portlet:namespace/>clientId: {
-				required: 'Please select Client'
-			}
-		}
-	});
-	
-	addBookingBtn.on('click', function(e) {
-		var formValidator = Liferay.Form.get('<portlet:namespace />addBookingFm').formValidator;
-		formValidator.validate();
-		clientValidator.validate();
-		if(!formValidator.hasErrors() && !clientValidator.hasErrors()){
-			document.<portlet:namespace />addBookingFm.submit();
-		}
-	});
-});
-</aui:script> 
+<script type="text/javascript">
+jQuery.noConflict();
+(function($) {
+    $(function() {
+   		AUI().use('aui-base','liferay-portlet-url','aui-form-validator', function(A) {
+   			var userModuleNameSpace =  '<portlet:namespace/>';
+   			
+   			var addBookingBtn= A.one(".addBookingBtn");
+   			
+   			var clientValidator = new A.FormValidator({
+   				boundingBox: document.<portlet:namespace/>addBookingFm,
+   				rules: {
+   					<portlet:namespace/>clientId: {
+   						required: true
+   					}
+   				},
+   				fieldStrings: {
+   					<portlet:namespace/>clientId: {
+   						required: 'Please select Client'
+   					}
+   				}
+   			});
+   			
+   			addBookingBtn.on('click', function(e) {
+   				var formValidator = Liferay.Form.get('<portlet:namespace />addBookingFm').formValidator;
+   				formValidator.validate();
+   				clientValidator.validate();
+   				if(!formValidator.hasErrors() && !clientValidator.hasErrors()){
+   					document.<portlet:namespace />addBookingFm.submit();
+   				}
+   			});
+   			
+   			
+   		});
+    });
+   })(jQuery);
+</script>

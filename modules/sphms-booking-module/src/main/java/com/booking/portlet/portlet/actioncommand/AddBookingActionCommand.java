@@ -74,6 +74,8 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 					bookingHordingBean.setPrintingCharge(ParamUtil.getDouble(actionRequest, "printingCharge"+hordingIndex));
 					bookingHordingBean.setUnits(ParamUtil.getInteger(actionRequest, "units"+hordingIndex));
 					bookingHordingBean.setHsnNo(ParamUtil.getString(actionRequest,"hsnNo"+hordingIndex));
+					bookingHordingBean.setHordingBookingStartDate(ParamUtil.getDate(actionRequest, "hordingStartDate"+hordingIndex, dateFormat));
+					bookingHordingBean.setHordingbookingEndDate(ParamUtil.getDate(actionRequest, "hordingEndDate"+hordingIndex, dateFormat));
 					bookingHordingBeanList.add(bookingHordingBean);
 					hordingList.add(hording);
 				} catch (NumberFormatException e) {

@@ -247,10 +247,10 @@ public class BookingLocalServiceWrapper implements BookingLocalService,
 
 	@Override
 	public java.util.List<com.sphms.common.service.model.Booking> getBookingList(
-		long clientId, java.util.Date startDate, java.util.Date endDate,
-		int start, int end) {
-		return _bookingLocalService.getBookingList(clientId, startDate,
-			endDate, start, end);
+		long customComanyId, long clientId, java.util.Date startDate,
+		java.util.Date endDate, int start, int end, int status) {
+		return _bookingLocalService.getBookingList(customComanyId, clientId,
+			startDate, endDate, start, end, status);
 	}
 
 	/**
@@ -297,9 +297,10 @@ public class BookingLocalServiceWrapper implements BookingLocalService,
 	}
 
 	@Override
-	public long getBookingCount(long clientId, java.util.Date startDate,
-		java.util.Date endDate) {
-		return _bookingLocalService.getBookingCount(clientId, startDate, endDate);
+	public long getBookingCount(long customComanyId, long clientId,
+		java.util.Date startDate, java.util.Date endDate, int status) {
+		return _bookingLocalService.getBookingCount(customComanyId, clientId,
+			startDate, endDate, status);
 	}
 
 	@Override

@@ -65,7 +65,7 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{billingId=");
 		sb.append(billingId);
@@ -73,6 +73,8 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 		sb.append(customCompanyId);
 		sb.append(", billNo=");
 		sb.append(billNo);
+		sb.append(", internalBillNo=");
+		sb.append(internalBillNo);
 		sb.append(", bookingId=");
 		sb.append(bookingId);
 		sb.append(", clientId=");
@@ -120,6 +122,13 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 		}
 		else {
 			billingImpl.setBillNo(billNo);
+		}
+
+		if (internalBillNo == null) {
+			billingImpl.setInternalBillNo(StringPool.BLANK);
+		}
+		else {
+			billingImpl.setInternalBillNo(internalBillNo);
 		}
 
 		billingImpl.setBookingId(bookingId);
@@ -195,6 +204,7 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 
 		customCompanyId = objectInput.readLong();
 		billNo = objectInput.readUTF();
+		internalBillNo = objectInput.readUTF();
 
 		bookingId = objectInput.readLong();
 
@@ -232,6 +242,13 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 		}
 		else {
 			objectOutput.writeUTF(billNo);
+		}
+
+		if (internalBillNo == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(internalBillNo);
 		}
 
 		objectOutput.writeLong(bookingId);
@@ -291,6 +308,7 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 	public long billingId;
 	public long customCompanyId;
 	public String billNo;
+	public String internalBillNo;
 	public long bookingId;
 	public long clientId;
 	public long billFileEntryId;

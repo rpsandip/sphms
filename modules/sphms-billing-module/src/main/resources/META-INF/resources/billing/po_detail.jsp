@@ -2,8 +2,7 @@
 <%@page import="com.sphms.common.service.service.LandLordLocalServiceUtil"%>
 <%@ include file="../init.jsp" %>
 
-<portlet:resourceURL id="/download-po" var="
-" />
+<portlet:resourceURL id="/download-po" var="downLoadPOURL" />
 
 <section class="content-header">
   <h1>
@@ -23,6 +22,9 @@
 			                <th>PO Number</th>
 			                <th>Financial Year</th>
 			                <th>Download</th>
+			                 <th>Status</th>
+			                <th>Action</th>
+			      
 			            </tr>
      			   </thead>
         		   <tbody>
@@ -45,9 +47,9 @@
             				<td><%=owner %></td>
             				<td>
             					<ul>
-            						<c:forEach items="${poBean.hordingList }" var="hording">
+            						<c:forEach items="${poBean.hordingList }" var="poHordingDTO">
             							<li>
-            								${hording}
+            								${poHordingDTO.hordingTitle}
             							</li>
             						</c:forEach>
             					</ul>
@@ -55,6 +57,45 @@
             				<td>${poBean.poNumber}</td>
             				<td>${poBean.financialYear}</td>
             				<td><a data-billing-id="${ poBean.billingId}" data-landlord-id="${poBean.landlordId }" class="po-download">DownLoad</a></td>
+        			    	<td>
+        			    		<ul>
+        			    			<li>
+        			    				<c:forEach items="${poBean.hordingList }" var="poHordingDTO">
+        			    					<c:choose>
+            									<c:when test="${poHordingDTO.status eq 0 }">
+	            										<portlet:actionURL var="publishPOActionURL" name="/publish_PO">
+															<portlet:param name="billingId" value="${ poBean.billingId}"/>
+															<portlet:param name="hordingId" value="${ poHordingDTO.hordingId}"/>
+														</portlet:actionURL>
+										
+														<a href="${publishPOActionURL}">
+		            										Publish
+		            									</a>
+            									</c:when>
+            									<c:otherwise>
+            										Sent To Client
+            									</c:otherwise>
+            								</c:choose>
+        			    				</c:forEach>
+        			    			</li>
+        			    		</ul>
+        			    	</td>
+        			    	<td>
+								<ul>
+            						<c:forEach items="${poBean.hordingList }" var="poHordingDTO">
+            							<portlet:renderURL var="editPODetailURL">
+       							 			<portlet:param name="mvcRenderCommandName" value="/edit_po" />
+       							 			<portlet:param name="billingId" value="${ poBean.billingId}" />
+       							 			<portlet:param name="hordingId" value="${ poHordingDTO.hordingId}" />
+										</portlet:renderURL>
+            							<li>
+            								<a href="${editPODetailURL}">
+            									Edit
+            								</a>
+            							</li>
+            						</c:forEach>
+            					</ul>
+        			    	</td>
         			    </tr>
            			</c:forEach>
            			</tbody>

@@ -338,6 +338,7 @@ public class ExpensePersistenceImpl extends BasePersistenceImpl<Expense>
 		expenseImpl.setPrimaryKey(expense.getPrimaryKey());
 
 		expenseImpl.setExpenseId(expense.getExpenseId());
+		expenseImpl.setCustomCompanyId(expense.getCustomCompanyId());
 		expenseImpl.setType(expense.getType());
 		expenseImpl.setAmount(expense.getAmount());
 		expenseImpl.setDescription(expense.getDescription());

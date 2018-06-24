@@ -2,7 +2,9 @@ package com.booking.portlet.portlet;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.sphms.common.service.model.Client;
+import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
+import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,6 +38,10 @@ public class BookongModulePortlet extends MVCPortlet {
 		// get ClientList
 		List<Client> clientList = ClientLocalServiceUtil.getClients(-1, -1);
 		renderRequest.setAttribute("clientList", clientList);
+		
+		//Get Company List
+		List<CustomCompany> companyList = CustomCompanyLocalServiceUtil.getCustomCompanies(-1, -1);
+		renderRequest.setAttribute("companyList", companyList);
 
 		include(viewTemplate, renderRequest, renderResponse);
 	}

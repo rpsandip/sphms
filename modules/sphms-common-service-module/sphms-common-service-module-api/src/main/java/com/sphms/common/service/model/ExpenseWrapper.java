@@ -58,6 +58,7 @@ public class ExpenseWrapper implements Expense, ModelWrapper<Expense> {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("expenseId", getExpenseId());
+		attributes.put("customCompanyId", getCustomCompanyId());
 		attributes.put("type", getType());
 		attributes.put("amount", getAmount());
 		attributes.put("description", getDescription());
@@ -76,6 +77,12 @@ public class ExpenseWrapper implements Expense, ModelWrapper<Expense> {
 
 		if (expenseId != null) {
 			setExpenseId(expenseId);
+		}
+
+		Long customCompanyId = (Long)attributes.get("customCompanyId");
+
+		if (customCompanyId != null) {
+			setCustomCompanyId(customCompanyId);
 		}
 
 		String type = (String)attributes.get("type");
@@ -263,6 +270,16 @@ public class ExpenseWrapper implements Expense, ModelWrapper<Expense> {
 	}
 
 	/**
+	* Returns the custom company ID of this expense.
+	*
+	* @return the custom company ID of this expense
+	*/
+	@Override
+	public long getCustomCompanyId() {
+		return _expense.getCustomCompanyId();
+	}
+
+	/**
 	* Returns the expense ID of this expense.
 	*
 	* @return the expense ID of this expense
@@ -330,6 +347,16 @@ public class ExpenseWrapper implements Expense, ModelWrapper<Expense> {
 	@Override
 	public void setCreatedBy(long createdBy) {
 		_expense.setCreatedBy(createdBy);
+	}
+
+	/**
+	* Sets the custom company ID of this expense.
+	*
+	* @param customCompanyId the custom company ID of this expense
+	*/
+	@Override
+	public void setCustomCompanyId(long customCompanyId) {
+		_expense.setCustomCompanyId(customCompanyId);
 	}
 
 	/**

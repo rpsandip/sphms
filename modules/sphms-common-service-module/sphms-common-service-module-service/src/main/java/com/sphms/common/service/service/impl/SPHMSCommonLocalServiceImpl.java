@@ -235,7 +235,7 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 	    	}
 	    	if(monthDiff==1){
 	    		finalTime = finalTime + monthDiff + " month ";
-	    	}else if(yearDiff>0){
+	    	}else if(monthDiff>0){
 	    		finalTime = finalTime + monthDiff + " months ";
 	    	}
 	    	if(daysDiff==1){

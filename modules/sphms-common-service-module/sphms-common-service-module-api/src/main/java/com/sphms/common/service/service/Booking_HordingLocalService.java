@@ -37,6 +37,7 @@ import com.sphms.common.service.service.persistence.Booking_HordingPK;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -83,7 +84,8 @@ public interface Booking_HordingLocalService extends BaseLocalService,
 
 	public Booking_Hording addBookingHoarding(long bookingId, long hordingId,
 		double mountingCharge, double printingChrage, int units,
-		java.lang.String hsnNo);
+		java.lang.String hsnNo, Date hordingBookingStartDate,
+		Date hordingBookingEndDate);
 
 	/**
 	* Adds the booking_ hording to the database. Also notifies the appropriate model listeners.

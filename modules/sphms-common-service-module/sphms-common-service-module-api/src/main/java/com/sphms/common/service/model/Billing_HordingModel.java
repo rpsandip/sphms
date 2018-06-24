@@ -27,6 +27,8 @@ import com.sphms.common.service.service.persistence.Billing_HordingPK;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
  * The base model interface for the Billing_Hording service. Represents a row in the &quot;SPHMS_Billing_Hording&quot; database table, with each column mapped to a property of this class.
  *
@@ -160,6 +162,34 @@ public interface Billing_HordingModel extends BaseModel<Billing_Hording> {
 	 * @param hsnNo the hsn no of this billing_ hording
 	 */
 	public void setHsnNo(String hsnNo);
+
+	/**
+	 * Returns the hording booking start date of this billing_ hording.
+	 *
+	 * @return the hording booking start date of this billing_ hording
+	 */
+	public Date getHordingBookingStartDate();
+
+	/**
+	 * Sets the hording booking start date of this billing_ hording.
+	 *
+	 * @param hordingBookingStartDate the hording booking start date of this billing_ hording
+	 */
+	public void setHordingBookingStartDate(Date hordingBookingStartDate);
+
+	/**
+	 * Returns the hording booking end date of this billing_ hording.
+	 *
+	 * @return the hording booking end date of this billing_ hording
+	 */
+	public Date getHordingBookingEndDate();
+
+	/**
+	 * Sets the hording booking end date of this billing_ hording.
+	 *
+	 * @param hordingBookingEndDate the hording booking end date of this billing_ hording
+	 */
+	public void setHordingBookingEndDate(Date hordingBookingEndDate);
 
 	@Override
 	public boolean isNew();

@@ -79,9 +79,9 @@ public class ExpenseLocalServiceWrapper implements ExpenseLocalService,
 	@Override
 	public com.sphms.common.service.model.Expense addExpense(
 		java.lang.String type, double amount, java.lang.String description,
-		java.util.Date expenseDate, long createdBy) {
+		java.util.Date expenseDate, long customCompanyId, long createdBy) {
 		return _expenseLocalService.addExpense(type, amount, description,
-			expenseDate, createdBy);
+			expenseDate, customCompanyId, createdBy);
 	}
 
 	/**
@@ -154,10 +154,10 @@ public class ExpenseLocalServiceWrapper implements ExpenseLocalService,
 	public com.sphms.common.service.model.Expense updateExpense(
 		long expenseId, java.lang.String type, double amount,
 		java.lang.String description, java.util.Date expenseDate,
-		long modifiedBy)
+		long customCompanyId, long modifiedBy)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _expenseLocalService.updateExpense(expenseId, type, amount,
-			description, expenseDate, modifiedBy);
+			description, expenseDate, customCompanyId, modifiedBy);
 	}
 
 	/**
@@ -236,9 +236,9 @@ public class ExpenseLocalServiceWrapper implements ExpenseLocalService,
 	@Override
 	public java.util.List<com.sphms.common.service.model.Expense> getExpenseList(
 		java.lang.String type, java.util.Date startDate,
-		java.util.Date endDate, int start, int end) {
+		java.util.Date endDate, long customCompanyId, int start, int end) {
 		return _expenseLocalService.getExpenseList(type, startDate, endDate,
-			start, end);
+			customCompanyId, start, end);
 	}
 
 	/**
@@ -286,8 +286,9 @@ public class ExpenseLocalServiceWrapper implements ExpenseLocalService,
 
 	@Override
 	public long getExpenseCount(java.lang.String type,
-		java.util.Date startDate, java.util.Date endDate) {
-		return _expenseLocalService.getExpenseCount(type, startDate, endDate);
+		java.util.Date startDate, java.util.Date endDate, long customCompanyId) {
+		return _expenseLocalService.getExpenseCount(type, startDate, endDate,
+			customCompanyId);
 	}
 
 	@Override

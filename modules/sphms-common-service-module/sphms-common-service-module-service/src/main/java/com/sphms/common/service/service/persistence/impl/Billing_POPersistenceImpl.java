@@ -1450,6 +1450,7 @@ public class Billing_POPersistenceImpl extends BasePersistenceImpl<Billing_PO>
 		billing_POImpl.setCreatedBy(billing_PO.getCreatedBy());
 		billing_POImpl.setModifiedDate(billing_PO.getModifiedDate());
 		billing_POImpl.setModifiedBy(billing_PO.getModifiedBy());
+		billing_POImpl.setStatus(billing_PO.getStatus());
 
 		return billing_POImpl;
 	}

@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Booking_Hording in entity cache.
  *
@@ -66,7 +68,7 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{bookingId=");
 		sb.append(bookingId);
@@ -80,6 +82,10 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 		sb.append(units);
 		sb.append(", hsnNo=");
 		sb.append(hsnNo);
+		sb.append(", hordingBookingStartDate=");
+		sb.append(hordingBookingStartDate);
+		sb.append(", hordingBookingEndDate=");
+		sb.append(hordingBookingEndDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -102,6 +108,22 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 			booking_HordingImpl.setHsnNo(hsnNo);
 		}
 
+		if (hordingBookingStartDate == Long.MIN_VALUE) {
+			booking_HordingImpl.setHordingBookingStartDate(null);
+		}
+		else {
+			booking_HordingImpl.setHordingBookingStartDate(new Date(
+					hordingBookingStartDate));
+		}
+
+		if (hordingBookingEndDate == Long.MIN_VALUE) {
+			booking_HordingImpl.setHordingBookingEndDate(null);
+		}
+		else {
+			booking_HordingImpl.setHordingBookingEndDate(new Date(
+					hordingBookingEndDate));
+		}
+
 		booking_HordingImpl.resetOriginalValues();
 
 		return booking_HordingImpl;
@@ -119,6 +141,8 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 
 		units = objectInput.readInt();
 		hsnNo = objectInput.readUTF();
+		hordingBookingStartDate = objectInput.readLong();
+		hordingBookingEndDate = objectInput.readLong();
 
 		booking_HordingPK = new Booking_HordingPK(bookingId, hordingId);
 	}
@@ -142,6 +166,9 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 		else {
 			objectOutput.writeUTF(hsnNo);
 		}
+
+		objectOutput.writeLong(hordingBookingStartDate);
+		objectOutput.writeLong(hordingBookingEndDate);
 	}
 
 	public long bookingId;
@@ -150,5 +177,7 @@ public class Booking_HordingCacheModel implements CacheModel<Booking_Hording>,
 	public double printingCharge;
 	public int units;
 	public String hsnNo;
+	public long hordingBookingStartDate;
+	public long hordingBookingEndDate;
 	public transient Booking_HordingPK booking_HordingPK;
 }

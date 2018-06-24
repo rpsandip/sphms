@@ -90,7 +90,8 @@ public interface PaymentLocalService extends BaseLocalService,
 	public Payment addPayment(Payment payment);
 
 	public Payment addPayment(long billingId, double amount,
-		java.lang.String chequeNo, double tds, double deduction, long createdBy);
+		java.lang.String chequeNo, double tds, double deduction,
+		java.lang.String description, long createdBy);
 
 	/**
 	* Creates a new payment with the primary key. Does not add the payment to the database.
@@ -142,7 +143,8 @@ public interface PaymentLocalService extends BaseLocalService,
 	public Payment updatePayment(Payment payment);
 
 	public Payment updatePayment(long paymentId, long billingId, double amount,
-		java.lang.String chequeNo, double tds, double deduction, long modifiedBy);
+		java.lang.String chequeNo, double tds, double deduction,
+		java.lang.String description, long modifiedBy);
 
 	/**
 	* Returns the number of payments.

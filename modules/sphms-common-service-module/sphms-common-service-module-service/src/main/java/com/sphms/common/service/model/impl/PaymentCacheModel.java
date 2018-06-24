@@ -65,7 +65,7 @@ public class PaymentCacheModel implements CacheModel<Payment>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{paymentId=");
 		sb.append(paymentId);
@@ -81,6 +81,8 @@ public class PaymentCacheModel implements CacheModel<Payment>, Externalizable {
 		sb.append(tds);
 		sb.append(", deduction=");
 		sb.append(deduction);
+		sb.append(", description=");
+		sb.append(description);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", createdBy=");
@@ -112,6 +114,13 @@ public class PaymentCacheModel implements CacheModel<Payment>, Externalizable {
 
 		paymentImpl.setTds(tds);
 		paymentImpl.setDeduction(deduction);
+
+		if (description == null) {
+			paymentImpl.setDescription(StringPool.BLANK);
+		}
+		else {
+			paymentImpl.setDescription(description);
+		}
 
 		if (createDate == Long.MIN_VALUE) {
 			paymentImpl.setCreateDate(null);
@@ -150,6 +159,7 @@ public class PaymentCacheModel implements CacheModel<Payment>, Externalizable {
 		tds = objectInput.readDouble();
 
 		deduction = objectInput.readDouble();
+		description = objectInput.readUTF();
 		createDate = objectInput.readLong();
 
 		createdBy = objectInput.readLong();
@@ -179,6 +189,14 @@ public class PaymentCacheModel implements CacheModel<Payment>, Externalizable {
 		objectOutput.writeDouble(tds);
 
 		objectOutput.writeDouble(deduction);
+
+		if (description == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(description);
+		}
+
 		objectOutput.writeLong(createDate);
 
 		objectOutput.writeLong(createdBy);
@@ -194,6 +212,7 @@ public class PaymentCacheModel implements CacheModel<Payment>, Externalizable {
 	public String chequeNo;
 	public double tds;
 	public double deduction;
+	public String description;
 	public long createDate;
 	public long createdBy;
 	public long modifiedDate;

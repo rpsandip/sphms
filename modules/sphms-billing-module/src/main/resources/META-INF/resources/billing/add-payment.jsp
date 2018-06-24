@@ -47,6 +47,12 @@
 						</div>
        				</div>
        				<div class="row">
+						<div class="form-group col-md-6">
+							<aui:input name="description" label="Description" cssClass="form-control" value="${payment.description }"> 
+							 </aui:input>
+						</div>
+					</div>	
+       				<div class="row">
        					<c:choose>
        						<c:when test="${ payment.paymentId gt 0}">
        							<div class="form-group col-md-12">

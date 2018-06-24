@@ -65,10 +65,12 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{expenseId=");
 		sb.append(expenseId);
+		sb.append(", customCompanyId=");
+		sb.append(customCompanyId);
 		sb.append(", type=");
 		sb.append(type);
 		sb.append(", amount=");
@@ -95,6 +97,7 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 		ExpenseImpl expenseImpl = new ExpenseImpl();
 
 		expenseImpl.setExpenseId(expenseId);
+		expenseImpl.setCustomCompanyId(customCompanyId);
 
 		if (type == null) {
 			expenseImpl.setType(StringPool.BLANK);
@@ -145,6 +148,8 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		expenseId = objectInput.readLong();
+
+		customCompanyId = objectInput.readLong();
 		type = objectInput.readUTF();
 
 		amount = objectInput.readDouble();
@@ -162,6 +167,8 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(expenseId);
+
+		objectOutput.writeLong(customCompanyId);
 
 		if (type == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -189,6 +196,7 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 	}
 
 	public long expenseId;
+	public long customCompanyId;
 	public String type;
 	public double amount;
 	public String description;

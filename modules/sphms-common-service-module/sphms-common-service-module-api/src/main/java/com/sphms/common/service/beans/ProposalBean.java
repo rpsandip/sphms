@@ -35,7 +35,7 @@ public class ProposalBean {
 				DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.getDLFileEntry(proposal.getPptFileId());
 				this.pptFileURL = SPHMSCommonLocalServiceUtil.getDLFileURL(fileEntry);
 			} catch (PortalException e) {
-				_log.error(e);
+				_log.error(e.getMessage());
 			}
 		}
 		
@@ -44,7 +44,7 @@ public class ProposalBean {
 				DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.getDLFileEntry(proposal.getXlsxFileId());
 				this.xlsxFileURL = SPHMSCommonLocalServiceUtil.getDLFileURL(fileEntry);
 			} catch (PortalException e) {
-				_log.error(e);
+				_log.error(e.getMessage());
 			}
 		}
 		

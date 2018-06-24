@@ -47,12 +47,13 @@ public class AddExpenseActionCommand extends BaseMVCActionCommand{
 			double amount = ParamUtil.getDouble(actionRequest, "amount");
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Date expenseDate = ParamUtil.getDate(actionRequest, "expenseDate", dateFormat);
+			long customCompanyId = ParamUtil.getLong(actionRequest, "customCustomId");
 		
 			String description = ParamUtil.getString(actionRequest, "description");
 			
 			if(expenseId==0){
 				if(Validator.isNotNull(expenseDate)){
-					Expense expense = ExpenseLocalServiceUtil.addExpense(type, amount, description, expenseDate, themeDisplay.getUserId());
+					Expense expense = ExpenseLocalServiceUtil.addExpense(type, amount, description, expenseDate, customCompanyId,themeDisplay.getUserId());
 					if(Validator.isNotNull(expense)){
 						SessionMessages.add(actionRequest, "expnese-add-suceess");
 					}else{
@@ -69,7 +70,7 @@ public class AddExpenseActionCommand extends BaseMVCActionCommand{
 				Expense expense = null;
 				if(Validator.isNotNull(expenseDate)){
 					try {
-						expense = ExpenseLocalServiceUtil.updateExpense(expenseId, type, amount, description, expenseDate, themeDisplay.getUserId());
+						expense = ExpenseLocalServiceUtil.updateExpense(expenseId, type, amount, description, expenseDate, customCompanyId,themeDisplay.getUserId());
 					} catch (PortalException e) {
 						_log.error(e);
 					}

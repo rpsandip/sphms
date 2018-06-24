@@ -81,9 +81,10 @@ public class ExpenseLocalServiceUtil {
 
 	public static com.sphms.common.service.model.Expense addExpense(
 		java.lang.String type, double amount, java.lang.String description,
-		java.util.Date expenseDate, long createdBy) {
+		java.util.Date expenseDate, long customCompanyId, long createdBy) {
 		return getService()
-				   .addExpense(type, amount, description, expenseDate, createdBy);
+				   .addExpense(type, amount, description, expenseDate,
+			customCompanyId, createdBy);
 	}
 
 	/**
@@ -153,11 +154,11 @@ public class ExpenseLocalServiceUtil {
 	public static com.sphms.common.service.model.Expense updateExpense(
 		long expenseId, java.lang.String type, double amount,
 		java.lang.String description, java.util.Date expenseDate,
-		long modifiedBy)
+		long customCompanyId, long modifiedBy)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateExpense(expenseId, type, amount, description,
-			expenseDate, modifiedBy);
+			expenseDate, customCompanyId, modifiedBy);
 	}
 
 	/**
@@ -230,8 +231,10 @@ public class ExpenseLocalServiceUtil {
 
 	public static java.util.List<com.sphms.common.service.model.Expense> getExpenseList(
 		java.lang.String type, java.util.Date startDate,
-		java.util.Date endDate, int start, int end) {
-		return getService().getExpenseList(type, startDate, endDate, start, end);
+		java.util.Date endDate, long customCompanyId, int start, int end) {
+		return getService()
+				   .getExpenseList(type, startDate, endDate, customCompanyId,
+			start, end);
 	}
 
 	/**
@@ -275,8 +278,9 @@ public class ExpenseLocalServiceUtil {
 	}
 
 	public static long getExpenseCount(java.lang.String type,
-		java.util.Date startDate, java.util.Date endDate) {
-		return getService().getExpenseCount(type, startDate, endDate);
+		java.util.Date startDate, java.util.Date endDate, long customCompanyId) {
+		return getService()
+				   .getExpenseCount(type, startDate, endDate, customCompanyId);
 	}
 
 	public static ExpenseLocalService getService() {

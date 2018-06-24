@@ -2,6 +2,7 @@ create table SPHMS_Billing (
 	billingId LONG not null primary key,
 	customCompanyId LONG,
 	billNo VARCHAR(75) null,
+	internalBillNo VARCHAR(75) null,
 	bookingId LONG,
 	clientId LONG,
 	billFileEntryId LONG,
@@ -27,6 +28,8 @@ create table SPHMS_Billing_Hording (
 	units INTEGER,
 	totalHordingCharge DOUBLE,
 	hsnNo VARCHAR(75) null,
+	hordingBookingStartDate DATE null,
+	hordingBookingEndDate DATE null,
 	primary key (billingId, hordingId)
 );
 
@@ -41,6 +44,7 @@ create table SPHMS_Billing_PO (
 	createdBy LONG,
 	modifiedDate DATE null,
 	modifiedBy LONG,
+	status INTEGER,
 	primary key (billingId, hordingId)
 );
 
@@ -66,6 +70,8 @@ create table SPHMS_Booking_Hording (
 	printingCharge DOUBLE,
 	units INTEGER,
 	hsnNo VARCHAR(75) null,
+	hordingBookingStartDate DATE null,
+	hordingBookingEndDate DATE null,
 	primary key (bookingId, hordingId)
 );
 
@@ -115,6 +121,7 @@ create table SPHMS_CustomCompany (
 
 create table SPHMS_Expense (
 	expenseId LONG not null primary key,
+	customCompanyId LONG,
 	type_ VARCHAR(75) null,
 	amount DOUBLE,
 	description VARCHAR(500) null,
@@ -183,6 +190,7 @@ create table SPHMS_Payment (
 	chequeNo VARCHAR(75) null,
 	tds DOUBLE,
 	deduction DOUBLE,
+	description VARCHAR(200) null,
 	createDate DATE null,
 	createdBy LONG,
 	modifiedDate DATE null,

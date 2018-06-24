@@ -71,11 +71,13 @@ public class Billing_HordingLocalServiceUtil {
 	public static com.sphms.common.service.model.Billing_Hording addBillingHording(
 		long billingId, long hordingId, double totalMountingCharge,
 		double totalPrintingCharge, int units, double totalHordingCharge,
-		java.lang.String hsnNo) {
+		java.lang.String hsnNo, java.util.Date hordingBookingStartDate,
+		java.util.Date hordingBookingEndDate) {
 		return getService()
 				   .addBillingHording(billingId, hordingId,
 			totalMountingCharge, totalPrintingCharge, units,
-			totalHordingCharge, hsnNo);
+			totalHordingCharge, hsnNo, hordingBookingStartDate,
+			hordingBookingEndDate);
 	}
 
 	/**
@@ -127,6 +129,11 @@ public class Billing_HordingLocalServiceUtil {
 	public static com.sphms.common.service.model.Billing_Hording fetchBilling_Hording(
 		com.sphms.common.service.service.persistence.Billing_HordingPK billing_HordingPK) {
 		return getService().fetchBilling_Hording(billing_HordingPK);
+	}
+
+	public static com.sphms.common.service.model.Billing_Hording getBillingHording(
+		long hordingId, long billingId) {
+		return getService().getBillingHording(hordingId, billingId);
 	}
 
 	/**

@@ -34,6 +34,7 @@ public class ExpenseSoap implements Serializable {
 		ExpenseSoap soapModel = new ExpenseSoap();
 
 		soapModel.setExpenseId(model.getExpenseId());
+		soapModel.setCustomCompanyId(model.getCustomCompanyId());
 		soapModel.setType(model.getType());
 		soapModel.setAmount(model.getAmount());
 		soapModel.setDescription(model.getDescription());
@@ -102,6 +103,14 @@ public class ExpenseSoap implements Serializable {
 		_expenseId = expenseId;
 	}
 
+	public long getCustomCompanyId() {
+		return _customCompanyId;
+	}
+
+	public void setCustomCompanyId(long customCompanyId) {
+		_customCompanyId = customCompanyId;
+	}
+
 	public String getType() {
 		return _type;
 	}
@@ -167,6 +176,7 @@ public class ExpenseSoap implements Serializable {
 	}
 
 	private long _expenseId;
+	private long _customCompanyId;
 	private String _type;
 	private double _amount;
 	private String _description;

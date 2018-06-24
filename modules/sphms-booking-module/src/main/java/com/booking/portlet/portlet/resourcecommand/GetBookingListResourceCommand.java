@@ -11,6 +11,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.xmlbeans.impl.tool.Extension.Param;
 import org.osgi.service.component.annotations.Component;
 
 import com.booking.portlet.portlet.util.BookingPortletConstant;
@@ -50,12 +51,15 @@ public class GetBookingListResourceCommand implements MVCResourceCommand{
 		int start = Integer.parseInt(httpRequest.getParameter("start"));
 		int length = Integer.parseInt(httpRequest.getParameter("length"));
 		long clientId = ParamUtil.getLong(resourceRequest, "searchclient");
+		long customCompanyId = ParamUtil.getLong(resourceRequest, "customCompany");
 		String startDateStr = ParamUtil.getString(resourceRequest, "searchStartDate");
 		String endDateStr = ParamUtil.getString(resourceRequest, "searchEndDate");
+		String statusStr = ParamUtil.getString(resourceRequest, "status");
 		JSONObject responseObj = JSONFactoryUtil.createJSONObject();
 		JSONArray dataArray = JSONFactoryUtil.createJSONArray();
 		Date startDate = null;
 		Date endDate = null;
+		int status=-1;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		if(Validator.isNotNull(startDateStr) && Validator.isNotNull(endDateStr)){
 			try {
@@ -66,10 +70,12 @@ public class GetBookingListResourceCommand implements MVCResourceCommand{
 			}
 			
 		}
+		if(Validator.isNotNull(statusStr)){
+			status = Integer.parseInt(statusStr);
+		}
 		
-		
-		List<Booking> proposalList = BookingLocalServiceUtil.getBookingList(clientId, startDate, endDate, start, start+length);
-		long totalProposalList = BookingLocalServiceUtil.getBookingCount(clientId, startDate, endDate);
+		List<Booking> proposalList = BookingLocalServiceUtil.getBookingList(customCompanyId,clientId, startDate, endDate, start, start+length, status);
+		long totalProposalList = BookingLocalServiceUtil.getBookingCount(customCompanyId, clientId, startDate, endDate, status);
 		for(Booking booking : proposalList){
 			JSONObject bookingObj = JSONFactoryUtil.createJSONObject();
 			bookingObj.put("campaign", booking.getCampaignTitle());

@@ -40,6 +40,7 @@ public class PaymentSoap implements Serializable {
 		soapModel.setChequeNo(model.getChequeNo());
 		soapModel.setTds(model.getTds());
 		soapModel.setDeduction(model.getDeduction());
+		soapModel.setDescription(model.getDescription());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setCreatedBy(model.getCreatedBy());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -152,6 +153,14 @@ public class PaymentSoap implements Serializable {
 		_deduction = deduction;
 	}
 
+	public String getDescription() {
+		return _description;
+	}
+
+	public void setDescription(String description) {
+		_description = description;
+	}
+
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -191,6 +200,7 @@ public class PaymentSoap implements Serializable {
 	private String _chequeNo;
 	private double _tds;
 	private double _deduction;
+	private String _description;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

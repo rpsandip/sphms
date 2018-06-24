@@ -28,12 +28,16 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.HordingBean;
 import com.sphms.common.service.model.Billing;
+import com.sphms.common.service.model.Billing_Hording;
 import com.sphms.common.service.model.Billing_PO;
 import com.sphms.common.service.model.Booking;
+import com.sphms.common.service.model.Client;
 import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.model.LandLord;
+import com.sphms.common.service.service.Billing_HordingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_POLocalServiceUtil;
+import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
 import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
@@ -43,6 +47,8 @@ public class POUtil {
 	private static final Log _log = LogFactoryUtil.getLog(POUtil.class.getName());
 	
 	public static File createPOFile(Billing billing, List<Billing_PO> billingPOList, Booking booking, CustomCompany company) throws IOException{
+		
+		Client client = getClient(billing.getClientId());
 		
 		int index=1;
 		
@@ -79,13 +85,38 @@ public class POUtil {
 			try {
 				hording = HordingLocalServiceUtil.getHording(billingPO.getHordingId());
 				HordingBean hordingBean = new HordingBean(hording);
-		    	index =  createHordingDataRow(sheet, wb, index, 0,1, hordingBean, booking, totalHordingAmointList);
+		    	index =  createHordingDataRow(sheet, wb, index, 0,1, hordingBean, booking, totalHordingAmointList, billing.getBillingId(), billingPO);
 			} catch (PortalException e) {
 				_log.error(e.getMessage());
 			}
 	    }
-	     double totalAmount = getTotalAmount(totalHordingAmointList);
-	     
+	    
+	    double totalAmount = getTotalAmount(totalHordingAmointList);
+	    double subTotalAmount = totalAmount;
+	    
+	    index = createSubTotalAmountRow(sheet, wb, index, font, subTotalAmount, booking);
+	    
+	    double iGSTCharge = 0d;
+		double cGSTCharge = 0d;
+		double sGSTCharge = 0d;
+		boolean isClientOutOfGuj = isClientOutOfGujrat(client);
+		if(isClientOutOfGuj){
+			iGSTCharge = totalAmount*Double.parseDouble(PropsUtil.get("igst.rate"));
+			totalAmount = totalAmount + iGSTCharge;
+		}else{
+			//Total amount
+			// Considering CGST as 9%
+			 cGSTCharge = totalAmount* Double.parseDouble(PropsUtil.get("cgst.rate"));
+			// Consideting SGST as 9%
+			 sGSTCharge = totalAmount* Double.parseDouble(PropsUtil.get("sgst.rate"));
+			
+			totalAmount = totalAmount + cGSTCharge + sGSTCharge;
+			
+		}
+		
+		  index = createServiceTaxRow(sheet, wb, index, font, cGSTCharge, sGSTCharge, iGSTCharge, isClientOutOfGuj);
+		  
+		
 	     index = createTotalAmountRow(sheet, wb, index, font, totalAmount, booking);
 	     index = topBlankRow(sheet, wb, index, font);
 	     index = createRegNoRow(sheet, wb, index, font, company);
@@ -99,8 +130,14 @@ public class POUtil {
 	     index = signatureRow(sheet, wb, index, font);
 	     
 	    for(int i=1;i<=6;i++){
-			sheet.autoSizeColumn(i);
+			//sheet.autoSizeColumn(i);
 		}
+	    sheet.setColumnWidth(1,10000);
+	    sheet.setColumnWidth(2,4000);
+	    sheet.setColumnWidth(3,2000);
+	    sheet.setColumnWidth(4,2000);
+	    sheet.setColumnWidth(5,3000);
+	    sheet.setColumnWidth(6,2000);
 	    
 	    
 	 // Write the output to a file
@@ -319,7 +356,7 @@ public class POUtil {
 		poTableRow.setHeight((short)500);
 		XSSFCellStyle style = getAllBorderStyle(wb);
 		XSSFFont font = wb.createFont();
-	    font.setFontHeightInPoints((short) 14);
+	    font.setFontHeightInPoints((short) 12);
 	    font.setBold(true);
 	    font.setFontName("Arial");
 	    style.setFont(font);
@@ -355,7 +392,7 @@ public class POUtil {
 		return index;
 	}
 	
-	private static int createHordingDataRow(XSSFSheet sheet, XSSFWorkbook wb, int index, int loopIndex,int totalList, HordingBean hordingBean, Booking booking, List<Double> totalHordingAmointList){
+	private static int createHordingDataRow(XSSFSheet sheet, XSSFWorkbook wb, int index, int loopIndex,int totalList, HordingBean hordingBean, Booking booking, List<Double> totalHordingAmointList, long billingId, Billing_PO billingPO){
 		
 		XSSFFont font = wb.createFont();
 	    font.setFontHeightInPoints((short) 11);
@@ -403,27 +440,167 @@ public class POUtil {
 			cell4.setCellStyle(bottomStyle);
 		}
 		
+	
 		XSSFCell cell5 = hordingTableRow.createCell(5);
-		cell5.setCellValue(SPHMSCommonLocalServiceUtil.getDateTimeDiff(booking.getStartDate(), booking.getEndDate()));
+		Billing_Hording billing_Hording = Billing_HordingLocalServiceUtil.getBillingHording(hordingBean.getHordingId(), billingId);
+		if(Validator.isNotNull(billing_Hording)){
+			cell5.setCellValue(SPHMSCommonLocalServiceUtil.getDateTimeDiff(billing_Hording.getHordingBookingStartDate(), billing_Hording.getHordingBookingEndDate()));
+		}else{
+			cell5.setCellValue(SPHMSCommonLocalServiceUtil.getDateTimeDiff(booking.getStartDate(), booking.getEndDate()));
+		}
 		if(loopIndex==(totalList-1)){
 			cell5.setCellStyle(bottomStyle);
 		}
 		
 		XSSFCell cell6 = hordingTableRow.createCell(6);
-		cell6.setCellValue(SPHMSCommonLocalServiceUtil.getDisplayCharges(hordingBean.getPricePerMonth(), SPHMSCommonLocalServiceUtil.getDisplayDuration(booking.getStartDate(), booking.getEndDate())));
+		cell6.setCellValue(billingPO.getTotalAmount());
 		if(loopIndex==(totalList-1)){
 			cell6.setCellStyle(rightBottomStyle);
 		}else{
 			cell6.setCellStyle(rightStyle);
 		}
 		
-		totalHordingAmointList.add(SPHMSCommonLocalServiceUtil.getDisplayCharges(hordingBean.getPricePerMonth(), SPHMSCommonLocalServiceUtil.getDisplayDuration(booking.getStartDate(), booking.getEndDate())));
+		totalHordingAmointList.add(billingPO.getTotalAmount());
 		
 		index++;
 		return index;
 		
 	}
 	
+private static int createSubTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, double subTotalAmount, Booking booking){
+	
+	
+		XSSFRow totalSubAmountRow = sheet.createRow(index);
+		
+		XSSFCell cell1 = totalSubAmountRow.createCell(1);
+		cell1.setCellStyle(getLeftBottomBorderStyle(wb));
+		
+		XSSFCell cell2 = totalSubAmountRow.createCell(2);
+		cell2.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell3 = totalSubAmountRow.createCell(3);
+		cell3.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell4 = totalSubAmountRow.createCell(4);
+		cell4.setCellStyle(getBottomBorderStyle(wb));
+		
+		mergedRegion(index, index, 1, 4, sheet);
+		
+		XSSFCellStyle style2 = getRightBottomBorderStyle(wb);
+		style2.setAlignment(HorizontalAlignment.RIGHT);
+		
+		XSSFCell cell5 = totalSubAmountRow.createCell(5);
+		cell5.setCellValue("Sub Total");
+		cell5.setCellStyle(getAllBorderStyle(wb));
+		
+		
+		XSSFCell cell6 = totalSubAmountRow.createCell(6);
+		cell6.setCellValue(subTotalAmount);
+		cell6.setCellStyle(style2);
+		
+		index++;
+		return index;
+		
+		
+	}
+
+private static int createServiceTaxRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font,double cGST, double sGST, double iGST, boolean isClientOutOfGuj){
+	
+	if(!isClientOutOfGuj){
+		
+		XSSFRow cGSTROW = sheet.createRow(index);
+		
+		XSSFCell cell1 = cGSTROW.createCell(1);
+		cell1.setCellStyle(getLeftBottomBorderStyle(wb));
+		
+		XSSFCell cell2 = cGSTROW.createCell(2);
+		cell2.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell3 = cGSTROW.createCell(3);
+		cell3.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell4 = cGSTROW.createCell(4);
+		cell4.setCellStyle(getBottomBorderStyle(wb));
+		
+		mergedRegion(index, index, 1, 4, sheet);
+		
+		XSSFCellStyle style2 = getRightBottomBorderStyle(wb);
+		style2.setAlignment(HorizontalAlignment.RIGHT);
+		
+		XSSFCell cell5 = cGSTROW.createCell(5);
+		cell5.setCellValue("CGST @ " + Double.parseDouble(PropsUtil.get("cgst.rate"))*100 + "%");
+		cell5.setCellStyle(getAllBorderStyle(wb));
+		
+		
+		XSSFCell cell6 = cGSTROW.createCell(6);
+		cell6.setCellValue(cGST);
+		cell6.setCellStyle(style2);
+		
+		index++;
+		
+		XSSFRow sGSTROW = sheet.createRow(index);
+		
+		XSSFCell cell11 = sGSTROW.createCell(1);
+		cell11.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell21 = sGSTROW.createCell(2);
+		cell21.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell31 = sGSTROW.createCell(3);
+		cell31.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell41 = sGSTROW.createCell(4);
+		cell41.setCellStyle(getBottomBorderStyle(wb));
+		
+		mergedRegion(index, index, 1, 4, sheet);
+		
+		XSSFCell cell51 = sGSTROW.createCell(5);
+		cell51.setCellValue("SGST @ "+ Double.parseDouble(PropsUtil.get("sgst.rate"))*100+ "%");
+		cell51.setCellStyle(getAllBorderStyle(wb));
+		
+		
+		XSSFCell cell61 = sGSTROW.createCell(6);
+		cell61.setCellValue(sGST);
+		cell61.setCellStyle(style2);
+		
+		index++;
+	
+	}else{
+		
+		XSSFRow iGSTROW = sheet.createRow(index);
+		
+		XSSFCell cell1 = iGSTROW.createCell(1);
+		cell1.setCellStyle(getLeftBottomBorderStyle(wb));
+		
+		XSSFCell cell2 = iGSTROW.createCell(2);
+		cell2.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell3 = iGSTROW.createCell(3);
+		cell3.setCellStyle(getBottomBorderStyle(wb));
+		
+		XSSFCell cell4 = iGSTROW.createCell(4);
+		cell4.setCellStyle(getBottomBorderStyle(wb));
+		
+		mergedRegion(index, index, 1, 4, sheet);
+		
+		XSSFCellStyle style2 = getRightBottomBorderStyle(wb);
+		style2.setAlignment(HorizontalAlignment.RIGHT);
+		
+		XSSFCell cell5 = iGSTROW.createCell(5);
+		cell5.setCellValue("IGST @ "+ Double.parseDouble(PropsUtil.get("igst.rate"))*100+ "%");
+		cell5.setCellStyle(getAllBorderStyle(wb));
+		
+		
+		XSSFCell cell6 = iGSTROW.createCell(6);
+		cell6.setCellValue(iGST);
+		cell6.setCellStyle(style2);
+		
+		index++;
+		
+	}
+	return index;
+}
+
 private static int createTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, double totalAmount, Booking booking){
 		
 		XSSFRow regNoRow = sheet.createRow(index);	
@@ -451,7 +628,7 @@ private static int createTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int in
 		style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 		style.setAlignment(HorizontalAlignment.CENTER);
 		XSSFCell cell1 = totalAmountRow.createCell(1);
-		cell1.setCellValue("Rupees :" + NumberToWord.convertNumberToWords(totalAmount));
+		cell1.setCellValue("Rupees :" + NumberToWord.convertNumberToWords(totalAmount) + " Only");
 		cell1.setCellStyle(style);
 		
 		XSSFCell cell2 = totalAmountRow.createCell(2);
@@ -512,19 +689,7 @@ private static int createTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int in
 		
 		mergedRegion(index, index, 1, 3, sheet);
 		index++;
-		
-		XSSFRow panRow = sheet.createRow(index);	
-		style.setFont(font);
-		
-		XSSFCell cell12 = panRow.createCell(1);
-		cell12.setCellValue("PAN No : " + company.getPANNo());
-		cell12.setCellStyle(style);
-		
-		XSSFCell cell62 = panRow.createCell(6);
-		cell62.setCellStyle(getRightBorderStyle(wb));
-		
-		mergedRegion(index, index, 1, 3, sheet);
-		index++;
+	
 		return index;
 	}
 	
@@ -795,5 +960,22 @@ private static int createTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int in
 			totalAmount+=totalHordingAmount;
 		}
 		return totalAmount;
+	}
+	
+	private static Client getClient(long clientId){
+		Client client = null;
+		try {
+			client = ClientLocalServiceUtil.getClient(clientId);
+		} catch (PortalException e) {
+			_log.error(e);
+		}
+		return client;
+	}
+	
+	private static boolean isClientOutOfGujrat(Client client){
+		if(Validator.isNotNull(client) && Validator.isNotNull(client.getState()) && !client.getState().toLowerCase().equalsIgnoreCase("gujarat")){
+			return true;
+		}
+		return false;
 	}
 }

@@ -1,7 +1,12 @@
 <%@ include file="/init.jsp" %>
 
+<liferay-ui:success key="delete-expense-success" message="delete-expense-success"/>
+<liferay-ui:error key="delete-expense-error" message="delete-expense-error"/>
+
+
 <liferay-ui:success key="expnese-add-suceess" message="expnese-add-suceess"/>
 <liferay-ui:success key="expense-update-success" message="expense-update-success"/>
+
 
 <portlet:renderURL var="addExpenseURL">
         <portlet:param name="mvcRenderCommandName" value="/add_expense" />
@@ -14,6 +19,14 @@
      	<div class="box">
             <div class="box-body">
             	 <form id="filterBookign">
+	              	<div class="form-group col-md-3">
+	              		<select name="searchclient" id="company" class="form-control">
+							<option value=""> Select Company </option>
+							<c:forEach items="${companyList }" var="company">
+								<option value="${company.companyId }">${company.name }</option>
+							</c:forEach>	
+						</select>
+	              	</div>
 	              	<div class="form-group col-md-3">
 	                  <select name="expenseType" id="expenseType" class="form-control">
 						<option value="">Select Expense Type</option>
@@ -31,15 +44,16 @@
 						<option value="Travelling">Travelling</option>
 						<option value="Food">Food</option>
 						<option value="Entertainment">Entertainment</option>
+						<option value="Other">Other</option>
 					  </select>
 	                </div>
-	              	<div class="form-group col-md-3">
+	              	<div class="form-group col-md-2">
 	                  <input type="text" class="form-control" name="searchStartDate" id="startDate" placeholder="Start Date"/>
 	                </div>
-	                <div class="form-group col-md-3">
+	                <div class="form-group col-md-2">
 	                  <input type="text" class="form-control" name="searchEndDate" id="endDate" placeholder="End Date"/>
 	                </div>
-	                <div class="form-group col-md-3">
+	                <div class="form-group col-md-2">
 	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearch">
 	                </div>
 	              </form>
@@ -85,6 +99,13 @@
             	                    			editExpenseURL.setParameter("mvcRenderCommandName","/add_expense");
             	                    			displayData = '<a href="'+editExpenseURL+'" class="btn btn-block btn-primary">Edit</a>';
             	                    			
+            	                    			var deleteExpenseURL = Liferay.PortletURL.createActionURL();
+            	                    			deleteExpenseURL.setParameter("expenseId",row.expenseId);
+            	                    			deleteExpenseURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
+            	                    			deleteExpenseURL.setName("/delete_expense");
+            	                    			
+            	                    			displayData = displayData + '<a href="'+deleteExpenseURL+'" class="btn btn-block btn-primary">Delete</a>';
+            	                    			
             	                    			return displayData;
             	                    	 }
             	                    }
@@ -95,12 +116,14 @@
                      	var expenseType = $("#expenseType").val();
                      	var startDate = $("#startDate").val();
                      	var endDate = $("#endDate").val();
+                     	var companyId = $("#company").val();
                      	var resourceURL= Liferay.PortletURL.createResourceURL();
                		 	resourceURL.setPortletId('com_sphms_expense_portlet_portlet_ExpenseModulePortlet');
                		 	resourceURL.setResourceId('/getExpenseList');
                		 	resourceURL.setParameter('expenseType',expenseType);
                		 	resourceURL.setParameter('searchStartDate',startDate);
-               		 	resourceURL.setParameter('searchEndDate',endDate);
+               		 	resourceURL.setParameter('companyId',companyId);
+               		 	
                      	var getDocumentURL = resourceURL.toString();
                          expenseDataTable.ajax.url(getDocumentURL).load();
          			});  	 

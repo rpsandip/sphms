@@ -239,10 +239,11 @@ public class BookingLocalServiceUtil {
 	}
 
 	public static java.util.List<com.sphms.common.service.model.Booking> getBookingList(
-		long clientId, java.util.Date startDate, java.util.Date endDate,
-		int start, int end) {
+		long customComanyId, long clientId, java.util.Date startDate,
+		java.util.Date endDate, int start, int end, int status) {
 		return getService()
-				   .getBookingList(clientId, startDate, endDate, start, end);
+				   .getBookingList(customComanyId, clientId, startDate,
+			endDate, start, end, status);
 	}
 
 	/**
@@ -285,9 +286,11 @@ public class BookingLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static long getBookingCount(long clientId, java.util.Date startDate,
-		java.util.Date endDate) {
-		return getService().getBookingCount(clientId, startDate, endDate);
+	public static long getBookingCount(long customComanyId, long clientId,
+		java.util.Date startDate, java.util.Date endDate, int status) {
+		return getService()
+				   .getBookingCount(customComanyId, clientId, startDate,
+			endDate, status);
 	}
 
 	public static BookingLocalService getService() {

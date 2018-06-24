@@ -4,6 +4,15 @@
 </portlet:resourceURL>
 
 <liferay-ui:success key="billing-updated-successfully" message="billing-updated-successfully"/>
+<liferay-ui:success key="publish-bill-success" message="publish-bill-success"/>
+<liferay-ui:error key="publish-bill-err" message="publish-bill-err"/>
+
+<liferay-ui:error key="err-update-booking" message="err-update-booking"/>
+<liferay-ui:success key="po-update-success" message="po-update-success"/>
+
+<liferay-ui:error key="error-po-publish" message="error-po-publish"/>
+<liferay-ui:success key="po-publish-success" message="po-publish-success"/>
+
 
 <section class="content">
  <div class="row">
@@ -11,7 +20,15 @@
      	<div class="box">
             <div class="box-body">
 	            <form id="filterBilling">
-	              	<div class="form-group col-md-3">
+	              	<div class="form-group col-md-2">
+	                  <select name="customCompany" id="customCompany" class="form-control">
+						<option value="0">Select Company</option>
+							<c:forEach items="${companyList }" var="company">
+								<option value="${company.companyId }">${company.name }</option>
+							</c:forEach>	
+						</select>
+	                </div>
+	              	<div class="form-group col-md-2">
 	                  <select name="searchclient" id="client" class="form-control">
 						<option value="0">Select Client</option>
 							<c:forEach items="${clientList }" var="client">
@@ -19,13 +36,20 @@
 							</c:forEach>	
 						</select>
 	                </div>
-	              	<div class="form-group col-md-3">
+	                <div class="form-group col-md-2">
+	                  <select name="status" id="status" class="form-control">
+						<option value="">Select Status</option>
+							<option value="0">Created</option>
+							<option value="2">Published</option>
+						</select>
+	                </div>
+	              	<div class="form-group col-md-2">
 	                  <input type="text" class="form-control" name="searchStartDate" id="startDate" placeholder="Start Date"/>
 	                </div>
-	                <div class="form-group col-md-3">
+	                <div class="form-group col-md-2">
 	                  <input type="text" class="form-control" name="searchEndDate" id="endDate" placeholder="End Date"/>
 	                </div>
-	                <div class="form-group col-md-3">
+	                <div class="form-group col-md-2">
 	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearch">
 	                </div>
 	              </form>
@@ -64,6 +88,7 @@
             	                    { "data": "campaign", "name" : "campaign", "title" : "Campaign"  },
             	                    { "data": "financeYear", "name" : "financeYear", "title" : "Finance Year"  },
             	                    { "data": "bookingDate", "name" : "bookingDate" , "title" : "Booking Date"},
+            	                    { "data": "billNo", "name" : "billNo" , "title" : "Bill No"},
             	                    { "data": "billDocument", "name" : "billDocument" , "title" : "Bill",
             	                    	"render": function(data, type, row, meta){
             	                    		var displayData = '';
@@ -80,6 +105,7 @@
             	                    		return displayData;
             	                    	 }
             	                    },
+            	                    { "data": "status", "name" : "status" , "title" : "Status"},
             	                    { "data": "action", "name" : "Action" , "title" : "Action",
             	                    	"render": function(data, type, row, meta){
             	                    		var displayData="";
@@ -110,6 +136,14 @@
             	                    			
             	                    			displayData = displayData +  '<a href="'+poDetailURL+'" class="btn btn-block btn-primary">Client PO</a>';
             	                    			
+            	                    			if(row.status=="Created"){
+	            	                    			var publishBillURL = Liferay.PortletURL.createActionURL();
+	            	                    			publishBillURL.setParameter("billingId",row.billingId);
+	            	                    			publishBillURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
+	            	                    			publishBillURL.setName("/publish_bill");
+	            	                    			
+	            	                    			displayData = displayData +  '<a href="'+publishBillURL+'" class="btn btn-block btn-primary">PUBLISH</a>';
+            	                    			}
             	                    			return displayData;
             	                    	 }
             	                    }
@@ -119,13 +153,17 @@
                      $("#filterSearch").on('click',function(){
                      	var clientId = $("#client").val();
                      	var startDate = $("#startDate").val();
+                    	var companyId = $("#customCompany").val();
                      	var endDate = $("#endDate").val();
+                     	var status = $("#status").val();
                      	var resourceURL= Liferay.PortletURL.createResourceURL();
                		 	resourceURL.setPortletId('com_sphms_portlet_portlet_BillingModulePortlet');
                		 	resourceURL.setResourceId('/getBillingList');
                		    resourceURL.setParameter('searchclient',clientId);
                		    resourceURL.setParameter('searchStartDate',startDate);
                		    resourceURL.setParameter('searchEndDate',endDate);
+               		    resourceURL.setParameter('customCompany',companyId);
+               		 	resourceURL.setParameter('status',status);
                      	var getDocumentURL = resourceURL.toString();
                          bookingDataTable.ajax.url(getDocumentURL).load();
          			});  	 

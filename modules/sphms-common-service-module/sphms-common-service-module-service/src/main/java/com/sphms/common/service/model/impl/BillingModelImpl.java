@@ -65,6 +65,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 			{ "billingId", Types.BIGINT },
 			{ "customCompanyId", Types.BIGINT },
 			{ "billNo", Types.VARCHAR },
+			{ "internalBillNo", Types.VARCHAR },
 			{ "bookingId", Types.BIGINT },
 			{ "clientId", Types.BIGINT },
 			{ "billFileEntryId", Types.BIGINT },
@@ -87,6 +88,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		TABLE_COLUMNS_MAP.put("billingId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("customCompanyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("billNo", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("internalBillNo", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("bookingId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("clientId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("billFileEntryId", Types.BIGINT);
@@ -104,7 +106,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		TABLE_COLUMNS_MAP.put("modifiedBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing (billingId LONG not null primary key,customCompanyId LONG,billNo VARCHAR(75) null,bookingId LONG,clientId LONG,billFileEntryId LONG,clientPANNo VARCHAR(75) null,clientPONumber VARCHAR(75) null,clientGSTNumber VARCHAR(75) null,display VARCHAR(75) null,accessAmount DOUBLE,pendingAmount DOUBLE,financialYear VARCHAR(75) null,status INTEGER,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing (billingId LONG not null primary key,customCompanyId LONG,billNo VARCHAR(75) null,internalBillNo VARCHAR(75) null,bookingId LONG,clientId LONG,billFileEntryId LONG,clientPANNo VARCHAR(75) null,clientPONumber VARCHAR(75) null,clientGSTNumber VARCHAR(75) null,display VARCHAR(75) null,accessAmount DOUBLE,pendingAmount DOUBLE,financialYear VARCHAR(75) null,status INTEGER,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Billing";
 	public static final String ORDER_BY_JPQL = " ORDER BY billing.billingId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Billing.billingId ASC";
@@ -166,6 +168,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		attributes.put("billingId", getBillingId());
 		attributes.put("customCompanyId", getCustomCompanyId());
 		attributes.put("billNo", getBillNo());
+		attributes.put("internalBillNo", getInternalBillNo());
 		attributes.put("bookingId", getBookingId());
 		attributes.put("clientId", getClientId());
 		attributes.put("billFileEntryId", getBillFileEntryId());
@@ -206,6 +209,12 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 
 		if (billNo != null) {
 			setBillNo(billNo);
+		}
+
+		String internalBillNo = (String)attributes.get("internalBillNo");
+
+		if (internalBillNo != null) {
+			setInternalBillNo(internalBillNo);
 		}
 
 		Long bookingId = (Long)attributes.get("bookingId");
@@ -332,6 +341,21 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 	@Override
 	public void setBillNo(String billNo) {
 		_billNo = billNo;
+	}
+
+	@Override
+	public String getInternalBillNo() {
+		if (_internalBillNo == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _internalBillNo;
+		}
+	}
+
+	@Override
+	public void setInternalBillNo(String internalBillNo) {
+		_internalBillNo = internalBillNo;
 	}
 
 	@Override
@@ -573,6 +597,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		billingImpl.setBillingId(getBillingId());
 		billingImpl.setCustomCompanyId(getCustomCompanyId());
 		billingImpl.setBillNo(getBillNo());
+		billingImpl.setInternalBillNo(getInternalBillNo());
 		billingImpl.setBookingId(getBookingId());
 		billingImpl.setClientId(getClientId());
 		billingImpl.setBillFileEntryId(getBillFileEntryId());
@@ -679,6 +704,14 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 			billingCacheModel.billNo = null;
 		}
 
+		billingCacheModel.internalBillNo = getInternalBillNo();
+
+		String internalBillNo = billingCacheModel.internalBillNo;
+
+		if ((internalBillNo != null) && (internalBillNo.length() == 0)) {
+			billingCacheModel.internalBillNo = null;
+		}
+
 		billingCacheModel.bookingId = getBookingId();
 
 		billingCacheModel.clientId = getClientId();
@@ -758,7 +791,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{billingId=");
 		sb.append(getBillingId());
@@ -766,6 +799,8 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		sb.append(getCustomCompanyId());
 		sb.append(", billNo=");
 		sb.append(getBillNo());
+		sb.append(", internalBillNo=");
+		sb.append(getInternalBillNo());
 		sb.append(", bookingId=");
 		sb.append(getBookingId());
 		sb.append(", clientId=");
@@ -803,7 +838,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Billing");
@@ -820,6 +855,10 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		sb.append(
 			"<column><column-name>billNo</column-name><column-value><![CDATA[");
 		sb.append(getBillNo());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>internalBillNo</column-name><column-value><![CDATA[");
+		sb.append(getInternalBillNo());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>bookingId</column-name><column-value><![CDATA[");
@@ -894,6 +933,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 	private long _billingId;
 	private long _customCompanyId;
 	private String _billNo;
+	private String _internalBillNo;
 	private long _bookingId;
 	private long _originalBookingId;
 	private boolean _setOriginalBookingId;

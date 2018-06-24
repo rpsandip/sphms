@@ -32,6 +32,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +64,9 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 			{ "mountingCharge", Types.DOUBLE },
 			{ "printingCharge", Types.DOUBLE },
 			{ "units", Types.INTEGER },
-			{ "hsnNo", Types.VARCHAR }
+			{ "hsnNo", Types.VARCHAR },
+			{ "hordingBookingStartDate", Types.TIMESTAMP },
+			{ "hordingBookingEndDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -74,9 +77,11 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 		TABLE_COLUMNS_MAP.put("printingCharge", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("units", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("hsnNo", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("hordingBookingStartDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("hordingBookingEndDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Booking_Hording (bookingId LONG not null,hordingId LONG not null,mountingCharge DOUBLE,printingCharge DOUBLE,units INTEGER,hsnNo VARCHAR(75) null,primary key (bookingId, hordingId))";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Booking_Hording (bookingId LONG not null,hordingId LONG not null,mountingCharge DOUBLE,printingCharge DOUBLE,units INTEGER,hsnNo VARCHAR(75) null,hordingBookingStartDate DATE null,hordingBookingEndDate DATE null,primary key (bookingId, hordingId))";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Booking_Hording";
 	public static final String ORDER_BY_JPQL = " ORDER BY booking_Hording.id.bookingId ASC, booking_Hording.id.hordingId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Booking_Hording.bookingId ASC, SPHMS_Booking_Hording.hordingId ASC";
@@ -141,6 +146,8 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 		attributes.put("printingCharge", getPrintingCharge());
 		attributes.put("units", getUnits());
 		attributes.put("hsnNo", getHsnNo());
+		attributes.put("hordingBookingStartDate", getHordingBookingStartDate());
+		attributes.put("hordingBookingEndDate", getHordingBookingEndDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -184,6 +191,20 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 
 		if (hsnNo != null) {
 			setHsnNo(hsnNo);
+		}
+
+		Date hordingBookingStartDate = (Date)attributes.get(
+				"hordingBookingStartDate");
+
+		if (hordingBookingStartDate != null) {
+			setHordingBookingStartDate(hordingBookingStartDate);
+		}
+
+		Date hordingBookingEndDate = (Date)attributes.get(
+				"hordingBookingEndDate");
+
+		if (hordingBookingEndDate != null) {
+			setHordingBookingEndDate(hordingBookingEndDate);
 		}
 	}
 
@@ -264,6 +285,26 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 		_hsnNo = hsnNo;
 	}
 
+	@Override
+	public Date getHordingBookingStartDate() {
+		return _hordingBookingStartDate;
+	}
+
+	@Override
+	public void setHordingBookingStartDate(Date hordingBookingStartDate) {
+		_hordingBookingStartDate = hordingBookingStartDate;
+	}
+
+	@Override
+	public Date getHordingBookingEndDate() {
+		return _hordingBookingEndDate;
+	}
+
+	@Override
+	public void setHordingBookingEndDate(Date hordingBookingEndDate) {
+		_hordingBookingEndDate = hordingBookingEndDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -288,6 +329,8 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 		booking_HordingImpl.setPrintingCharge(getPrintingCharge());
 		booking_HordingImpl.setUnits(getUnits());
 		booking_HordingImpl.setHsnNo(getHsnNo());
+		booking_HordingImpl.setHordingBookingStartDate(getHordingBookingStartDate());
+		booking_HordingImpl.setHordingBookingEndDate(getHordingBookingEndDate());
 
 		booking_HordingImpl.resetOriginalValues();
 
@@ -373,12 +416,30 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 			booking_HordingCacheModel.hsnNo = null;
 		}
 
+		Date hordingBookingStartDate = getHordingBookingStartDate();
+
+		if (hordingBookingStartDate != null) {
+			booking_HordingCacheModel.hordingBookingStartDate = hordingBookingStartDate.getTime();
+		}
+		else {
+			booking_HordingCacheModel.hordingBookingStartDate = Long.MIN_VALUE;
+		}
+
+		Date hordingBookingEndDate = getHordingBookingEndDate();
+
+		if (hordingBookingEndDate != null) {
+			booking_HordingCacheModel.hordingBookingEndDate = hordingBookingEndDate.getTime();
+		}
+		else {
+			booking_HordingCacheModel.hordingBookingEndDate = Long.MIN_VALUE;
+		}
+
 		return booking_HordingCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{bookingId=");
 		sb.append(getBookingId());
@@ -392,6 +453,10 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 		sb.append(getUnits());
 		sb.append(", hsnNo=");
 		sb.append(getHsnNo());
+		sb.append(", hordingBookingStartDate=");
+		sb.append(getHordingBookingStartDate());
+		sb.append(", hordingBookingEndDate=");
+		sb.append(getHordingBookingEndDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -399,7 +464,7 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Booking_Hording");
@@ -429,6 +494,14 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 			"<column><column-name>hsnNo</column-name><column-value><![CDATA[");
 		sb.append(getHsnNo());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>hordingBookingStartDate</column-name><column-value><![CDATA[");
+		sb.append(getHordingBookingStartDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>hordingBookingEndDate</column-name><column-value><![CDATA[");
+		sb.append(getHordingBookingEndDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -447,6 +520,8 @@ public class Booking_HordingModelImpl extends BaseModelImpl<Booking_Hording>
 	private double _printingCharge;
 	private int _units;
 	private String _hsnNo;
+	private Date _hordingBookingStartDate;
+	private Date _hordingBookingEndDate;
 	private long _columnBitmask;
 	private Booking_Hording _escapedModel;
 }

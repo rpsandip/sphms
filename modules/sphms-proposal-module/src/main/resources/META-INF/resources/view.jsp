@@ -74,7 +74,14 @@
             	                    			editPatientURL.setParameter("proposalId",row.proposalId);
             	                    			editPatientURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
             	                    			editPatientURL.setParameter("mvcRenderCommandName","/view-proposal");
-            	                    			displayData = '<a href="'+editPatientURL+'" class="btn btn-block btn-primary">View Proposal</a>';
+            	                    			displayData = '<a href="'+editPatientURL+'" class="btn btn-block btn-primary">View</a>';
+            	                    			
+            	                    			var deleteProposalURL = Liferay.PortletURL.createActionURL();
+            	                    			deleteProposalURL.setParameter("proposalId",row.proposalId);
+            	                    			deleteProposalURL.setPortletId("<%=themeDisplay.getPortletDisplay().getId() %>");
+            	                    			deleteProposalURL.setName("/delete_proposal");
+            	                    			
+            	                    			displayData = displayData +  '<a href="'+deleteProposalURL+'" class="btn btn-block btn-primary">Delete</a>';
             	                    		return displayData;
             	                    	 }
             	                    }

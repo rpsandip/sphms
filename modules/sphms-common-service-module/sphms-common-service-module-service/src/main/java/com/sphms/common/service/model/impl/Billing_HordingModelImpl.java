@@ -32,6 +32,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +65,9 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 			{ "totalPrintingCharge", Types.DOUBLE },
 			{ "units", Types.INTEGER },
 			{ "totalHordingCharge", Types.DOUBLE },
-			{ "hsnNo", Types.VARCHAR }
+			{ "hsnNo", Types.VARCHAR },
+			{ "hordingBookingStartDate", Types.TIMESTAMP },
+			{ "hordingBookingEndDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -76,9 +79,11 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 		TABLE_COLUMNS_MAP.put("units", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("totalHordingCharge", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("hsnNo", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("hordingBookingStartDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("hordingBookingEndDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing_Hording (billingId LONG not null,hordingId LONG not null,totalMountingCharge DOUBLE,totalPrintingCharge DOUBLE,units INTEGER,totalHordingCharge DOUBLE,hsnNo VARCHAR(75) null,primary key (billingId, hordingId))";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing_Hording (billingId LONG not null,hordingId LONG not null,totalMountingCharge DOUBLE,totalPrintingCharge DOUBLE,units INTEGER,totalHordingCharge DOUBLE,hsnNo VARCHAR(75) null,hordingBookingStartDate DATE null,hordingBookingEndDate DATE null,primary key (billingId, hordingId))";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Billing_Hording";
 	public static final String ORDER_BY_JPQL = " ORDER BY billing_Hording.id.billingId ASC, billing_Hording.id.hordingId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Billing_Hording.billingId ASC, SPHMS_Billing_Hording.hordingId ASC";
@@ -144,6 +149,8 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 		attributes.put("units", getUnits());
 		attributes.put("totalHordingCharge", getTotalHordingCharge());
 		attributes.put("hsnNo", getHsnNo());
+		attributes.put("hordingBookingStartDate", getHordingBookingStartDate());
+		attributes.put("hordingBookingEndDate", getHordingBookingEndDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -195,6 +202,20 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 
 		if (hsnNo != null) {
 			setHsnNo(hsnNo);
+		}
+
+		Date hordingBookingStartDate = (Date)attributes.get(
+				"hordingBookingStartDate");
+
+		if (hordingBookingStartDate != null) {
+			setHordingBookingStartDate(hordingBookingStartDate);
+		}
+
+		Date hordingBookingEndDate = (Date)attributes.get(
+				"hordingBookingEndDate");
+
+		if (hordingBookingEndDate != null) {
+			setHordingBookingEndDate(hordingBookingEndDate);
 		}
 	}
 
@@ -297,6 +318,26 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 		_hsnNo = hsnNo;
 	}
 
+	@Override
+	public Date getHordingBookingStartDate() {
+		return _hordingBookingStartDate;
+	}
+
+	@Override
+	public void setHordingBookingStartDate(Date hordingBookingStartDate) {
+		_hordingBookingStartDate = hordingBookingStartDate;
+	}
+
+	@Override
+	public Date getHordingBookingEndDate() {
+		return _hordingBookingEndDate;
+	}
+
+	@Override
+	public void setHordingBookingEndDate(Date hordingBookingEndDate) {
+		_hordingBookingEndDate = hordingBookingEndDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -322,6 +363,8 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 		billing_HordingImpl.setUnits(getUnits());
 		billing_HordingImpl.setTotalHordingCharge(getTotalHordingCharge());
 		billing_HordingImpl.setHsnNo(getHsnNo());
+		billing_HordingImpl.setHordingBookingStartDate(getHordingBookingStartDate());
+		billing_HordingImpl.setHordingBookingEndDate(getHordingBookingEndDate());
 
 		billing_HordingImpl.resetOriginalValues();
 
@@ -413,12 +456,30 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 			billing_HordingCacheModel.hsnNo = null;
 		}
 
+		Date hordingBookingStartDate = getHordingBookingStartDate();
+
+		if (hordingBookingStartDate != null) {
+			billing_HordingCacheModel.hordingBookingStartDate = hordingBookingStartDate.getTime();
+		}
+		else {
+			billing_HordingCacheModel.hordingBookingStartDate = Long.MIN_VALUE;
+		}
+
+		Date hordingBookingEndDate = getHordingBookingEndDate();
+
+		if (hordingBookingEndDate != null) {
+			billing_HordingCacheModel.hordingBookingEndDate = hordingBookingEndDate.getTime();
+		}
+		else {
+			billing_HordingCacheModel.hordingBookingEndDate = Long.MIN_VALUE;
+		}
+
 		return billing_HordingCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{billingId=");
 		sb.append(getBillingId());
@@ -434,6 +495,10 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 		sb.append(getTotalHordingCharge());
 		sb.append(", hsnNo=");
 		sb.append(getHsnNo());
+		sb.append(", hordingBookingStartDate=");
+		sb.append(getHordingBookingStartDate());
+		sb.append(", hordingBookingEndDate=");
+		sb.append(getHordingBookingEndDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -441,7 +506,7 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Billing_Hording");
@@ -475,6 +540,14 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 			"<column><column-name>hsnNo</column-name><column-value><![CDATA[");
 		sb.append(getHsnNo());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>hordingBookingStartDate</column-name><column-value><![CDATA[");
+		sb.append(getHordingBookingStartDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>hordingBookingEndDate</column-name><column-value><![CDATA[");
+		sb.append(getHordingBookingEndDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -496,6 +569,8 @@ public class Billing_HordingModelImpl extends BaseModelImpl<Billing_Hording>
 	private int _units;
 	private double _totalHordingCharge;
 	private String _hsnNo;
+	private Date _hordingBookingStartDate;
+	private Date _hordingBookingEndDate;
 	private long _columnBitmask;
 	private Billing_Hording _escapedModel;
 }

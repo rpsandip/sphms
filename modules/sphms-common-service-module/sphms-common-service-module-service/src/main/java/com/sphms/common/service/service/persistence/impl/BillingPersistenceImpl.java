@@ -1118,6 +1118,7 @@ public class BillingPersistenceImpl extends BasePersistenceImpl<Billing>
 		billingImpl.setBillingId(billing.getBillingId());
 		billingImpl.setCustomCompanyId(billing.getCustomCompanyId());
 		billingImpl.setBillNo(billing.getBillNo());
+		billingImpl.setInternalBillNo(billing.getInternalBillNo());
 		billingImpl.setBookingId(billing.getBookingId());
 		billingImpl.setClientId(billing.getClientId());
 		billingImpl.setBillFileEntryId(billing.getBillFileEntryId());

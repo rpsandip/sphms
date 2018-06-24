@@ -77,6 +77,20 @@ public interface ExpenseModel extends BaseModel<Expense> {
 	public void setExpenseId(long expenseId);
 
 	/**
+	 * Returns the custom company ID of this expense.
+	 *
+	 * @return the custom company ID of this expense
+	 */
+	public long getCustomCompanyId();
+
+	/**
+	 * Sets the custom company ID of this expense.
+	 *
+	 * @param customCompanyId the custom company ID of this expense
+	 */
+	public void setCustomCompanyId(long customCompanyId);
+
+	/**
 	 * Returns the type of this expense.
 	 *
 	 * @return the type of this expense

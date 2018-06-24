@@ -47,6 +47,7 @@ public class GetExpenseListResourceCommand implements MVCResourceCommand{
 		String expenseType = ParamUtil.getString(resourceRequest, "expenseType");
 		String startDateStr = ParamUtil.getString(resourceRequest, "searchStartDate");
 		String endDateStr = ParamUtil.getString(resourceRequest, "searchEndDate");
+		long companyId = ParamUtil.getLong(resourceRequest, "companyId");
 		JSONObject responseObj = JSONFactoryUtil.createJSONObject();
 		JSONArray dataArray = JSONFactoryUtil.createJSONArray();
 		Date startDate = null;
@@ -62,8 +63,8 @@ public class GetExpenseListResourceCommand implements MVCResourceCommand{
 			
 		}
 		
-		List<Expense> expenseList = ExpenseLocalServiceUtil.getExpenseList(expenseType, startDate, endDate, start, start+length);
-		long totalExpenseCount = ExpenseLocalServiceUtil.getExpenseCount(expenseType, startDate, endDate);
+		List<Expense> expenseList = ExpenseLocalServiceUtil.getExpenseList(expenseType, startDate, endDate, companyId,start, start+length);
+		long totalExpenseCount = ExpenseLocalServiceUtil.getExpenseCount(expenseType, startDate, endDate, companyId);
 		
 		for(Expense expense : expenseList){
 			JSONObject expenseObj = JSONFactoryUtil.createJSONObject();

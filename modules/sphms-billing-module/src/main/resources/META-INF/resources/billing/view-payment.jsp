@@ -36,6 +36,7 @@
 			                <th>TDS</th>
 			                <th>Other Deduction</th>
 			                <th>Payment Date</th>
+			                <th>Description</th>
 			                <th>Action</th>
 			            </tr>
      			   </thead>
@@ -57,6 +58,7 @@
 			                <td>${payment.deduction }</td>
 			                <fmt:formatDate pattern = "dd/MM/yyyy" 	value = "${ payment.createDate}"  var="paymentDate"/>
 			                <td>${paymentDate }</td>
+			                <td>${payment.description }</td>
 			                <portlet:renderURL var="editPaymentURL">
        							 <portlet:param name="mvcRenderCommandName" value="/add_bill_payment" />
        							 <portlet:param name="paymentId" value="${ payment.paymentId}" />

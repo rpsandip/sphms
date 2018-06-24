@@ -162,6 +162,21 @@ public interface PaymentModel extends BaseModel<Payment> {
 	public void setDeduction(double deduction);
 
 	/**
+	 * Returns the description of this payment.
+	 *
+	 * @return the description of this payment
+	 */
+	@AutoEscape
+	public String getDescription();
+
+	/**
+	 * Sets the description of this payment.
+	 *
+	 * @param description the description of this payment
+	 */
+	public void setDescription(String description);
+
+	/**
 	 * Returns the create date of this payment.
 	 *
 	 * @return the create date of this payment

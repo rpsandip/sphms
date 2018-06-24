@@ -27,6 +27,13 @@
        			<aui:form name="expenseFm" action="${addExpenseURL}" cssClass="row contact_form" method="POST">
        				<div class="row">
 	       				<div class="form-group col-md-6">
+	              		<aui:select name="customCustomId">
+							<c:forEach items="${companyList }" var="company">
+								<option value="${company.companyId }" selected='${company.companyId eq expense.customCompanyId ? true : false }' >${company.name }</option>
+							</c:forEach>	
+						</aui:select>
+	              	</div>
+	       				<div class="form-group col-md-6">
 	       					 <aui:select name="type" label="type" cssClass="form-control">
 						     	<aui:option value="Petrol" selected='${expense.type eq "Petrol" ? true : false }'>Petrol</aui:option>
 						     	<aui:option value="Mobile" selected='${expense.type eq "Mobile" ? true : false }'>Mobile</aui:option>

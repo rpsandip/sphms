@@ -1,8 +1,13 @@
 package com.sphms.expense.portlet.portlet;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.sphms.common.service.model.Client;
+import com.sphms.common.service.model.CustomCompany;
+import com.sphms.common.service.service.ClientLocalServiceUtil;
+import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -28,6 +33,11 @@ public class ExpenseModulePortlet extends MVCPortlet {
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
+		
+		//Get Company List
+		List<CustomCompany> companyList = CustomCompanyLocalServiceUtil.getCustomCompanies(-1, -1);
+		renderRequest.setAttribute("companyList", companyList);
+		
 		include(viewTemplate, renderRequest, renderResponse);
 	}
 }

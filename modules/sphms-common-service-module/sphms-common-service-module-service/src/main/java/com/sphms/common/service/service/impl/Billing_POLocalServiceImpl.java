@@ -36,6 +36,7 @@ import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
 import com.sphms.common.service.service.base.Billing_POLocalServiceBaseImpl;
 import com.sphms.common.service.service.persistence.Billing_POPK;
+import com.sphms.common.service.util.Billing_PO_Status;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -72,6 +73,7 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 		billingPO.setCreateDate(new Date());
 		billingPO.setCreatedBy(createdBy);
 		billingPO.setModifiedBy(createdBy);
+		billingPO.setStatus(Billing_PO_Status.GENERATED.getValue());
 		billingPO.setModifiedDate(new Date());
 		
 		billingPO = Billing_POLocalServiceUtil.addBilling_PO(billingPO);
