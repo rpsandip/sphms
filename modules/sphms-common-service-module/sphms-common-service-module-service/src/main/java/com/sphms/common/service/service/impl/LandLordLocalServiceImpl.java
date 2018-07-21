@@ -53,7 +53,7 @@ public class LandLordLocalServiceImpl extends LandLordLocalServiceBaseImpl {
 	/*
 	 * Method for add Land Lord Detail
 	 */
-	public LandLord addLandLordDetail(String fName, String lName, String location, String city, String phoneNo, int status, long createdBy){
+	public LandLord addLandLordDetail(String fName, String lName, String location, String city, String state,String phoneNo, int status, long createdBy){
 		
 		_log.info("Adding LandLoard :: fName ->" + fName + " lName->" + lName + " location ->" + location
 				+ " city ->" + city + " phoneno ->" + phoneNo + " status ->" + status);
@@ -65,6 +65,7 @@ public class LandLordLocalServiceImpl extends LandLordLocalServiceBaseImpl {
 			landLord.setLastName(lName);
 			landLord.setLocation(location);
 			landLord.setCity(city);
+			landLord.setStatec(state);
 			landLord.setStatus(status);
 			landLord.setPhoneNo(phoneNo);
 			landLord.setCreateDate(new Date());
@@ -79,7 +80,7 @@ public class LandLordLocalServiceImpl extends LandLordLocalServiceBaseImpl {
 	/*
 	 * Method for update Land Lord
 	 */
-	public LandLord updateLandLord(long landLordId, String fName, String lName, String location, String city, String phoneNo, int status, long createdBy) throws PortalException{
+	public LandLord updateLandLord(long landLordId, String fName, String lName, String location, String city,  String state,String phoneNo, int status, long createdBy) throws PortalException{
 		
 		_log.info("Updating LandLoard :: fName ->" + fName + " lName->" + lName + " location ->" + location
 				+ " city ->" + city + " phoneno ->" + phoneNo + " status ->" + status);
@@ -93,6 +94,7 @@ public class LandLordLocalServiceImpl extends LandLordLocalServiceBaseImpl {
 		landLord.setLastName(lName);
 		landLord.setLocation(location);
 		landLord.setCity(city);
+		landLord.setStatec(state);
 		landLord.setPhoneNo(phoneNo);
 		landLord.setStatus(status);
 		landLord.setCreateDate(new Date());

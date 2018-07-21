@@ -109,12 +109,7 @@ jQuery.noConflict();
 	  $('#'+'<portlet:namespace/>'+'tax').keyup(function () { 
 		    this.value = this.value.replace(/[^0-9]/g,'');
 	  });	 
-	  
-	  $('#'+ '<portlet:namespace/>' + 'paymentDate').datepicker({
-	  		format: 'dd/mm/yyyy',  
-	  	    autoclose: true
-	  });
-	  	 
+	 
 	  
     });
 

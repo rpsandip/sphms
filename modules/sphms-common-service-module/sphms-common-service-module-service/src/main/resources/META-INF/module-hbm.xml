@@ -61,8 +61,10 @@
 		</composite-id>
 		<property name="landLordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="poNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="internalPONumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="financialYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="totalAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="customCompanyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
@@ -193,6 +195,7 @@
 		<property name="lastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="location" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="statec" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="phoneNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />

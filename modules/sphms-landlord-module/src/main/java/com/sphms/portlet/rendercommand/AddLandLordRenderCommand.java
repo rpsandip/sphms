@@ -32,7 +32,7 @@ public class AddLandLordRenderCommand implements MVCRenderCommand{
 			LandLord landLord = LandLordLocalServiceUtil.getLandLord(landLordId);
 			renderRequest.setAttribute("landLord", landLord);
 		} catch (PortalException e) {
-			_log.error(e);
+			_log.error(e.getMessage());
 		}
 		
 		return "/land-lord/add_land_lord.jsp";

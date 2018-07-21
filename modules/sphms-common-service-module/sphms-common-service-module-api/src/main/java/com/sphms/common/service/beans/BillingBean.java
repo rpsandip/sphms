@@ -7,6 +7,7 @@ import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Client;
@@ -71,6 +72,12 @@ public class BillingBean {
 				Client client = ClientLocalServiceUtil.getClient(this.clientId);
 				this.clientName = client.getClientName();
 				this.clientCity = client.getCity();
+				if(Validator.isNull(this.clientPANNo)){
+					this.clientPANNo = client.getPanNo();
+				}
+				if(Validator.isNull(this.clientGSTNumber)){
+					this.clientGSTNumber = client.getGstNo();
+				}
 			} catch (PortalException e) {
 				_log.error(e);
 			}

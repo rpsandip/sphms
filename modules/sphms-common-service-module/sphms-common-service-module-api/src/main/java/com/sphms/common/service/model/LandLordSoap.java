@@ -38,6 +38,7 @@ public class LandLordSoap implements Serializable {
 		soapModel.setLastName(model.getLastName());
 		soapModel.setLocation(model.getLocation());
 		soapModel.setCity(model.getCity());
+		soapModel.setStatec(model.getStatec());
 		soapModel.setStatus(model.getStatus());
 		soapModel.setPhoneNo(model.getPhoneNo());
 		soapModel.setCreateDate(model.getCreateDate());
@@ -134,6 +135,14 @@ public class LandLordSoap implements Serializable {
 		_city = city;
 	}
 
+	public String getStatec() {
+		return _statec;
+	}
+
+	public void setStatec(String statec) {
+		_statec = statec;
+	}
+
 	public int getStatus() {
 		return _status;
 	}
@@ -171,6 +180,7 @@ public class LandLordSoap implements Serializable {
 	private String _lastName;
 	private String _location;
 	private String _city;
+	private String _statec;
 	private int _status;
 	private String _phoneNo;
 	private Date _createDate;

@@ -45,7 +45,10 @@ public class NumberToWord
  " Hundred",
  " Thousand",
  " Lakh",
- " Crore"
+ " Crore",
+ "",
+ "",
+ ""
 };
 
    

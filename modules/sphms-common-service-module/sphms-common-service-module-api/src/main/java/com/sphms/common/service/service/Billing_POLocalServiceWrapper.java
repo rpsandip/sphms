@@ -165,6 +165,13 @@ public class Billing_POLocalServiceWrapper implements Billing_POLocalService,
 		return _billing_POLocalService.getBilling_POsCount();
 	}
 
+	@Override
+	public java.lang.String getNextPONumber(long billingId, long landLordId,
+		long companyId) {
+		return _billing_POLocalService.getNextPONumber(billingId, landLordId,
+			companyId);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

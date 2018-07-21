@@ -65,7 +65,7 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{landLordId=");
 		sb.append(landLordId);
@@ -77,6 +77,8 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 		sb.append(location);
 		sb.append(", city=");
 		sb.append(city);
+		sb.append(", statec=");
+		sb.append(statec);
 		sb.append(", status=");
 		sb.append(status);
 		sb.append(", phoneNo=");
@@ -124,6 +126,13 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 			landLordImpl.setCity(city);
 		}
 
+		if (statec == null) {
+			landLordImpl.setStatec(StringPool.BLANK);
+		}
+		else {
+			landLordImpl.setStatec(statec);
+		}
+
 		landLordImpl.setStatus(status);
 
 		if (phoneNo == null) {
@@ -154,6 +163,7 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 		lastName = objectInput.readUTF();
 		location = objectInput.readUTF();
 		city = objectInput.readUTF();
+		statec = objectInput.readUTF();
 
 		status = objectInput.readInt();
 		phoneNo = objectInput.readUTF();
@@ -195,6 +205,13 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 			objectOutput.writeUTF(city);
 		}
 
+		if (statec == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(statec);
+		}
+
 		objectOutput.writeInt(status);
 
 		if (phoneNo == null) {
@@ -214,6 +231,7 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 	public String lastName;
 	public String location;
 	public String city;
+	public String statec;
 	public int status;
 	public String phoneNo;
 	public long createDate;

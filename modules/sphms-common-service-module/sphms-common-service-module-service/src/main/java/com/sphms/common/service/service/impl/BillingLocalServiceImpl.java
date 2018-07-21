@@ -14,10 +14,7 @@
 
 package com.sphms.common.service.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,12 +22,10 @@ import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Order;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.BillingBean;
@@ -56,6 +51,8 @@ import com.sphms.common.service.service.persistence.Billing_POPK;
 import com.sphms.common.service.service.persistence.Booking_HordingPK;
 import com.sphms.common.service.util.BillingStatus;
 import com.sphms.common.service.util.SPHMSConstant;
+
+import aQute.bnd.annotation.ProviderType;
 
 /**
  * The implementation of the billing local service.

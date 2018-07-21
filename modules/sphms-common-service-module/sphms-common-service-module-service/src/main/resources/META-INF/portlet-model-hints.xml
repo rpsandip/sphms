@@ -38,8 +38,10 @@
 		<field name="hordingId" type="long" />
 		<field name="landLordId" type="long" />
 		<field name="poNumber" type="String" />
+		<field name="internalPONumber" type="String" />
 		<field name="financialYear" type="String" />
 		<field name="totalAmount" type="double" />
+		<field name="customCompanyId" type="long" />
 		<field name="createDate" type="Date" />
 		<field name="createdBy" type="long" />
 		<field name="modifiedDate" type="Date" />
@@ -182,6 +184,7 @@
 			<hint name="max-length">100</hint>
 		</field>
 		<field name="city" type="String" />
+		<field name="statec" type="String" />
 		<field name="status" type="int" />
 		<field name="phoneNo" type="String" />
 		<field name="createDate" type="Date" />

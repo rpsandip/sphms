@@ -63,8 +63,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 			{ "hordingId", Types.BIGINT },
 			{ "landLordId", Types.BIGINT },
 			{ "poNumber", Types.VARCHAR },
+			{ "internalPONumber", Types.VARCHAR },
 			{ "financialYear", Types.VARCHAR },
 			{ "totalAmount", Types.DOUBLE },
+			{ "customCompanyId", Types.BIGINT },
 			{ "createDate", Types.TIMESTAMP },
 			{ "createdBy", Types.BIGINT },
 			{ "modifiedDate", Types.TIMESTAMP },
@@ -78,8 +80,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		TABLE_COLUMNS_MAP.put("hordingId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("landLordId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("poNumber", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("internalPONumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("financialYear", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("totalAmount", Types.DOUBLE);
+		TABLE_COLUMNS_MAP.put("customCompanyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createdBy", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
@@ -87,7 +91,7 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing_PO (billingId LONG not null,hordingId LONG not null,landLordId LONG,poNumber VARCHAR(75) null,financialYear VARCHAR(75) null,totalAmount DOUBLE,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG,status INTEGER,primary key (billingId, hordingId))";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing_PO (billingId LONG not null,hordingId LONG not null,landLordId LONG,poNumber VARCHAR(75) null,internalPONumber VARCHAR(75) null,financialYear VARCHAR(75) null,totalAmount DOUBLE,customCompanyId LONG,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG,status INTEGER,primary key (billingId, hordingId))";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Billing_PO";
 	public static final String ORDER_BY_JPQL = " ORDER BY billing_PO.id.billingId ASC, billing_PO.id.hordingId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Billing_PO.billingId ASC, SPHMS_Billing_PO.hordingId ASC";
@@ -151,8 +155,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		attributes.put("hordingId", getHordingId());
 		attributes.put("landLordId", getLandLordId());
 		attributes.put("poNumber", getPoNumber());
+		attributes.put("internalPONumber", getInternalPONumber());
 		attributes.put("financialYear", getFinancialYear());
 		attributes.put("totalAmount", getTotalAmount());
+		attributes.put("customCompanyId", getCustomCompanyId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -191,6 +197,12 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 			setPoNumber(poNumber);
 		}
 
+		String internalPONumber = (String)attributes.get("internalPONumber");
+
+		if (internalPONumber != null) {
+			setInternalPONumber(internalPONumber);
+		}
+
 		String financialYear = (String)attributes.get("financialYear");
 
 		if (financialYear != null) {
@@ -201,6 +213,12 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 		if (totalAmount != null) {
 			setTotalAmount(totalAmount);
+		}
+
+		Long customCompanyId = (Long)attributes.get("customCompanyId");
+
+		if (customCompanyId != null) {
+			setCustomCompanyId(customCompanyId);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -304,6 +322,21 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 	}
 
 	@Override
+	public String getInternalPONumber() {
+		if (_internalPONumber == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _internalPONumber;
+		}
+	}
+
+	@Override
+	public void setInternalPONumber(String internalPONumber) {
+		_internalPONumber = internalPONumber;
+	}
+
+	@Override
 	public String getFinancialYear() {
 		if (_financialYear == null) {
 			return StringPool.BLANK;
@@ -326,6 +359,16 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 	@Override
 	public void setTotalAmount(double totalAmount) {
 		_totalAmount = totalAmount;
+	}
+
+	@Override
+	public long getCustomCompanyId() {
+		return _customCompanyId;
+	}
+
+	@Override
+	public void setCustomCompanyId(long customCompanyId) {
+		_customCompanyId = customCompanyId;
 	}
 
 	@Override
@@ -406,8 +449,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		billing_POImpl.setHordingId(getHordingId());
 		billing_POImpl.setLandLordId(getLandLordId());
 		billing_POImpl.setPoNumber(getPoNumber());
+		billing_POImpl.setInternalPONumber(getInternalPONumber());
 		billing_POImpl.setFinancialYear(getFinancialYear());
 		billing_POImpl.setTotalAmount(getTotalAmount());
+		billing_POImpl.setCustomCompanyId(getCustomCompanyId());
 		billing_POImpl.setCreateDate(getCreateDate());
 		billing_POImpl.setCreatedBy(getCreatedBy());
 		billing_POImpl.setModifiedDate(getModifiedDate());
@@ -500,6 +545,14 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 			billing_POCacheModel.poNumber = null;
 		}
 
+		billing_POCacheModel.internalPONumber = getInternalPONumber();
+
+		String internalPONumber = billing_POCacheModel.internalPONumber;
+
+		if ((internalPONumber != null) && (internalPONumber.length() == 0)) {
+			billing_POCacheModel.internalPONumber = null;
+		}
+
 		billing_POCacheModel.financialYear = getFinancialYear();
 
 		String financialYear = billing_POCacheModel.financialYear;
@@ -509,6 +562,8 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		}
 
 		billing_POCacheModel.totalAmount = getTotalAmount();
+
+		billing_POCacheModel.customCompanyId = getCustomCompanyId();
 
 		Date createDate = getCreateDate();
 
@@ -539,7 +594,7 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{billingId=");
 		sb.append(getBillingId());
@@ -549,10 +604,14 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		sb.append(getLandLordId());
 		sb.append(", poNumber=");
 		sb.append(getPoNumber());
+		sb.append(", internalPONumber=");
+		sb.append(getInternalPONumber());
 		sb.append(", financialYear=");
 		sb.append(getFinancialYear());
 		sb.append(", totalAmount=");
 		sb.append(getTotalAmount());
+		sb.append(", customCompanyId=");
+		sb.append(getCustomCompanyId());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
 		sb.append(", createdBy=");
@@ -570,7 +629,7 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Billing_PO");
@@ -593,12 +652,20 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		sb.append(getPoNumber());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>internalPONumber</column-name><column-value><![CDATA[");
+		sb.append(getInternalPONumber());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>financialYear</column-name><column-value><![CDATA[");
 		sb.append(getFinancialYear());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>totalAmount</column-name><column-value><![CDATA[");
 		sb.append(getTotalAmount());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>customCompanyId</column-name><column-value><![CDATA[");
+		sb.append(getCustomCompanyId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
@@ -638,8 +705,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 	private long _originalLandLordId;
 	private boolean _setOriginalLandLordId;
 	private String _poNumber;
+	private String _internalPONumber;
 	private String _financialYear;
 	private double _totalAmount;
+	private long _customCompanyId;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

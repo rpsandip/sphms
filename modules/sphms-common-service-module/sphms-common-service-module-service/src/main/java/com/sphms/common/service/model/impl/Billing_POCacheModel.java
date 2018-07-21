@@ -67,7 +67,7 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{billingId=");
 		sb.append(billingId);
@@ -77,10 +77,14 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		sb.append(landLordId);
 		sb.append(", poNumber=");
 		sb.append(poNumber);
+		sb.append(", internalPONumber=");
+		sb.append(internalPONumber);
 		sb.append(", financialYear=");
 		sb.append(financialYear);
 		sb.append(", totalAmount=");
 		sb.append(totalAmount);
+		sb.append(", customCompanyId=");
+		sb.append(customCompanyId);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", createdBy=");
@@ -111,6 +115,13 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 			billing_POImpl.setPoNumber(poNumber);
 		}
 
+		if (internalPONumber == null) {
+			billing_POImpl.setInternalPONumber(StringPool.BLANK);
+		}
+		else {
+			billing_POImpl.setInternalPONumber(internalPONumber);
+		}
+
 		if (financialYear == null) {
 			billing_POImpl.setFinancialYear(StringPool.BLANK);
 		}
@@ -119,6 +130,7 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		}
 
 		billing_POImpl.setTotalAmount(totalAmount);
+		billing_POImpl.setCustomCompanyId(customCompanyId);
 
 		if (createDate == Long.MIN_VALUE) {
 			billing_POImpl.setCreateDate(null);
@@ -152,9 +164,12 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 
 		landLordId = objectInput.readLong();
 		poNumber = objectInput.readUTF();
+		internalPONumber = objectInput.readUTF();
 		financialYear = objectInput.readUTF();
 
 		totalAmount = objectInput.readDouble();
+
+		customCompanyId = objectInput.readLong();
 		createDate = objectInput.readLong();
 
 		createdBy = objectInput.readLong();
@@ -183,6 +198,13 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 			objectOutput.writeUTF(poNumber);
 		}
 
+		if (internalPONumber == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(internalPONumber);
+		}
+
 		if (financialYear == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -191,6 +213,8 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		}
 
 		objectOutput.writeDouble(totalAmount);
+
+		objectOutput.writeLong(customCompanyId);
 		objectOutput.writeLong(createDate);
 
 		objectOutput.writeLong(createdBy);
@@ -205,8 +229,10 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 	public long hordingId;
 	public long landLordId;
 	public String poNumber;
+	public String internalPONumber;
 	public String financialYear;
 	public double totalAmount;
+	public long customCompanyId;
 	public long createDate;
 	public long createdBy;
 	public long modifiedDate;

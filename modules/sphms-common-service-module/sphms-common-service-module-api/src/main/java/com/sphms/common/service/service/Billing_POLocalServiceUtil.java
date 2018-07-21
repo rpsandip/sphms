@@ -160,6 +160,11 @@ public class Billing_POLocalServiceUtil {
 		return getService().getBilling_POsCount();
 	}
 
+	public static java.lang.String getNextPONumber(long billingId,
+		long landLordId, long companyId) {
+		return getService().getNextPONumber(billingId, landLordId, companyId);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

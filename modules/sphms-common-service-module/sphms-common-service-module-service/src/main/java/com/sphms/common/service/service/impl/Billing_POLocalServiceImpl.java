@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.exception.NoSuchBilling_POException;
 import com.sphms.common.service.model.Billing;
@@ -37,6 +38,7 @@ import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
 import com.sphms.common.service.service.base.Billing_POLocalServiceBaseImpl;
 import com.sphms.common.service.service.persistence.Billing_POPK;
 import com.sphms.common.service.util.Billing_PO_Status;
+import com.sphms.common.service.util.SPHMSConstant;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -67,12 +69,14 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 		Billing_POPK billingPOPK = new Billing_POPK(billingId, hordingId);
 		Billing_PO billingPO = Billing_POLocalServiceUtil.createBilling_PO(billingPOPK);
 		billingPO.setTotalAmount(totalAmount);
-		billingPO.setPoNumber(getNextPONumber(billingId,landLordId));
+		billingPO.setPoNumber(StringPool.BLANK);
+		billingPO.setInternalPONumber(getNextInternalPONumber(billingId,landLordId,company.getCompanyId()));
 		billingPO.setLandLordId(landLordId);
 		billingPO.setFinancialYear(SPHMSCommonLocalServiceUtil.getFinancialYear());
 		billingPO.setCreateDate(new Date());
 		billingPO.setCreatedBy(createdBy);
 		billingPO.setModifiedBy(createdBy);
+		billingPO.setCustomCompanyId(company.getCompanyId());
 		billingPO.setStatus(Billing_PO_Status.GENERATED.getValue());
 		billingPO.setModifiedDate(new Date());
 		
@@ -101,35 +105,71 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 	}
 	
 	
-	private String getNextPONumber(long billingId, long landLordId){
+	public String getNextPONumber(long billingId, long landLordId, long companyId){
 		
-		// Check same Owner has hording or not for same booking
-		List<Billing_PO> billingPOList = getBilling_POByBillingIdAndLandLordId(billingId, landLordId);
-		
-		if(billingPOList.size()==0){
-			// Generate next po number
-			DynamicQuery dynamicQuery = Billing_POLocalServiceUtil.dynamicQuery();
-			dynamicQuery.add(RestrictionsFactoryUtil.eq("financialYear", SPHMSCommonLocalServiceUtil.getFinancialYear()));
-			Order defaultOrder = OrderFactoryUtil.desc("createDate");
-			dynamicQuery.addOrder(defaultOrder);
-			dynamicQuery.setLimit(0, 1);
-			List<Billing_PO> poList = Billing_POLocalServiceUtil.dynamicQuery(dynamicQuery);
-			
-			if(poList.size()==0){
-				return "001";
-			}else{
-				String latestNumber = poList.get(0).getPoNumber();
-				int newNum = (Integer.parseInt(latestNumber)+1);
-				return String.format("%03d", newNum);
-			}
-		}else{
-			// return PO number of other hoarding of same owner.
-			return billingPOList.get(0).getPoNumber();
-		}
+		       // Check same Owner has hording or not for same booking
+				List<Billing_PO> billingPOList = getBilling_POByBillingIdAndLandLordId(billingId, landLordId);
+				
+				if(billingPOList.size()!=0){
+					// Generate next po number
+					DynamicQuery dynamicQuery = Billing_POLocalServiceUtil.dynamicQuery();
+					dynamicQuery.add(RestrictionsFactoryUtil.eq("financialYear", SPHMSCommonLocalServiceUtil.getFinancialYear()));
+					dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("poNumber"));
+					dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", companyId));
+					Order defaultOrder = OrderFactoryUtil.desc("createDate");
+					dynamicQuery.addOrder(defaultOrder);
+					dynamicQuery.setLimit(0, 1);
+					List<Billing_PO> poList = Billing_POLocalServiceUtil.dynamicQuery(dynamicQuery);
+					
+					if(poList.size()==0){
+						return "001";
+					}else{
+						String latestNumber = poList.get(0).getPoNumber();
+						int newNum = (Integer.parseInt(latestNumber)+1);
+						return String.format("%03d", newNum);
+					}
+				}else{
+					// return PO number of other hoarding of same owner.
+					return billingPOList.get(0).getPoNumber();
+				}
 		
 	}
 	
+	private String getNextInternalPONumber(long billingId, long landLordId, long companyId){
+		// Check same Owner has hording or not for same booking
+				List<Billing_PO> billingPOList = getBilling_POByBillingIdAndLandLordId(billingId, landLordId);
+				
+				if(billingPOList.size()==0){
+					// Generate next po number
+					DynamicQuery dynamicQuery = Billing_POLocalServiceUtil.dynamicQuery();
+					dynamicQuery.add(RestrictionsFactoryUtil.eq("financialYear", SPHMSCommonLocalServiceUtil.getFinancialYear()));
+					Order defaultOrder = OrderFactoryUtil.desc("createDate");
+					dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", companyId));
+					dynamicQuery.addOrder(defaultOrder);
+					dynamicQuery.setLimit(0, 1);
+					List<Billing_PO> poList = Billing_POLocalServiceUtil.dynamicQuery(dynamicQuery);
+					
+					if(poList.size()==0){
+						return "001";
+					}else{
+						String latestNumber = poList.get(0).getInternalPONumber();
+						int newNum = (Integer.parseInt(latestNumber)+1);
+						return String.format("%03d", newNum);
+					}
+				}else{
+					// return PO number of other hoarding of same owner.
+					return billingPOList.get(0).getInternalPONumber();
+				}
+	}
+	
 	public String getPONumber(Billing_PO billingPO, CustomCompany company){
-		return company.getShortName()+ "-"+ billingPO.getPoNumber() +"/"+ billingPO.getFinancialYear();
+		String displayPONo = StringPool.BLANK;
+		if(Validator.isNotNull(billingPO) && billingPO.getStatus()==Billing_PO_Status.GENERATED.getValue()){
+			return SPHMSConstant.INTERNAL_BILL_PREFIX +StringPool.SLASH + company.getShortName()+ "-"+ billingPO.getInternalPONumber() +"/"+ billingPO.getFinancialYear();
+		}else if(Validator.isNotNull(billingPO) && billingPO.getStatus()==Billing_PO_Status.PUBLISH.getValue()){
+			return company.getShortName()+ "-"+ billingPO.getPoNumber() +"/"+ billingPO.getFinancialYear();
+		}
+		 
+		return displayPONo;
 	}
 }

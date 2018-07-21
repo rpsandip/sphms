@@ -59,8 +59,8 @@
             				<td><a data-billing-id="${ poBean.billingId}" data-landlord-id="${poBean.landlordId }" class="po-download">DownLoad</a></td>
         			    	<td>
         			    		<ul>
-        			    			<li>
         			    				<c:forEach items="${poBean.hordingList }" var="poHordingDTO">
+        			    				<li>
         			    					<c:choose>
             									<c:when test="${poHordingDTO.status eq 0 }">
 	            										<portlet:actionURL var="publishPOActionURL" name="/publish_PO">
@@ -76,9 +76,9 @@
             										Sent To Client
             									</c:otherwise>
             								</c:choose>
+            								</li>
         			    				</c:forEach>
-        			    			</li>
-        			    		</ul>
+        			    			</ul>
         			    	</td>
         			    	<td>
 								<ul>

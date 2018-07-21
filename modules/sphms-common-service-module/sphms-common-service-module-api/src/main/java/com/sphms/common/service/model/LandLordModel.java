@@ -137,6 +137,21 @@ public interface LandLordModel extends BaseModel<LandLord> {
 	public void setCity(String city);
 
 	/**
+	 * Returns the statec of this land lord.
+	 *
+	 * @return the statec of this land lord
+	 */
+	@AutoEscape
+	public String getStatec();
+
+	/**
+	 * Sets the statec of this land lord.
+	 *
+	 * @param statec the statec of this land lord
+	 */
+	public void setStatec(String statec);
+
+	/**
 	 * Returns the status of this land lord.
 	 *
 	 * @return the status of this land lord

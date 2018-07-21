@@ -153,6 +153,10 @@ public interface Billing_POLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getBilling_POsCount();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.String getNextPONumber(long billingId, long landLordId,
+		long companyId);
+
 	/**
 	* Returns the OSGi service identifier.
 	*

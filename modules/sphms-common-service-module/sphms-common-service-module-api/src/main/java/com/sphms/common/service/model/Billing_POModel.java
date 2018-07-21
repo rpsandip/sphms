@@ -122,6 +122,21 @@ public interface Billing_POModel extends BaseModel<Billing_PO> {
 	public void setPoNumber(String poNumber);
 
 	/**
+	 * Returns the internal p o number of this billing_ p o.
+	 *
+	 * @return the internal p o number of this billing_ p o
+	 */
+	@AutoEscape
+	public String getInternalPONumber();
+
+	/**
+	 * Sets the internal p o number of this billing_ p o.
+	 *
+	 * @param internalPONumber the internal p o number of this billing_ p o
+	 */
+	public void setInternalPONumber(String internalPONumber);
+
+	/**
 	 * Returns the financial year of this billing_ p o.
 	 *
 	 * @return the financial year of this billing_ p o
@@ -149,6 +164,20 @@ public interface Billing_POModel extends BaseModel<Billing_PO> {
 	 * @param totalAmount the total amount of this billing_ p o
 	 */
 	public void setTotalAmount(double totalAmount);
+
+	/**
+	 * Returns the custom company ID of this billing_ p o.
+	 *
+	 * @return the custom company ID of this billing_ p o
+	 */
+	public long getCustomCompanyId();
+
+	/**
+	 * Sets the custom company ID of this billing_ p o.
+	 *
+	 * @param customCompanyId the custom company ID of this billing_ p o
+	 */
+	public void setCustomCompanyId(long customCompanyId);
 
 	/**
 	 * Returns the create date of this billing_ p o.

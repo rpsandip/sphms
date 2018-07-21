@@ -62,6 +62,7 @@ public class LandLordWrapper implements LandLord, ModelWrapper<LandLord> {
 		attributes.put("lastName", getLastName());
 		attributes.put("location", getLocation());
 		attributes.put("city", getCity());
+		attributes.put("statec", getStatec());
 		attributes.put("status", getStatus());
 		attributes.put("phoneNo", getPhoneNo());
 		attributes.put("createDate", getCreateDate());
@@ -100,6 +101,12 @@ public class LandLordWrapper implements LandLord, ModelWrapper<LandLord> {
 
 		if (city != null) {
 			setCity(city);
+		}
+
+		String statec = (String)attributes.get("statec");
+
+		if (statec != null) {
+			setStatec(statec);
 		}
 
 		Integer status = (Integer)attributes.get("status");
@@ -240,6 +247,16 @@ public class LandLordWrapper implements LandLord, ModelWrapper<LandLord> {
 	@Override
 	public java.lang.String getPhoneNo() {
 		return _landLord.getPhoneNo();
+	}
+
+	/**
+	* Returns the statec of this land lord.
+	*
+	* @return the statec of this land lord
+	*/
+	@Override
+	public java.lang.String getStatec() {
+		return _landLord.getStatec();
 	}
 
 	@Override
@@ -416,6 +433,16 @@ public class LandLordWrapper implements LandLord, ModelWrapper<LandLord> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_landLord.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the statec of this land lord.
+	*
+	* @param statec the statec of this land lord
+	*/
+	@Override
+	public void setStatec(java.lang.String statec) {
+		_landLord.setStatec(statec);
 	}
 
 	/**

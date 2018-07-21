@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -40,6 +41,9 @@ public class FileUtil {
 	private static Log _log = LogFactoryUtil.getLog(FileUtil.class.getName());
 	private static final int MAX_ColUMN=7;
 	private static final int MIN_COLUMN=1;
+	private static final String MOUNTING_BILL_TYPE="mounting";
+	private static final String PRINTING_BILL_TYPE="printing";
+	private static final String ADD_SPACE_BILL_TYPE="ad";
 	private static final SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
 	
 	public static File createBillXlsForBooking(Booking booking, Billing billing,List<Billing_HordingBean> billiingHordingBeanList, CustomCompany company) throws FileNotFoundException, IOException, PortalException{
@@ -71,21 +75,44 @@ public class FileUtil {
 	
 	private static File createBillXlsFile(Booking booking,  Billing billing,List<Billing_HordingBean> billingHordingList, CustomCompany company) throws IOException{
 		
-		int index=1;
+		_log.debug("Going to create xls file");
+		
+		int index=10;
 		
 		Client client = getClient(billing.getClientId());
 		
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet sheet = wb.createSheet("Bill");
+	
 		
 		XSSFFont font = wb.createFont();
 	    font.setFontHeightInPoints((short) 11);
 	    font.setBold(true);
 	    font.setFontName("Arial");
-		
 	    
+	    double totalHordingDisplayCharges = getTotalHordingDisplayCharges(billingHordingList);
+		double totalPrintingCharge = getTotalPrintingChage(billingHordingList);
+		double totalMoutingCharge = getTotalMountingChage(billingHordingList);
+		
+		String billType=StringPool.BLANK;
+		
+		_log.debug("Calculated total");
+		
+		if(totalHordingDisplayCharges>0){
+			billType=ADD_SPACE_BILL_TYPE;
+		}else if(totalPrintingCharge>0 && totalMoutingCharge==0){
+			billType=PRINTING_BILL_TYPE;
+		}else if(totalMoutingCharge>0 && totalPrintingCharge==0){
+			billType=MOUNTING_BILL_TYPE;
+		}else{
+			billType=ADD_SPACE_BILL_TYPE;
+		}
+		
+		
 	    // TAX INVOICE label
 	    index = createTaxInvoiceLabelRow(sheet, wb, index);
+	    
+		_log.debug("created first row with bill type ->" + billType);
 	    
 		// Address, Bill No and Date 
 		index = createBillNoRow(sheet, wb, index, font, billing);
@@ -94,26 +121,14 @@ public class FileUtil {
 		
 		// Ad-Space lebel,
 		int billTypeLabelRowindex = index;
-		index = createAddSpaceChargeLabelRow(sheet,wb,index, font);
+		index = createAddSpaceChargeLabelRow(sheet,wb,index, font,billType);
 		
 		//PO Number Section
 		index = createPONumberRow(sheet, wb, index, font, booking, billing);
 		index =  createBlankRow(sheet, wb,index);
 		
-		
-		double totalHordingDisplayCharges = getTotalHordingDisplayCharges(billingHordingList);
-		double totalPrintingCharge = getTotalPrintingChage(billingHordingList);
-		double totalMoutingCharge = getTotalMountingChage(billingHordingList);
-		
-		String billType=StringPool.BLANK;
-		
-		if(totalHordingDisplayCharges>0){
-			billType="ad";
-		}else if(totalPrintingCharge>0 && totalMoutingCharge==0){
-			billType="printing";
-		}else if(totalMoutingCharge>0 && totalPrintingCharge==0){
-			billType="mounting";
-		}
+
+		_log.debug("Going to create table heder");
 		
 		
 		// Hoarding table header
@@ -123,18 +138,26 @@ public class FileUtil {
 		for(int i=0;i<billingHordingList.size();i++){
 			index =  createHordingDataRow(sheet, wb, index, i,billingHordingList.size(), billingHordingList.get(i).getHording(),booking, billingHordingList.get(i), billType);
 		}
+		
+		_log.debug("Generated table rows");
 			
 		
-		if(totalPrintingCharge>0 && billType.equals("ad")){
+		if(totalPrintingCharge>0 && billType.equals(ADD_SPACE_BILL_TYPE)){
 			index = createPrintingChargeAmountRow(sheet, wb, index, totalPrintingCharge);
 			totalHordingDisplayCharges +=totalPrintingCharge;
 		}
 		
-		if(totalMoutingCharge>0 && billType.equals("ad")){
+		if(totalMoutingCharge>0 && billType.equals(ADD_SPACE_BILL_TYPE)){
 			index = createMountingAmountRow(sheet, wb, index, totalMoutingCharge);
 			totalHordingDisplayCharges+=totalMoutingCharge;
 		}
 		
+		if(billType.equals(PRINTING_BILL_TYPE)){
+			totalHordingDisplayCharges = totalPrintingCharge;
+		}
+		if(billType.equalsIgnoreCase(MOUNTING_BILL_TYPE)){
+			totalHordingDisplayCharges = totalMoutingCharge;
+		}
 				
 		//  Total amount
 		index =  createSubTotalAmountRow(sheet, wb, index, totalHordingDisplayCharges);
@@ -142,36 +165,57 @@ public class FileUtil {
 		double iGSTCharge = 0d;
 		double cGSTCharge = 0d;
 		double sGSTCharge = 0d;
+		double iGSTRATE = Double.parseDouble(PropsUtil.get("igst.rate"));
+		double cGSTRATE = Double.parseDouble(PropsUtil.get("cgst.rate"));
+		double sGSTRATE = Double.parseDouble(PropsUtil.get("sgst.rate"));
 		boolean isClientOutOfGuj = isClientOutOfGujrat(client);
+		
+		if(billType.equals(PRINTING_BILL_TYPE)){
+			iGSTRATE = 0.12d;
+			sGSTRATE = 0.06d;
+			cGSTRATE = 0.06d;
+		}
+		
 		double totalAmount= totalHordingDisplayCharges;
+		
 		if(isClientOutOfGuj){
-			iGSTCharge = totalHordingDisplayCharges*Double.parseDouble(PropsUtil.get("igst.rate"));
+			iGSTCharge = totalHordingDisplayCharges*iGSTRATE;
 			totalAmount = totalHordingDisplayCharges + iGSTCharge;
 		}else{
 			//Total amount
 			// Considering CGST as 9%
-			 cGSTCharge = totalHordingDisplayCharges* Double.parseDouble(PropsUtil.get("cgst.rate"));
+			 cGSTCharge = totalHordingDisplayCharges* cGSTRATE;
 			// Consideting SGST as 9%
-			 sGSTCharge = totalHordingDisplayCharges* Double.parseDouble(PropsUtil.get("sgst.rate"));
+			 sGSTCharge = totalHordingDisplayCharges* sGSTRATE;
 			
 			totalAmount = totalHordingDisplayCharges + cGSTCharge + sGSTCharge;
 			
 		}
-		// serviceTax
-		index = createServiceTaxRow(sheet, wb, index, font,cGSTCharge, sGSTCharge, iGSTCharge, isClientOutOfGuj);
 		
+		_log.debug("Going to create service Tax and total tax");
+		
+		// serviceTax
+		index = createServiceTaxRow(sheet, wb, index, font,cGSTCharge, sGSTCharge, iGSTCharge, cGSTRATE,sGSTRATE,iGSTRATE,isClientOutOfGuj);
+		
+		_log.debug("Created Service Tax Row");
 		
 		index = createTotalAmountRow(sheet, wb, index, font, totalAmount);
+		
+		_log.debug("Created Total Amount Row");
 		
 		index = createBlankRow(sheet, wb,index);
 		
 		index = createGSTNoRow(sheet, wb, index, font, company);
 		
+		_log.debug("Created GST Amount Row");
 
 		index = createBlankRow(sheet, wb,index);
 		
 		
 		index = createFooterRow(sheet, wb, index, company);
+		
+		_log.debug("Created GST Amount Row");
+		
 		
 		index = createBlankRow(sheet, wb,index);
 		
@@ -188,6 +232,11 @@ public class FileUtil {
 	    sheet.setColumnWidth(6,3000);
 	    sheet.setColumnWidth(7,2000);
 		
+	    sheet.getPrintSetup().setPaperSize(PrintSetup.A4_PAPERSIZE);
+	    sheet.setFitToPage(true);
+	    
+	    _log.debug("File Created");
+	    
 		// Write the output to a file
 		String fileName = booking.getCampaignTitle()+".xlsx";
 		File file = new File(System.getProperty("catalina.home")+"/temp/"+fileName);
@@ -404,12 +453,18 @@ public class FileUtil {
 		
 	}
 	
-	private static int createAddSpaceChargeLabelRow(XSSFSheet sheet, XSSFWorkbook wb,int index, XSSFFont font){
+	private static int createAddSpaceChargeLabelRow(XSSFSheet sheet, XSSFWorkbook wb,int index, XSSFFont font, String billType){
 		XSSFRow addSpaceRow = sheet.createRow(index);
 		XSSFCellStyle style = getLeftBorderStyle(wb);
 		style.setFont(font);
 		XSSFCell cell61 = addSpaceRow.createCell(MIN_COLUMN);
-		cell61.setCellValue("Ad-Space Charges");
+		if(billType.equals(ADD_SPACE_BILL_TYPE)){
+			cell61.setCellValue("Ad-Space Charges");
+		}else if(billType.equals(PRINTING_BILL_TYPE)){
+			cell61.setCellValue("Printing Charges");
+		}else if(billType.equals(MOUNTING_BILL_TYPE)){
+			cell61.setCellValue("Mounting Charges");
+		}
 		cell61.setCellStyle(style);
 		
 		XSSFCell cell62 = addSpaceRow.createCell(2);
@@ -534,7 +589,7 @@ public class FileUtil {
 		cell12_4.setCellValue("Size");
 		cell12_4.setCellStyle(style);
 		
-		if(billType.equals("ad")){
+		if(billType.equals(ADD_SPACE_BILL_TYPE)){
 			XSSFCell cell12_5 = hordingTableRow.createCell(5);
 			cell12_5.setCellValue("Rate Per Month");
 			cell12_5.setCellStyle(style);
@@ -544,7 +599,7 @@ public class FileUtil {
 			cell12_5.setCellStyle(style);
 		}
 		
-		if(billType.equals("ad")){
+		if(billType.equals(ADD_SPACE_BILL_TYPE)){
 			XSSFCell cell12_6 = hordingTableRow.createCell(6);
 			cell12_6.setCellValue("Period");
 			cell12_6.setCellStyle(style);
@@ -600,7 +655,7 @@ public class FileUtil {
 			cell4.setCellStyle(getBottomBorderStyle(wb));
 		}
 		
-		if(billType.equals("ad")){
+		if(billType.equals(ADD_SPACE_BILL_TYPE)){
 			XSSFCell cell5 = hordingTableRow.createCell(5);
 			cell5.setCellValue(hording.getPricePerMonth());
 			if(loopIndex==(totalList-1)){
@@ -615,7 +670,7 @@ public class FileUtil {
 			}
 		}
 		
-		if(billType.equals("ad")){
+		if(billType.equals(ADD_SPACE_BILL_TYPE)){
 			XSSFCell cell6 = hordingTableRow.createCell(6);
 			cell6.setCellValue(SPHMSCommonLocalServiceUtil.getDateTimeDiff(billingHordingBean.getHordingBookingStartDate(), billingHordingBean.getHordingbookingEndDate()));
 			if(loopIndex==(totalList-1)){
@@ -623,7 +678,7 @@ public class FileUtil {
 			}
 		}else{
 			XSSFCell cell6 = hordingTableRow.createCell(6);
-			if(billType.equals("printing")){
+			if(billType.equals(PRINTING_BILL_TYPE)){
 				cell6.setCellValue(billingHordingBean.getTotalPrintingCharge());
 			}else{
 				cell6.setCellValue(billingHordingBean.getTotalMountingCharge());
@@ -633,10 +688,16 @@ public class FileUtil {
 			}
 		}
 		
-		
-		double displayCharges =  billingHordingBean.getTotalHordingCharge();  //SPHMSCommonLocalServiceUtil.getDisplayCharges(hording.getPricePerMonth(), displayDurationDays); 
+		double totalRowCharges = 0.0;
+		if(billType.equals(ADD_SPACE_BILL_TYPE)){
+			totalRowCharges =  billingHordingBean. getTotalHordingCharge(); //SPHMSCommonLocalServiceUtil.getDisplayCharges(hording.getPricePerMonth(), displayDurationDays); 
+		}else if(billType.equals(PRINTING_BILL_TYPE)){
+			totalRowCharges = billingHordingBean.getTotalPrintingCharge();
+		}else if(billType.equals(MOUNTING_BILL_TYPE)){
+			totalRowCharges = billingHordingBean.getTotalMountingCharge();
+		}
 		XSSFCell cell7 = hordingTableRow.createCell(MAX_ColUMN);
-		cell7.setCellValue(displayCharges);
+		cell7.setCellValue(totalRowCharges);
 		if(loopIndex==(totalList-1)){
 			cell7.setCellStyle(getRightBottomBorderStyle(wb));
 		}else{
@@ -741,7 +802,7 @@ public class FileUtil {
 		XSSFCell cell7 = totalAmountRow.createCell(MAX_ColUMN);
 		cell7.setCellValue(totalHordingDisplayCharges);
 		XSSFCellStyle style = getRightBottomBorderStyle(wb);
-		style.setAlignment(HorizontalAlignment.LEFT);
+		style.setAlignment(HorizontalAlignment.RIGHT);
 		cell7.setCellStyle(style);
 		
 		mergedRegion(index, index, MIN_COLUMN, 5, sheet);
@@ -749,7 +810,7 @@ public class FileUtil {
 		return index;
 	}
 	
-	private static int createServiceTaxRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, double cGST, double sGST, double iGST, boolean isClientOutOfGuj){
+	private static int createServiceTaxRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, double cGST, double sGST, double iGST, double cGSTRate, double sGSTRate, double iGSTrate ,boolean isClientOutOfGuj){
 		
 		
 		if(!isClientOutOfGuj){
@@ -762,7 +823,7 @@ public class FileUtil {
 			cell1.setCellStyle(getLeftBorderStyle(wb));
 			
 			XSSFCell cell2 = cgstRow.createCell(6);
-			cell2.setCellValue("CGST @ " + Double.parseDouble(PropsUtil.get("cgst.rate"))*100 + "%");
+			cell2.setCellValue("CGST @ " + cGSTRate*100 + "%");
 			
 			
 			XSSFCell cell7 = cgstRow.createCell(MAX_ColUMN);
@@ -794,7 +855,7 @@ public class FileUtil {
 			cell15.setCellStyle(getBottomBorderStyle(wb));
 			
 			XSSFCell cell26 = sgstRow.createCell(6);
-			cell26.setCellValue("SGST @ "+ Double.parseDouble(PropsUtil.get("sgst.rate"))*100+ "%");
+			cell26.setCellValue("SGST @ "+ sGSTRate*100+ "%");
 			cell26.setCellStyle(style1);
 			
 			XSSFCell cell66 = sgstRow.createCell(MAX_ColUMN);
@@ -827,7 +888,7 @@ public class FileUtil {
 			cell15.setCellStyle(getBottomBorderStyle(wb));
 			
 			XSSFCell cell26 = sgstRow.createCell(6);
-			cell26.setCellValue("IGST @ "+ Double.parseDouble(PropsUtil.get("igst.rate"))*100+ "%");
+			cell26.setCellValue("IGST @ "+ iGSTrate*100+ "%");
 			cell26.setCellStyle(style1);
 			
 			XSSFCell cell66 = sgstRow.createCell(MAX_ColUMN);
@@ -844,6 +905,8 @@ public class FileUtil {
 	
 	private static int createTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, double totalAmount){
 		
+		_log.debug("in side createTotalAmountRow - >" + totalAmount);
+		
 		// Ruppes in words
 		XSSFRow totalAmountRow = sheet.createRow(index);
 		XSSFCellStyle style = getLeftBottomBorderStyle(wb);
@@ -852,6 +915,7 @@ public class FileUtil {
 		style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 		style.setAlignment(HorizontalAlignment.CENTER);
 		XSSFCell cell1 = totalAmountRow.createCell(MIN_COLUMN);
+		_log.debug("before print row  - >" );
 		cell1.setCellValue("Rupees :"+ NumberToWord.convertNumberToWords(totalAmount) + " Only");
 		cell1.setCellStyle(style);
 		
@@ -876,7 +940,7 @@ public class FileUtil {
 		XSSFCell cell6 = totalAmountRow.createCell(6);
 		cell6.setCellValue("Total");
 		cell6.setCellStyle(style2);
-		
+		_log.debug("before print row  2- >" );
 		
 		XSSFCell cell7 = totalAmountRow.createCell(MAX_ColUMN);
 		cell7.setCellValue(totalAmount);

@@ -61,8 +61,10 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 		attributes.put("hordingId", getHordingId());
 		attributes.put("landLordId", getLandLordId());
 		attributes.put("poNumber", getPoNumber());
+		attributes.put("internalPONumber", getInternalPONumber());
 		attributes.put("financialYear", getFinancialYear());
 		attributes.put("totalAmount", getTotalAmount());
+		attributes.put("customCompanyId", getCustomCompanyId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -98,6 +100,12 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 			setPoNumber(poNumber);
 		}
 
+		String internalPONumber = (String)attributes.get("internalPONumber");
+
+		if (internalPONumber != null) {
+			setInternalPONumber(internalPONumber);
+		}
+
 		String financialYear = (String)attributes.get("financialYear");
 
 		if (financialYear != null) {
@@ -108,6 +116,12 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 
 		if (totalAmount != null) {
 			setTotalAmount(totalAmount);
+		}
+
+		Long customCompanyId = (Long)attributes.get("customCompanyId");
+
+		if (customCompanyId != null) {
+			setCustomCompanyId(customCompanyId);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -237,6 +251,16 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	}
 
 	/**
+	* Returns the internal p o number of this billing_ p o.
+	*
+	* @return the internal p o number of this billing_ p o
+	*/
+	@Override
+	public java.lang.String getInternalPONumber() {
+		return _billing_PO.getInternalPONumber();
+	}
+
+	/**
 	* Returns the po number of this billing_ p o.
 	*
 	* @return the po number of this billing_ p o
@@ -294,6 +318,16 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	@Override
 	public long getCreatedBy() {
 		return _billing_PO.getCreatedBy();
+	}
+
+	/**
+	* Returns the custom company ID of this billing_ p o.
+	*
+	* @return the custom company ID of this billing_ p o
+	*/
+	@Override
+	public long getCustomCompanyId() {
+		return _billing_PO.getCustomCompanyId();
 	}
 
 	/**
@@ -366,6 +400,16 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 		_billing_PO.setCreatedBy(createdBy);
 	}
 
+	/**
+	* Sets the custom company ID of this billing_ p o.
+	*
+	* @param customCompanyId the custom company ID of this billing_ p o
+	*/
+	@Override
+	public void setCustomCompanyId(long customCompanyId) {
+		_billing_PO.setCustomCompanyId(customCompanyId);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_billing_PO.setExpandoBridgeAttributes(expandoBridge);
@@ -400,6 +444,16 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	@Override
 	public void setHordingId(long hordingId) {
 		_billing_PO.setHordingId(hordingId);
+	}
+
+	/**
+	* Sets the internal p o number of this billing_ p o.
+	*
+	* @param internalPONumber the internal p o number of this billing_ p o
+	*/
+	@Override
+	public void setInternalPONumber(java.lang.String internalPONumber) {
+		_billing_PO.setInternalPONumber(internalPONumber);
 	}
 
 	/**

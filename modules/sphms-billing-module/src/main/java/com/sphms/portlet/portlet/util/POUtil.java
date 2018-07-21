@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -48,9 +49,8 @@ public class POUtil {
 	
 	public static File createPOFile(Billing billing, List<Billing_PO> billingPOList, Booking booking, CustomCompany company) throws IOException{
 		
-		Client client = getClient(billing.getClientId());
 		
-		int index=1;
+		int index=10;
 		
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet sheet = wb.createSheet();
@@ -68,6 +68,7 @@ public class POUtil {
 	    	landLordName = landLord.getFirstName()+StringPool.SPACE+landLord.getLastName();
 	    	city = landLord.getCity();
 	    }
+	   
 	    
 	    index = createMainHeaderRow(sheet, wb, index);
 	    index = poNumberRow(sheet, wb, index, font, billingPOList.get(0), company);
@@ -99,7 +100,7 @@ public class POUtil {
 	    double iGSTCharge = 0d;
 		double cGSTCharge = 0d;
 		double sGSTCharge = 0d;
-		boolean isClientOutOfGuj = isClientOutOfGujrat(client);
+		boolean isClientOutOfGuj = isLandLordOutOfGujrat(landLord);
 		if(isClientOutOfGuj){
 			iGSTCharge = totalAmount*Double.parseDouble(PropsUtil.get("igst.rate"));
 			totalAmount = totalAmount + iGSTCharge;
@@ -138,6 +139,9 @@ public class POUtil {
 	    sheet.setColumnWidth(4,2000);
 	    sheet.setColumnWidth(5,3000);
 	    sheet.setColumnWidth(6,2000);
+	    
+	    sheet.getPrintSetup().setPaperSize(PrintSetup.A4_PAPERSIZE);
+	    sheet.setFitToPage(true);
 	    
 	    
 	 // Write the output to a file
@@ -971,9 +975,10 @@ private static int createTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int in
 		}
 		return client;
 	}
+
 	
-	private static boolean isClientOutOfGujrat(Client client){
-		if(Validator.isNotNull(client) && Validator.isNotNull(client.getState()) && !client.getState().toLowerCase().equalsIgnoreCase("gujarat")){
+	private static boolean isLandLordOutOfGujrat(LandLord landLord){
+		if(Validator.isNotNull(landLord) && Validator.isNotNull(landLord.getStatec()) && !landLord.getStatec().toLowerCase().equalsIgnoreCase("gujarat")){
 			return true;
 		}
 		return false;

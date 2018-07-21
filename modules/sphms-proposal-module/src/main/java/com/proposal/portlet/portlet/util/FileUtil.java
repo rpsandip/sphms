@@ -2,6 +2,7 @@ package com.proposal.portlet.portlet.util;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -116,7 +117,7 @@ public class FileUtil {
 		XSLFSlideMaster slideMaster = ppt.getSlideMasters().get(0);
 
 		//select a layout from specified list
-		XSLFSlideLayout slidelayout = slideMaster.getLayout(SlideLayout.TITLE_AND_CONTENT);
+		XSLFSlideLayout slidelayout = slideMaster.getLayout(SlideLayout.TITLE);
 
 		
 		XSLFSlide firstSlide = createSlide(ppt, slideMaster, slidelayout);
@@ -132,9 +133,9 @@ public class FileUtil {
 			
 	    List<XSLFShape> shapes= slide.getShapes();
 	 
-	    setSlideTitle(shapes.get(0), hording.getTitle(), hording.getCity(), hording.getSize());
+	    setSlideTitle(shapes.get(1), hording.getTitle(), hording.getCity(), hording.getSize());
 
-	    setSlidePicture(shapes.get(1), ppt, slide, hording);
+	    setSlidePicture(shapes.get(0), ppt, slide, hording);
 
 		}
 
@@ -201,16 +202,19 @@ public class FileUtil {
 	private static void setSlideTitle(XSLFShape title, String hordingTitle, String city, String size){
 		XSLFTextShape textShape = (XSLFTextShape) title;
         textShape.clearText();
+        textShape.setHorizontalCentered(true);
+        textShape.setVerticalAlignment(org.apache.poi.sl.usermodel.VerticalAlignment.BOTTOM);
         XSLFTextParagraph p = textShape.addNewTextParagraph();
+        p.setTextAlign(TextAlign.JUSTIFY_LOW);
         XSLFTextRun r1 = p.addNewTextRun();
         r1.setText(city + " " + hordingTitle + " " + size);
         r1.setFontColor(Color.BLACK);
-        r1.setFontSize(24.);
+        r1.setFontSize(24.0);
 	}
 	
 	private static void setSlidePicture(XSLFShape pic, XMLSlideShow ppt, XSLFSlide slide, Hording hording) throws FileNotFoundException, IOException{
         java.awt.geom.Rectangle2D anchor = pic.getAnchor();
-
+        anchor.setFrame(50, 50, 600, 310);
         try {
 			DLFileEntry hordingImage = DLFileEntryLocalServiceUtil.getDLFileEntry(hording.getNormalImageId());
 			
@@ -225,9 +229,6 @@ public class FileUtil {
 		} catch (PortalException e) {
 			_log.error(e);
 		}
-        
-       
-
 	}
 	
 	private static void addFirstSlide(XSLFSlide firstSlide){
@@ -235,10 +236,7 @@ public class FileUtil {
 		
 		XSLFTextShape titleShpe = (XSLFTextShape) shapes.get(0);
 		titleShpe.clearText();
-		
-		XSLFTextShape bodyShape = (XSLFTextShape) shapes.get(1);
-		bodyShape.clearText();
-        XSLFTextParagraph p = bodyShape.addNewTextParagraph();
+		XSLFTextParagraph p = titleShpe.addNewTextParagraph();
         p.addLineBreak();p.addLineBreak();p.addLineBreak();
         p.setTextAlign(TextAlign.CENTER);
         p.setBullet(false);
@@ -246,6 +244,10 @@ public class FileUtil {
         r1.setText("Photos");
         r1.setFontColor(Color.BLACK);
         r1.setFontSize(48d);
+		
+		XSLFTextShape bodyShape = (XSLFTextShape) shapes.get(1);
+		bodyShape.clearText();
+		firstSlide.removeShape(bodyShape);
 	}
 	
 	private static int createDateRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font){

@@ -83,6 +83,7 @@
 	       					 	<aui:option value="Mobile Van" selected='${hordingBean.mediaVehicle eq "Mobile Van" ? true : false }'>Mobile Van</aui:option>
 	       					 	<aui:option value="Tricycle" selected='${hordingBean.mediaVehicle eq "Tricycle" ? true : false }'>Tricycle</aui:option>
 	       					 	<aui:option value="Bus Branding" selected='${hordingBean.mediaVehicle eq "Bus Branding" ? true : false }'>Bus Branding</aui:option>
+	       					 	<aui:option value="Gantry" selected='${hordingBean.mediaVehicle eq "Gantry" ? true : false }'>Gantry</aui:option>
 							 </aui:select>
 						</div>
 						<div class="form-group col-md-3">

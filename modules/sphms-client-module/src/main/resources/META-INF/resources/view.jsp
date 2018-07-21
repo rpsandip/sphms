@@ -17,7 +17,7 @@
  	 <div class="col-xs-12">
      	<div class="box">
             <div class="box-body">
-            	<table id="clients" class="display table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+            	<table id="clients" class="display table table-bordered table-hover table-striped">
 					<thead>
 			            <tr>
 			                <th>Client Name</th>
@@ -31,6 +31,7 @@
 			                <th>PAN No</th>
 			                <th>GST No</th>
 			                <th>Action</th>
+			                <th>Credit Note</th>
 			            </tr>
      			   </thead>
         		   <tbody>
@@ -77,6 +78,8 @@
             		 "pageLength": 50,
             		 "order": []
             	 });
+            	 
+            	 $("#clients").removeClass("dataTable	");
             });
         })(jQuery);
  </script>

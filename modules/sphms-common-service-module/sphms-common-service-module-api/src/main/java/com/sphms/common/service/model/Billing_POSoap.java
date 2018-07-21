@@ -39,8 +39,10 @@ public class Billing_POSoap implements Serializable {
 		soapModel.setHordingId(model.getHordingId());
 		soapModel.setLandLordId(model.getLandLordId());
 		soapModel.setPoNumber(model.getPoNumber());
+		soapModel.setInternalPONumber(model.getInternalPONumber());
 		soapModel.setFinancialYear(model.getFinancialYear());
 		soapModel.setTotalAmount(model.getTotalAmount());
+		soapModel.setCustomCompanyId(model.getCustomCompanyId());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setCreatedBy(model.getCreatedBy());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -131,6 +133,14 @@ public class Billing_POSoap implements Serializable {
 		_poNumber = poNumber;
 	}
 
+	public String getInternalPONumber() {
+		return _internalPONumber;
+	}
+
+	public void setInternalPONumber(String internalPONumber) {
+		_internalPONumber = internalPONumber;
+	}
+
 	public String getFinancialYear() {
 		return _financialYear;
 	}
@@ -145,6 +155,14 @@ public class Billing_POSoap implements Serializable {
 
 	public void setTotalAmount(double totalAmount) {
 		_totalAmount = totalAmount;
+	}
+
+	public long getCustomCompanyId() {
+		return _customCompanyId;
+	}
+
+	public void setCustomCompanyId(long customCompanyId) {
+		_customCompanyId = customCompanyId;
 	}
 
 	public Date getCreateDate() {
@@ -191,8 +209,10 @@ public class Billing_POSoap implements Serializable {
 	private long _hordingId;
 	private long _landLordId;
 	private String _poNumber;
+	private String _internalPONumber;
 	private String _financialYear;
 	private double _totalAmount;
+	private long _customCompanyId;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

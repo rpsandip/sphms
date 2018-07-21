@@ -1,5 +1,6 @@
 package com.booking.portlet.portlet.actioncommand;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,7 +50,7 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 	Log _log = LogFactoryUtil.getLog(AddBookingActionCommand.class.getName());
 	
 	@Override
-	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse){
+	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws IOException{
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long bookingId = ParamUtil.getLong(actionRequest, "bookingId");
@@ -93,45 +94,9 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 			try{
 				// Add Booking 
 				Booking booking = BookingLocalServiceUtil.addBooking(campaignTitle, clientId, companyId,startDate, endDate, bookingHordingBeanList, themeDisplay.getUserId(), themeDisplay.getUserId());
-				CustomCompany company = CustomCompanyLocalServiceUtil.getCustomCompany(booking.getCustomCompanyId());
-	
-				if(Validator.isNotNull(booking) && Validator.isNotNull(company)){
-					
-					Billing billing = null;
-					List<Billing_HordingBean> billing_HordingBeansList = new ArrayList<Billing_HordingBean>();
-					try {
-						billing = BillingLocalServiceUtil.getBillingFromBookingId(booking.getBookingId());
-						List<Billing_Hording> billingHordingList = Billing_HordingLocalServiceUtil.getBillingHordingList(billing.getBillingId());
-						for(Billing_Hording billingHording : billingHordingList){
-							Billing_HordingBean billingHordingBean = new Billing_HordingBean(billingHording);
-							billing_HordingBeansList.add(billingHordingBean);
-						}
-					} catch (Exception e1) {
-						_log.error(e1);
-					}
 				
-					/*
-					FileEntry xlsxFileEntry= null;
-					try {
-						xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,billing_HordingBeansList, false, company);
-					} catch (PortalException | IOException e) {
-						_log.error(e);
-					}
-					
-					if(Validator.isNotNull(xlsxFileEntry)){
-						_log.info("Booking Xlsx file created successfully->" + xlsxFileEntry.getFileEntryId());
-						
-						// Update booking with bill fileEntryId
-						booking.setBillId(xlsxFileEntry.getFileEntryId());
-						BookingLocalServiceUtil.updateBooking(booking);
-						
-						// Need to update billing table with bill fileEntryId
-						if(Validator.isNotNull(billing)){
-							billing.setBillFileEntryId(xlsxFileEntry.getFileEntryId());
-							BillingLocalServiceUtil.updateBilling(billing);
-						}
-					}*/
-					SessionMessages.add(actionRequest, "booking-added-successfully");
+				if(Validator.isNotNull(booking)){
+					actionResponse.sendRedirect("/group/guest/booking?status=add-success");
 				}else{
 					SessionErrors.add(actionRequest, "err-add-booking");
 					actionResponse.setRenderParameter("mvcRenderCommandName", "/add_booking");
@@ -147,31 +112,8 @@ public class AddBookingActionCommand extends BaseMVCActionCommand{
 		   // Update booking
 		  try {
 			Booking booking = BookingLocalServiceUtil.updateBooking(bookingId, campaignTitle, clientId, companyId,startDate, endDate, bookingHordingBeanList, themeDisplay.getUserId());
-			CustomCompany company = CustomCompanyLocalServiceUtil.getCustomCompany(booking.getCustomCompanyId());
 			if(Validator.isNotNull(booking)){
-				
-				Billing billing = null;
-				List<Billing_HordingBean> billing_HordingBeansList = new ArrayList<Billing_HordingBean>();
-				try {
-					billing = BillingLocalServiceUtil.getBillingFromBookingId(booking.getBookingId());
-					List<Billing_Hording> billingHordingList = Billing_HordingLocalServiceUtil.getBillingHordingList(billing.getBillingId());
-					for(Billing_Hording billingHording : billingHordingList){
-						Billing_HordingBean billingHordingBean = new Billing_HordingBean(billingHording);
-						billing_HordingBeansList.add(billingHordingBean);
-					}
-				} catch (Exception e1) {
-					_log.error(e1);
-				}
-				
-				/*
-				FileEntry xlsxFileEntry= null;
-				try {
-					xlsxFileEntry = FileUtil.createBillXlsForBooking(booking, billing,billing_HordingBeansList, true, company);
-				} catch (PortalException | IOException e) {
-					_log.error(e);
-				}*/
-				
-				SessionMessages.add(actionRequest, "booking-updated-successfully");
+				actionResponse.sendRedirect("/group/guest/booking?status=update-success");
 			}else{
 				SessionErrors.add(actionRequest, "err-add-booking");
 				actionResponse.setRenderParameter("mvcRenderCommandName", "/add_booking");

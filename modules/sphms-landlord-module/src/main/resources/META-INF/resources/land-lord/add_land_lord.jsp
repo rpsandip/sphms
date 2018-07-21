@@ -54,6 +54,12 @@
        					</div>
        				</div>
        				<div class="row">
+       					<div class="form-group col-md-6">	
+						 	<aui:input name="state" label="State" cssClass="form-control" value="${landLord.statec }">
+					     		<aui:validator name="required" />
+					     		<aui:validator name="maxLength">70</aui:validator>
+						 	</aui:input>
+       					</div>
        					<div class="form-group col-md-6">
        						 <aui:input name="phoneNo" label="phoneNo" cssClass="form-control" value="${landLord.phoneNo }">
 					    	 	<aui:validator name="required" />
