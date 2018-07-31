@@ -334,7 +334,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("financialYear", SPHMSCommonLocalServiceUtil.getFinancialYear()));
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", companyId));
 		dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("billNo"));
-		Order defaultOrder = OrderFactoryUtil.desc("createDate");
+		Order defaultOrder = OrderFactoryUtil.desc("billNo");
 		dynamicQuery.addOrder(defaultOrder);
 		dynamicQuery.setLimit(0, 1);
 		List<Billing> billingList = BillingLocalServiceUtil.dynamicQuery(dynamicQuery);

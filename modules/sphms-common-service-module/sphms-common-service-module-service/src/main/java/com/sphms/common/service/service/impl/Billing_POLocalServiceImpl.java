@@ -116,7 +116,7 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 					dynamicQuery.add(RestrictionsFactoryUtil.eq("financialYear", SPHMSCommonLocalServiceUtil.getFinancialYear()));
 					dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("poNumber"));
 					dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", companyId));
-					Order defaultOrder = OrderFactoryUtil.desc("createDate");
+					Order defaultOrder = OrderFactoryUtil.desc("poNumber");
 					dynamicQuery.addOrder(defaultOrder);
 					dynamicQuery.setLimit(0, 1);
 					List<Billing_PO> poList = Billing_POLocalServiceUtil.dynamicQuery(dynamicQuery);

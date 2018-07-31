@@ -132,6 +132,7 @@ public class BookingLocalServiceImpl extends BookingLocalServiceBaseImpl {
 				// Update billing for clientId
 				Billing billing = BillingLocalServiceUtil.getBillingFromBookingId(booking.getBookingId());
 				billing.setClientId(client);
+				billing.setCustomCompanyId(companyId);
 				BillingLocalServiceUtil.updateBilling(billing);
 				
 				// Update Billing Hording units, total printing charge, total mounting charge.
