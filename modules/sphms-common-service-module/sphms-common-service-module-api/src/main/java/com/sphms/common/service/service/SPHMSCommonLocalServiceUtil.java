@@ -104,11 +104,12 @@ public class SPHMSCommonLocalServiceUtil {
 	}
 
 	public static java.util.List<com.sphms.common.service.beans.HordingBean> searchHordings(
-		java.lang.String keyword, java.lang.String city, int height, int width,
+		java.lang.String keyword, java.lang.String city,
+		java.lang.String distinct, int height, int width,
 		java.util.Date startDate, java.util.Date endDate, int start, int end) {
 		return getService()
-				   .searchHordings(keyword, city, height, width, startDate,
-			endDate, start, end);
+				   .searchHordings(keyword, city, distinct, height, width,
+			startDate, endDate, start, end);
 	}
 
 	public static long getDisplayDuration(java.util.Date startDate,
@@ -121,11 +122,11 @@ public class SPHMSCommonLocalServiceUtil {
 	}
 
 	public static long searchHordingCount(java.lang.String keyword,
-		java.lang.String city, int height, int width, java.util.Date startDate,
-		java.util.Date endDate) {
+		java.lang.String city, java.lang.String distinct, int height,
+		int width, java.util.Date startDate, java.util.Date endDate) {
 		return getService()
-				   .searchHordingCount(keyword, city, height, width, startDate,
-			endDate);
+				   .searchHordingCount(keyword, city, distinct, height, width,
+			startDate, endDate);
 	}
 
 	public static SPHMSCommonLocalService getService() {

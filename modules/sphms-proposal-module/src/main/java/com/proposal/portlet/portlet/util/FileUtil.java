@@ -200,10 +200,13 @@ public class FileUtil {
 	}
 	
 	private static void setSlideTitle(XSLFShape title, String hordingTitle, String city, String size){
+		java.awt.geom.Rectangle2D anchor = title.getAnchor();
+		anchor.setFrame(50, 100, 600, 400);
 		XSLFTextShape textShape = (XSLFTextShape) title;
         textShape.clearText();
         textShape.setHorizontalCentered(true);
         textShape.setVerticalAlignment(org.apache.poi.sl.usermodel.VerticalAlignment.BOTTOM);
+        textShape.setAnchor(anchor);
         XSLFTextParagraph p = textShape.addNewTextParagraph();
         p.setTextAlign(TextAlign.JUSTIFY_LOW);
         XSLFTextRun r1 = p.addNewTextRun();
@@ -214,7 +217,7 @@ public class FileUtil {
 	
 	private static void setSlidePicture(XSLFShape pic, XMLSlideShow ppt, XSLFSlide slide, Hording hording) throws FileNotFoundException, IOException{
         java.awt.geom.Rectangle2D anchor = pic.getAnchor();
-        anchor.setFrame(50, 50, 600, 310);
+        anchor.setFrame(50, 50, 600, 390);
         try {
 			DLFileEntry hordingImage = DLFileEntryLocalServiceUtil.getDLFileEntry(hording.getNormalImageId());
 			

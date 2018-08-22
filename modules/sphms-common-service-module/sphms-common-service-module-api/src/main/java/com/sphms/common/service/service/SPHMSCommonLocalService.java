@@ -98,8 +98,8 @@ public interface SPHMSCommonLocalService extends BaseLocalService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<HordingBean> searchHordings(java.lang.String keyword,
-		java.lang.String city, int height, int width, Date startDate,
-		Date endDate, int start, int end);
+		java.lang.String city, java.lang.String distinct, int height,
+		int width, Date startDate, Date endDate, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getDisplayDuration(Date startDate, Date endDate);
@@ -109,6 +109,6 @@ public interface SPHMSCommonLocalService extends BaseLocalService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long searchHordingCount(java.lang.String keyword,
-		java.lang.String city, int height, int width, Date startDate,
-		Date endDate);
+		java.lang.String city, java.lang.String distinct, int height,
+		int width, Date startDate, Date endDate);
 }

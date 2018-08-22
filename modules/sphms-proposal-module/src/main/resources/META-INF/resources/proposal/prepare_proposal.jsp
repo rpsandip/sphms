@@ -33,10 +33,12 @@
 
 				 <div class="form-group col-md-12">
 					<aui:input type="text" name="keyword" label="keyword"/>
-			   	 </div>
-				 
+			   	 </div> 
 				 <div class="form-group col-md-12">
 						<aui:input type="text" name="city" label="city"/>
+				 </div>
+				 <div class="form-group col-md-12">
+						<aui:input type="text" name="distinct" label="distinct"/>
 				 </div>
 				 <div class="form-group col-md-12">
 				 	<aui:input type="text" name="width" label="width">
@@ -109,13 +111,14 @@ jQuery.noConflict();
 		  // TODO : Need some work here 
 		  var keyword = "dcdsavjkdsnvjkvdnvjkdvndsjknvjvnjnvnj";//$('#'+ '<portlet:namespace/>' + 'keyword').val();
 		  var city = $('#'+ '<portlet:namespace/>' + 'city').val();
+		  var distinct = $('#'+ '<portlet:namespace/>' + 'distinct').val();
 		  var height = $('#'+ '<portlet:namespace/>' + 'height').val();
 		  var width = $('#'+ '<portlet:namespace/>' + 'width').val();
 		  var startDate = $('#'+ '<portlet:namespace/>' + 'startDate').val();
 		  var endDate = $('#'+ '<portlet:namespace/>' + 'endDate').val();
 		  
-		  var searchHordingURL = '${searchHordingActionURL}&<portlet:namespace />keyword='+keyword+'&<portlet:namespace />city='+city+
-		  '&<portlet:namespace />height='+height+'&<portlet:namespace />width='+width+'&<portlet:namespace />startDate='+startDate+
+		  var searchHordingURL = '${searchHordingActionURL}&<portlet:namespace />keyword='+keyword+'&<portlet:namespace />city='+city+'&<portlet:namespace />distinct='+distinct
+		  +'&<portlet:namespace />height='+height+'&<portlet:namespace />width='+width+'&<portlet:namespace />startDate='+startDate+
 		  '&<portlet:namespace />endDate='+endDate;
 		  
 		  hordinfDataTable =  $('#hordinglist').DataTable({
@@ -187,12 +190,13 @@ jQuery.noConflict();
     	
     	var keyword = $('#'+ '<portlet:namespace/>' + 'keyword').val();
 		  var city = $('#'+ '<portlet:namespace/>' + 'city').val();
+		  var distinct = $('#'+ '<portlet:namespace/>' + 'distinct').val();
 		  var height = $('#'+ '<portlet:namespace/>' + 'height').val();
 		  var width = $('#'+ '<portlet:namespace/>' + 'width').val();
 		  var startDate = $('#'+ '<portlet:namespace/>' + 'startDate').val();
 		  var endDate = $('#'+ '<portlet:namespace/>' + 'endDate').val();
 		  
-		  var searchHordingURL = '${searchHordingActionURL}&<portlet:namespace />keyword='+keyword+'&<portlet:namespace />city='+city+
+		  var searchHordingURL = '${searchHordingActionURL}&<portlet:namespace />keyword='+keyword+'&<portlet:namespace />city='+city+'&<portlet:namespace />distinct='+distinct+
 		  '&<portlet:namespace />height='+height+'&<portlet:namespace />width='+width+'&<portlet:namespace />startDate='+startDate+
 		  '&<portlet:namespace />endDate='+endDate;
 		  

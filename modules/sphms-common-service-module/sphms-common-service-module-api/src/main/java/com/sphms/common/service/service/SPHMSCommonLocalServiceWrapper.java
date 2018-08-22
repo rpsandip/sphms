@@ -111,10 +111,11 @@ public class SPHMSCommonLocalServiceWrapper implements SPHMSCommonLocalService,
 
 	@Override
 	public java.util.List<com.sphms.common.service.beans.HordingBean> searchHordings(
-		java.lang.String keyword, java.lang.String city, int height, int width,
+		java.lang.String keyword, java.lang.String city,
+		java.lang.String distinct, int height, int width,
 		java.util.Date startDate, java.util.Date endDate, int start, int end) {
-		return _sphmsCommonLocalService.searchHordings(keyword, city, height,
-			width, startDate, endDate, start, end);
+		return _sphmsCommonLocalService.searchHordings(keyword, city, distinct,
+			height, width, startDate, endDate, start, end);
 	}
 
 	@Override
@@ -130,10 +131,10 @@ public class SPHMSCommonLocalServiceWrapper implements SPHMSCommonLocalService,
 
 	@Override
 	public long searchHordingCount(java.lang.String keyword,
-		java.lang.String city, int height, int width, java.util.Date startDate,
-		java.util.Date endDate) {
+		java.lang.String city, java.lang.String distinct, int height,
+		int width, java.util.Date startDate, java.util.Date endDate) {
 		return _sphmsCommonLocalService.searchHordingCount(keyword, city,
-			height, width, startDate, endDate);
+			distinct, height, width, startDate, endDate);
 	}
 
 	@Override

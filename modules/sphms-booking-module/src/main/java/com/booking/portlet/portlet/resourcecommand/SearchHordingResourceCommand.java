@@ -50,6 +50,7 @@ public class SearchHordingResourceCommand implements MVCResourceCommand{
 		HttpServletRequest httpRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(resourceRequest));
 		String keyword  = ParamUtil.get(resourceRequest, "keyword", StringPool.BLANK);
 		String city = ParamUtil.get(resourceRequest, "city", StringPool.BLANK);
+		String distinct = ParamUtil.get(resourceRequest, "distinct", StringPool.BLANK);
 		int height = ParamUtil.getInteger(resourceRequest, "height");
 		int width = ParamUtil.getInteger(resourceRequest, "width");
 		String startDateStr = ParamUtil.getString(resourceRequest, "startDate");
@@ -68,8 +69,8 @@ public class SearchHordingResourceCommand implements MVCResourceCommand{
 			} 
 		}
 		
-		List<HordingBean> hordingBeanList = SPHMSCommonLocalServiceUtil.searchHordings(keyword, city, height, width, startDate, endDate, start, start+length);
-		long totalHordingList = SPHMSCommonLocalServiceUtil.searchHordingCount(keyword, city, height, width, startDate, endDate);
+		List<HordingBean> hordingBeanList = SPHMSCommonLocalServiceUtil.searchHordings(keyword, city, distinct,height, width, startDate, endDate, start, start+length);
+		long totalHordingList = SPHMSCommonLocalServiceUtil.searchHordingCount(keyword, city, distinct,height, width, startDate, endDate);
 		
 		_log.info("hordingBeanList->" + hordingBeanList.size());
 		
