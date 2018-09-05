@@ -1,0 +1,5 @@
+Bundle-Name: sphms-report-module
+Bundle-SymbolicName: com.report.portlet
+Bundle-Version: 1.0.0
+Export-Package: com.report.portlet.constants
+    

@@ -36,6 +36,7 @@ import com.sphms.common.service.model.LandLord;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -205,6 +206,18 @@ public interface LandLordLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LandLord> getActiveLandLords(int start, int end);
+
+	/**
+	* This method will a common method to retrive a LandLoad Report
+	*
+	* @param landLoadId
+	* @param startDate
+	* @param endDate
+	* @return
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<java.lang.Object> getLandLoadFilter(long landLoadId,
+		Date startDate, Date endDate);
 
 	/**
 	* Returns a range of all the land lords.

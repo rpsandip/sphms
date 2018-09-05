@@ -247,6 +247,21 @@ public class LandLordLocalServiceWrapper implements LandLordLocalService,
 	}
 
 	/**
+	* This method will a common method to retrive a LandLoad Report
+	*
+	* @param landLoadId
+	* @param startDate
+	* @param endDate
+	* @return
+	*/
+	@Override
+	public java.util.List<java.lang.Object> getLandLoadFilter(long landLoadId,
+		java.util.Date startDate, java.util.Date endDate) {
+		return _landLordLocalService.getLandLoadFilter(landLoadId, startDate,
+			endDate);
+	}
+
+	/**
 	* Returns a range of all the land lords.
 	*
 	* <p>

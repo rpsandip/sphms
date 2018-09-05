@@ -119,6 +119,18 @@ public class LandLordLocalServiceImpl extends LandLordLocalServiceBaseImpl {
 		landLordList = LandLordLocalServiceUtil.dynamicQuery(dynamicQuery);
 		return landLordList;
 	}
+	/**
+	 * This method will a common method to retrive a LandLoad Report
+	 * @param landLoadId
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public List<Object> getLandLoadFilter(long landLoadId,Date startDate,Date endDate){
+		
+		return landLordFinder.findLandLoadDetailFilter(landLoadId, startDate, endDate);
+	}
+	
 	
 	private boolean isValidParam (String fName, String lName, String location, String city, String phoneNo){
 		boolean isValidParam = true;
@@ -127,4 +139,6 @@ public class LandLordLocalServiceImpl extends LandLordLocalServiceBaseImpl {
 		}
 		return isValidParam;
 	}
+	
+	
 }

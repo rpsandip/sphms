@@ -238,6 +238,19 @@ public class LandLordLocalServiceUtil {
 	}
 
 	/**
+	* This method will a common method to retrive a LandLoad Report
+	*
+	* @param landLoadId
+	* @param startDate
+	* @param endDate
+	* @return
+	*/
+	public static java.util.List<java.lang.Object> getLandLoadFilter(
+		long landLoadId, java.util.Date startDate, java.util.Date endDate) {
+		return getService().getLandLoadFilter(landLoadId, startDate, endDate);
+	}
+
+	/**
 	* Returns a range of all the land lords.
 	*
 	* <p>
