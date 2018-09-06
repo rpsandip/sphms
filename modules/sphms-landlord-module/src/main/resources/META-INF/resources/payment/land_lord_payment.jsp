@@ -30,11 +30,13 @@
        		<div class="box-body">
        			<aui:form name="landLordPaymentForm" action="${addLandLordPayMentURL}" cssClass="row contact_form">
        				<div class="row">
+	       				<div class="form-group col-md-6">
 	       				<aui:select name="hordingId" label="Hording" cssClass="form-control">
 	       					<c:forEach items="${landLordHordingList }" var="hording">
 	       						<aui:option value="${hording.hordingId }"  selected='${hording.hordingId eq landLordPayment.hordingId ? true : false }'>${hording.title }</aui:option>
 	       					</c:forEach>	
 	       				</aui:select>
+	       				</div>
 					</div>
 					<div class="row">		 
 						<div class="form-group col-md-6">
@@ -61,6 +63,13 @@
        				<div class="row">		 
 						<div class="form-group col-md-6">
 							 <aui:input name="bankName" label="bankName" cssClass="form-control" value="${landLordPayment.bankName }"> 
+							 </aui:input>
+	       				</div>
+       				</div>
+       				<div class="row">		 
+						<div class="form-group col-md-6">
+							 <aui:input name="description" label="Description" cssClass="form-control" value="${landLordPayment.description }"> 
+							 	<aui:validator name="max">900</aui:validator>
 							 </aui:input>
 	       				</div>
        				</div>

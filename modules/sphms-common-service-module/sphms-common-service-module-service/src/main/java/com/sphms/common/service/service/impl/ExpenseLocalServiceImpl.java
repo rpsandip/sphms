@@ -51,13 +51,15 @@ public class ExpenseLocalServiceImpl extends ExpenseLocalServiceBaseImpl {
 	/*
 	 * Add Expense
 	 */
-	public Expense addExpense(String type, double amount, String description, Date expenseDate, long customCompanyId,long createdBy){
+	public Expense addExpense(String type, double amount, String description, Date expenseDate, String chequeNo, String bankName,long customCompanyId,long createdBy){
 		Expense expense = ExpenseLocalServiceUtil.createExpense(CounterLocalServiceUtil.increment());
 		expense.setType(type);
 		expense.setDescription(description);
 		expense.setAmount(amount);
 		expense.setExpenseDate(expenseDate);
 		expense.setCreatedBy(createdBy);
+		expense.setChequeNo(chequeNo);
+		expense.setBankName(bankName);
 		expense.setModifiedBy(createdBy);
 		expense.setCreateDate(new Date());
 		expense.setModifiedDate(new Date());
@@ -70,11 +72,13 @@ public class ExpenseLocalServiceImpl extends ExpenseLocalServiceBaseImpl {
 	/*
 	 * Update Expense
 	 */
-	public Expense updateExpense(long expenseId,String type,double amount, String description, Date expenseDate, long customCompanyId ,long modifiedBy) throws PortalException{
+	public Expense updateExpense(long expenseId,String type,double amount, String description, Date expenseDate, String chequeNo, String bankName,long customCompanyId ,long modifiedBy) throws PortalException{
 		Expense expense = ExpenseLocalServiceUtil.getExpense(expenseId);
 		expense.setType(type);
 		expense.setAmount(amount);
 		expense.setDescription(description);
+		expense.setChequeNo(chequeNo);
+		expense.setBankName(bankName);
 		expense.setExpenseDate(expenseDate);
 		expense.setModifiedBy(modifiedBy);
 		expense.setModifiedDate(new Date());

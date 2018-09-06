@@ -38,7 +38,7 @@
 						<aui:input type="text" name="city" label="city"/>
 				 </div>
 				 <div class="form-group col-md-12">
-						<aui:input type="text" name="distinct" label="distinct"/>
+						<aui:input type="text" name="distinct" label="Distinct"/>
 				 </div>
 				 <div class="form-group col-md-12">
 				 	<aui:input type="text" name="width" label="width">

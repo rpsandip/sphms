@@ -23,6 +23,7 @@
 	<bean class="com.sphms.common.service.service.persistence.impl.HordingPersistenceImpl" id="com.sphms.common.service.service.persistence.HordingPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.LandLordLocalServiceImpl" id="com.sphms.common.service.service.LandLordLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.LandLordPersistenceImpl" id="com.sphms.common.service.service.persistence.LandLordPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.persistence.impl.LandLordFinderImpl" id="com.sphms.common.service.service.persistence.LandLordFinder" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.LandLordPaymentLocalServiceImpl" id="com.sphms.common.service.service.LandLordPaymentLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.LandLordPaymentPersistenceImpl" id="com.sphms.common.service.service.persistence.LandLordPaymentPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.PaymentLocalServiceImpl" id="com.sphms.common.service.service.PaymentLocalService" />

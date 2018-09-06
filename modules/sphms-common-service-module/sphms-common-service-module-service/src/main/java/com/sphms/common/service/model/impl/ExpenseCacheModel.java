@@ -65,7 +65,7 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{expenseId=");
 		sb.append(expenseId);
@@ -79,6 +79,10 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 		sb.append(description);
 		sb.append(", expenseDate=");
 		sb.append(expenseDate);
+		sb.append(", chequeNo=");
+		sb.append(chequeNo);
+		sb.append(", bankName=");
+		sb.append(bankName);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", createdBy=");
@@ -122,6 +126,20 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 			expenseImpl.setExpenseDate(new Date(expenseDate));
 		}
 
+		if (chequeNo == null) {
+			expenseImpl.setChequeNo(StringPool.BLANK);
+		}
+		else {
+			expenseImpl.setChequeNo(chequeNo);
+		}
+
+		if (bankName == null) {
+			expenseImpl.setBankName(StringPool.BLANK);
+		}
+		else {
+			expenseImpl.setBankName(bankName);
+		}
+
 		if (createDate == Long.MIN_VALUE) {
 			expenseImpl.setCreateDate(null);
 		}
@@ -155,6 +173,8 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 		amount = objectInput.readDouble();
 		description = objectInput.readUTF();
 		expenseDate = objectInput.readLong();
+		chequeNo = objectInput.readUTF();
+		bankName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 
 		createdBy = objectInput.readLong();
@@ -187,6 +207,21 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 		}
 
 		objectOutput.writeLong(expenseDate);
+
+		if (chequeNo == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(chequeNo);
+		}
+
+		if (bankName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(bankName);
+		}
+
 		objectOutput.writeLong(createDate);
 
 		objectOutput.writeLong(createdBy);
@@ -201,6 +236,8 @@ public class ExpenseCacheModel implements CacheModel<Expense>, Externalizable {
 	public double amount;
 	public String description;
 	public long expenseDate;
+	public String chequeNo;
+	public String bankName;
 	public long createDate;
 	public long createdBy;
 	public long modifiedDate;

@@ -63,6 +63,8 @@ public class ExpenseWrapper implements Expense, ModelWrapper<Expense> {
 		attributes.put("amount", getAmount());
 		attributes.put("description", getDescription());
 		attributes.put("expenseDate", getExpenseDate());
+		attributes.put("chequeNo", getChequeNo());
+		attributes.put("bankName", getBankName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -107,6 +109,18 @@ public class ExpenseWrapper implements Expense, ModelWrapper<Expense> {
 
 		if (expenseDate != null) {
 			setExpenseDate(expenseDate);
+		}
+
+		String chequeNo = (String)attributes.get("chequeNo");
+
+		if (chequeNo != null) {
+			setChequeNo(chequeNo);
+		}
+
+		String bankName = (String)attributes.get("bankName");
+
+		if (bankName != null) {
+			setBankName(bankName);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -197,6 +211,26 @@ public class ExpenseWrapper implements Expense, ModelWrapper<Expense> {
 	@Override
 	public java.lang.Object clone() {
 		return new ExpenseWrapper((Expense)_expense.clone());
+	}
+
+	/**
+	* Returns the bank name of this expense.
+	*
+	* @return the bank name of this expense
+	*/
+	@Override
+	public java.lang.String getBankName() {
+		return _expense.getBankName();
+	}
+
+	/**
+	* Returns the cheque no of this expense.
+	*
+	* @return the cheque no of this expense
+	*/
+	@Override
+	public java.lang.String getChequeNo() {
+		return _expense.getChequeNo();
 	}
 
 	/**
@@ -324,9 +358,29 @@ public class ExpenseWrapper implements Expense, ModelWrapper<Expense> {
 		_expense.setAmount(amount);
 	}
 
+	/**
+	* Sets the bank name of this expense.
+	*
+	* @param bankName the bank name of this expense
+	*/
+	@Override
+	public void setBankName(java.lang.String bankName) {
+		_expense.setBankName(bankName);
+	}
+
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_expense.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the cheque no of this expense.
+	*
+	* @param chequeNo the cheque no of this expense
+	*/
+	@Override
+	public void setChequeNo(java.lang.String chequeNo) {
+		_expense.setChequeNo(chequeNo);
 	}
 
 	/**

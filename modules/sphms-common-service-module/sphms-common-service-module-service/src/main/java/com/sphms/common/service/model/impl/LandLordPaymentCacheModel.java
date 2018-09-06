@@ -66,7 +66,7 @@ public class LandLordPaymentCacheModel implements CacheModel<LandLordPayment>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{landLordPaymentId=");
 		sb.append(landLordPaymentId);
@@ -82,6 +82,8 @@ public class LandLordPaymentCacheModel implements CacheModel<LandLordPayment>,
 		sb.append(bankName);
 		sb.append(", paymentDate=");
 		sb.append(paymentDate);
+		sb.append(", description=");
+		sb.append(description);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", createdBy=");
@@ -121,6 +123,13 @@ public class LandLordPaymentCacheModel implements CacheModel<LandLordPayment>,
 			landLordPaymentImpl.setPaymentDate(new Date(paymentDate));
 		}
 
+		if (description == null) {
+			landLordPaymentImpl.setDescription(StringPool.BLANK);
+		}
+		else {
+			landLordPaymentImpl.setDescription(description);
+		}
+
 		if (createDate == Long.MIN_VALUE) {
 			landLordPaymentImpl.setCreateDate(null);
 		}
@@ -147,6 +156,7 @@ public class LandLordPaymentCacheModel implements CacheModel<LandLordPayment>,
 		chequeNo = objectInput.readUTF();
 		bankName = objectInput.readUTF();
 		paymentDate = objectInput.readLong();
+		description = objectInput.readUTF();
 		createDate = objectInput.readLong();
 
 		createdBy = objectInput.readLong();
@@ -178,6 +188,14 @@ public class LandLordPaymentCacheModel implements CacheModel<LandLordPayment>,
 		}
 
 		objectOutput.writeLong(paymentDate);
+
+		if (description == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(description);
+		}
+
 		objectOutput.writeLong(createDate);
 
 		objectOutput.writeLong(createdBy);
@@ -190,6 +208,7 @@ public class LandLordPaymentCacheModel implements CacheModel<LandLordPayment>,
 	public String chequeNo;
 	public String bankName;
 	public long paymentDate;
+	public String description;
 	public long createDate;
 	public long createdBy;
 }

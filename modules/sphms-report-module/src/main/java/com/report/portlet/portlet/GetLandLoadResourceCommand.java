@@ -40,7 +40,7 @@ public class GetLandLoadResourceCommand implements MVCResourceCommand{
 		
 		Log _log = LogFactoryUtil.getLog(GetLandLoadResourceCommand.class.getName());
 		
-		long landLoadId = ParamUtil.getLong(resourceRequest, "clientId");
+		long landLoadId = ParamUtil.getLong(resourceRequest, "landLoadId");
 		String startDateStr = ParamUtil.getString(resourceRequest, "startDate");
 		String endDateStr = ParamUtil.getString(resourceRequest, "endDate");
 		JSONObject responseObj = JSONFactoryUtil.createJSONObject();
@@ -76,6 +76,8 @@ public class GetLandLoadResourceCommand implements MVCResourceCommand{
 				dataArray.put(proposalJsonObj);
 		}
 		responseObj.put("aaData", dataArray);
+		responseObj.put("iTotalRecords", dataArray.length());
+		responseObj.put("iTotalDisplayRecords", dataArray.length());
 		    
 		 try {
 				resourceResponse.getWriter().write(responseObj.toString());

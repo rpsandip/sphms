@@ -65,6 +65,7 @@ public class LandLordPaymentWrapper implements LandLordPayment,
 		attributes.put("chequeNo", getChequeNo());
 		attributes.put("bankName", getBankName());
 		attributes.put("paymentDate", getPaymentDate());
+		attributes.put("description", getDescription());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 
@@ -113,6 +114,12 @@ public class LandLordPaymentWrapper implements LandLordPayment,
 
 		if (paymentDate != null) {
 			setPaymentDate(paymentDate);
+		}
+
+		String description = (String)attributes.get("description");
+
+		if (description != null) {
+			setDescription(description);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -211,6 +218,16 @@ public class LandLordPaymentWrapper implements LandLordPayment,
 	@Override
 	public java.lang.String getChequeNo() {
 		return _landLordPayment.getChequeNo();
+	}
+
+	/**
+	* Returns the description of this land lord payment.
+	*
+	* @return the description of this land lord payment
+	*/
+	@Override
+	public java.lang.String getDescription() {
+		return _landLordPayment.getDescription();
 	}
 
 	@Override
@@ -351,6 +368,16 @@ public class LandLordPaymentWrapper implements LandLordPayment,
 	@Override
 	public void setCreatedBy(long createdBy) {
 		_landLordPayment.setCreatedBy(createdBy);
+	}
+
+	/**
+	* Sets the description of this land lord payment.
+	*
+	* @param description the description of this land lord payment
+	*/
+	@Override
+	public void setDescription(java.lang.String description) {
+		_landLordPayment.setDescription(description);
 	}
 
 	@Override

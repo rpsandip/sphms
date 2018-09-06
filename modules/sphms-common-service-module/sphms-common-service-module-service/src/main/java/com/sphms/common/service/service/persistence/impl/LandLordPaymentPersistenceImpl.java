@@ -856,6 +856,7 @@ public class LandLordPaymentPersistenceImpl extends BasePersistenceImpl<LandLord
 		landLordPaymentImpl.setChequeNo(landLordPayment.getChequeNo());
 		landLordPaymentImpl.setBankName(landLordPayment.getBankName());
 		landLordPaymentImpl.setPaymentDate(landLordPayment.getPaymentDate());
+		landLordPaymentImpl.setDescription(landLordPayment.getDescription());
 		landLordPaymentImpl.setCreateDate(landLordPayment.getCreateDate());
 		landLordPaymentImpl.setCreatedBy(landLordPayment.getCreatedBy());
 

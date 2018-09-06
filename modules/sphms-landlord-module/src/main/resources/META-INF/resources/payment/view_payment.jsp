@@ -18,6 +18,7 @@
 			                <th>Payment Date</th>
 			                <th>Amount</th>
 			                <th>Payment Type</th>
+			                <th>Description</th>
 			                <th>Action</th>
 			            </tr>
      			   </thead>
@@ -35,6 +36,9 @@
 			               	 <c:if test="${fn:length(landLordPaymentBean.chequeNo) eq 0}">
 			               		 Cash
 			               	</c:if>	
+			               	</td>
+			               	<td>
+			               		${landLordPaymentBean.description}
 			               	</td>
 			                <portlet:renderURL var="editPaymentURL">
        							 <portlet:param name="mvcRenderCommandName" value="/add_land_lord_payment" />

@@ -53,6 +53,7 @@ import com.sphms.common.service.service.persistence.CreditNotePersistence;
 import com.sphms.common.service.service.persistence.CustomCompanyPersistence;
 import com.sphms.common.service.service.persistence.ExpensePersistence;
 import com.sphms.common.service.service.persistence.HordingPersistence;
+import com.sphms.common.service.service.persistence.LandLordFinder;
 import com.sphms.common.service.service.persistence.LandLordPaymentPersistence;
 import com.sphms.common.service.service.persistence.LandLordPersistence;
 import com.sphms.common.service.service.persistence.PaymentPersistence;
@@ -736,6 +737,24 @@ public abstract class LandLordLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the land lord finder.
+	 *
+	 * @return the land lord finder
+	 */
+	public LandLordFinder getLandLordFinder() {
+		return landLordFinder;
+	}
+
+	/**
+	 * Sets the land lord finder.
+	 *
+	 * @param landLordFinder the land lord finder
+	 */
+	public void setLandLordFinder(LandLordFinder landLordFinder) {
+		this.landLordFinder = landLordFinder;
+	}
+
+	/**
 	 * Returns the land lord payment local service.
 	 *
 	 * @return the land lord payment local service
@@ -1113,6 +1132,8 @@ public abstract class LandLordLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected LandLordLocalService landLordLocalService;
 	@BeanReference(type = LandLordPersistence.class)
 	protected LandLordPersistence landLordPersistence;
+	@BeanReference(type = LandLordFinder.class)
+	protected LandLordFinder landLordFinder;
 	@BeanReference(type = com.sphms.common.service.service.LandLordPaymentLocalService.class)
 	protected com.sphms.common.service.service.LandLordPaymentLocalService landLordPaymentLocalService;
 	@BeanReference(type = LandLordPaymentPersistence.class)

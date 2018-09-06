@@ -82,10 +82,10 @@ public class LandLordPaymentLocalServiceUtil {
 	public static com.sphms.common.service.model.LandLordPayment addLandLordPayment(
 		long landLordId, long hordingId, double amount,
 		java.util.Date paymentDate, java.lang.String chequeNo,
-		java.lang.String bankName, long createdBy) {
+		java.lang.String bankName, java.lang.String description, long createdBy) {
 		return getService()
 				   .addLandLordPayment(landLordId, hordingId, amount,
-			paymentDate, chequeNo, bankName, createdBy);
+			paymentDate, chequeNo, bankName, description, createdBy);
 	}
 
 	/**
@@ -155,11 +155,12 @@ public class LandLordPaymentLocalServiceUtil {
 	public static com.sphms.common.service.model.LandLordPayment updateLandLordPayment(
 		long landLordPaymentId, long landLordId, long hordingId, double amount,
 		java.util.Date paymentDate, java.lang.String chequeNo,
-		java.lang.String bankName, long createdBy)
+		java.lang.String bankName, java.lang.String description, long createdBy)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateLandLordPayment(landLordPaymentId, landLordId,
-			hordingId, amount, paymentDate, chequeNo, bankName, createdBy);
+			hordingId, amount, paymentDate, chequeNo, bankName, description,
+			createdBy);
 	}
 
 	/**

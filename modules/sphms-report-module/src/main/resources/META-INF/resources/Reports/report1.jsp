@@ -27,7 +27,7 @@
 	                </div>
 	              </form>
 	              <br/>
-	             <table id="landLoad" class="display table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+	             <table id="landLoadData" class="display table table-bordered table-hover table-striped" cellspacing="0" width="100%">
             		<tbody></tbody>
             	</table>
             </div>
@@ -42,7 +42,7 @@
         (function($) {
             $(function() {  
             	 AUI().use('aui-base','liferay-portlet-url', function(A) {
-            		 landLoadDataTable =  $('#landLoad').DataTable({
+            		 landLoadDataTable =  $('#landLoadData').DataTable({
             		 "processing": true,
             	     "serverSide": true,
             	     "searching": false,
@@ -80,7 +80,7 @@
             	var LandLoadId = $("#landLoad").val();
             	var startDate = $("#startDate").val();
             	var endDate = $("#endDate").val();
-            	var getDocumentURL = '${getLandLoadReportURL}&<portlet:namespace />LandLoadId='+LandLoadId+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate;
+            	var getDocumentURL = '${getLandLoadReportURL}&<portlet:namespace />landLoadId='+LandLoadId+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate;
             	landLoadDataTable.ajax.url(getDocumentURL).load();
 			});  
         })(jQuery);

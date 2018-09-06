@@ -343,6 +343,8 @@ public class ExpensePersistenceImpl extends BasePersistenceImpl<Expense>
 		expenseImpl.setAmount(expense.getAmount());
 		expenseImpl.setDescription(expense.getDescription());
 		expenseImpl.setExpenseDate(expense.getExpenseDate());
+		expenseImpl.setChequeNo(expense.getChequeNo());
+		expenseImpl.setBankName(expense.getBankName());
 		expenseImpl.setCreateDate(expense.getCreateDate());
 		expenseImpl.setCreatedBy(expense.getCreatedBy());
 		expenseImpl.setModifiedDate(expense.getModifiedDate());

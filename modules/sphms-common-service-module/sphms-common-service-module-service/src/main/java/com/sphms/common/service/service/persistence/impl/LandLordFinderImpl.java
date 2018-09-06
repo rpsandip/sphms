@@ -20,6 +20,7 @@ import java.util.List;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.service.persistence.LandLordFinder;
 
 import aQute.bnd.annotation.ProviderType;
@@ -72,14 +73,17 @@ public class LandLordFinderImpl extends LandLordFinderBaseImpl implements LandLo
 	
 	private String getLandLoadQuery(long landLoadId,Date startDate,Date endDate){
 		String selectQuery="select l.firstName, l.lastName, l.location, l.city, l.phoneNo, lp.amount, lp.chequeNo, lp.bankName, h.title, h.location, h.city";
-		StringBuilder query=new StringBuilder(selectQuery + "FROM SPHMS_LandLord l");
-		query.append("inner join SPHMS_LandLordPayment lp on l.landLordId=lp.landLoadId");
-		query.append("inner join SPHMS_Hording h on lp.hordingId = h.hordingId");
-		query.append("Where");
-		query.append("l.landLordId"+landLoadId);
-		query.append("and lp.paymentDate between"+startDate+ "and" +endDate);
 		
-		return selectQuery;
+		StringBuilder query=new StringBuilder(selectQuery + " FROM SPHMS_LandLord l ");
+		query.append("inner join SPHMS_LandLordPayment lp on l.landLordId=lp.landLoadId ");
+		query.append(" inner join SPHMS_Hording h on lp.hordingId = h.hordingId ");
+		query.append(" Where ");
+		query.append(" l.landLordId ="+landLoadId);
+		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
+			query.append(" and lp.paymentDate between"+startDate+ "and" +endDate + " ");
+		}
+		
+		return query.toString();
 	}
 	
 	

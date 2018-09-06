@@ -73,6 +73,11 @@ public class GetExpenseListResourceCommand implements MVCResourceCommand{
 			expenseObj.put("description", expense.getDescription());
 			expenseObj.put("expenseDate", dateFormat.format(expense.getExpenseDate()));
 			expenseObj.put("expenseId", expense.getExpenseId());
+			if(Validator.isNotNull(expense.getChequeNo())){
+				expenseObj.put("paymenttype", "Cheque No: " + expense.getChequeNo() + "(" + expense.getBankName() + " )");
+			}else{
+				expenseObj.put("paymenttype","Cash");
+			}
 			
 			dataArray.put(expenseObj);
 		}

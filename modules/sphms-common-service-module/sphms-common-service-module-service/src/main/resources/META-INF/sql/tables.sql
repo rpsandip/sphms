@@ -128,6 +128,8 @@ create table SPHMS_Expense (
 	amount DOUBLE,
 	description VARCHAR(500) null,
 	expenseDate DATE null,
+	chequeNo VARCHAR(20) null,
+	bankName VARCHAR(200) null,
 	createDate DATE null,
 	createdBy LONG,
 	modifiedDate DATE null,
@@ -181,6 +183,7 @@ create table SPHMS_LandLordPayment (
 	chequeNo VARCHAR(75) null,
 	bankName VARCHAR(75) null,
 	paymentDate DATE null,
+	description VARCHAR(1000) null,
 	createDate DATE null,
 	createdBy LONG
 );

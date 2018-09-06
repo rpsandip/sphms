@@ -149,6 +149,36 @@ public interface ExpenseModel extends BaseModel<Expense> {
 	public void setExpenseDate(Date expenseDate);
 
 	/**
+	 * Returns the cheque no of this expense.
+	 *
+	 * @return the cheque no of this expense
+	 */
+	@AutoEscape
+	public String getChequeNo();
+
+	/**
+	 * Sets the cheque no of this expense.
+	 *
+	 * @param chequeNo the cheque no of this expense
+	 */
+	public void setChequeNo(String chequeNo);
+
+	/**
+	 * Returns the bank name of this expense.
+	 *
+	 * @return the bank name of this expense
+	 */
+	@AutoEscape
+	public String getBankName();
+
+	/**
+	 * Sets the bank name of this expense.
+	 *
+	 * @param bankName the bank name of this expense
+	 */
+	public void setBankName(String bankName);
+
+	/**
 	 * Returns the create date of this expense.
 	 *
 	 * @return the create date of this expense

@@ -81,10 +81,11 @@ public class ExpenseLocalServiceUtil {
 
 	public static com.sphms.common.service.model.Expense addExpense(
 		java.lang.String type, double amount, java.lang.String description,
-		java.util.Date expenseDate, long customCompanyId, long createdBy) {
+		java.util.Date expenseDate, java.lang.String chequeNo,
+		java.lang.String bankName, long customCompanyId, long createdBy) {
 		return getService()
 				   .addExpense(type, amount, description, expenseDate,
-			customCompanyId, createdBy);
+			chequeNo, bankName, customCompanyId, createdBy);
 	}
 
 	/**
@@ -154,11 +155,12 @@ public class ExpenseLocalServiceUtil {
 	public static com.sphms.common.service.model.Expense updateExpense(
 		long expenseId, java.lang.String type, double amount,
 		java.lang.String description, java.util.Date expenseDate,
+		java.lang.String chequeNo, java.lang.String bankName,
 		long customCompanyId, long modifiedBy)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateExpense(expenseId, type, amount, description,
-			expenseDate, customCompanyId, modifiedBy);
+			expenseDate, chequeNo, bankName, customCompanyId, modifiedBy);
 	}
 
 	/**

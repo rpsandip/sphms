@@ -136,6 +136,12 @@
 			<hint name="max-length">500</hint>
 		</field>
 		<field name="expenseDate" type="Date" />
+		<field name="chequeNo" type="String">
+			<hint name="max-length">20</hint>
+		</field>
+		<field name="bankName" type="String">
+			<hint name="max-length">200</hint>
+		</field>
 		<field name="createDate" type="Date" />
 		<field name="createdBy" type="long" />
 		<field name="modifiedDate" type="Date" />
@@ -198,6 +204,9 @@
 		<field name="chequeNo" type="String" />
 		<field name="bankName" type="String" />
 		<field name="paymentDate" type="Date" />
+		<field name="description" type="String">
+			<hint name="max-length">1000</hint>
+		</field>
 		<field name="createDate" type="Date" />
 		<field name="createdBy" type="long" />
 	</model>

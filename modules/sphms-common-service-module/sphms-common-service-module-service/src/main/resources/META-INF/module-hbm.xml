@@ -155,6 +155,8 @@
 		<property name="amount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="expenseDate" type="org.hibernate.type.TimestampType" />
+		<property name="chequeNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="bankName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
@@ -211,6 +213,7 @@
 		<property name="chequeNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="bankName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="paymentDate" type="org.hibernate.type.TimestampType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>

@@ -40,6 +40,7 @@ public class LandLordPaymentSoap implements Serializable {
 		soapModel.setChequeNo(model.getChequeNo());
 		soapModel.setBankName(model.getBankName());
 		soapModel.setPaymentDate(model.getPaymentDate());
+		soapModel.setDescription(model.getDescription());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setCreatedBy(model.getCreatedBy());
 
@@ -152,6 +153,14 @@ public class LandLordPaymentSoap implements Serializable {
 		_paymentDate = paymentDate;
 	}
 
+	public String getDescription() {
+		return _description;
+	}
+
+	public void setDescription(String description) {
+		_description = description;
+	}
+
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -175,6 +184,7 @@ public class LandLordPaymentSoap implements Serializable {
 	private String _chequeNo;
 	private String _bankName;
 	private Date _paymentDate;
+	private String _description;
 	private Date _createDate;
 	private long _createdBy;
 }

@@ -37,6 +37,7 @@
 		<column name="chequeNo" type="String"></column>
 		<column name="bankName" type="String"></column>
 		<column name="paymentDate" type="Date"></column>
+		<column name="description" type="String"></column>
 		<column name="createDate" type="Date"></column>
 		<column name="createdBy" type="long"></column>
 		
@@ -342,7 +343,8 @@
 		<column name="amount"  type="double" />
 		<column name="description"  type="String" />
 		<column name="expenseDate" type="Date"></column>
-		
+		<column name="chequeNo" type="String"></column>
+		<column name="bankName" type="String"></column>
 		<column name="createDate" type="Date"></column>
 		<column name="createdBy" type="long"></column>
 		<column name="modifiedDate" type="Date"></column>

@@ -93,7 +93,7 @@ public interface LandLordPaymentLocalService extends BaseLocalService,
 
 	public LandLordPayment addLandLordPayment(long landLordId, long hordingId,
 		double amount, Date paymentDate, java.lang.String chequeNo,
-		java.lang.String bankName, long createdBy);
+		java.lang.String bankName, java.lang.String description, long createdBy);
 
 	/**
 	* Creates a new land lord payment with the primary key. Does not add the land lord payment to the database.
@@ -150,8 +150,8 @@ public interface LandLordPaymentLocalService extends BaseLocalService,
 
 	public LandLordPayment updateLandLordPayment(long landLordPaymentId,
 		long landLordId, long hordingId, double amount, Date paymentDate,
-		java.lang.String chequeNo, java.lang.String bankName, long createdBy)
-		throws PortalException;
+		java.lang.String chequeNo, java.lang.String bankName,
+		java.lang.String description, long createdBy) throws PortalException;
 
 	/**
 	* Returns the number of land lord payments.

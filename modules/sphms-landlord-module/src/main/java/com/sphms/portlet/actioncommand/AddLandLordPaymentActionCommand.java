@@ -45,11 +45,12 @@ public class AddLandLordPaymentActionCommand extends BaseMVCActionCommand{
 		Date paymentDate = ParamUtil.getDate(actionRequest, "paymentDate", dateFormat);
 		String chequeNo = ParamUtil.getString(actionRequest, "chequeNo");
 		String bankName = ParamUtil.getString(actionRequest, "bankName");
+		String description = ParamUtil.getString(actionRequest, "description");
 		
 		
 		if(landLordPaymentId==0){
 			// Addling payment
-			LandLordPayment landLordPayment = LandLordPaymentLocalServiceUtil.addLandLordPayment(landLordId, hordingId, amount, paymentDate, chequeNo, bankName,themeDisplay.getUserId());
+			LandLordPayment landLordPayment = LandLordPaymentLocalServiceUtil.addLandLordPayment(landLordId, hordingId, amount, paymentDate, chequeNo, bankName, description,themeDisplay.getUserId());
 			
 			if(Validator.isNotNull(landLordPayment)){
 				SessionMessages.add(actionRequest, "add-land-lord-payment-successfully");
@@ -61,7 +62,7 @@ public class AddLandLordPaymentActionCommand extends BaseMVCActionCommand{
 			
 		}else{
 			// Update payment
-			LandLordPayment landLordPayment = LandLordPaymentLocalServiceUtil.updateLandLordPayment(landLordPaymentId, landLordId, hordingId, amount, paymentDate, chequeNo, bankName,themeDisplay.getUserId());
+			LandLordPayment landLordPayment = LandLordPaymentLocalServiceUtil.updateLandLordPayment(landLordPaymentId, landLordId, hordingId, amount, paymentDate, chequeNo, bankName, description,themeDisplay.getUserId());
 			if(Validator.isNotNull(landLordPayment)){
 				SessionMessages.add(actionRequest, "update-land-lord-payment-successfully");
 			}else{

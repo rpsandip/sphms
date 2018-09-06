@@ -61,6 +61,18 @@
 	       					</aui:input>  
 	       				</div>
 	       			</div>	
+	       			<div class="row">		 
+						<div class="form-group col-md-6">
+							 <aui:input name="chequeNo" label="Cheque No" cssClass="form-control" value="${expense.chequeNo }"> 
+							 </aui:input>
+	       				</div>
+       				</div>
+       				<div class="row">		 
+						<div class="form-group col-md-6">
+							 <aui:input name="bankName" label="Bank Name" cssClass="form-control" value="${expense.bankName }"> 
+							 </aui:input>
+	       				</div>
+       				</div>
 	       			<div class="row">
 	       				<div class="form-group col-md-6">
 	       					<aui:input type="textarea" name="description" label="description" cssClass="form-control" value="${expense.description }">

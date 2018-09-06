@@ -70,6 +70,7 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 			{ "chequeNo", Types.VARCHAR },
 			{ "bankName", Types.VARCHAR },
 			{ "paymentDate", Types.TIMESTAMP },
+			{ "description", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "createdBy", Types.BIGINT }
 		};
@@ -83,11 +84,12 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 		TABLE_COLUMNS_MAP.put("chequeNo", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("bankName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("paymentDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createdBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_LandLordPayment (landLordPaymentId LONG not null primary key,landLoadId LONG,hordingId LONG,amount DOUBLE,chequeNo VARCHAR(75) null,bankName VARCHAR(75) null,paymentDate DATE null,createDate DATE null,createdBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_LandLordPayment (landLordPaymentId LONG not null primary key,landLoadId LONG,hordingId LONG,amount DOUBLE,chequeNo VARCHAR(75) null,bankName VARCHAR(75) null,paymentDate DATE null,description VARCHAR(1000) null,createDate DATE null,createdBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_LandLordPayment";
 	public static final String ORDER_BY_JPQL = " ORDER BY landLordPayment.createDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_LandLordPayment.createDate DESC";
@@ -152,6 +154,7 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 		attributes.put("chequeNo", getChequeNo());
 		attributes.put("bankName", getBankName());
 		attributes.put("paymentDate", getPaymentDate());
+		attributes.put("description", getDescription());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 
@@ -203,6 +206,12 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 
 		if (paymentDate != null) {
 			setPaymentDate(paymentDate);
+		}
+
+		String description = (String)attributes.get("description");
+
+		if (description != null) {
+			setDescription(description);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -311,6 +320,21 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 	}
 
 	@Override
+	public String getDescription() {
+		if (_description == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _description;
+		}
+	}
+
+	@Override
+	public void setDescription(String description) {
+		_description = description;
+	}
+
+	@Override
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -370,6 +394,7 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 		landLordPaymentImpl.setChequeNo(getChequeNo());
 		landLordPaymentImpl.setBankName(getBankName());
 		landLordPaymentImpl.setPaymentDate(getPaymentDate());
+		landLordPaymentImpl.setDescription(getDescription());
 		landLordPaymentImpl.setCreateDate(getCreateDate());
 		landLordPaymentImpl.setCreatedBy(getCreatedBy());
 
@@ -479,6 +504,14 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 			landLordPaymentCacheModel.paymentDate = Long.MIN_VALUE;
 		}
 
+		landLordPaymentCacheModel.description = getDescription();
+
+		String description = landLordPaymentCacheModel.description;
+
+		if ((description != null) && (description.length() == 0)) {
+			landLordPaymentCacheModel.description = null;
+		}
+
 		Date createDate = getCreateDate();
 
 		if (createDate != null) {
@@ -495,7 +528,7 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{landLordPaymentId=");
 		sb.append(getLandLordPaymentId());
@@ -511,6 +544,8 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 		sb.append(getBankName());
 		sb.append(", paymentDate=");
 		sb.append(getPaymentDate());
+		sb.append(", description=");
+		sb.append(getDescription());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
 		sb.append(", createdBy=");
@@ -522,7 +557,7 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.LandLordPayment");
@@ -557,6 +592,10 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 		sb.append(getPaymentDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>description</column-name><column-value><![CDATA[");
+		sb.append(getDescription());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
 		sb.append(getCreateDate());
 		sb.append("]]></column-value></column>");
@@ -583,6 +622,7 @@ public class LandLordPaymentModelImpl extends BaseModelImpl<LandLordPayment>
 	private String _chequeNo;
 	private String _bankName;
 	private Date _paymentDate;
+	private String _description;
 	private Date _createDate;
 	private long _createdBy;
 	private long _columnBitmask;

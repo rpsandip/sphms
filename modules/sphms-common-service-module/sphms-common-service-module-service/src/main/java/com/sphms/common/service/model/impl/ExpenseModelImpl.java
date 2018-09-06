@@ -68,6 +68,8 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 			{ "amount", Types.DOUBLE },
 			{ "description", Types.VARCHAR },
 			{ "expenseDate", Types.TIMESTAMP },
+			{ "chequeNo", Types.VARCHAR },
+			{ "bankName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "createdBy", Types.BIGINT },
 			{ "modifiedDate", Types.TIMESTAMP },
@@ -82,13 +84,15 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 		TABLE_COLUMNS_MAP.put("amount", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("expenseDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("chequeNo", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("bankName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createdBy", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Expense (expenseId LONG not null primary key,customCompanyId LONG,type_ VARCHAR(75) null,amount DOUBLE,description VARCHAR(500) null,expenseDate DATE null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Expense (expenseId LONG not null primary key,customCompanyId LONG,type_ VARCHAR(75) null,amount DOUBLE,description VARCHAR(500) null,expenseDate DATE null,chequeNo VARCHAR(20) null,bankName VARCHAR(200) null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Expense";
 	public static final String ORDER_BY_JPQL = " ORDER BY expense.expenseId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Expense.expenseId ASC";
@@ -148,6 +152,8 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 		attributes.put("amount", getAmount());
 		attributes.put("description", getDescription());
 		attributes.put("expenseDate", getExpenseDate());
+		attributes.put("chequeNo", getChequeNo());
+		attributes.put("bankName", getBankName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -195,6 +201,18 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 
 		if (expenseDate != null) {
 			setExpenseDate(expenseDate);
+		}
+
+		String chequeNo = (String)attributes.get("chequeNo");
+
+		if (chequeNo != null) {
+			setChequeNo(chequeNo);
+		}
+
+		String bankName = (String)attributes.get("bankName");
+
+		if (bankName != null) {
+			setBankName(bankName);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -293,6 +311,36 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 	}
 
 	@Override
+	public String getChequeNo() {
+		if (_chequeNo == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _chequeNo;
+		}
+	}
+
+	@Override
+	public void setChequeNo(String chequeNo) {
+		_chequeNo = chequeNo;
+	}
+
+	@Override
+	public String getBankName() {
+		if (_bankName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _bankName;
+		}
+	}
+
+	@Override
+	public void setBankName(String bankName) {
+		_bankName = bankName;
+	}
+
+	@Override
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -371,6 +419,8 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 		expenseImpl.setAmount(getAmount());
 		expenseImpl.setDescription(getDescription());
 		expenseImpl.setExpenseDate(getExpenseDate());
+		expenseImpl.setChequeNo(getChequeNo());
+		expenseImpl.setBankName(getBankName());
 		expenseImpl.setCreateDate(getCreateDate());
 		expenseImpl.setCreatedBy(getCreatedBy());
 		expenseImpl.setModifiedDate(getModifiedDate());
@@ -475,6 +525,22 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 			expenseCacheModel.expenseDate = Long.MIN_VALUE;
 		}
 
+		expenseCacheModel.chequeNo = getChequeNo();
+
+		String chequeNo = expenseCacheModel.chequeNo;
+
+		if ((chequeNo != null) && (chequeNo.length() == 0)) {
+			expenseCacheModel.chequeNo = null;
+		}
+
+		expenseCacheModel.bankName = getBankName();
+
+		String bankName = expenseCacheModel.bankName;
+
+		if ((bankName != null) && (bankName.length() == 0)) {
+			expenseCacheModel.bankName = null;
+		}
+
 		Date createDate = getCreateDate();
 
 		if (createDate != null) {
@@ -502,7 +568,7 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{expenseId=");
 		sb.append(getExpenseId());
@@ -516,6 +582,10 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 		sb.append(getDescription());
 		sb.append(", expenseDate=");
 		sb.append(getExpenseDate());
+		sb.append(", chequeNo=");
+		sb.append(getChequeNo());
+		sb.append(", bankName=");
+		sb.append(getBankName());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
 		sb.append(", createdBy=");
@@ -531,7 +601,7 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Expense");
@@ -560,6 +630,14 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 		sb.append(
 			"<column><column-name>expenseDate</column-name><column-value><![CDATA[");
 		sb.append(getExpenseDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>chequeNo</column-name><column-value><![CDATA[");
+		sb.append(getChequeNo());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>bankName</column-name><column-value><![CDATA[");
+		sb.append(getBankName());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
@@ -593,6 +671,8 @@ public class ExpenseModelImpl extends BaseModelImpl<Expense>
 	private double _amount;
 	private String _description;
 	private Date _expenseDate;
+	private String _chequeNo;
+	private String _bankName;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

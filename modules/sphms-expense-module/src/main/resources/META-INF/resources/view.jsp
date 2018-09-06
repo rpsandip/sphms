@@ -88,6 +88,7 @@
             		 "columns": [
             		           		{ "data": "expenseType", "name" : "expenseType" , "title" : "Type"},
             	                    { "data": "amount", "name" : "amount", "title" : "Amount"  },
+            	                    { "data": "paymenttype", "name" : "paymenttype", "title" : "Payment Type"  },
             	                    { "data": "description", "name" : "description", "title" : "Description"  },
             	                    { "data": "expenseDate", "name" : "expenseDate" , "title" : "Expense Date"},
             	                    { "data": "action", "name" : "Action" , "title" : "Action",

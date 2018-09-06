@@ -59,7 +59,7 @@ public class LandLordPaymentLocalServiceImpl extends LandLordPaymentLocalService
 	
 	Log _log = LogFactoryUtil.getLog(LandLordPaymentLocalServiceImpl.class.getName());
 	
-	public LandLordPayment addLandLordPayment(long landLordId, long hordingId, double amount, Date paymentDate, String chequeNo, String bankName,long createdBy){
+	public LandLordPayment addLandLordPayment(long landLordId, long hordingId, double amount, Date paymentDate, String chequeNo, String bankName, String description,long createdBy){
 	
 		_log.info("Add LandLord Payment : " + "landLordId ->" + landLordId + " hordingId->" + hordingId + " amount->" + amount + " paymentDate->" + paymentDate + " chequeNo->"+chequeNo + " bankName->"+bankName );
 		
@@ -74,6 +74,7 @@ public class LandLordPaymentLocalServiceImpl extends LandLordPaymentLocalService
 		landLordPayment.setBankName(bankName);
 		landLordPayment.setPaymentDate(paymentDate);
 		landLordPayment.setCreateDate(new Date());
+		landLordPayment.setDescription(description);
 		landLordPayment.setCreatedBy(createdBy);
 		landLordPayment = LandLordPaymentLocalServiceUtil.addLandLordPayment(landLordPayment);
 		
@@ -86,7 +87,7 @@ public class LandLordPaymentLocalServiceImpl extends LandLordPaymentLocalService
 	/*
 	 * Method for update Land Lord Payment 
 	 */
-	public LandLordPayment updateLandLordPayment(long landLordPaymentId, long landLordId, long hordingId, double amount, Date paymentDate, String chequeNo, String bankName, long createdBy) throws PortalException{
+	public LandLordPayment updateLandLordPayment(long landLordPaymentId, long landLordId, long hordingId, double amount, Date paymentDate, String chequeNo, String bankName, String description,long createdBy) throws PortalException{
 	
 		_log.info("Update LandLord Payment : " + "landLordId ->" + landLordId + " hordingId->" + hordingId + " amount->" + amount + " paymentDate->" + paymentDate  );
 		
@@ -99,6 +100,7 @@ public class LandLordPaymentLocalServiceImpl extends LandLordPaymentLocalService
 			landLordPayment.setChequeNo(chequeNo);
 			landLordPayment.setBankName(bankName);
 			landLordPayment.setPaymentDate(paymentDate);
+			landLordPayment.setDescription(description);
 			landLordPayment.setCreatedBy(createdBy);
 			landLordPayment.setCreateDate(new Date());
 			landLordPayment = LandLordPaymentLocalServiceUtil.updateLandLordPayment(landLordPayment);

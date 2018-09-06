@@ -39,6 +39,8 @@ public class ExpenseSoap implements Serializable {
 		soapModel.setAmount(model.getAmount());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setExpenseDate(model.getExpenseDate());
+		soapModel.setChequeNo(model.getChequeNo());
+		soapModel.setBankName(model.getBankName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setCreatedBy(model.getCreatedBy());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -143,6 +145,22 @@ public class ExpenseSoap implements Serializable {
 		_expenseDate = expenseDate;
 	}
 
+	public String getChequeNo() {
+		return _chequeNo;
+	}
+
+	public void setChequeNo(String chequeNo) {
+		_chequeNo = chequeNo;
+	}
+
+	public String getBankName() {
+		return _bankName;
+	}
+
+	public void setBankName(String bankName) {
+		_bankName = bankName;
+	}
+
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -181,6 +199,8 @@ public class ExpenseSoap implements Serializable {
 	private double _amount;
 	private String _description;
 	private Date _expenseDate;
+	private String _chequeNo;
+	private String _bankName;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

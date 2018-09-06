@@ -8,6 +8,6 @@
        
     </liferay-ui:section>
     <liferay-ui:section>
-       <%@ include file="/init.jsp" %>
+      
     </liferay-ui:section>
 </liferay-ui:tabs>

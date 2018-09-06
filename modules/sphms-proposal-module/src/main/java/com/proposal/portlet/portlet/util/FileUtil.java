@@ -64,7 +64,7 @@ import com.sphms.common.service.service.persistence.Proposal_HordingPK;
 public class FileUtil {
 	
 	private static Log _log = LogFactoryUtil.getLog(FileUtil.class.getName());
-	private static final int MAX_ColUMN=17;
+	private static final int MAX_ColUMN=15;
 	private static final int MIN_COLUMN=1;
 	
 	public static FileEntry createProposalPPTFile(Proposal proposal, List<Hording> hordingList) throws FileNotFoundException, IOException, PortalException{
@@ -201,7 +201,7 @@ public class FileUtil {
 	
 	private static void setSlideTitle(XSLFShape title, String hordingTitle, String city, String size){
 		java.awt.geom.Rectangle2D anchor = title.getAnchor();
-		anchor.setFrame(50, 100, 600, 400);
+		anchor.setFrame(50, 100, 600, 415);
 		XSLFTextShape textShape = (XSLFTextShape) title;
         textShape.clearText();
         textShape.setHorizontalCentered(true);
@@ -212,12 +212,12 @@ public class FileUtil {
         XSLFTextRun r1 = p.addNewTextRun();
         r1.setText(city + " " + hordingTitle + " " + size);
         r1.setFontColor(Color.BLACK);
-        r1.setFontSize(24.0);
+        r1.setFontSize(20.0);
 	}
 	
 	private static void setSlidePicture(XSLFShape pic, XMLSlideShow ppt, XSLFSlide slide, Hording hording) throws FileNotFoundException, IOException{
         java.awt.geom.Rectangle2D anchor = pic.getAnchor();
-        anchor.setFrame(50, 50, 600, 390);
+        anchor.setFrame(60, 50, 600, 415);
         try {
 			DLFileEntry hordingImage = DLFileEntryLocalServiceUtil.getDLFileEntry(hording.getNormalImageId());
 			
@@ -341,69 +341,62 @@ public class FileUtil {
 		XSSFCell cell1 = headerRow.createCell(MIN_COLUMN);
 		cell1.setCellStyle(style);
     	cell1.setCellValue("Sr");
+    
     	
-    	XSSFCell cell2 = headerRow.createCell(2);
-    	cell2.setCellStyle(style);
-    	cell2.setCellValue("State");
-    	
-    	XSSFCell cell3 = headerRow.createCell(3);
-		cell3.setCellStyle(style);
-    	cell3.setCellValue("District");
-    	
-    	XSSFCell cell4 = headerRow.createCell(4);
+    	XSSFCell cell4 = headerRow.createCell(2);
 		cell4.setCellStyle(style);
     	cell4.setCellValue("Town");
     	
-    	XSSFCell cell5 = headerRow.createCell(5);
+    	XSSFCell cell5 = headerRow.createCell(3);
 		cell5.setCellStyle(style);
-    	cell5.setCellValue("Media Location");
+    	cell5.setCellValue("Location");
     	
-    	XSSFCell cell6 = headerRow.createCell(6);
+    	XSSFCell cell6 = headerRow.createCell(4);
 		cell6.setCellStyle(style);
-    	cell6.setCellValue("Media Vehicle");
+    	cell6.setCellValue("Vehicle");
     	
     	
-    	XSSFCell cell7 = headerRow.createCell(7);
+    	XSSFCell cell7 = headerRow.createCell(5);
 		cell7.setCellStyle(style);
-    	cell7.setCellValue("Media Type");
+    	cell7.setCellValue("Type");
     	
-    	XSSFCell cell8 = headerRow.createCell(8);
+    	XSSFCell cell8 = headerRow.createCell(6);
 		cell8.setCellStyle(style);
-    	cell8.setCellValue("Width");
+    	cell8.setCellValue("W");
     	
-    	XSSFCell cell9 = headerRow.createCell(9);
+    	XSSFCell cell9 = headerRow.createCell(7);
 		cell9.setCellStyle(style);
-    	cell9.setCellValue("Height");
+    	cell9.setCellValue("H");
     	
-    	XSSFCell cell10 = headerRow.createCell(10);
+    	XSSFCell cell10 = headerRow.createCell(8);
 		cell10.setCellStyle(style);
     	cell10.setCellValue("Units");
     	
-    	XSSFCell cell11 = headerRow.createCell(11);
+    	XSSFCell cell11 = headerRow.createCell(9);
 		cell11.setCellStyle(style);
-    	cell11.setCellValue("Total sq.ft of display");
+    	cell11.setCellValue("Area");
     	
-    	XSSFCell cell12 = headerRow.createCell(12);
+    	XSSFCell cell12 = headerRow.createCell(10);
 		cell12.setCellStyle(style);
-    	cell12.setCellValue("Display Charges/month");
+    	cell12.setCellValue("DCPM");
     	
-    	XSSFCell cell13 = headerRow.createCell(13);
+    	XSSFCell cell13 = headerRow.createCell(11);
 		cell13.setCellStyle(style);
     	cell13.setCellValue("Duration of display (days)");
     	
-    	XSSFCell cell14 = headerRow.createCell(14);
+    	XSSFCell cell14 = headerRow.createCell(12);
 		cell14.setCellStyle(style);
     	cell14.setCellValue("Display Charges as per duration");
     	
-    	XSSFCell cell15 = headerRow.createCell(15);
+    	XSSFCell cell15 = headerRow.createCell(13);
 		cell15.setCellStyle(style);
     	cell15.setCellValue("Mounting Charges");
     	
-    	XSSFCell cell16 = headerRow.createCell(16);
+    	XSSFCell cell16 = headerRow.createCell(14);
 		cell16.setCellStyle(style);
     	cell16.setCellValue("Printing Charges");
     	
-    	XSSFCell cell17 = headerRow.createCell(17);
+    	XSSFCell cell17 = headerRow.createCell(15);
 		cell17.setCellStyle(style);
     	cell17.setCellValue("Total Cost");
     	
@@ -438,23 +431,10 @@ public class FileUtil {
     	XSSFCellStyle style1 = getBottomBorderStyle(wb);
     	style1.setFont(font);
     	
-    	XSSFCell cell2 = hordingRow.createCell(2);
-    	cell2.setCellValue(hording.getState());
-    	cell2.setCellStyle(commonStyle);
-    	if(loopIndex==(totalList-1)){
-			cell2.setCellStyle(style1);
-		}
-    	
-    	//District
-    	XSSFCell cell3 = hordingRow.createCell(3);
-    	cell3.setCellValue(hording.getDistrict());
-    	cell3.setCellStyle(commonStyle);
-    	if(loopIndex==(totalList-1)){
-			cell3.setCellStyle(style1);
-		}
+  
     	
     	// City
-    	XSSFCell cell4 = hordingRow.createCell(4);
+    	XSSFCell cell4 = hordingRow.createCell(2);
     	cell4.setCellValue(hording.getCity());
     	cell4.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -463,7 +443,7 @@ public class FileUtil {
     	
     	
     	// Location
-    	XSSFCell cell5 = hordingRow.createCell(5);
+    	XSSFCell cell5 = hordingRow.createCell(3);
     	cell5.setCellValue(hording.getLocation());
     	cell5.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -471,7 +451,7 @@ public class FileUtil {
 		}
     	
     	// Media vehicle
-    	XSSFCell cell6 = hordingRow.createCell(6);
+    	XSSFCell cell6 = hordingRow.createCell(4);
     	cell6.setCellValue(hording.getMediaVehicle());
     	cell6.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -479,7 +459,7 @@ public class FileUtil {
 		}
     	
     	// Media Type
-    	XSSFCell cell7 = hordingRow.createCell(7);
+    	XSSFCell cell7 = hordingRow.createCell(5);
     	cell7.setCellValue(hording.getHordingType());
     	cell7.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -490,7 +470,7 @@ public class FileUtil {
     	String[] heightWidthArray = SPHMSCommonLocalServiceUtil.getHeightOrWidth(hording.getSize());
     	
     	// Height
-    	XSSFCell cell8 = hordingRow.createCell(8);
+    	XSSFCell cell8 = hordingRow.createCell(6);
     	cell8.setCellValue(heightWidthArray[0]);
     	cell8.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -498,7 +478,7 @@ public class FileUtil {
 		}
     	
     	// Width
-    	XSSFCell cell9 = hordingRow.createCell(9);
+    	XSSFCell cell9 = hordingRow.createCell(7);
     	cell9.setCellValue(heightWidthArray[1]);
     	cell9.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -513,7 +493,7 @@ public class FileUtil {
 		}
     	
     	// Units
-    	XSSFCell cell10 = hordingRow.createCell(10);
+    	XSSFCell cell10 = hordingRow.createCell(8);
     	int units = 0;
     	if(Validator.isNotNull(proposalHording)){
     		units = proposalHording.getUnits();
@@ -527,7 +507,7 @@ public class FileUtil {
     	
     	// Sql Ft
     	float totalSqFt = SPHMSCommonLocalServiceUtil.getTotalSqFt(heightWidthArray);
-    	XSSFCell cell11 = hordingRow.createCell(11);
+    	XSSFCell cell11 = hordingRow.createCell(9);
     	cell11.setCellValue(totalSqFt);
     	cell11.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -535,7 +515,7 @@ public class FileUtil {
 		}
     	
     	// PM price
-    	XSSFCell cell12 = hordingRow.createCell(12);
+    	XSSFCell cell12 = hordingRow.createCell(10);
     	cell12.setCellValue(hording.getPricePerMonth());
     	cell12.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -545,7 +525,7 @@ public class FileUtil {
     	// Day Durations
     	long displayDurationDays = SPHMSCommonLocalServiceUtil.getDisplayDuration(proposal.getStartDate(), proposal.getEndDate());
     	String displayDurationDaysString = SPHMSCommonLocalServiceUtil.getDateTimeDiff(proposal.getStartDate(), proposal.getEndDate());
-    	XSSFCell cell13 = hordingRow.createCell(13);
+    	XSSFCell cell13 = hordingRow.createCell(11);
     	cell13.setCellValue(displayDurationDaysString);
     	cell13.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -554,7 +534,7 @@ public class FileUtil {
     	
     	// Display Charges
     	double displayCharges = SPHMSCommonLocalServiceUtil.getDisplayCharges(hording.getPricePerMonth(), displayDurationDays); 
-    	XSSFCell cell14 = hordingRow.createCell(14);
+    	XSSFCell cell14 = hordingRow.createCell(12);
     	cell14.setCellValue(displayCharges);
     	cell14.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -563,7 +543,7 @@ public class FileUtil {
     	
     	// Mounting Charges
     	double mountingCharges = getMountingCharges(totalSqFt, proposalHording);
-    	XSSFCell cell15 = hordingRow.createCell(15);
+    	XSSFCell cell15 = hordingRow.createCell(13);
     	cell15.setCellValue(mountingCharges);
     	cell15.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -573,7 +553,7 @@ public class FileUtil {
 
     	// Printing Chrges
     	double printingCharges = getPrintingCharges(totalSqFt, proposalHording);
-    	XSSFCell cell16 = hordingRow.createCell(16);
+    	XSSFCell cell16 = hordingRow.createCell(14);
     	cell16.setCellValue(printingCharges);
     	cell16.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){
@@ -581,7 +561,7 @@ public class FileUtil {
 		}
 
     	// Total Cost
-    	XSSFCell cell17 = hordingRow.createCell(17);
+    	XSSFCell cell17 = hordingRow.createCell(15);
     	cell17.setCellValue(displayCharges+mountingCharges+printingCharges);
     	cell17.setCellStyle(commonStyle);
     	if(loopIndex==(totalList-1)){

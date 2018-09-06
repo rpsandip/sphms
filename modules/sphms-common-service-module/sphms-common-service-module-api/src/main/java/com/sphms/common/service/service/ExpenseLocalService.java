@@ -91,8 +91,9 @@ public interface ExpenseLocalService extends BaseLocalService,
 	public Expense addExpense(Expense expense);
 
 	public Expense addExpense(java.lang.String type, double amount,
-		java.lang.String description, Date expenseDate, long customCompanyId,
-		long createdBy);
+		java.lang.String description, Date expenseDate,
+		java.lang.String chequeNo, java.lang.String bankName,
+		long customCompanyId, long createdBy);
 
 	/**
 	* Creates a new expense with the primary key. Does not add the expense to the database.
@@ -145,6 +146,7 @@ public interface ExpenseLocalService extends BaseLocalService,
 
 	public Expense updateExpense(long expenseId, java.lang.String type,
 		double amount, java.lang.String description, Date expenseDate,
+		java.lang.String chequeNo, java.lang.String bankName,
 		long customCompanyId, long modifiedBy) throws PortalException;
 
 	/**

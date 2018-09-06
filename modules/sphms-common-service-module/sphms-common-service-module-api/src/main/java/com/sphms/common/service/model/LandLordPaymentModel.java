@@ -163,6 +163,21 @@ public interface LandLordPaymentModel extends BaseModel<LandLordPayment> {
 	public void setPaymentDate(Date paymentDate);
 
 	/**
+	 * Returns the description of this land lord payment.
+	 *
+	 * @return the description of this land lord payment
+	 */
+	@AutoEscape
+	public String getDescription();
+
+	/**
+	 * Sets the description of this land lord payment.
+	 *
+	 * @param description the description of this land lord payment
+	 */
+	public void setDescription(String description);
+
+	/**
 	 * Returns the create date of this land lord payment.
 	 *
 	 * @return the create date of this land lord payment
