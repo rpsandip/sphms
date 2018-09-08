@@ -10,7 +10,6 @@
 	            <form id="filterProposal">
 	              	<div class="form-group col-md-3">
 	                  <select name="landLoad" id="landLoad" class="form-control">
-						<option value="0">Select LandLoad</option>
 							<c:forEach items="${landLoadList}" var="landLoad">
 								<option value="${landLoad.landLordId }">${landLoad.firstName} ${landLoad.lastName }</option>
 							</c:forEach>	
@@ -75,8 +74,10 @@
       		format: 'dd/mm/yyyy',  
       	    autoclose: true
         }); 
-            
-          $("#filterSearch").on('click',function(){
+          Date currentDate=new Date();
+        $('#endDate').datepicker('setDate', currentDate);
+        
+        $("#filterSearch").on('click',function(){
             	var LandLoadId = $("#landLoad").val();
             	var startDate = $("#startDate").val();
             	var endDate = $("#endDate").val();

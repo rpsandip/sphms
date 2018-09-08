@@ -5,6 +5,7 @@ package com.report.portlet.portlet;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -52,6 +53,24 @@ public class GetLandLoadResourceCommand implements MVCResourceCommand{
 			try {
 				startDate = dateFormat.parse(startDateStr);
 				endDate = dateFormat.parse(endDateStr);
+			} catch (ParseException e) {
+				_log.error(e);
+			}
+		}
+		if(Validator.isNull(startDateStr)){
+			Calendar previousYearDate = Calendar.getInstance();
+			previousYearDate.setTime(new Date());
+			previousYearDate.add(Calendar.YEAR, -1);
+			Date date=previousYearDate.getTime();
+			try {
+				startDate = dateFormat.parse(dateFormat.format(date));
+			} catch (ParseException e) {
+				_log.error(e);
+			}
+		}
+		if(Validator.isNull(endDate)){
+			try {
+				endDate= dateFormat.parse(dateFormat.format(new Date()));
 			} catch (ParseException e) {
 				_log.error(e);
 			}
