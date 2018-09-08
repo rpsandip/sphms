@@ -126,7 +126,7 @@ public class LandLordLocalServiceImpl extends LandLordLocalServiceBaseImpl {
 	 * @param endDate
 	 * @return
 	 */
-	public List<Object> getLandLoadFilter(long landLoadId,Date startDate,Date endDate){
+	public List<Object> getLandLoadFilter(long landLoadId, String startDate, String endDate){
 		
 		return landLordFinder.findLandLoadDetailFilter(landLoadId, startDate, endDate);
 	}

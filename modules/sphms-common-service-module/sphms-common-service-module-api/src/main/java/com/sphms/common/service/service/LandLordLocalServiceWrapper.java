@@ -256,7 +256,7 @@ public class LandLordLocalServiceWrapper implements LandLordLocalService,
 	*/
 	@Override
 	public java.util.List<java.lang.Object> getLandLoadFilter(long landLoadId,
-		java.util.Date startDate, java.util.Date endDate) {
+		java.lang.String startDate, java.lang.String endDate) {
 		return _landLordLocalService.getLandLoadFilter(landLoadId, startDate,
 			endDate);
 	}

@@ -36,7 +36,6 @@ import com.sphms.common.service.model.LandLord;
 
 import java.io.Serializable;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -217,7 +216,7 @@ public interface LandLordLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<java.lang.Object> getLandLoadFilter(long landLoadId,
-		Date startDate, Date endDate);
+		java.lang.String startDate, java.lang.String endDate);
 
 	/**
 	* Returns a range of all the land lords.

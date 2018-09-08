@@ -49,7 +49,7 @@ public class LandLordFinderImpl extends LandLordFinderBaseImpl implements LandLo
 	
 	@SuppressWarnings("unchecked")
 	public List<Object> findLandLoadDetailFilter(
-		    long landLoadId, Date StartDate, Date endDate) {
+		    long landLoadId, String StartDate, String endDate) {
 
 		    Session session = null;
 		    try {
@@ -71,8 +71,8 @@ public class LandLordFinderImpl extends LandLordFinderBaseImpl implements LandLo
 
 		}
 	
-	private String getLandLoadQuery(long landLoadId,Date startDate,Date endDate){
-		String selectQuery="select l.firstName, l.lastName, l.location, l.city, l.phoneNo, lp.amount, lp.chequeNo, lp.bankName, h.title, h.location, h.city";
+	private String getLandLoadQuery(long landLoadId, String startDate, String endDate){
+		String selectQuery="select l.firstName,l.lastName, l.location, l.city, l.phoneNo, lp.amount, lp.chequeNo, lp.bankName, h.title, h.location, h.city, lp.paymentDate";
 		
 		StringBuilder query=new StringBuilder(selectQuery + " FROM SPHMS_LandLord l ");
 		query.append("inner join SPHMS_LandLordPayment lp on l.landLordId=lp.landLoadId ");
@@ -80,7 +80,7 @@ public class LandLordFinderImpl extends LandLordFinderBaseImpl implements LandLo
 		query.append(" Where ");
 		query.append(" l.landLordId ="+landLoadId);
 		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
-			query.append(" and lp.paymentDate between"+startDate+ "and" +endDate + " ");
+			query.append(" and lp.paymentDate between '"+startDate+ "' and '" +endDate + "' ");
 		}
 		
 		return query.toString();

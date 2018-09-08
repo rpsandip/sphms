@@ -1,6 +1,7 @@
 
 
 <portlet:resourceURL id="/getLandLoadReport" var="getLandLoadReportURL">
+
 </portlet:resourceURL>
 <section class="content">
  <div class="row">
@@ -23,6 +24,7 @@
 	                </div>
 	                <div class="form-group col-md-3">
 	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearch">
+					 <input type=button class="btn btn-primary"  value="Export" id="export">
 	                </div>
 	              </form>
 	              <br/>
@@ -37,52 +39,70 @@
 
  <script type="text/javascript">
         var landLoadDataTable="";
+       
+        $('#startDate').datepicker({
+    		format: 'dd/mm/yyyy',  
+    	    autoclose: true
+      }); 
+      
+      $('#endDate').datepicker({
+  		format: 'dd/mm/yyyy',  
+  	    autoclose: true
+      }); 
+     
+      $('#endDate').datepicker('setDate', 'today');
+      
+      var d = new Date();
+      d.setFullYear(d.getFullYear() - 1);
+      $('#startDate').datepicker('setDate', d);
+
+        
         jQuery.noConflict();
         (function($) {
             $(function() {  
             	 AUI().use('aui-base','liferay-portlet-url', function(A) {
+            		 var LandLoadId = $("#landLoad").val();
+                 	 var startDate = $("#startDate").val();
+                 	 var endDate = $("#endDate").val();
+            		 var getDocumentURL = '${getLandLoadReportURL}&<portlet:namespace />landLoadId='+LandLoadId+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate;
             		 landLoadDataTable =  $('#landLoadData').DataTable({
             		 "processing": true,
-            	     "serverSide": true,
             	     "searching": false,
             	     "pageLength": 50,
-            	     "ajax": '${getLandLoadReportURL}',
+            	     "ajax": getDocumentURL,
             		 "order": [],
             		 "columns": [
-            	                    { "data": "landLoadfirstName", "name" : "landLoadfirstName", "title" : "landLoadfirstName"  },
-            	                    { "data": "landLoadlastName", "name" : "landLoadlastName" , "title" : "landLoadlastName"},
-            	                    { "data": "landLoadlocation", "name" : "landLoadlocation" , "title" : "landLoadlocation"},
-            	                    { "data": "landLoadcity", "name" : "landLoadcity" , "title" : "landLoadcity"},
-            	                    { "data": "landLoadphoneNo", "name" : "landLoadphoneNo" , "title" : "landLoadphoneNo"},
-            	                    { "data": "landLoadamount", "name" : "landLoadamount" , "title" : "landLoadamount"},
-            	                    { "data": "landLoadchequeNo", "name" : "landLoadchequeNo" , "title" : "landLoadchequeNo"},
-            	                    { "data": "landLoadbankName", "name" : "landLoadbankName" , "title" : "landLoadbankName"},
-            	                    { "data": "hordingtitle", "name" : "hordingtitle" , "title" : "hordingtitle"},
-            	                    { "data": "hordinglocation", "name" : "hordinglocation" , "title" : "hordinglocation"},
-            	                    { "data": "hordingcity", "name" : "hordingcity" , "title" : "hordingcity"}
+            	                    { "data": "landLoadfirstName", "name" : "landLoadfirstName", "title" : "First Name"  },
+            	                    { "data": "landLoadlastName", "name" : "landLoadlastName" , "title" : "Last Name"},
+            	                    { "data": "landLoadcity", "name" : "landLoadcity" , "title" : "City"},
+            	                    { "data": "landLoadamount", "name" : "landLoadamount" , "title" : "Amount"},
+            	                    { "data": "paymentDate", "name" : "paymentDate" , "title" : "Payment Date"},
+            	                    { "data": "paymenttype", "name" : "paymenttype" , "title" : "Payment Type"},
+            	                    { "data": "hordingtitle", "name" : "hordingtitle" , "title" : "Hoarding"}
+            	                    
             	                ]
             	 });
             });
           });
           
-          $('#startDate').datepicker({
-        		format: 'dd/mm/yyyy',  
-        	    autoclose: true
-          }); 
-          
-          $('#endDate').datepicker({
-      		format: 'dd/mm/yyyy',  
-      	    autoclose: true
-        }); 
-          Date currentDate=new Date();
-        $('#endDate').datepicker('setDate', currentDate);
-        
+                
         $("#filterSearch").on('click',function(){
             	var LandLoadId = $("#landLoad").val();
             	var startDate = $("#startDate").val();
             	var endDate = $("#endDate").val();
             	var getDocumentURL = '${getLandLoadReportURL}&<portlet:namespace />landLoadId='+LandLoadId+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate;
             	landLoadDataTable.ajax.url(getDocumentURL).load();
-			});  
+		 });
+        
+        $("#export").on('click',function(){
+        	var LandLoadId = $("#landLoad").val();
+        	var startDate = $("#startDate").val();
+        	var endDate = $("#endDate").val();
+        	var getDocumentURL = '${getLandLoadReportURL}&<portlet:namespace />landLoadId='+LandLoadId+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate+'&<portlet:namespace />isExport='+true;
+	 		window.location.href=getDocumentURL;
+        });
+        
+        
+        
         })(jQuery);
     </script> 

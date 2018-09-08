@@ -2,7 +2,11 @@ package com.report.portlet.portlet;
 
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,6 +17,7 @@ import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import org.apache.xmlbeans.impl.tool.Extension.Param;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.json.JSONArray;
@@ -21,9 +26,11 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.report.portlet.constants.SphmsReportModulePortletKeys;
+import com.report.portlet.portlet.util.LandLoadReportUtil;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
 
 @Component(
@@ -44,33 +51,23 @@ public class GetLandLoadResourceCommand implements MVCResourceCommand{
 		long landLoadId = ParamUtil.getLong(resourceRequest, "landLoadId");
 		String startDateStr = ParamUtil.getString(resourceRequest, "startDate");
 		String endDateStr = ParamUtil.getString(resourceRequest, "endDate");
+		boolean isExportReport = ParamUtil.getBoolean(resourceRequest, "isExport"); 
 		JSONObject responseObj = JSONFactoryUtil.createJSONObject();
 		JSONArray dataArray = JSONFactoryUtil.createJSONArray();
-		Date startDate = null;
-		Date endDate = null;
+		
+		String startDate =null;
+		String endDate = null;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
 		if(Validator.isNotNull(startDateStr) && Validator.isNotNull(endDateStr)){
+		
 			try {
-				startDate = dateFormat.parse(startDateStr);
-				endDate = dateFormat.parse(endDateStr);
-			} catch (ParseException e) {
-				_log.error(e);
-			}
-		}
-		if(Validator.isNull(startDateStr)){
-			Calendar previousYearDate = Calendar.getInstance();
-			previousYearDate.setTime(new Date());
-			previousYearDate.add(Calendar.YEAR, -1);
-			Date date=previousYearDate.getTime();
-			try {
-				startDate = dateFormat.parse(dateFormat.format(date));
-			} catch (ParseException e) {
-				_log.error(e);
-			}
-		}
-		if(Validator.isNull(endDate)){
-			try {
-				endDate= dateFormat.parse(dateFormat.format(new Date()));
+				Date stDate = dateFormat.parse(startDateStr);
+				Date edDate = dateFormat.parse(endDateStr);
+				
+				startDate = dateFormat2.format(stDate);
+				endDate = dateFormat2.format(edDate);
+				
 			} catch (ParseException e) {
 				_log.error(e);
 			}
@@ -87,23 +84,61 @@ public class GetLandLoadResourceCommand implements MVCResourceCommand{
 				proposalJsonObj.put("landLoadcity", detailObj[3]);
 				proposalJsonObj.put("landLoadphoneNo",detailObj[4]);
 				proposalJsonObj.put("landLoadamount", detailObj[5]);
-				proposalJsonObj.put("landLoadchequeNo", detailObj[6]);
-				proposalJsonObj.put("landLoadbankName", detailObj[7]);
 				proposalJsonObj.put("hordingtitle", detailObj[8]);
 				proposalJsonObj.put("hordinglocation", detailObj[9]);
 				proposalJsonObj.put("hordingcity", detailObj[10]);
+				proposalJsonObj.put("paymentDate", detailObj[11]);
+				
+				if(Validator.isNotNull(detailObj[6])){
+					proposalJsonObj.put("paymenttype", "Cheque No: " + detailObj[6] + "(" + detailObj[7] + " )");
+				}else{
+					proposalJsonObj.put("paymenttype","Cash");
+				}
+				
 				dataArray.put(proposalJsonObj);
 		}
-		responseObj.put("aaData", dataArray);
-		responseObj.put("iTotalRecords", dataArray.length());
-		responseObj.put("iTotalDisplayRecords", dataArray.length());
-		    
-		 try {
-				resourceResponse.getWriter().write(responseObj.toString());
+		
+		if(!isExportReport){	
+			responseObj.put("aaData", dataArray);
+			responseObj.put("iTotalRecords", dataArray.length());
+			responseObj.put("iTotalDisplayRecords", dataArray.length());
+			    
+			 try {
+					resourceResponse.getWriter().write(responseObj.toString());
+				} catch (IOException e) {
+					_log.error(e.getMessage(), e);
+				}
+		}else{
+			try {
+				File file = LandLoadReportUtil.createLandLoadReport(landLoadId, startDate, endDate);
+				try {
+		        	resourceResponse.setContentType("application/vnd.ms-excel");
+		        	resourceResponse.addProperty(
+		                    HttpHeaders.CONTENT_DISPOSITION, "attachment;  filename="+ file.getName());
+
+		            OutputStream pos = resourceResponse.getPortletOutputStream();
+		            try {
+		            	byte[] bytesArray = new byte[(int) file.length()];
+		            	FileInputStream fis = new FileInputStream(file);
+		            	fis.read(bytesArray); //read file into bytes[]
+		            	fis.close();
+
+		                pos.write(bytesArray);
+		                pos.flush();
+		                
+		            } finally {
+		                pos.close();
+		            }
+		        } catch(IOException e){
+		        	_log.error(e);
+		        }
+				
+			} catch (FileNotFoundException e) {
+				_log.error(e.getMessage());
 			} catch (IOException e) {
-				_log.error(e.getMessage(), e);
+				_log.error(e.getMessage());
 			}
-		    
+		}
 		return true;
 	}
 

@@ -246,7 +246,7 @@ public class LandLordLocalServiceUtil {
 	* @return
 	*/
 	public static java.util.List<java.lang.Object> getLandLoadFilter(
-		long landLoadId, java.util.Date startDate, java.util.Date endDate) {
+		long landLoadId, java.lang.String startDate, java.lang.String endDate) {
 		return getService().getLandLoadFilter(landLoadId, startDate, endDate);
 	}
 

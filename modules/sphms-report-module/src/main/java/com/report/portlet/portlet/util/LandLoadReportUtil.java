@@ -20,16 +20,18 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
 
 public class LandLoadReportUtil {
 
 	private static final Log _log = LogFactoryUtil.getLog(LandLoadReportUtil.class.getName());
 	
-	public static File createLandLoadReport(long landLoadId,Date startDate,Date endDate) throws IOException{
+	public static File createLandLoadReport(long landLoadId,String startDate,String endDate) throws IOException{
 		
 		
-		int index=10;
+		int index=2;
 		
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet sheet = wb.createSheet();
@@ -78,48 +80,48 @@ public class LandLoadReportUtil {
 		style.setVerticalAlignment(VerticalAlignment.CENTER);
 		
 		XSSFCell cell12_1 = poTableRow.createCell(1);
-		cell12_1.setCellValue("landLoadfirstName");
+		cell12_1.setCellValue("First Name");
 		cell12_1.setCellStyle(style);
 		
 		XSSFCell cell12_2 = poTableRow.createCell(2);
-		cell12_2.setCellValue("landLoadlastName");
+		cell12_2.setCellValue("Last Name");
 		cell12_2.setCellStyle(style);
 		
 		
 		XSSFCell cell12_3 = poTableRow.createCell(3);
-		cell12_3.setCellValue("landLoadlocation");
+		cell12_3.setCellValue("Address");
 		cell12_3.setCellStyle(style);
 		
 		XSSFCell cell12_4 = poTableRow.createCell(4);
-		cell12_4.setCellValue("landLoadcity");
+		cell12_4.setCellValue("City");
 		cell12_4.setCellStyle(style);
 		
 		XSSFCell cell12_5 = poTableRow.createCell(5);
-		cell12_5.setCellValue("landLoadphoneNo");
+		cell12_5.setCellValue("Phone No");
 		cell12_5.setCellStyle(style);
 		
 		XSSFCell cell12_6 = poTableRow.createCell(6);
-		cell12_6.setCellValue("landLoadamount");
+		cell12_6.setCellValue("Amount");
 		cell12_6.setCellStyle(style);
 		
-		XSSFCell cell12_7 = poTableRow.createCell(7);
-		cell12_7.setCellValue("landLoadchequeNo");
+		XSSFCell cell12_12 = poTableRow.createCell(7);
+		cell12_12.setCellValue("Payment Date");
+		cell12_12.setCellStyle(style);
+		
+		XSSFCell cell12_7 = poTableRow.createCell(8);
+		cell12_7.setCellValue("Payment Type");
 		cell12_7.setCellStyle(style);
 		
-		XSSFCell cell12_8 = poTableRow.createCell(8);
-		cell12_8.setCellValue("landLoadbankName");
-		cell12_8.setCellStyle(style);
-		
 		XSSFCell cell12_9 = poTableRow.createCell(9);
-		cell12_9.setCellValue("hordingtitle");
+		cell12_9.setCellValue("Hoarding");
 		cell12_9.setCellStyle(style);
 		
 		XSSFCell cell12_10 = poTableRow.createCell(10);
-		cell12_10.setCellValue("hordinglocation");
+		cell12_10.setCellValue("Location");
 		cell12_10.setCellStyle(style);
 		
 		XSSFCell cell12_11 = poTableRow.createCell(11);
-		cell12_11.setCellValue("hordingcity");
+		cell12_11.setCellValue("City");
 		cell12_11.setCellStyle(style);
 		
 		index++;
@@ -155,10 +157,17 @@ public class LandLoadReportUtil {
 		cell6.setCellValue(String.valueOf(detailRow[5]));
 	
 		XSSFCell cell7 = landLoadDetail.createCell(7);
-		cell7.setCellValue(String.valueOf(detailRow[6]));
+		cell7.setCellValue(String.valueOf(detailRow[11]));
 	
+		String paymentType=StringPool.BLANK;
+		if(Validator.isNotNull(detailRow[6])){
+			paymentType = "Cheque No: " + detailRow[6] + "(" + detailRow[7] + " )" ;
+		}else{
+			paymentType = "Cash" ;
+		}
+		
 		XSSFCell cell8 = landLoadDetail.createCell(8);
-		cell8.setCellValue(String.valueOf(detailRow[7]));
+		cell8.setCellValue(paymentType);
 	
 		XSSFCell cel9 = landLoadDetail.createCell(9);
 		cel9.setCellValue(String.valueOf(detailRow[8]));

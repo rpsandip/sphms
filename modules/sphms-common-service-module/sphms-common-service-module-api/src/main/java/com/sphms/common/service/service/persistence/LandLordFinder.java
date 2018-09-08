@@ -23,5 +23,5 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public interface LandLordFinder {
 	public java.util.List<java.lang.Object> findLandLoadDetailFilter(
-		long landLoadId, java.util.Date StartDate, java.util.Date endDate);
+		long landLoadId, java.lang.String StartDate, java.lang.String endDate);
 }
