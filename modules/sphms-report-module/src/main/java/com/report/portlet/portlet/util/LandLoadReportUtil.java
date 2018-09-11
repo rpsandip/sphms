@@ -3,7 +3,6 @@ package com.report.portlet.portlet.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -39,12 +38,13 @@ public class LandLoadReportUtil {
 	    index = createLandLoadDetailHeader(sheet, wb, index);
 	    _log.info("header of document is inserted");
 		List<Object> landLoadReportDetail=LandLordLocalServiceUtil.getLandLoadFilter(landLoadId, startDate, endDate);
-	    
+	    double total=0.0;
 	    for(Object row : landLoadReportDetail){
 	    	Object[] detailObj = (Object[]) row;
+	    	total=total + Double.valueOf(String.valueOf(detailObj[5]));
 	    	index =  createLandLoadRow(sheet, wb, index, detailObj);
 	    }
-	    
+	    createLastRow(sheet, wb, index, total);
 	    _log.info("detail of LandLoad are filled"); 
 	   
 	    
@@ -116,13 +116,7 @@ public class LandLoadReportUtil {
 		cell12_9.setCellValue("Hoarding");
 		cell12_9.setCellStyle(style);
 		
-		XSSFCell cell12_10 = poTableRow.createCell(10);
-		cell12_10.setCellValue("Location");
-		cell12_10.setCellStyle(style);
 		
-		XSSFCell cell12_11 = poTableRow.createCell(11);
-		cell12_11.setCellValue("City");
-		cell12_11.setCellStyle(style);
 		
 		index++;
 		return index;
@@ -172,17 +166,35 @@ public class LandLoadReportUtil {
 		XSSFCell cel9 = landLoadDetail.createCell(9);
 		cel9.setCellValue(String.valueOf(detailRow[8]));
 	
-		XSSFCell cell0 = landLoadDetail.createCell(10);
-		cell0.setCellValue(String.valueOf(detailRow[9]));
-		
-		XSSFCell cell11 = landLoadDetail.createCell(11);
-		cell11.setCellValue(String.valueOf(detailRow[10]));
 		
 		index++;
 		return index;
 		
 	}
+
+private static int createLastRow(XSSFSheet sheet, XSSFWorkbook wb, int index, double total){
+		
+		XSSFFont font = wb.createFont();
+	    font.setFontHeightInPoints((short) 12);
+	    font.setBold(true);
+	    font.setFontName("Arial");
+	   
+	    XSSFRow landLoadDetail = sheet.createRow(index);
+		XSSFCellStyle style = getRowStyle(landLoadDetail, wb);
+		style.setFont(font);
+			
+		XSSFCell cell1 = landLoadDetail.createCell(1);
+		cell1.setCellValue("Total");
+		XSSFCell cell6 = landLoadDetail.createCell(6);
+		cell6.setCellValue(String.valueOf(total));
 	
+	
+		
+		index++;
+		return index;
+		
+	}
+
 
 	
 	private static  XSSFCellStyle getAllBorderStyle(XSSFWorkbook workbook){
