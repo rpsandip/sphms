@@ -58,6 +58,14 @@ public class BillingLocalServiceUtil {
 		return getService().getIndexableActionableDynamicQuery();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getBillingListForReport(
+		long customComanyId, long clientId, int status,
+		java.util.Date startDate, java.util.Date endDate) {
+		return getService()
+				   .getBillingListForReport(customComanyId, clientId, status,
+			startDate, endDate);
+	}
+
 	/**
 	* @throws PortalException
 	*/

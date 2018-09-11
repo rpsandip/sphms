@@ -14,6 +14,7 @@
 
 package com.sphms.common.service.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,9 @@ import com.liferay.portal.kernel.dao.orm.Order;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -39,11 +43,13 @@ import com.sphms.common.service.model.Billing_PO;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Booking_Hording;
 import com.sphms.common.service.model.CustomCompany;
+import com.sphms.common.service.model.Payment;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_HordingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_POLocalServiceUtil;
 import com.sphms.common.service.service.Booking_HordingLocalServiceUtil;
 import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
+import com.sphms.common.service.service.PaymentLocalServiceUtil;
 import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
 import com.sphms.common.service.service.base.BillingLocalServiceBaseImpl;
 import com.sphms.common.service.service.persistence.Billing_HordingPK;
@@ -393,5 +399,53 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		}
 		
 		return displayBillNo;
+	}
+	
+	public JSONObject getBillingListForReport(long customComanyId, long clientId, int status ,Date startDate, Date endDate){
+		
+		JSONObject finalObject = JSONFactoryUtil.createJSONObject();
+		JSONArray billJsonArray = JSONFactoryUtil.createJSONArray();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		List<Billing> billingList = getBillingList(customComanyId, clientId, status, startDate, endDate, -1, -1);
+		double totalFinalBillAmount = 0;
+	    double totalFinalPatment = 0;
+        double totalFinalOutStanding =0;
+		for(Billing billing : billingList){
+			BillingBean billingBean = new BillingBean(billing);
+			JSONObject billObject = JSONFactoryUtil.createJSONObject();
+			billObject.put("client", billingBean.getClientName());
+			billObject.put("campaign", billingBean.getCampaign());
+			billObject.put("financeYear", billingBean.getFinancialYear());
+			billObject.put("billNo", BillingLocalServiceUtil.getDisplayBillNo(billing));
+			billObject.put("bookingDate", dateFormat.format(billingBean.getBookingDate()));
+			
+			// Get Total amount
+			double totalBillAmount = 0;
+			List<Billing_Hording> billingHordingList = Billing_HordingLocalServiceUtil.getBillingHordingList(billing.getBillingId());
+			for(Billing_Hording billingHording : billingHordingList){
+				totalBillAmount+= billingHording.getTotalHordingCharge()+ billingHording.getTotalPrintingCharge()+ billingHording.getTotalMountingCharge();
+			}
+			
+			// Get Total total Payment against billing	
+			double totalPayment = 0;
+			List<Payment> paymentList = PaymentLocalServiceUtil.getPaymentsOfBill(billing.getBillingId());
+			for(Payment payment : paymentList){
+				totalPayment += payment.getAmount() - payment.getDeduction() - payment.getTds();
+			}
+			
+			billObject.put("totalBillAmount ", totalBillAmount);
+			billObject.put("totalPayment", totalPayment);
+			billObject.put("totalOutStanding", totalBillAmount-totalPayment);
+			billJsonArray.put(billObject);
+			
+			totalFinalBillAmount += totalBillAmount;
+			totalFinalPatment += totalPayment;
+			
+		}
+		finalObject.put("totalPayment", totalFinalPatment);
+		finalObject.put("totalBillAmount", totalFinalBillAmount);
+		finalObject.put("totalOutStanding", totalFinalBillAmount-totalFinalPatment);
+		finalObject.put("bills", billJsonArray);
+		return finalObject;
 	}
 }
