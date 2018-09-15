@@ -12,7 +12,11 @@ import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.report.portlet.constants.SphmsReportModulePortletKeys;
+import com.sphms.common.service.model.Client;
+import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.LandLord;
+import com.sphms.common.service.service.ClientLocalServiceUtil;
+import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
 
 /**
@@ -38,6 +42,12 @@ public class SphmsReportModulePortlet extends MVCPortlet {
 			throws IOException, PortletException {
 		List<LandLord> landLoadList=LandLordLocalServiceUtil.getActiveLandLords(-1,-1);
 		renderRequest.setAttribute("landLoadList", landLoadList);
+		// get ClientList
+				List<Client> clientList = ClientLocalServiceUtil.getClients(-1, -1);
+				renderRequest.setAttribute("clientList", clientList);
+		// Get Company List
+		List<CustomCompany> companyList = CustomCompanyLocalServiceUtil.getCustomCompanies(-1, -1);
+		renderRequest.setAttribute("companyList", companyList);
 		include(viewTemplate, renderRequest, renderResponse);
 	}
 	

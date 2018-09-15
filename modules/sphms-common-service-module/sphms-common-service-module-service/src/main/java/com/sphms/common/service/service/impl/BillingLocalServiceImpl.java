@@ -433,7 +433,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 				totalPayment += payment.getAmount() - payment.getDeduction() - payment.getTds();
 			}
 			
-			billObject.put("totalBillAmount ", totalBillAmount);
+			billObject.put("totalBillAmount", totalBillAmount);
 			billObject.put("totalPayment", totalPayment);
 			billObject.put("totalOutStanding", totalBillAmount-totalPayment);
 			billJsonArray.put(billObject);
