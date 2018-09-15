@@ -51,6 +51,9 @@ public class LandLoadReportUtil {
 	    sheet.getPrintSetup().setPaperSize(PrintSetup.A4_PAPERSIZE);
 	    sheet.setFitToPage(true);
 	    
+	    for(int i=1;i<=20;i++){
+			sheet.autoSizeColumn(i);
+		}
 	    
 	 // Write the output to a file
  		String fileName = "LandLoad Report" +".xlsx";

@@ -52,6 +52,10 @@ public class OutStandingReportUtil {
 
 		sheet.getPrintSetup().setPaperSize(PrintSetup.A4_PAPERSIZE);
 		sheet.setFitToPage(true);
+		
+		for(int i=1;i<=20;i++){
+			sheet.autoSizeColumn(i);
+		}
 
 		// Write the output to a file
 		String fileName = "OutStanding Report" + ".xlsx";
@@ -78,35 +82,35 @@ public class OutStandingReportUtil {
 		style.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		XSSFCell cell12_1 = poTableRow.createCell(1);
-		cell12_1.setCellValue("client");
+		cell12_1.setCellValue("Client");
 		cell12_1.setCellStyle(style);
 
 		XSSFCell cell12_2 = poTableRow.createCell(2);
-		cell12_2.setCellValue("campaign");
+		cell12_2.setCellValue("Campaign");
 		cell12_2.setCellStyle(style);
 
 		XSSFCell cell12_3 = poTableRow.createCell(3);
-		cell12_3.setCellValue("financeYear");
+		cell12_3.setCellValue("FinanceYear");
 		cell12_3.setCellStyle(style);
 
 		XSSFCell cell12_4 = poTableRow.createCell(4);
-		cell12_4.setCellValue("billNo");
+		cell12_4.setCellValue("Bill No");
 		cell12_4.setCellStyle(style);
 
 		XSSFCell cell12_5 = poTableRow.createCell(5);
-		cell12_5.setCellValue("bookingDate");
+		cell12_5.setCellValue("Booking Date");
 		cell12_5.setCellStyle(style);
 
 		XSSFCell cell12_6 = poTableRow.createCell(6);
-		cell12_6.setCellValue("totalBillAmount");
+		cell12_6.setCellValue("Total Bill Amount");
 		cell12_6.setCellStyle(style);
 
 		XSSFCell cell12_12 = poTableRow.createCell(7);
-		cell12_12.setCellValue("totalPayment");
+		cell12_12.setCellValue("Total Payment");
 		cell12_12.setCellStyle(style);
 
 		XSSFCell cell12_7 = poTableRow.createCell(8);
-		cell12_7.setCellValue("totalOutStanding");
+		cell12_7.setCellValue("Total Out Standing");
 		cell12_7.setCellStyle(style);
 
 		index++;
