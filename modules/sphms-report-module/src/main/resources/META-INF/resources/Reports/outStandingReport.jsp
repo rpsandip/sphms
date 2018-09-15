@@ -28,7 +28,7 @@
 	                </div>
 	                <div class="form-group col-md-2">
 	                  <select name="status" id="status" class="form-control">
-						<option value="">Select Status</option>
+						<option value="-1">Select Status</option>
 							<option value="0">Created</option>
 							<option value="2">Published</option>
 						</select>
@@ -40,8 +40,8 @@
 	                  <input type="text" class="form-control" name="searchEndDate" id="billendDate" placeholder="End Date"/>
 	                </div>
 	                <div class="form-group col-md-2">
-	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearch">
-	                   <input type=button class="btn btn-primary"  value="Export" id="export">
+	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearchOUS">
+	                   <input type=button class="btn btn-primary"  value="Export" id="exportOUS">
 	                </div>
 	              </form>
 	              <br/>
@@ -57,21 +57,7 @@
  <script type="text/javascript">
         var billingsDataTable="";
        
-        $('#billstartDate').datepicker({
-    		format: 'dd/mm/yyyy',  
-    	    autoclose: true
-      }); 
-      
-      $('#billendDate').datepicker({
-  		format: 'dd/mm/yyyy',  
-  	    autoclose: true
-      }); 
-     
-      $('#billendDate').datepicker('setDate', 'today');
-      
-      var d = new Date();
-      d.setFullYear(d.getFullYear() - 1);
-      $('#billstartDate').datepicker('setDate', d);
+       
 
         
         jQuery.noConflict();
@@ -105,7 +91,7 @@
           });
           
                 
-        $("#filterSearch").on('click',function(){
+        $("#filterSearchOUS").on('click',function(){
             	var customCompany = $("#customCompany").val();
             	var client = $("#client").val();
             	var status = $("#status").val();
@@ -115,7 +101,7 @@
             	billingsDataTable.ajax.url(getDocumentURL).load();
 		 });
         
-        $("#export").on('click',function(){
+        $("#exportOUS").on('click',function(){
         	var customCompany = $("#customCompany").val();
         	var client = $("#client").val();
         	var status = $("#status").val();
@@ -124,5 +110,23 @@
         	var getDocumentURL = '${getOutstandingReportURL}&<portlet:namespace />customCompany='+customCompany+'&<portlet:namespace />client='+client+'&<portlet:namespace />status='+status+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate+'&<portlet:namespace />isExport='+true;;
             window.location.href=getDocumentURL;
         });
+        
+        $('#billstartDate').datepicker({
+    		format: 'dd/mm/yyyy',  
+    	    autoclose: true
+      }); 
+      
+      $('#billendDate').datepicker({
+  		format: 'dd/mm/yyyy',  
+  	    autoclose: true
+      }); 
+     
+      $('#billendDate').datepicker('setDate', 'today');
+      
+      var d = new Date();
+      d.setFullYear(d.getFullYear() - 1);
+      $('#billstartDate').datepicker('setDate', d);
+        
+        
         })(jQuery);
     </script> 

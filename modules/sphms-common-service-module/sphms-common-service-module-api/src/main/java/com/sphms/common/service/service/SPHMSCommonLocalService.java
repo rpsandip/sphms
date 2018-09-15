@@ -27,7 +27,9 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import com.sphms.common.service.beans.Billing_HordingBean;
 import com.sphms.common.service.beans.HordingBean;
+import com.sphms.common.service.model.Client;
 
 import java.io.File;
 
@@ -56,6 +58,9 @@ public interface SPHMSCommonLocalService extends BaseLocalService {
 	 * Never modify or reference this interface directly. Always use {@link SPHMSCommonLocalServiceUtil} to access the s p h m s common local service. Add custom service methods to {@link com.sphms.common.service.service.impl.SPHMSCommonLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isClientOutOfGujrat(Client client);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean isFolderExist(long groupId, long parentFolderId,
 		java.lang.String folderName);
 
@@ -71,8 +76,23 @@ public interface SPHMSCommonLocalService extends BaseLocalService {
 		java.lang.String folderName);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Client getClient(long clientId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public double getDisplayCharges(double pricePerMonth,
 		long displayDurationDays);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public double getTotalHordingDisplayCharges(
+		List<Billing_HordingBean> billingHordingList);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public double getTotalMountingChage(
+		List<Billing_HordingBean> billingHordingList);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public double getTotalPrintingChage(
+		List<Billing_HordingBean> billingHordingList);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public float getTotalSqFt(java.lang.String[] heigthWidthArray);

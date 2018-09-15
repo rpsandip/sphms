@@ -34,6 +34,12 @@ public class SPHMSCommonLocalServiceWrapper implements SPHMSCommonLocalService,
 	}
 
 	@Override
+	public boolean isClientOutOfGujrat(
+		com.sphms.common.service.model.Client client) {
+		return _sphmsCommonLocalService.isClientOutOfGujrat(client);
+	}
+
+	@Override
 	public boolean isFolderExist(long groupId, long parentFolderId,
 		java.lang.String folderName) {
 		return _sphmsCommonLocalService.isFolderExist(groupId, parentFolderId,
@@ -66,10 +72,33 @@ public class SPHMSCommonLocalServiceWrapper implements SPHMSCommonLocalService,
 	}
 
 	@Override
+	public com.sphms.common.service.model.Client getClient(long clientId) {
+		return _sphmsCommonLocalService.getClient(clientId);
+	}
+
+	@Override
 	public double getDisplayCharges(double pricePerMonth,
 		long displayDurationDays) {
 		return _sphmsCommonLocalService.getDisplayCharges(pricePerMonth,
 			displayDurationDays);
+	}
+
+	@Override
+	public double getTotalHordingDisplayCharges(
+		java.util.List<com.sphms.common.service.beans.Billing_HordingBean> billingHordingList) {
+		return _sphmsCommonLocalService.getTotalHordingDisplayCharges(billingHordingList);
+	}
+
+	@Override
+	public double getTotalMountingChage(
+		java.util.List<com.sphms.common.service.beans.Billing_HordingBean> billingHordingList) {
+		return _sphmsCommonLocalService.getTotalMountingChage(billingHordingList);
+	}
+
+	@Override
+	public double getTotalPrintingChage(
+		java.util.List<com.sphms.common.service.beans.Billing_HordingBean> billingHordingList) {
+		return _sphmsCommonLocalService.getTotalPrintingChage(billingHordingList);
 	}
 
 	@Override

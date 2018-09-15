@@ -45,10 +45,14 @@ import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.sphms.common.service.beans.Billing_HordingBean;
 import com.sphms.common.service.beans.HordingBean;
+import com.sphms.common.service.model.Billing_Hording;
+import com.sphms.common.service.model.Client;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.service.BookingLocalServiceUtil;
 import com.sphms.common.service.service.Booking_HordingLocalServiceUtil;
+import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.base.SPHMSCommonLocalServiceBaseImpl;
 import com.sphms.common.service.util.BookingStatus;
@@ -299,5 +303,46 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 	public  double getDisplayCharges(double pricePerMonth, long displayDurationDays){
 		// Considering month days are 30.
 		return (pricePerMonth/30)*displayDurationDays;
+	}
+	
+	public  double getTotalHordingDisplayCharges(List<Billing_HordingBean> billingHordingList){
+		double totalHordingDisplayCharges=0d;
+		for(Billing_HordingBean billingHording : billingHordingList){
+			totalHordingDisplayCharges+=billingHording.getTotalHordingCharge();
+		}
+		return totalHordingDisplayCharges;
+	}
+	
+	public  double getTotalPrintingChage(List<Billing_HordingBean> billingHordingList){
+		double totalPrintingChargeList =0d;
+		for(Billing_HordingBean billingHording : billingHordingList){
+			totalPrintingChargeList+=billingHording.getTotalPrintingCharge();
+		}
+		return totalPrintingChargeList;
+	}
+	
+	public  double getTotalMountingChage(List<Billing_HordingBean> billingHordingList){
+		double totalMoutingChargeList =0d;
+		for(Billing_HordingBean billingHording : billingHordingList){
+			totalMoutingChargeList+=billingHording.getTotalMountingCharge();
+		}
+		return totalMoutingChargeList;
+	}
+	
+	public  Client getClient(long clientId){
+		Client client = null;
+		try {
+			client = ClientLocalServiceUtil.getClient(clientId);
+		} catch (PortalException e) {
+			LOG.error(e);
+		}
+		return client;
+	}
+	
+	public  boolean isClientOutOfGujrat(Client client){
+		if(Validator.isNotNull(client) && Validator.isNotNull(client.getState()) && !client.getState().toLowerCase().equalsIgnoreCase("gujarat")){
+			return true;
+		}
+		return false;
 	}
 }

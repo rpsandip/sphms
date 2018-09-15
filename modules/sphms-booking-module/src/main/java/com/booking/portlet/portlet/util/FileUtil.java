@@ -79,7 +79,7 @@ public class FileUtil {
 		
 		int index=10;
 		
-		Client client = getClient(billing.getClientId());
+		Client client = SPHMSCommonLocalServiceUtil.getClient(billing.getClientId());
 		
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet sheet = wb.createSheet("Bill");
@@ -90,9 +90,9 @@ public class FileUtil {
 	    font.setBold(true);
 	    font.setFontName("Arial");
 	    
-	    double totalHordingDisplayCharges = getTotalHordingDisplayCharges(billingHordingList);
-		double totalPrintingCharge = getTotalPrintingChage(billingHordingList);
-		double totalMoutingCharge = getTotalMountingChage(billingHordingList);
+	    double totalHordingDisplayCharges = SPHMSCommonLocalServiceUtil.getTotalHordingDisplayCharges(billingHordingList);
+		double totalPrintingCharge = SPHMSCommonLocalServiceUtil.getTotalPrintingChage(billingHordingList);
+		double totalMoutingCharge = SPHMSCommonLocalServiceUtil.getTotalMountingChage(billingHordingList);
 		
 		String billType=StringPool.BLANK;
 		
@@ -168,7 +168,7 @@ public class FileUtil {
 		double iGSTRATE = Double.parseDouble(PropsUtil.get("igst.rate"));
 		double cGSTRATE = Double.parseDouble(PropsUtil.get("cgst.rate"));
 		double sGSTRATE = Double.parseDouble(PropsUtil.get("sgst.rate"));
-		boolean isClientOutOfGuj = isClientOutOfGujrat(client);
+		boolean isClientOutOfGuj = SPHMSCommonLocalServiceUtil.isClientOutOfGujrat(client);
 		
 		if(billType.equals(PRINTING_BILL_TYPE)){
 			iGSTRATE = 0.12d;
@@ -1224,56 +1224,6 @@ public class FileUtil {
 	private static  void mergedRegion(int rowStart, int rowEnd, int columnStart, int columnEnd, XSSFSheet sheet){
 		CellRangeAddress cellRnage = new CellRangeAddress(rowStart, rowEnd, columnStart, columnEnd);
 		sheet.addMergedRegion(cellRnage);
-	}
-	
-	private static double getTotalHordingDisplayCharges(List<Billing_HordingBean> billingHordingList){
-		double totalHordingDisplayCharges=0d;
-		for(Billing_HordingBean billingHording : billingHordingList){
-			totalHordingDisplayCharges+=billingHording.getTotalHordingCharge();
-		}
-		return totalHordingDisplayCharges;
-	}
-	
-	private static double getTotalPrintingChage(List<Billing_HordingBean> billingHordingList){
-		double totalPrintingChargeList =0d;
-		for(Billing_HordingBean billingHording : billingHordingList){
-			totalPrintingChargeList+=billingHording.getTotalPrintingCharge();
-		}
-		return totalPrintingChargeList;
-	}
-	
-	private static double getTotalMountingChage(List<Billing_HordingBean> billingHordingList){
-		double totalMoutingChargeList =0d;
-		for(Billing_HordingBean billingHording : billingHordingList){
-			totalMoutingChargeList+=billingHording.getTotalMountingCharge();
-		}
-		return totalMoutingChargeList;
-	}
-	
-	
-	
-	private static long getDisplayDuration(Date startDate, Date endDate){
-	    long diff = endDate.getTime() - startDate.getTime();
-	    // Need to add 1 days because for same start and end date below equiation gives 0 and we have to consider 
-	    // as 1. Same for other dates.
-	    return (diff / (1000*60*60*24))+1;
-	}
-	
-	private static Client getClient(long clientId){
-		Client client = null;
-		try {
-			client = ClientLocalServiceUtil.getClient(clientId);
-		} catch (PortalException e) {
-			_log.error(e);
-		}
-		return client;
-	}
-	
-	private static boolean isClientOutOfGujrat(Client client){
-		if(Validator.isNotNull(client) && Validator.isNotNull(client.getState()) && !client.getState().toLowerCase().equalsIgnoreCase("gujarat")){
-			return true;
-		}
-		return false;
 	}
 	
 }

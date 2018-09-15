@@ -41,6 +41,11 @@ public class SPHMSCommonLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.sphms.common.service.service.impl.SPHMSCommonLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean isClientOutOfGujrat(
+		com.sphms.common.service.model.Client client) {
+		return getService().isClientOutOfGujrat(client);
+	}
+
 	public static boolean isFolderExist(long groupId, long parentFolderId,
 		java.lang.String folderName) {
 		return getService().isFolderExist(groupId, parentFolderId, folderName);
@@ -67,9 +72,28 @@ public class SPHMSCommonLocalServiceUtil {
 		return getService().getFolder(groupId, parentFolderId, folderName);
 	}
 
+	public static com.sphms.common.service.model.Client getClient(long clientId) {
+		return getService().getClient(clientId);
+	}
+
 	public static double getDisplayCharges(double pricePerMonth,
 		long displayDurationDays) {
 		return getService().getDisplayCharges(pricePerMonth, displayDurationDays);
+	}
+
+	public static double getTotalHordingDisplayCharges(
+		java.util.List<com.sphms.common.service.beans.Billing_HordingBean> billingHordingList) {
+		return getService().getTotalHordingDisplayCharges(billingHordingList);
+	}
+
+	public static double getTotalMountingChage(
+		java.util.List<com.sphms.common.service.beans.Billing_HordingBean> billingHordingList) {
+		return getService().getTotalMountingChage(billingHordingList);
+	}
+
+	public static double getTotalPrintingChage(
+		java.util.List<com.sphms.common.service.beans.Billing_HordingBean> billingHordingList) {
+		return getService().getTotalPrintingChage(billingHordingList);
 	}
 
 	public static float getTotalSqFt(java.lang.String[] heigthWidthArray) {

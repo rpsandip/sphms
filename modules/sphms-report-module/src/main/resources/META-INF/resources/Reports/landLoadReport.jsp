@@ -23,8 +23,8 @@
 	                  <input type="text" class="form-control" name="endDate" id="endDate" placeholder="End Date"/>
 	                </div>
 	                <div class="form-group col-md-3">
-	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearch">
-					 <input type=button class="btn btn-primary"  value="Export" id="export">
+	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearchLanloard">
+					 <input type=button class="btn btn-primary"  value="Export" id="exportLandLoard">
 	                </div>
 	              </form>
 	              <br/>
@@ -40,21 +40,6 @@
  <script type="text/javascript">
         var landLoadDataTable="";
        
-        $('#startDate').datepicker({
-    		format: 'dd/mm/yyyy',  
-    	    autoclose: true
-      }); 
-      
-      $('#endDate').datepicker({
-  		format: 'dd/mm/yyyy',  
-  	    autoclose: true
-      }); 
-     
-      $('#endDate').datepicker('setDate', 'today');
-      
-      var d = new Date();
-      d.setFullYear(d.getFullYear() - 1);
-      $('#startDate').datepicker('setDate', d);
 
         
         jQuery.noConflict();
@@ -86,7 +71,7 @@
           });
           
                 
-        $("#filterSearch").on('click',function(){
+        $("#filterSearchLanloard").on('click',function(){
             	var LandLoadId = $("#landLoad").val();
             	var startDate = $("#startDate").val();
             	var endDate = $("#endDate").val();
@@ -94,15 +79,31 @@
             	landLoadDataTable.ajax.url(getDocumentURL).load();
 		 });
         
-        $("#export").on('click',function(){
+        $("#exportLandLoard").on('click',function(){
         	var LandLoadId = $("#landLoad").val();
         	var startDate = $("#startDate").val();
         	var endDate = $("#endDate").val();
         	var getDocumentURL = '${getLandLoadReportURL}&<portlet:namespace />landLoadId='+LandLoadId+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate+'&<portlet:namespace />isExport='+true;
 	 		window.location.href=getDocumentURL;
         });
-        
-        
+
+
+        $('#startDate').datepicker({
+    		format: 'dd/mm/yyyy',  
+    	    autoclose: true
+      }); 
+      
+      $('#endDate').datepicker({
+  		format: 'dd/mm/yyyy',  
+  	    autoclose: true
+      }); 
+     
+      $('#endDate').datepicker('setDate', 'today');
+      
+      var d = new Date();
+      d.setFullYear(d.getFullYear() - 1);
+      $('#startDate').datepicker('setDate', d);
+      
         
         })(jQuery);
     </script> 

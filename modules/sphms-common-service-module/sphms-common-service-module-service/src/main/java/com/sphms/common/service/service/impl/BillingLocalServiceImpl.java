@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.BillingBean;
@@ -42,12 +43,14 @@ import com.sphms.common.service.model.Billing_Hording;
 import com.sphms.common.service.model.Billing_PO;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.Booking_Hording;
+import com.sphms.common.service.model.Client;
 import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Payment;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_HordingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_POLocalServiceUtil;
 import com.sphms.common.service.service.Booking_HordingLocalServiceUtil;
+import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.common.service.service.PaymentLocalServiceUtil;
 import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
@@ -78,7 +81,9 @@ import aQute.bnd.annotation.ProviderType;
 public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 	
 	Log _log = LogFactoryUtil.getLog(BillingLocalServiceImpl.class.getName());
-	
+	private static final String MOUNTING_BILL_TYPE="mounting";
+	private static final String PRINTING_BILL_TYPE="printing";
+	private static final String ADD_SPACE_BILL_TYPE="ad";
 	/*
 	 * Method for add initial information of bill after creation of booking
 	 */
@@ -411,6 +416,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 	    double totalFinalPatment = 0;
         double totalFinalOutStanding =0;
 		for(Billing billing : billingList){
+			
 			BillingBean billingBean = new BillingBean(billing);
 			JSONObject billObject = JSONFactoryUtil.createJSONObject();
 			billObject.put("client", billingBean.getClientName());
@@ -419,12 +425,75 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			billObject.put("billNo", BillingLocalServiceUtil.getDisplayBillNo(billing));
 			billObject.put("bookingDate", dateFormat.format(billingBean.getBookingDate()));
 			
+			
 			// Get Total amount
 			double totalBillAmount = 0;
 			List<Billing_Hording> billingHordingList = Billing_HordingLocalServiceUtil.getBillingHordingList(billing.getBillingId());
-			for(Billing_Hording billingHording : billingHordingList){
-				totalBillAmount+= billingHording.getTotalHordingCharge()+ billingHording.getTotalPrintingCharge()+ billingHording.getTotalMountingCharge();
+		
+			Client client = SPHMSCommonLocalServiceUtil.getClient(billing.getClientId());
+			double totalHordingDisplayCharges = getTotalHordingDisplayCharges(billingHordingList);
+			double totalPrintingCharge = getTotalPrintingChage(billingHordingList);
+			double totalMoutingCharge = getTotalMountingChage(billingHordingList);
+			
+			String billType=StringPool.BLANK;
+			
+			_log.debug("Calculated total");
+			
+			if(totalHordingDisplayCharges>0){
+				billType=ADD_SPACE_BILL_TYPE;
+			}else if(totalPrintingCharge>0 && totalMoutingCharge==0){
+				billType=PRINTING_BILL_TYPE;
+			}else if(totalMoutingCharge>0 && totalPrintingCharge==0){
+				billType=MOUNTING_BILL_TYPE;
+			}else{
+				billType=ADD_SPACE_BILL_TYPE;
 			}
+			
+			if(totalPrintingCharge>0 && billType.equals(ADD_SPACE_BILL_TYPE)){
+				totalHordingDisplayCharges +=totalPrintingCharge;
+			}
+			
+			if(totalMoutingCharge>0 && billType.equals(ADD_SPACE_BILL_TYPE)){
+				totalHordingDisplayCharges+=totalMoutingCharge;
+			}
+			
+			if(billType.equals(PRINTING_BILL_TYPE)){
+				totalHordingDisplayCharges = totalPrintingCharge;
+			}
+			if(billType.equalsIgnoreCase(MOUNTING_BILL_TYPE)){
+				totalHordingDisplayCharges = totalMoutingCharge;
+			}
+			
+			double iGSTCharge = 0d;
+			double cGSTCharge = 0d;
+			double sGSTCharge = 0d;
+			double iGSTRATE = Double.parseDouble(PropsUtil.get("igst.rate"));
+			double cGSTRATE = Double.parseDouble(PropsUtil.get("cgst.rate"));
+			double sGSTRATE = Double.parseDouble(PropsUtil.get("sgst.rate"));
+			boolean isClientOutOfGuj = SPHMSCommonLocalServiceUtil.isClientOutOfGujrat(client);
+			
+			if(billType.equals(PRINTING_BILL_TYPE)){
+				iGSTRATE = 0.12d;
+				sGSTRATE = 0.06d;
+				cGSTRATE = 0.06d;
+			}
+			
+			 totalBillAmount= totalHordingDisplayCharges;
+			
+			if(isClientOutOfGuj){
+				iGSTCharge = totalHordingDisplayCharges*iGSTRATE;
+				totalBillAmount = totalHordingDisplayCharges + iGSTCharge;
+			}else{
+				//Total amount
+				// Considering CGST as 9%
+				 cGSTCharge = totalHordingDisplayCharges* cGSTRATE;
+				// Consideting SGST as 9%
+				 sGSTCharge = totalHordingDisplayCharges* sGSTRATE;
+				
+				 totalBillAmount = totalHordingDisplayCharges + cGSTCharge + sGSTCharge;
+				
+			}
+			
 			
 			// Get Total total Payment against billing	
 			double totalPayment = 0;
@@ -447,5 +516,29 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		finalObject.put("totalOutStanding", totalFinalBillAmount-totalFinalPatment);
 		finalObject.put("bills", billJsonArray);
 		return finalObject;
+	}
+	
+	private static double getTotalHordingDisplayCharges(List<Billing_Hording> billingHordingList){
+		double totalHordingDisplayCharges=0d;
+		for(Billing_Hording billingHording : billingHordingList){
+			totalHordingDisplayCharges+=billingHording.getTotalHordingCharge();
+		}
+		return totalHordingDisplayCharges;
+	}
+	
+	private static double getTotalPrintingChage(List<Billing_Hording> billingHordingList){
+		double totalPrintingChargeList =0d;
+		for(Billing_Hording billingHording : billingHordingList){
+			totalPrintingChargeList+=billingHording.getTotalPrintingCharge();
+		}
+		return totalPrintingChargeList;
+	}
+	
+	private static double getTotalMountingChage(List<Billing_Hording> billingHordingList){
+		double totalMoutingChargeList =0d;
+		for(Billing_Hording billingHording : billingHordingList){
+			totalMoutingChargeList+=billingHording.getTotalMountingCharge();
+		}
+		return totalMoutingChargeList;
 	}
 }
