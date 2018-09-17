@@ -49,6 +49,7 @@ import com.sphms.common.service.model.Payment;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_HordingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_POLocalServiceUtil;
+import com.sphms.common.service.service.BookingLocalServiceUtil;
 import com.sphms.common.service.service.Booking_HordingLocalServiceUtil;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
@@ -416,14 +417,16 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 	    double totalFinalPatment = 0;
 		for(Billing billing : billingList){
 			
+		try{	
 			BillingBean billingBean = new BillingBean(billing);
 			JSONObject billObject = JSONFactoryUtil.createJSONObject();
+			Booking booking = BookingLocalServiceUtil.getBooking(billing.getBookingId());
 			billObject.put("client", billingBean.getClientName());
 			billObject.put("campaign", billingBean.getCampaign());
 			billObject.put("financeYear", billingBean.getFinancialYear());
 			billObject.put("billNo", BillingLocalServiceUtil.getDisplayBillNo(billing));
 			billObject.put("bookingDate", dateFormat.format(billingBean.getBookingDate()));
-			
+			billObject.put("displayDate", dateFormat.format(booking.getStartDate())+" to " + dateFormat.format(booking.getEndDate()));
 			
 			// Get Total amount
 			double totalBillAmount = 0;
@@ -527,7 +530,11 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			totalFinalBillAmount += totalBillAmount;
 			totalFinalPatment += totalPayment;
 			
+		}catch(Exception e){
+				_log.error(e.getMessage());
+			}
 		}
+		
 		finalObject.put("totalPayment", totalFinalPatment);
 		finalObject.put("totalBillAmount", totalFinalBillAmount);
 		finalObject.put("totalOutStanding", totalFinalBillAmount-totalFinalPatment);
