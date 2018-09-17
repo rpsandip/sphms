@@ -56,7 +56,7 @@ public class LandLoadReportUtil {
 		}
 	    
 	 // Write the output to a file
- 		String fileName = "LandLoad Report" +".xlsx";
+ 		String fileName = "LandLoad Report" + ".xlsx";
  		File file = new File(System.getProperty("catalina.home")+"/temp/"+fileName);
  		
  		FileOutputStream fileOut = new FileOutputStream(file);

@@ -414,7 +414,6 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		List<Billing> billingList = getBillingList(customComanyId, clientId, status, startDate, endDate, -1, -1);
 		double totalFinalBillAmount = 0;
 	    double totalFinalPatment = 0;
-        double totalFinalOutStanding =0;
 		for(Billing billing : billingList){
 			
 			BillingBean billingBean = new BillingBean(billing);
@@ -495,16 +494,34 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			}
 			
 			
-			// Get Total total Payment against billing	
+			// Get Total total Payment against billing
+			JSONArray billPayments = JSONFactoryUtil.createJSONArray();
 			double totalPayment = 0;
 			List<Payment> paymentList = PaymentLocalServiceUtil.getPaymentsOfBill(billing.getBillingId());
 			for(Payment payment : paymentList){
 				totalPayment += payment.getAmount() - payment.getDeduction() - payment.getTds();
+				
+				JSONObject paymentDetail = JSONFactoryUtil.createJSONObject();
+				paymentDetail.put("amount", payment.getAmount());
+				paymentDetail.put("chequeNo", payment.getChequeNo());
+				paymentDetail.put("deduction", payment.getDeduction());
+				paymentDetail.put("descrition", payment.getDescription());
+				paymentDetail.put("tds", payment.getTds());
+				paymentDetail.put("paymentdate", payment.getCreateDate());
+				if(Validator.isNotNull(payment.getChequeNo())){
+					paymentDetail.put("paymenttype", "Cheque No: " + payment.getChequeNo());
+				}else{
+					paymentDetail.put("paymenttype","Cash");
+				}
+				paymentDetail.put("totalDeduction", payment.getTds()+payment.getDeduction());
+				billPayments.put(paymentDetail);
 			}
 			
 			billObject.put("totalBillAmount", totalBillAmount);
 			billObject.put("totalPayment", totalPayment);
 			billObject.put("totalOutStanding", totalBillAmount-totalPayment);
+			billObject.put("payments", billPayments);
+			
 			billJsonArray.put(billObject);
 			
 			totalFinalBillAmount += totalBillAmount;
