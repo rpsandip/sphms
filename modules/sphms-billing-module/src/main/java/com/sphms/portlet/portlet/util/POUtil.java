@@ -92,7 +92,7 @@ public class POUtil {
 			}
 	    }
 	    
-	    double totalAmount = getTotalAmount(totalHordingAmointList);
+	    double totalAmount = Math.round(getTotalAmount(totalHordingAmointList));
 	    double subTotalAmount = totalAmount;
 	    
 	    index = createSubTotalAmountRow(sheet, wb, index, font, subTotalAmount, booking);
@@ -464,7 +464,7 @@ public class POUtil {
 			cell6.setCellStyle(rightStyle);
 		}
 		
-		totalHordingAmointList.add(billingPO.getTotalAmount());
+		totalHordingAmointList.add(Double.valueOf(Math.round(billingPO.getTotalAmount())));
 		
 		index++;
 		return index;
@@ -499,7 +499,7 @@ private static int createSubTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int
 		
 		
 		XSSFCell cell6 = totalSubAmountRow.createCell(6);
-		cell6.setCellValue(subTotalAmount);
+		cell6.setCellValue(Math.round(subTotalAmount));
 		cell6.setCellStyle(style2);
 		
 		index++;
@@ -537,7 +537,7 @@ private static int createServiceTaxRow(XSSFSheet sheet, XSSFWorkbook wb, int ind
 		
 		
 		XSSFCell cell6 = cGSTROW.createCell(6);
-		cell6.setCellValue(cGST);
+		cell6.setCellValue(Math.round(cGST));
 		cell6.setCellStyle(style2);
 		
 		index++;
@@ -564,7 +564,7 @@ private static int createServiceTaxRow(XSSFSheet sheet, XSSFWorkbook wb, int ind
 		
 		
 		XSSFCell cell61 = sGSTROW.createCell(6);
-		cell61.setCellValue(sGST);
+		cell61.setCellValue(Math.round(sGST));
 		cell61.setCellStyle(style2);
 		
 		index++;
@@ -596,7 +596,7 @@ private static int createServiceTaxRow(XSSFSheet sheet, XSSFWorkbook wb, int ind
 		
 		
 		XSSFCell cell6 = iGSTROW.createCell(6);
-		cell6.setCellValue(iGST);
+		cell6.setCellValue(Math.round(iGST));
 		cell6.setCellStyle(style2);
 		
 		index++;
@@ -656,7 +656,7 @@ private static int createTotalAmountRow(XSSFSheet sheet, XSSFWorkbook wb, int in
 		
 		
 		XSSFCell cell6 = totalAmountRow.createCell(6);
-		cell6.setCellValue(totalAmount);
+		cell6.setCellValue(Math.round(totalAmount));
 		cell6.setCellStyle(style2);
 		
 		index++;

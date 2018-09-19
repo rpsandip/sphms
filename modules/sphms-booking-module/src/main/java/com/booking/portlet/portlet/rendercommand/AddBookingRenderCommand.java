@@ -55,7 +55,7 @@ public class AddBookingRenderCommand implements MVCRenderCommand{
 		long bookingId = ParamUtil.getLong(renderRequest, "bookingId");
 		
 		// Get all active client list
-		List<Client> allClientList = ClientLocalServiceUtil.getClients(-1, -1);
+		List<Client> allClientList = ClientLocalServiceUtil.getClients();
 		renderRequest.setAttribute("allClientList", allClientList);
 		
 		//Get Company List

@@ -51,7 +51,7 @@ public class BookongModulePortlet extends MVCPortlet {
 		}
 		
 		// get ClientList
-		List<Client> clientList = ClientLocalServiceUtil.getClients(-1, -1);
+		List<Client> clientList = ClientLocalServiceUtil.getClients();
 		renderRequest.setAttribute("clientList", clientList);
 		
 		//Get Company List

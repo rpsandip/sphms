@@ -697,7 +697,7 @@ public class FileUtil {
 			totalRowCharges = billingHordingBean.getTotalMountingCharge();
 		}
 		XSSFCell cell7 = hordingTableRow.createCell(MAX_ColUMN);
-		cell7.setCellValue(totalRowCharges);
+		cell7.setCellValue(Math.round(totalRowCharges));
 		if(loopIndex==(totalList-1)){
 			cell7.setCellStyle(getRightBottomBorderStyle(wb));
 		}else{
@@ -733,7 +733,7 @@ public class FileUtil {
 		cell6.setCellStyle(getAllBorderStyle(wb));
 		
 		XSSFCell cell7 = totalAmountRow.createCell(MAX_ColUMN);
-		cell7.setCellValue(totalPrintingCharge);
+		cell7.setCellValue(Math.round(totalPrintingCharge));
 		XSSFCellStyle style = getRightBottomBorderStyle(wb);
 		style.setAlignment(HorizontalAlignment.LEFT);
 		cell7.setCellStyle(style);
@@ -766,7 +766,7 @@ public class FileUtil {
 		cell6.setCellStyle(getAllBorderStyle(wb));
 		
 		XSSFCell cell7 = totalAmountRow.createCell(MAX_ColUMN);
-		cell7.setCellValue(totalMountingCharge);
+		cell7.setCellValue(Math.round(totalMountingCharge));
 		XSSFCellStyle style = getRightBottomBorderStyle(wb);
 		style.setAlignment(HorizontalAlignment.LEFT);
 		cell7.setCellStyle(style);
@@ -800,7 +800,7 @@ public class FileUtil {
 		cell6.setCellStyle(getAllBorderStyle(wb));
 		
 		XSSFCell cell7 = totalAmountRow.createCell(MAX_ColUMN);
-		cell7.setCellValue(totalHordingDisplayCharges);
+		cell7.setCellValue(Math.round(totalHordingDisplayCharges));
 		XSSFCellStyle style = getRightBottomBorderStyle(wb);
 		style.setAlignment(HorizontalAlignment.RIGHT);
 		cell7.setCellStyle(style);
@@ -828,7 +828,7 @@ public class FileUtil {
 			
 			XSSFCell cell7 = cgstRow.createCell(MAX_ColUMN);
 			XSSFCellStyle style2 = getRightBorderStyle(wb);
-			cell7.setCellValue(cGST);
+			cell7.setCellValue(Math.round(cGST));
 			cell7.setCellStyle(style2);
 			
 			mergedRegion(index, index, MIN_COLUMN, 5, sheet);
@@ -860,7 +860,7 @@ public class FileUtil {
 			
 			XSSFCell cell66 = sgstRow.createCell(MAX_ColUMN);
 			XSSFCellStyle style11 = getRightBottomBorderStyle( wb);
-			cell66.setCellValue(sGST);
+			cell66.setCellValue(Math.round(sGST));
 			cell66.setCellStyle(style11);
 			
 			mergedRegion(index, index, MIN_COLUMN, 5, sheet);
@@ -943,7 +943,7 @@ public class FileUtil {
 		_log.debug("before print row  2- >" );
 		
 		XSSFCell cell7 = totalAmountRow.createCell(MAX_ColUMN);
-		cell7.setCellValue(totalAmount);
+		cell7.setCellValue(Math.round(totalAmount));
 		cell7.setCellStyle(style2);
 		
 		index++;
@@ -962,12 +962,12 @@ public class FileUtil {
 		style.setFont(font);
 		XSSFCell cell1 = gstNoRow.createCell(1);
 		cell1.setCellValue("GST No   : "+ company.getGSTNo());
-		cell1.setCellStyle(style);
+		cell1.setCellStyle(getLeftRightBorderStyle(wb));
 		
-		XSSFCell cell6 = gstNoRow.createCell(6);
+		XSSFCell cell6 = gstNoRow.createCell(7);
 		cell6.setCellStyle(getRightBorderStyle(wb));
 		
-		mergedRegion(index, index, MIN_COLUMN, MAX_ColUMN, sheet);
+		mergedRegion(index, index, MIN_COLUMN, 6, sheet);
 		index++;
 		
 		// GST Row
@@ -1114,6 +1114,8 @@ public class FileUtil {
 		cell2_4.setCellValue("Authorised Signatory");
 		cell2_4.setCellStyle(style);
 		
+		XSSFCell cell2_7 = footerRow5.createCell(7);
+		cell2_7.setCellStyle(getRightBorderStyle(wb));
 		
 		index++;
 		
@@ -1204,6 +1206,13 @@ public class FileUtil {
 	private static  XSSFCellStyle getLeftBorderStyle(XSSFWorkbook workbook){
 		XSSFCellStyle style = workbook.createCellStyle();
 		style.setBorderLeft(BorderStyle.MEDIUM);
+		return style;
+	}
+	
+	private static  XSSFCellStyle getLeftRightBorderStyle(XSSFWorkbook workbook){
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
 		return style;
 	}
 

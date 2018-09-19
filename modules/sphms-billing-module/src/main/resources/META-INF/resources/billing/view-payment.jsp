@@ -48,7 +48,7 @@
 			                <td>${payment.amount }</td>
 			                <td>
 			                <c:if test="${fn:length(payment.chequeNo) gt 0}">
-			               		 ${payment.chequeNo }
+			               		 Cheque No - ${payment.chequeNo }
 			               	</c:if>
 			               	 <c:if test="${fn:length(payment.chequeNo) eq 0}">
 			               		 Cash
@@ -56,7 +56,15 @@
 			               	</td>
 			                <td>${payment.tds }</td>
 			                <td>${payment.deduction }</td>
-			                <fmt:formatDate pattern = "dd/MM/yyyy" 	value = "${ payment.createDate}"  var="paymentDate"/>
+			                <c:choose>
+			                	<c:when test="${not empty payment.paymentDate}">
+			                		<fmt:formatDate pattern = "dd/MM/yyyy" 	value = "${ payment.paymentDate}"  var="paymentDate"/>
+			                	</c:when>
+			                	<c:otherwise>
+			                		<fmt:formatDate pattern = "dd/MM/yyyy" 	value = "${ payment.createDate}"  var="paymentDate"/>
+			                	</c:otherwise>
+			                </c:choose>
+			                
 			                <td>${paymentDate }</td>
 			                <td>${payment.description }</td>
 			                <portlet:renderURL var="editPaymentURL">

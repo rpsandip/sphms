@@ -182,6 +182,20 @@ public interface ClientModel extends BaseModel<Client> {
 	public void setState(String state);
 
 	/**
+	 * Returns the status of this client.
+	 *
+	 * @return the status of this client
+	 */
+	public int getStatus();
+
+	/**
+	 * Sets the status of this client.
+	 *
+	 * @param status the status of this client
+	 */
+	public void setStatus(int status);
+
+	/**
 	 * Returns the contact person name of this client.
 	 *
 	 * @return the contact person name of this client

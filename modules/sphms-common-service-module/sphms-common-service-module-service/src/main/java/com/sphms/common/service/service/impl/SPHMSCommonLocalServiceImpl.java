@@ -302,7 +302,7 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 	
 	public  double getDisplayCharges(double pricePerMonth, long displayDurationDays){
 		// Considering month days are 30.
-		return (pricePerMonth/30)*displayDurationDays;
+		return Math.round((pricePerMonth/30)*displayDurationDays);
 	}
 	
 	public  double getTotalHordingDisplayCharges(List<Billing_HordingBean> billingHordingList){
@@ -310,7 +310,7 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 		for(Billing_HordingBean billingHording : billingHordingList){
 			totalHordingDisplayCharges+=billingHording.getTotalHordingCharge();
 		}
-		return totalHordingDisplayCharges;
+		return Math.round(totalHordingDisplayCharges);
 	}
 	
 	public  double getTotalPrintingChage(List<Billing_HordingBean> billingHordingList){
@@ -318,7 +318,7 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 		for(Billing_HordingBean billingHording : billingHordingList){
 			totalPrintingChargeList+=billingHording.getTotalPrintingCharge();
 		}
-		return totalPrintingChargeList;
+		return Math.round(totalPrintingChargeList);
 	}
 	
 	public  double getTotalMountingChage(List<Billing_HordingBean> billingHordingList){
@@ -326,7 +326,7 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 		for(Billing_HordingBean billingHording : billingHordingList){
 			totalMoutingChargeList+=billingHording.getTotalMountingCharge();
 		}
-		return totalMoutingChargeList;
+		return Math.round(totalMoutingChargeList);
 	}
 	
 	public  Client getClient(long clientId){

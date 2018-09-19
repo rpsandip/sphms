@@ -79,9 +79,9 @@ public class PaymentLocalServiceWrapper implements PaymentLocalService,
 	@Override
 	public com.sphms.common.service.model.Payment addPayment(long billingId,
 		double amount, java.lang.String chequeNo, double tds, double deduction,
-		java.lang.String description, long createdBy) {
+		java.lang.String description, java.util.Date paymentDate, long createdBy) {
 		return _paymentLocalService.addPayment(billingId, amount, chequeNo,
-			tds, deduction, description, createdBy);
+			tds, deduction, description, paymentDate, createdBy);
 	}
 
 	/**
@@ -154,9 +154,10 @@ public class PaymentLocalServiceWrapper implements PaymentLocalService,
 	public com.sphms.common.service.model.Payment updatePayment(
 		long paymentId, long billingId, double amount,
 		java.lang.String chequeNo, double tds, double deduction,
-		java.lang.String description, long modifiedBy) {
+		java.lang.String description, java.util.Date paymentDate,
+		long modifiedBy) {
 		return _paymentLocalService.updatePayment(paymentId, billingId, amount,
-			chequeNo, tds, deduction, description, modifiedBy);
+			chequeNo, tds, deduction, description, paymentDate, modifiedBy);
 	}
 
 	/**

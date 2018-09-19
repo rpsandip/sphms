@@ -33,7 +33,7 @@ public class ClientModulePortlet extends MVCPortlet {
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
 		// Get all Client
-		List<Client> clientList = ClientLocalServiceUtil.getClients(-1, -1);
+		List<Client> clientList = ClientLocalServiceUtil.getClients();
 		renderRequest.setAttribute("clientList", clientList);
 		
 		include(viewTemplate, renderRequest, renderResponse);

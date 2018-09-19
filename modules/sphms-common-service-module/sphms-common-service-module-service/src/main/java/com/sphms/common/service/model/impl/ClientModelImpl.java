@@ -71,6 +71,7 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 			{ "panNo", Types.VARCHAR },
 			{ "gstNo", Types.VARCHAR },
 			{ "state_", Types.VARCHAR },
+			{ "status", Types.INTEGER },
 			{ "contactPersonName", Types.VARCHAR },
 			{ "contactPersonEmail", Types.VARCHAR },
 			{ "contactPersonPhoneNo", Types.VARCHAR },
@@ -88,6 +89,7 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		TABLE_COLUMNS_MAP.put("panNo", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("gstNo", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("state_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("contactPersonName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactPersonEmail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactPersonPhoneNo", Types.VARCHAR);
@@ -95,7 +97,7 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		TABLE_COLUMNS_MAP.put("createdBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Client (clientId LONG not null primary key,clientName VARCHAR(100) null,address1 VARCHAR(100) null,address2 VARCHAR(100) null,city VARCHAR(50) null,panNo VARCHAR(75) null,gstNo VARCHAR(75) null,state_ VARCHAR(75) null,contactPersonName VARCHAR(50) null,contactPersonEmail VARCHAR(50) null,contactPersonPhoneNo VARCHAR(75) null,createDate DATE null,createdBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Client (clientId LONG not null primary key,clientName VARCHAR(100) null,address1 VARCHAR(100) null,address2 VARCHAR(100) null,city VARCHAR(50) null,panNo VARCHAR(75) null,gstNo VARCHAR(75) null,state_ VARCHAR(75) null,status INTEGER,contactPersonName VARCHAR(50) null,contactPersonEmail VARCHAR(50) null,contactPersonPhoneNo VARCHAR(75) null,createDate DATE null,createdBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Client";
 	public static final String ORDER_BY_JPQL = " ORDER BY client.createDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Client.createDate DESC";
@@ -108,7 +110,11 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.sphms.common.service.service.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.com.sphms.common.service.model.Client"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.sphms.common.service.service.util.PropsUtil.get(
+				"value.object.column.bitmask.enabled.com.sphms.common.service.model.Client"),
+			true);
+	public static final long STATUS_COLUMN_BITMASK = 1L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.sphms.common.service.service.util.PropsUtil.get(
 				"lock.expiration.time.com.sphms.common.service.model.Client"));
 
@@ -157,6 +163,7 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		attributes.put("panNo", getPanNo());
 		attributes.put("gstNo", getGstNo());
 		attributes.put("state", getState());
+		attributes.put("status", getStatus());
 		attributes.put("contactPersonName", getContactPersonName());
 		attributes.put("contactPersonEmail", getContactPersonEmail());
 		attributes.put("contactPersonPhoneNo", getContactPersonPhoneNo());
@@ -217,6 +224,12 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 
 		if (state != null) {
 			setState(state);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
 		}
 
 		String contactPersonName = (String)attributes.get("contactPersonName");
@@ -367,6 +380,28 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 	}
 
 	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
+		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
+	}
+
+	@Override
 	public String getContactPersonName() {
 		if (_contactPersonName == null) {
 			return StringPool.BLANK;
@@ -418,6 +453,8 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask = -1L;
+
 		_createDate = createDate;
 	}
 
@@ -429,6 +466,10 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 	@Override
 	public void setCreatedBy(long createdBy) {
 		_createdBy = createdBy;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -466,6 +507,7 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		clientImpl.setPanNo(getPanNo());
 		clientImpl.setGstNo(getGstNo());
 		clientImpl.setState(getState());
+		clientImpl.setStatus(getStatus());
 		clientImpl.setContactPersonName(getContactPersonName());
 		clientImpl.setContactPersonEmail(getContactPersonEmail());
 		clientImpl.setContactPersonPhoneNo(getContactPersonPhoneNo());
@@ -531,6 +573,13 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 
 	@Override
 	public void resetOriginalValues() {
+		ClientModelImpl clientModelImpl = this;
+
+		clientModelImpl._originalStatus = clientModelImpl._status;
+
+		clientModelImpl._setOriginalStatus = false;
+
+		clientModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -595,6 +644,8 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 			clientCacheModel.state = null;
 		}
 
+		clientCacheModel.status = getStatus();
+
 		clientCacheModel.contactPersonName = getContactPersonName();
 
 		String contactPersonName = clientCacheModel.contactPersonName;
@@ -636,7 +687,7 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{clientId=");
 		sb.append(getClientId());
@@ -654,6 +705,8 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		sb.append(getGstNo());
 		sb.append(", state=");
 		sb.append(getState());
+		sb.append(", status=");
+		sb.append(getStatus());
 		sb.append(", contactPersonName=");
 		sb.append(getContactPersonName());
 		sb.append(", contactPersonEmail=");
@@ -671,7 +724,7 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(46);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Client");
@@ -708,6 +761,10 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 		sb.append(
 			"<column><column-name>state</column-name><column-value><![CDATA[");
 		sb.append(getState());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>contactPersonName</column-name><column-value><![CDATA[");
@@ -747,10 +804,14 @@ public class ClientModelImpl extends BaseModelImpl<Client>
 	private String _panNo;
 	private String _gstNo;
 	private String _state;
+	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
 	private String _contactPersonName;
 	private String _contactPersonEmail;
 	private String _contactPersonPhoneNo;
 	private Date _createDate;
 	private long _createdBy;
+	private long _columnBitmask;
 	private Client _escapedModel;
 }

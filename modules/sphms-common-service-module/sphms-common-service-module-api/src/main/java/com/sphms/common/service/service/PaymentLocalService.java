@@ -36,6 +36,7 @@ import com.sphms.common.service.model.Payment;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -91,7 +92,7 @@ public interface PaymentLocalService extends BaseLocalService,
 
 	public Payment addPayment(long billingId, double amount,
 		java.lang.String chequeNo, double tds, double deduction,
-		java.lang.String description, long createdBy);
+		java.lang.String description, Date paymentDate, long createdBy);
 
 	/**
 	* Creates a new payment with the primary key. Does not add the payment to the database.
@@ -144,7 +145,7 @@ public interface PaymentLocalService extends BaseLocalService,
 
 	public Payment updatePayment(long paymentId, long billingId, double amount,
 		java.lang.String chequeNo, double tds, double deduction,
-		java.lang.String description, long modifiedBy);
+		java.lang.String description, Date paymentDate, long modifiedBy);
 
 	/**
 	* Returns the number of payments.

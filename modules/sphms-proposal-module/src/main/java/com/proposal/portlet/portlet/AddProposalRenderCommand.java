@@ -43,7 +43,7 @@ public class AddProposalRenderCommand implements MVCRenderCommand{
 		
 		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
 			// Get all active client list
-			List<Client> allClientList = ClientLocalServiceUtil.getClients(-1, -1);
+			List<Client> allClientList = ClientLocalServiceUtil.getClients();
 			renderRequest.setAttribute("allClientList", allClientList);
 			
 			String[] selectedHordingIds = selectedHordings.split(",");

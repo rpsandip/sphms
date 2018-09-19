@@ -31,9 +31,9 @@ public class Billing_HordingBean {
 	public Billing_HordingBean(Billing_Hording billingHording){
 		this.billingId = billingHording.getBillingId();
 		this.hordingId = billingHording.getHordingId();
-		this.totalPrintingCharge = billingHording.getTotalPrintingCharge();
-		this.totalMountingCharge = billingHording.getTotalMountingCharge();
-		this.totalHordingCharge = billingHording.getTotalHordingCharge();
+		this.totalPrintingCharge = Math.round(billingHording.getTotalPrintingCharge());
+		this.totalMountingCharge = Math.round(billingHording.getTotalMountingCharge());
+		this.totalHordingCharge = Math.round(billingHording.getTotalHordingCharge());
 		this.units = billingHording.getUnits();
 		this.hsnNo = billingHording.getHsnNo();
 		this.hordingBookingStartDate = billingHording.getHordingBookingStartDate();

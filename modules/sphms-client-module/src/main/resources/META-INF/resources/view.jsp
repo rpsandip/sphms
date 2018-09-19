@@ -10,6 +10,10 @@
 <liferay-ui:success key="credit-note-add-success" message="credit-note-add-success"/>
 <liferay-ui:success key="credit-note-update-success" message="credit-note-update-success"/>
 
+
+<liferay-ui:success key="delete-client-success" message="delete-client-success"/>
+<liferay-ui:error key="delete-client-error" message="delete-client-error"/>
+
 <a href="${addClientURL}" class="btn btn-primary">Add Client</a>
 
 <section class="content">
@@ -51,9 +55,14 @@
        							 <portlet:param name="mvcRenderCommandName" value="/add_client" />
        							 <portlet:param name="clientId" value="${ client.clientId}" />
 							</portlet:renderURL>
+							<portlet:actionURL var="deleteClientURL" name="/delete_client">
+			                	 <portlet:param name="clientId" value="${ client.clientId}" />
+							</portlet:actionURL>
 			                <td>
 			                	<a href="${editClientURL }" class="btn btn-block btn-primary">Edit</a>
+				                <a href="${deleteClientURL }" class="btn btn-block btn-primary">Delete</a>
 			                </td>
+			               
 			                <portlet:renderURL var="creditNoteURL">
        							 <portlet:param name="mvcRenderCommandName" value="/credit_note" />
        							 <portlet:param name="clientId" value="${ client.clientId}" />

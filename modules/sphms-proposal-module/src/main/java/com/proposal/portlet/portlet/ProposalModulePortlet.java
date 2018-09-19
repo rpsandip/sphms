@@ -38,7 +38,7 @@ public class ProposalModulePortlet extends MVCPortlet {
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
 		// get ClientList
-		List<Client> clientList = ClientLocalServiceUtil.getClients(-1, -1);
+		List<Client> clientList = ClientLocalServiceUtil.getClients();
 		renderRequest.setAttribute("clientList", clientList);
 
 		include(viewTemplate, renderRequest, renderResponse);

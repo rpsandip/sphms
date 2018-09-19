@@ -51,9 +51,9 @@ public class Billing_HordingLocalServiceImpl
 	public Billing_Hording addBillingHording(long billingId, long hordingId, double totalMountingCharge, double totalPrintingCharge, int units, double totalHordingCharge, String hsnNo, Date hordingBookingStartDate, Date hordingBookingEndDate){
 		Billing_HordingPK billingHordingPK = new Billing_HordingPK(billingId, hordingId);
 		Billing_Hording billingHording = Billing_HordingLocalServiceUtil.createBilling_Hording(billingHordingPK);
-		billingHording.setTotalHordingCharge(totalHordingCharge);
-		billingHording.setTotalMountingCharge(totalMountingCharge);
-		billingHording.setTotalPrintingCharge(totalPrintingCharge);
+		billingHording.setTotalHordingCharge(Math.round(totalHordingCharge));
+		billingHording.setTotalMountingCharge(Math.round(totalMountingCharge));
+		billingHording.setTotalPrintingCharge(Math.round(totalPrintingCharge));
 		billingHording.setUnits(units);
 		billingHording.setHsnNo(hsnNo);
 		billingHording.setHordingBookingStartDate(hordingBookingStartDate);

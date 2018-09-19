@@ -237,6 +237,10 @@ public class ClientLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<com.sphms.common.service.model.Client> getClients() {
+		return getService().getClients();
+	}
+
 	/**
 	* Returns a range of all the clients.
 	*

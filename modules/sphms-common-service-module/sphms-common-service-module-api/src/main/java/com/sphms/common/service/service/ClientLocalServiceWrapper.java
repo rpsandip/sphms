@@ -242,6 +242,11 @@ public class ClientLocalServiceWrapper implements ClientLocalService,
 			orderByComparator);
 	}
 
+	@Override
+	public java.util.List<com.sphms.common.service.model.Client> getClients() {
+		return _clientLocalService.getClients();
+	}
+
 	/**
 	* Returns a range of all the clients.
 	*

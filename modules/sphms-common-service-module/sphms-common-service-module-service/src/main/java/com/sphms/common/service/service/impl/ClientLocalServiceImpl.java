@@ -17,7 +17,9 @@ package com.sphms.common.service.service.impl;
 import aQute.bnd.annotation.ProviderType;
 import aQute.bnd.properties.GapTextStore;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -68,6 +70,7 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 		client.setState(state);
 		client.setPanNo(panNo);
 		client.setGstNo(gstNo);
+		client.setStatus(0);
 		client.setContactPersonName(contactPersonName);
 		client.setContactPersonPhoneNo(contactPersonPhoneNo);
 		client.setContactPersonEmail(contactPersonEmail);
@@ -118,6 +121,18 @@ public class ClientLocalServiceImpl extends ClientLocalServiceBaseImpl {
 		}else{
 			return null;
 		}
+	}
+	
+	public Client deleteClient(long clientId) throws PortalException{
+		Client client = ClientLocalServiceUtil.getClient(clientId);
+		client.setStatus(1);
+		client = ClientLocalServiceUtil.updateClient(client);
+		return client;
+	}
+	
+	
+	public List<Client> getClients(){
+		return clientPersistence.findBystatus(0);
 	}
 	
 	private boolean isValidParam (String clientName, String address1, String city, String state, String contactPersonName, String contactPersonPhoneNo, String contactPersonEmail){

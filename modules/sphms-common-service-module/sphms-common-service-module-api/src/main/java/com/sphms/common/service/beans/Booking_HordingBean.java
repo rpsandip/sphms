@@ -32,8 +32,8 @@ public class Booking_HordingBean {
 	public Booking_HordingBean(Booking_Hording bookingHording){
 		this.bookingId = bookingHording.getBookingId();
 		this.hordingId = bookingHording.getHordingId();
-		this.mountingCharge = bookingHording.getMountingCharge();
-		this.printingCharge = bookingHording.getPrintingCharge();
+		this.mountingCharge = Math.round(bookingHording.getMountingCharge());
+		this.printingCharge = Math.round(bookingHording.getPrintingCharge());
 		this.hordingBookingStartDate = bookingHording.getHordingBookingStartDate();
 		this.hordingbookingEndDate  = bookingHording.getHordingBookingEndDate();
 		this.units = bookingHording.getUnits();

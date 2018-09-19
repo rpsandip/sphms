@@ -65,6 +65,7 @@ public class ClientWrapper implements Client, ModelWrapper<Client> {
 		attributes.put("panNo", getPanNo());
 		attributes.put("gstNo", getGstNo());
 		attributes.put("state", getState());
+		attributes.put("status", getStatus());
 		attributes.put("contactPersonName", getContactPersonName());
 		attributes.put("contactPersonEmail", getContactPersonEmail());
 		attributes.put("contactPersonPhoneNo", getContactPersonPhoneNo());
@@ -122,6 +123,12 @@ public class ClientWrapper implements Client, ModelWrapper<Client> {
 
 		if (state != null) {
 			setState(state);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
 		}
 
 		String contactPersonName = (String)attributes.get("contactPersonName");
@@ -194,6 +201,16 @@ public class ClientWrapper implements Client, ModelWrapper<Client> {
 	@Override
 	public int compareTo(Client client) {
 		return _client.compareTo(client);
+	}
+
+	/**
+	* Returns the status of this client.
+	*
+	* @return the status of this client
+	*/
+	@Override
+	public int getStatus() {
+		return _client.getStatus();
 	}
 
 	@Override
@@ -535,6 +552,16 @@ public class ClientWrapper implements Client, ModelWrapper<Client> {
 	@Override
 	public void setState(java.lang.String state) {
 		_client.setState(state);
+	}
+
+	/**
+	* Sets the status of this client.
+	*
+	* @param status the status of this client
+	*/
+	@Override
+	public void setStatus(int status) {
+		_client.setStatus(status);
 	}
 
 	@Override

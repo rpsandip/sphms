@@ -65,6 +65,7 @@ public class PaymentWrapper implements Payment, ModelWrapper<Payment> {
 		attributes.put("tds", getTds());
 		attributes.put("deduction", getDeduction());
 		attributes.put("description", getDescription());
+		attributes.put("paymentDate", getPaymentDate());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -121,6 +122,12 @@ public class PaymentWrapper implements Payment, ModelWrapper<Payment> {
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		Date paymentDate = (Date)attributes.get("paymentDate");
+
+		if (paymentDate != null) {
+			setPaymentDate(paymentDate);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -281,6 +288,16 @@ public class PaymentWrapper implements Payment, ModelWrapper<Payment> {
 	@Override
 	public Date getModifiedDate() {
 		return _payment.getModifiedDate();
+	}
+
+	/**
+	* Returns the payment date of this payment.
+	*
+	* @return the payment date of this payment
+	*/
+	@Override
+	public Date getPaymentDate() {
+		return _payment.getPaymentDate();
 	}
 
 	/**
@@ -472,6 +489,16 @@ public class PaymentWrapper implements Payment, ModelWrapper<Payment> {
 	@Override
 	public void setNew(boolean n) {
 		_payment.setNew(n);
+	}
+
+	/**
+	* Sets the payment date of this payment.
+	*
+	* @param paymentDate the payment date of this payment
+	*/
+	@Override
+	public void setPaymentDate(Date paymentDate) {
+		_payment.setPaymentDate(paymentDate);
 	}
 
 	/**

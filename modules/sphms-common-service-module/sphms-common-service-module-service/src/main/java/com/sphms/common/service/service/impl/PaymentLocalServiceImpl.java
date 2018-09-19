@@ -51,7 +51,7 @@ public class PaymentLocalServiceImpl extends PaymentLocalServiceBaseImpl {
 	/*
 	 * Method for add payment of Bill
 	 */
-	public Payment addPayment(long billingId, double amount, String chequeNo, double tds, double deduction, String description,long createdBy){
+	public Payment addPayment(long billingId, double amount, String chequeNo, double tds, double deduction, String description, Date paymentDate,long createdBy){
 		Payment payment = PaymentLocalServiceUtil.createPayment(CounterLocalServiceUtil.increment());
 		payment.setBillingId(billingId);
 		payment.setClientId(getClientId(billingId));
@@ -61,6 +61,7 @@ public class PaymentLocalServiceImpl extends PaymentLocalServiceBaseImpl {
 		payment.setDeduction(deduction);
 		payment.setCreateDate(new Date());
 		payment.setDescription(description);
+		payment.setPaymentDate(paymentDate);
 		payment.setCreatedBy(createdBy);
 		payment.setModifiedBy(createdBy);
 		payment.setModifiedDate(new Date());
@@ -78,7 +79,7 @@ public class PaymentLocalServiceImpl extends PaymentLocalServiceBaseImpl {
 	/*
 	 * Method for update payment of Bill
 	 */
-	public Payment updatePayment(long paymentId, long billingId, double amount, String chequeNo, double tds, double deduction, String description,long modifiedBy){
+	public Payment updatePayment(long paymentId, long billingId, double amount, String chequeNo, double tds, double deduction, String description, Date paymentDate,long modifiedBy){
 		Payment payment = null;
 		try {
 			 payment = PaymentLocalServiceUtil.getPayment(paymentId);
@@ -88,6 +89,7 @@ public class PaymentLocalServiceImpl extends PaymentLocalServiceBaseImpl {
 			 payment.setDeduction(deduction);
 			 payment.setModifiedBy(modifiedBy);
 			 payment.setDescription(description);
+			 payment.setPaymentDate(paymentDate);
 			 payment.setModifiedDate(new Date());
 			 payment = PaymentLocalServiceUtil.updatePayment(payment);
 			 

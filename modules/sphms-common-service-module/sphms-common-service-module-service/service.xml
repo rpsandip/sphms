@@ -65,6 +65,7 @@
 		<column name="panNo" type="String"></column>
 		<column name="gstNo" type="String"></column>
 		<column name="state" type="String"></column>
+		<column name="status" type="int"></column>
 		<column name="contactPersonName" type="String"></column>
 		<column name="contactPersonEmail" type="String"></column>
 		<column name="contactPersonPhoneNo" type="String"></column>
@@ -76,6 +77,9 @@
 			</order-column>
 		</order>
 
+       <finder return-type="Collection" name="status">
+			 <finder-column name="status"></finder-column>
+		</finder>
 	</entity>
 	
 	<entity name="CreditNote" local-service="true" remote-service="false">
@@ -321,6 +325,7 @@
 		<column name="tds" type="double"></column>
 		<column name="deduction" type="double"></column>
 		<column name="description" type="String"></column>
+		<column name="paymentDate" type="Date"></column>
 		
 		<column name="createDate" type="Date"></column>
 		<column name="createdBy" type="long"></column>

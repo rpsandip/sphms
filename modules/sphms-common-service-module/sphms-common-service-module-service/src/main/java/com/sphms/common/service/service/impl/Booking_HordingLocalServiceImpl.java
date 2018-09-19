@@ -45,8 +45,8 @@ public class Booking_HordingLocalServiceImpl
 	public Booking_Hording addBookingHoarding(long bookingId, long hordingId, double mountingCharge, double printingChrage, int units, String hsnNo, Date hordingBookingStartDate, Date hordingBookingEndDate){
 		Booking_HordingPK booking_HordingPK = new Booking_HordingPK(bookingId, hordingId);
 		Booking_Hording bookingHording = Booking_HordingLocalServiceUtil.createBooking_Hording(booking_HordingPK);
-		bookingHording.setMountingCharge(mountingCharge);
-		bookingHording.setPrintingCharge(printingChrage);
+		bookingHording.setMountingCharge(Math.round(mountingCharge));
+		bookingHording.setPrintingCharge(Math.round(printingChrage));
 		bookingHording.setUnits(units);
 		bookingHording.setHsnNo(hsnNo);
 		bookingHording.setHordingBookingStartDate(hordingBookingStartDate);

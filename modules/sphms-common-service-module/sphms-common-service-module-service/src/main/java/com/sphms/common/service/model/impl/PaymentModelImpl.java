@@ -70,6 +70,7 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 			{ "tds", Types.DOUBLE },
 			{ "deduction", Types.DOUBLE },
 			{ "description", Types.VARCHAR },
+			{ "paymentDate", Types.TIMESTAMP },
 			{ "createDate", Types.TIMESTAMP },
 			{ "createdBy", Types.BIGINT },
 			{ "modifiedDate", Types.TIMESTAMP },
@@ -86,13 +87,14 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 		TABLE_COLUMNS_MAP.put("tds", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("deduction", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("paymentDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createdBy", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Payment (paymentId LONG not null primary key,billingId LONG,clientId LONG,amount DOUBLE,chequeNo VARCHAR(75) null,tds DOUBLE,deduction DOUBLE,description VARCHAR(200) null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Payment (paymentId LONG not null primary key,billingId LONG,clientId LONG,amount DOUBLE,chequeNo VARCHAR(75) null,tds DOUBLE,deduction DOUBLE,description VARCHAR(200) null,paymentDate DATE null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Payment";
 	public static final String ORDER_BY_JPQL = " ORDER BY payment.paymentId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Payment.paymentId ASC";
@@ -158,6 +160,7 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 		attributes.put("tds", getTds());
 		attributes.put("deduction", getDeduction());
 		attributes.put("description", getDescription());
+		attributes.put("paymentDate", getPaymentDate());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -217,6 +220,12 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		Date paymentDate = (Date)attributes.get("paymentDate");
+
+		if (paymentDate != null) {
+			setPaymentDate(paymentDate);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -347,6 +356,16 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 	}
 
 	@Override
+	public Date getPaymentDate() {
+		return _paymentDate;
+	}
+
+	@Override
+	public void setPaymentDate(Date paymentDate) {
+		_paymentDate = paymentDate;
+	}
+
+	@Override
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -431,6 +450,7 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 		paymentImpl.setTds(getTds());
 		paymentImpl.setDeduction(getDeduction());
 		paymentImpl.setDescription(getDescription());
+		paymentImpl.setPaymentDate(getPaymentDate());
 		paymentImpl.setCreateDate(getCreateDate());
 		paymentImpl.setCreatedBy(getCreatedBy());
 		paymentImpl.setModifiedDate(getModifiedDate());
@@ -538,6 +558,15 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 			paymentCacheModel.description = null;
 		}
 
+		Date paymentDate = getPaymentDate();
+
+		if (paymentDate != null) {
+			paymentCacheModel.paymentDate = paymentDate.getTime();
+		}
+		else {
+			paymentCacheModel.paymentDate = Long.MIN_VALUE;
+		}
+
 		Date createDate = getCreateDate();
 
 		if (createDate != null) {
@@ -565,7 +594,7 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{paymentId=");
 		sb.append(getPaymentId());
@@ -583,6 +612,8 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 		sb.append(getDeduction());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", paymentDate=");
+		sb.append(getPaymentDate());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
 		sb.append(", createdBy=");
@@ -598,7 +629,7 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(40);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Payment");
@@ -637,6 +668,10 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>paymentDate</column-name><column-value><![CDATA[");
+		sb.append(getPaymentDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
 		sb.append(getCreateDate());
 		sb.append("]]></column-value></column>");
@@ -672,6 +707,7 @@ public class PaymentModelImpl extends BaseModelImpl<Payment>
 	private double _tds;
 	private double _deduction;
 	private String _description;
+	private Date _paymentDate;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

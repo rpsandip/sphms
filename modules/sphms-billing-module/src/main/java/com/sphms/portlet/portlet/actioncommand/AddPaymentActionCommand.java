@@ -1,5 +1,9 @@
 package com.sphms.portlet.portlet.actioncommand;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
@@ -39,10 +43,13 @@ public class AddPaymentActionCommand extends BaseMVCActionCommand{
 		String chequeNo = ParamUtil.getString(actionRequest, "chequeNo");
 		double tds = ParamUtil.getDouble(actionRequest, "tds");
 		String description = ParamUtil.getString(actionRequest, "description");
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date paymentDate = ParamUtil.getDate(actionRequest, "paymentDate", dateFormat);
+		
 		double deduction = ParamUtil.getDouble(actionRequest, "deduction");
 		
 		if(paymentId==0){
-			Payment payment = PaymentLocalServiceUtil.addPayment(billingId, amount, chequeNo, tds, deduction, description,themDisplay.getUserId());
+			Payment payment = PaymentLocalServiceUtil.addPayment(billingId, amount, chequeNo, tds, deduction, description, paymentDate,themDisplay.getUserId());
 			if(Validator.isNotNull(payment)){
 				SessionMessages.add(actionRequest, "payment-added-successfully");
 				actionResponse.setRenderParameter("mvcRenderCommandName", "/payment");
@@ -53,7 +60,7 @@ public class AddPaymentActionCommand extends BaseMVCActionCommand{
 				actionResponse.setRenderParameter("paymentId", String.valueOf(paymentId));
 			}
 		}else{
-			Payment payment = PaymentLocalServiceUtil.updatePayment(paymentId, billingId, amount, chequeNo, tds, deduction, description, themDisplay.getUserId());
+			Payment payment = PaymentLocalServiceUtil.updatePayment(paymentId, billingId, amount, chequeNo, tds, deduction, description, paymentDate,themDisplay.getUserId());
 			if(Validator.isNotNull(payment)){
 				SessionMessages.add(actionRequest, "payment-updated-successfully");
 				actionResponse.setRenderParameter("mvcRenderCommandName", "/payment");

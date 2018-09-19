@@ -31,10 +31,12 @@
 						     	<aui:validator name="number" />
 							 </aui:input>
 						</div>
-						<div class="form-group col-md-6">
-							<aui:input name="chequeNo" label="chequeNo" cssClass="form-control" value="${payment.chequeNo }"> 
-							 </aui:input>
-						</div>
+	       				<div class="form-group col-md-6">
+							 <fmt:formatDate pattern = "dd/MM/yyyy" value = "${payment.paymentDate}" var="paymentDate"/>
+							 <aui:input name="paymentDate" label="Payment Date" cssClass="form-control" value="${paymentDate }">
+							 	<aui:validator name="required" />
+							 </aui:input> 
+	       				</div>
        				</div>
        				<div class="row">
 						<div class="form-group col-md-6">
@@ -47,6 +49,10 @@
 						</div>
        				</div>
        				<div class="row">
+       				     <div class="form-group col-md-6">
+							<aui:input name="chequeNo" label="chequeNo" cssClass="form-control" value="${payment.chequeNo }"> 
+							 </aui:input>
+						</div>
 						<div class="form-group col-md-6">
 							<aui:input name="description" label="Description" cssClass="form-control" value="${payment.description }"> 
 							 </aui:input>
@@ -75,6 +81,38 @@
 	</div>
 </div>
 
+<script type="text/javascript">
+jQuery.noConflict();
+(function($) {
+    $(function() {
+    	//Date picker
+  	  $('#'+ '<portlet:namespace/>' + 'paymentDate').datepicker({
+  		format: 'dd/mm/yyyy',  
+  	    autoclose: true
+  	  }).on('changeDate', function(ev) {
+  		  AUI().use('aui-base','aui-form-validator', function(A) {
+  				var myFormValidator = Liferay.Form.get('<portlet:namespace />addBillPaymentFm').formValidator;
+  				myFormValidator.validateField('<portlet:namespace />paymentDate');
+  			});
+  	  });
+  	  
+	  $('#'+'<portlet:namespace/>'+'amount').keyup(function () { 
+		    this.value = this.value.replace(/[^0-9]/g,'');
+	  });
+	  
+	  $('#'+'<portlet:namespace/>'+'tds').keyup(function () { 
+		    this.value = this.value.replace(/[^0-9]/g,'');
+	  });
+	  
+	  $('#'+'<portlet:namespace/>'+'deduction').keyup(function () { 
+		    this.value = this.value.replace(/[^0-9]/g,'');
+	  });
+	  
+	  
+    });
+
+})(jQuery);
+</script>
 <aui:script>
 var userModuleNameSpace =  '<portlet:namespace/>';
 AUI().use('aui-base','aui-form-validator', function(A) {

@@ -110,6 +110,7 @@
 		<property name="panNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="gstNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="state_" name="state" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="contactPersonName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactPersonEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactPersonPhoneNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -228,6 +229,7 @@
 		<property name="tds" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="deduction" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="paymentDate" type="org.hibernate.type.TimestampType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />

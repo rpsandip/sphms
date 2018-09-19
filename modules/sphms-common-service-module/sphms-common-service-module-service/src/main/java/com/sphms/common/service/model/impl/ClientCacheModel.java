@@ -65,7 +65,7 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{clientId=");
 		sb.append(clientId);
@@ -83,6 +83,8 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 		sb.append(gstNo);
 		sb.append(", state=");
 		sb.append(state);
+		sb.append(", status=");
+		sb.append(status);
 		sb.append(", contactPersonName=");
 		sb.append(contactPersonName);
 		sb.append(", contactPersonEmail=");
@@ -153,6 +155,8 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 			clientImpl.setState(state);
 		}
 
+		clientImpl.setStatus(status);
+
 		if (contactPersonName == null) {
 			clientImpl.setContactPersonName(StringPool.BLANK);
 		}
@@ -198,6 +202,8 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 		panNo = objectInput.readUTF();
 		gstNo = objectInput.readUTF();
 		state = objectInput.readUTF();
+
+		status = objectInput.readInt();
 		contactPersonName = objectInput.readUTF();
 		contactPersonEmail = objectInput.readUTF();
 		contactPersonPhoneNo = objectInput.readUTF();
@@ -260,6 +266,8 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 			objectOutput.writeUTF(state);
 		}
 
+		objectOutput.writeInt(status);
+
 		if (contactPersonName == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -294,6 +302,7 @@ public class ClientCacheModel implements CacheModel<Client>, Externalizable {
 	public String panNo;
 	public String gstNo;
 	public String state;
+	public int status;
 	public String contactPersonName;
 	public String contactPersonEmail;
 	public String contactPersonPhoneNo;

@@ -42,7 +42,7 @@
 		       					 	<b>City: </b> ${bookingHording.hoardingCity }
 	     						</div>
 	     						<div class="form-group col-md-3">
-		       					 	<b>Hoarding: </b> ${bookingHording.hordingTitle }
+		       					 	<b>Hoarding: </b> ${bookingHording.hordingTitle }(${bookingHording.horing.size })
 	     						</div>
 	     						<div class="form-group col-md-2">
 		       					 	<b>HSN Code: </b> ${bookingHording.hsnNo }

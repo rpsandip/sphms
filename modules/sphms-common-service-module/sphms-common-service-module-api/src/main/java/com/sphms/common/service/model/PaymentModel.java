@@ -177,6 +177,20 @@ public interface PaymentModel extends BaseModel<Payment> {
 	public void setDescription(String description);
 
 	/**
+	 * Returns the payment date of this payment.
+	 *
+	 * @return the payment date of this payment
+	 */
+	public Date getPaymentDate();
+
+	/**
+	 * Sets the payment date of this payment.
+	 *
+	 * @param paymentDate the payment date of this payment
+	 */
+	public void setPaymentDate(Date paymentDate);
+
+	/**
 	 * Returns the create date of this payment.
 	 *
 	 * @return the create date of this payment
