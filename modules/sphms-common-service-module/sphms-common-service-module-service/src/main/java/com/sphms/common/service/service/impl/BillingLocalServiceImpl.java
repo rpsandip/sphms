@@ -505,6 +505,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 				totalPayment += payment.getAmount() - payment.getDeduction() - payment.getTds();
 				
 				JSONObject paymentDetail = JSONFactoryUtil.createJSONObject();
+				paymentDetail.put("billNo", BillingLocalServiceUtil.getDisplayBillNo(billing));
 				paymentDetail.put("amount", payment.getAmount());
 				paymentDetail.put("chequeNo", payment.getChequeNo());
 				paymentDetail.put("deduction", payment.getDeduction());
