@@ -39,7 +39,7 @@ public class GetOutStandingClientResourceCommand implements MVCResourceCommand{
 		
 		long customComanyId = ParamUtil.getLong(resourceRequest, "customCompany");
 		long clientId = ParamUtil.getLong(resourceRequest, "client");
-		System.out.println("in side the out standing report");
+		_log.info("in side the out standing report");
 			try {
 				File file = OutStandingClientReportUtil.createOutStandingClientBillingReport(customComanyId, clientId);
 				try {

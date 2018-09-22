@@ -502,7 +502,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			double totalPayment = 0;
 			List<Payment> paymentList = PaymentLocalServiceUtil.getPaymentsOfBill(billing.getBillingId());
 			for(Payment payment : paymentList){
-				totalPayment += payment.getAmount() - payment.getDeduction() - payment.getTds();
+				totalPayment += payment.getAmount() + payment.getDeduction() + payment.getTds();
 				
 				JSONObject paymentDetail = JSONFactoryUtil.createJSONObject();
 				paymentDetail.put("billNo", BillingLocalServiceUtil.getDisplayBillNo(billing));
