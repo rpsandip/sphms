@@ -506,11 +506,11 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 				
 				JSONObject paymentDetail = JSONFactoryUtil.createJSONObject();
 				paymentDetail.put("billNo", BillingLocalServiceUtil.getDisplayBillNo(billing));
-				paymentDetail.put("amount", payment.getAmount());
+				paymentDetail.put("amount", Math.round(payment.getAmount()));
 				paymentDetail.put("chequeNo", payment.getChequeNo());
-				paymentDetail.put("deduction", payment.getDeduction());
+				paymentDetail.put("deduction", Math.round(payment.getDeduction()));
 				paymentDetail.put("descrition", payment.getDescription());
-				paymentDetail.put("tds", payment.getTds());
+				paymentDetail.put("tds", Math.round(payment.getTds()));
 				paymentDetail.put("paymentdate", payment.getCreateDate());
 				if(Validator.isNotNull(payment.getChequeNo())){
 					paymentDetail.put("paymenttype", "Cheque No: " + payment.getChequeNo());
@@ -521,9 +521,9 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 				billPayments.put(paymentDetail);
 			}
 			
-			billObject.put("totalBillAmount", totalBillAmount);
-			billObject.put("totalPayment", totalPayment);
-			billObject.put("totalOutStanding", totalBillAmount-totalPayment);
+			billObject.put("totalBillAmount", Math.round(totalBillAmount));
+			billObject.put("totalPayment", Math.round(totalPayment));
+			billObject.put("totalOutStanding", Math.round(totalBillAmount-totalPayment));
 			billObject.put("payments", billPayments);
 			
 			billJsonArray.put(billObject);
@@ -536,9 +536,9 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			}
 		}
 		
-		finalObject.put("totalPayment", totalFinalPatment);
-		finalObject.put("totalBillAmount", totalFinalBillAmount);
-		finalObject.put("totalOutStanding", totalFinalBillAmount-totalFinalPatment);
+		finalObject.put("totalPayment", Math.round(totalFinalPatment));
+		finalObject.put("totalBillAmount", Math.round(totalFinalBillAmount));
+		finalObject.put("totalOutStanding", Math.round(totalFinalBillAmount-totalFinalPatment));
 		finalObject.put("bills", billJsonArray);
 		return finalObject;
 	}
@@ -548,7 +548,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		for(Billing_Hording billingHording : billingHordingList){
 			totalHordingDisplayCharges+=billingHording.getTotalHordingCharge();
 		}
-		return totalHordingDisplayCharges;
+		return Math.round(totalHordingDisplayCharges);
 	}
 	
 	private static double getTotalPrintingChage(List<Billing_Hording> billingHordingList){
@@ -556,7 +556,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		for(Billing_Hording billingHording : billingHordingList){
 			totalPrintingChargeList+=billingHording.getTotalPrintingCharge();
 		}
-		return totalPrintingChargeList;
+		return Math.round(totalPrintingChargeList);
 	}
 	
 	private static double getTotalMountingChage(List<Billing_Hording> billingHordingList){
@@ -564,6 +564,6 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		for(Billing_Hording billingHording : billingHordingList){
 			totalMoutingChargeList+=billingHording.getTotalMountingCharge();
 		}
-		return totalMoutingChargeList;
+		return Math.round(totalMoutingChargeList);
 	}
 }
