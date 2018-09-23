@@ -11,7 +11,7 @@
             <div class="box-body">
 	            <form id="filterBilling">
 	              	<div class="form-group col-md-2">
-	                  <select name="customCompany" id="customCompany" class="form-control">
+	                  <select name="customCompany" id="activeCustomCompany" class="form-control">
 						<option value="0">Select Company</option>
 							<c:forEach items="${companyList }" var="company">
 								<option value="${company.companyId }">${company.name }</option>
@@ -19,10 +19,10 @@
 						</select>
 	                </div>
 	              	<div class="form-group col-md-2">
-	                  <select name="searchclient" id="client" class="form-control">
+	                  <select name="searchclient" id="activeClient" class="form-control">
 						<option value="0">Select Client</option>
-							<c:forEach items="${clientList }" var="client">
-								<option value="${client.clientId }">${client.clientName }</option>
+							<c:forEach items="${clientList}" var="client">
+								<option value="${client.clientId}">${client.clientName}</option>
 							</c:forEach>	
 						</select>
 	                </div>
@@ -41,10 +41,9 @@
           jQuery.noConflict();
         (function($) {
         $("#exportCOUS").on('click',function(){
-        	var customCompany = $("#customCompany").val();
-        	var client = $("#client").val();
-        	
-        	var getDocumentURL = '${getOutstandingClientReportURL}&<portlet:namespace />customCompany='+customCompany+'&<portlet:namespace />client='+client;
+        	var activeCustomCompany = $("#activeCustomCompany").val();
+        	var activeClient = $("#activeClient").val();
+        	var getDocumentURL = '${getOutstandingClientReportURL}&<portlet:namespace />customCompany='+activeCustomCompany+'&<portlet:namespace />client='+activeClient;
             window.location.href=getDocumentURL;
         });
         

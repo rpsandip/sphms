@@ -346,10 +346,10 @@ public class OutStandingClientReportUtil {
 		font.setFontHeightInPoints((short) 11);
 		font.setFontName("Arial");
 
-		XSSFCellStyle firstCellStyle = getLeftBorderStyle(wb);
+		XSSFCellStyle firstCellStyle = getLeftBottomBorderStyle(wb);
 		firstCellStyle.setFont(font);
 
-		XSSFCellStyle lastCellStyle = getRightBorderStyle(wb);
+		XSSFCellStyle lastCellStyle = getRightBottomBorderStyle(wb);
 		lastCellStyle.setFont(font);
 
 		XSSFCellStyle style = getRowStyle(outStandingDetail, wb);
@@ -398,7 +398,7 @@ public class OutStandingClientReportUtil {
 		style.setFont(font);
 		XSSFCellStyle firstCellStyle = getLeftBottomBorderStyle(wb);
 		firstCellStyle.setFont(font);
-		XSSFCellStyle lastCellStyle = getRightBorderStyle(wb);
+		XSSFCellStyle lastCellStyle = getRightBottomBorderStyle(wb);
 		lastCellStyle.setFont(font);
 
 		getAllBorderStyle(wb);
@@ -431,7 +431,7 @@ public class OutStandingClientReportUtil {
 			double totalbillAmount, double totalDeducationAmount, double totalAmount) {
 		sheet.addMergedRegion(new CellRangeAddress(index, index, 1, 2));
 		sheet.addMergedRegion(new CellRangeAddress(index, index, 3, 6));
-		double outStandingAmount = totalbillAmount + (totalDeducationAmount - totalAmount);
+		double outStandingAmount = totalbillAmount - (totalDeducationAmount + totalAmount);
 		XSSFFont font = wb.createFont();
 		font.setFontHeightInPoints((short) 14);
 		font.setFontName("Arial");
@@ -439,9 +439,12 @@ public class OutStandingClientReportUtil {
 
 		XSSFRow landLoadDetail = sheet.createRow(index);
 		landLoadDetail.setHeight((short) 500);
+		
 		XSSFCellStyle style = getAllBorderStyle(wb);
 		style.setFillForegroundColor(HSSFColor.GREEN.index);
 		style.setFont(font);
+		style.setAlignment(HorizontalAlignment.CENTER);
+		style.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		XSSFCell cell1 = landLoadDetail.createCell(1);
 		cell1.setCellValue("Total OutStanding");
