@@ -43,7 +43,7 @@ public class SphmsReportModulePortlet extends MVCPortlet {
 		List<LandLord> landLoadList=LandLordLocalServiceUtil.getActiveLandLords(-1,-1);
 		renderRequest.setAttribute("landLoadList", landLoadList);
 		// get ClientList
-				List<Client> clientList = ClientLocalServiceUtil.getClients(-1, -1);
+				List<Client> clientList = ClientLocalServiceUtil.getClients();
 				renderRequest.setAttribute("clientList", clientList);
 		// Get Company List
 		List<CustomCompany> companyList = CustomCompanyLocalServiceUtil.getCustomCompanies(-1, -1);

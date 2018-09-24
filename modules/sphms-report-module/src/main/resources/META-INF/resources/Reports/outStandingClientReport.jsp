@@ -20,7 +20,6 @@
 	                </div>
 	              	<div class="form-group col-md-2">
 	                  <select name="searchclient" id="activeClient" class="form-control">
-						<option value="0">Select Client</option>
 							<c:forEach items="${clientList}" var="client">
 								<option value="${client.clientId}">${client.clientName}</option>
 							</c:forEach>	
