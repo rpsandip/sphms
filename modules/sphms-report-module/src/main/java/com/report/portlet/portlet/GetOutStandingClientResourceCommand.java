@@ -7,6 +7,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
@@ -19,6 +22,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.report.portlet.constants.SphmsReportModulePortletKeys;
 import com.report.portlet.portlet.util.OutStandingClientReportUtil;
 
@@ -39,9 +43,25 @@ public class GetOutStandingClientResourceCommand implements MVCResourceCommand{
 		
 		long customComanyId = ParamUtil.getLong(resourceRequest, "customCompany");
 		long clientId = ParamUtil.getLong(resourceRequest, "client");
+		String startDateStr = ParamUtil.getString(resourceRequest, "startDate");
+		String endDateStr = ParamUtil.getString(resourceRequest, "endDate");
+		
+		Date startDate =null;
+		Date endDate = null;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		if(Validator.isNotNull(startDateStr) && Validator.isNotNull(endDateStr)){
+		
+			try {
+				 startDate = dateFormat.parse(startDateStr);
+				 endDate = dateFormat.parse(endDateStr);
+				
+			} catch (ParseException e) {
+				_log.error(e);
+			}
+		}
 		_log.info("in side the out standing report");
 			try {
-				File file = OutStandingClientReportUtil.createOutStandingClientBillingReport(customComanyId, clientId);
+				File file = OutStandingClientReportUtil.createOutStandingClientBillingReport(customComanyId, clientId,startDate,endDate);
 				try {
 		        	resourceResponse.setContentType("application/vnd.ms-excel");
 		        	resourceResponse.addProperty(

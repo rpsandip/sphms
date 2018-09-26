@@ -3,6 +3,7 @@ package com.report.portlet.portlet.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -26,7 +27,7 @@ import com.sphms.common.service.service.BillingLocalServiceUtil;
 public class OutStandingClientReportUtil {
 	private static final Log _log = LogFactoryUtil.getLog(OutStandingClientReportUtil.class.getName());
 
-	public static File createOutStandingClientBillingReport(long customComanyId, long clientId) throws IOException {
+	public static File createOutStandingClientBillingReport(long customComanyId, long clientId,Date startDate,Date endDate) throws IOException {
 
 		int index = 1;
 
@@ -49,19 +50,16 @@ public class OutStandingClientReportUtil {
 		// fetch detail of outstanding detail
 		_log.info("header of document is inserted");
 		JSONObject outStandingReportDetail = BillingLocalServiceUtil.getBillingListForReport(customComanyId, clientId,
-				-1, null, null);
+				-1, startDate, endDate);
 
 		// fill detail of bill detail.
 		JSONArray jsonArray = outStandingReportDetail.getJSONArray("bills");
 		double totalbillAmount = 0.0;
 		for (int i = 0; i < jsonArray.length(); i++) {
 			JSONObject detailObj = jsonArray.getJSONObject(i);
-			double totalOutStanding = Double.parseDouble(jsonArray.getJSONObject(i).get("totalOutStanding").toString());
-			if (totalOutStanding > 0) {
 				double billAmount = Double.parseDouble(jsonArray.getJSONObject(i).get("totalBillAmount").toString());
 				totalbillAmount = totalbillAmount + billAmount;
 				index = createOutStandingReportRow(sheet, wb, index, detailObj);
-			}
 		}
 		// adding 3 black row with left and right border after filling all
 		// records
@@ -83,8 +81,6 @@ public class OutStandingClientReportUtil {
 		double totalDeducationAmount = 0.0;
 		double totalAmount = 0.0;
 		for (int i = 0; i < jsonArray.length(); i++) {
-			double totalOutStanding = Double.valueOf(jsonArray.getJSONObject(i).get("totalOutStanding").toString());
-			if (totalOutStanding > 0) {
 				JSONArray paymentJsonArray = jsonArray.getJSONObject(i).getJSONArray("payments");
 				for (int j = 0; j < paymentJsonArray.length(); j++) {
 
@@ -98,7 +94,6 @@ public class OutStandingClientReportUtil {
 					// add detail of paid bill
 					index = createPaymentBillingReportRow(sheet, wb, index, paymentObj);
 				}
-			}
 		}
 
 		index = blankRow(sheet, wb, index, font);
@@ -131,7 +126,6 @@ public class OutStandingClientReportUtil {
 	}
 
 	private static int createReportLable(XSSFSheet sheet, XSSFWorkbook wb, int index, String Label) {
-		sheet.addMergedRegion(new CellRangeAddress(index, index, 1, 6));
 		XSSFRow billDetailHeader = sheet.createRow(index);
 		billDetailHeader.setHeight((short) 500);
 
@@ -145,13 +139,32 @@ public class OutStandingClientReportUtil {
 		style.setAlignment(HorizontalAlignment.CENTER);
 		style.setVerticalAlignment(VerticalAlignment.CENTER);
 
-		XSSFCell cell12_1 = billDetailHeader.createCell(1);
-		cell12_1.setCellValue(Label);
-		cell12_1.setCellStyle(style);
+		XSSFCell cell1 = billDetailHeader.createCell(1);
+		cell1.setCellValue(Label);
+		cell1.setCellStyle(style);
+		
+		XSSFCell cell2 = billDetailHeader.createCell(2);
+		cell2.setCellStyle(style);
+		
+		XSSFCell cell3 = billDetailHeader.createCell(3);
+		cell3.setCellStyle(style);
+		
+		XSSFCell cell4 = billDetailHeader.createCell(4);
+		cell4.setCellStyle(style);
+		
+		XSSFCell cell5 = billDetailHeader.createCell(5);
+		cell5.setCellStyle(style);
+		
+		XSSFCell cell6 = billDetailHeader.createCell(6);
+		cell6.setCellStyle(style);
 
+		sheet.addMergedRegion(new CellRangeAddress(index, index, 1, 6));
+		
 		index++;
 		return index;
 	}
+	
+	
 
 	private static int createBillDetailHeader(XSSFSheet sheet, XSSFWorkbook wb, int index) {
 		XSSFRow billDetailHeader = sheet.createRow(index);
@@ -429,16 +442,14 @@ public class OutStandingClientReportUtil {
 
 	private static int createTotalOutStandingTotalRow(XSSFSheet sheet, XSSFWorkbook wb, int index,
 			double totalbillAmount, double totalDeducationAmount, double totalAmount) {
-		sheet.addMergedRegion(new CellRangeAddress(index, index, 1, 2));
-		sheet.addMergedRegion(new CellRangeAddress(index, index, 3, 6));
 		double outStandingAmount = totalbillAmount - (totalDeducationAmount + totalAmount);
 		XSSFFont font = wb.createFont();
 		font.setFontHeightInPoints((short) 14);
 		font.setFontName("Arial");
 		font.setColor(HSSFColor.BLACK.index);
 
-		XSSFRow landLoadDetail = sheet.createRow(index);
-		landLoadDetail.setHeight((short) 500);
+		XSSFRow totalPayment = sheet.createRow(index);
+		totalPayment.setHeight((short) 500);
 		
 		XSSFCellStyle style = getAllBorderStyle(wb);
 		style.setFillForegroundColor(HSSFColor.GREEN.index);
@@ -446,13 +457,28 @@ public class OutStandingClientReportUtil {
 		style.setAlignment(HorizontalAlignment.CENTER);
 		style.setVerticalAlignment(VerticalAlignment.CENTER);
 
-		XSSFCell cell1 = landLoadDetail.createCell(1);
+		XSSFCell cell1 = totalPayment.createCell(1);
 		cell1.setCellValue("Total OutStanding");
 		cell1.setCellStyle(style);
-
-		XSSFCell cell2 = landLoadDetail.createCell(3);
-		cell2.setCellValue(String.valueOf(outStandingAmount));
+		
+		XSSFCell cell2 = totalPayment.createCell(2);
 		cell2.setCellStyle(style);
+		
+		sheet.addMergedRegion(new CellRangeAddress(index, index, 1, 2));
+		
+		XSSFCell cell3 = totalPayment.createCell(3);
+		cell3.setCellValue(String.valueOf(outStandingAmount));
+		cell3.setCellStyle(style);
+		
+		XSSFCell cell4 = totalPayment.createCell(4);
+		cell4.setCellStyle(style);
+		XSSFCell cell5 = totalPayment.createCell(5);
+		cell5.setCellStyle(style);
+		XSSFCell cell6 = totalPayment.createCell(6);
+		cell6.setCellStyle(style);
+
+		sheet.addMergedRegion(new CellRangeAddress(index, index, 3, 6));
+		
 
 		index++;
 		return index;
