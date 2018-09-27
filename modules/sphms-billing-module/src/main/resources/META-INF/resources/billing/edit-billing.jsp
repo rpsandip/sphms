@@ -78,7 +78,7 @@
 	       				<c:forEach items="${billingHordingBeanList }" var="billingHordingBean" varStatus="loop">
 	       					<aui:input type="hidden" name="hordingId${loop.index}" label="title" value="${billingHordingBean.hordingId }" readonly="true"/>
 	       					<div class="form-group col-md-3">
-	       					 	<aui:input type="text" name="title${loop.index}" label="title" value="${billingHordingBean.hording.title }" readonly="true"/>
+	       					 	<aui:input type="text" name="title${loop.index}" label="title" value="${billingHordingBean.hording.title } (${billingHordingBean.hording.city })" readonly="true"/>
      						</div>
      						<div class="form-group col-md-3">
 	       					 	<aui:input type="text" name="hsnNo${loop.index}" label="HSN/SAC Code" value="${billingHordingBean.hsnNo }">

@@ -426,6 +426,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			billObject.put("financeYear", billingBean.getFinancialYear());
 			billObject.put("billNo", BillingLocalServiceUtil.getDisplayBillNo(billing));
 			billObject.put("bookingDate", dateFormat.format(billingBean.getBookingDate()));
+			billObject.put("clientPO", billing.getClientPONumber());
 			billObject.put("displayDate", dateFormat.format(booking.getStartDate())+" to " + dateFormat.format(booking.getEndDate()));
 			
 			// Get Total amount

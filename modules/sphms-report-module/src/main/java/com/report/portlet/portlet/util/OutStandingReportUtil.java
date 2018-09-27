@@ -96,20 +96,24 @@ public class OutStandingReportUtil {
 		XSSFCell cell12_4 = poTableRow.createCell(4);
 		cell12_4.setCellValue("Bill No");
 		cell12_4.setCellStyle(style);
+		
+		XSSFCell cell12_8 = poTableRow.createCell(5);
+		cell12_8.setCellValue("Client PO");
+		cell12_8.setCellStyle(style);
 
-		XSSFCell cell12_5 = poTableRow.createCell(5);
+		XSSFCell cell12_5 = poTableRow.createCell(6);
 		cell12_5.setCellValue("Booking Date");
 		cell12_5.setCellStyle(style);
 
-		XSSFCell cell12_6 = poTableRow.createCell(6);
+		XSSFCell cell12_6 = poTableRow.createCell(7);
 		cell12_6.setCellValue("Total Bill Amount");
 		cell12_6.setCellStyle(style);
 
-		XSSFCell cell12_12 = poTableRow.createCell(7);
+		XSSFCell cell12_12 = poTableRow.createCell(8);
 		cell12_12.setCellValue("Total Payment");
 		cell12_12.setCellStyle(style);
 
-		XSSFCell cell12_7 = poTableRow.createCell(8);
+		XSSFCell cell12_7 = poTableRow.createCell(9);
 		cell12_7.setCellValue("Total Out Standing");
 		cell12_7.setCellStyle(style);
 
@@ -137,17 +141,20 @@ public class OutStandingReportUtil {
 
 		XSSFCell cell4 = outStandingDetail.createCell(4);
 		cell4.setCellValue(detailRow.getString("billNo"));
+		
+		XSSFCell cell9 = outStandingDetail.createCell(5);
+		cell9.setCellValue(detailRow.getString("clientPO"));
 
-		XSSFCell cell5 = outStandingDetail.createCell(5);
+		XSSFCell cell5 = outStandingDetail.createCell(6);
 		cell5.setCellValue(detailRow.getString("bookingDate"));
 
-		XSSFCell cell6 = outStandingDetail.createCell(6);
+		XSSFCell cell6 = outStandingDetail.createCell(7);
 		cell6.setCellValue(detailRow.getString("totalBillAmount"));
 
-		XSSFCell cell7 = outStandingDetail.createCell(7);
+		XSSFCell cell7 = outStandingDetail.createCell(8);
 		cell7.setCellValue(detailRow.getString("totalPayment"));
 
-		XSSFCell cell8 = outStandingDetail.createCell(8);
+		XSSFCell cell8 = outStandingDetail.createCell(9);
 		cell8.setCellValue(detailRow.getString("totalOutStanding"));
 
 		index++;

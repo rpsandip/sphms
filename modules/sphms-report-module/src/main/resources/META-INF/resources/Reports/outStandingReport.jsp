@@ -78,10 +78,11 @@
             		 "order": [],
             		 "columns": [
             	                    { "data": "client", "name" : "client", "title" : "Client Name"  },
-            	                    { "data": "campaign", "name" : "campaign" , "title" : "campaign"},
+            	                    { "data": "campaign", "name" : "campaign" , "title" : "Campaign"},
             	                    { "data": "financeYear", "name" : "financeYear" , "title" : "FinanceYear"},
             	                    { "data": "billNo", "name" : "billNo" , "title" : "Bill No"},
-            	                    { "data": "bookingDate", "name" : "bookingDate" , "title" : "booking Date"},
+            	                    { "data": "clientPO", "name" : "clientPO" , "title" : "Client PO"},
+            	                    { "data": "bookingDate", "name" : "bookingDate" , "title" : "Booking Date"},
             	                    { "data": "totalBillAmount", "name" : "totalBillAmount" , "title" : "TotalBillAmount"},
             	                    { "data": "totalPayment", "name" : "totalPayment" , "title" : "TotalPayment"},
             	                    { "data": "totalOutStanding", "name" : "totalOutStanding" , "title" : "Total Out Standing"},

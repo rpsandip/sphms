@@ -111,7 +111,7 @@
      					<c:if test="${bookingId ne 0 }">
      						<c:forEach items="${bookingHordingBeanList }" var="bookingHordingBean" varStatus="loop">
      							<div class="form-group col-md-4">
-		       					 	<aui:input type="text" name="title${loop.index}" label="title" value="${bookingHordingBean.hordingTitle }" readonly="true"/>	
+		       					 	<aui:input type="text" name="title${loop.index}" label="title" value="${bookingHordingBean.hordingTitle }(${bookingHordingBean.horing.city })" readonly="true"/>	
 		       					 	<aui:input type="hidden" name="hordingId${index }" value="${bookingHordingBean.hordingId }" label="title" />
 	     						</div>
 	     						<div class="form-group col-md-3">
