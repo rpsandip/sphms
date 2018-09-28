@@ -476,9 +476,9 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			boolean isClientOutOfGuj = SPHMSCommonLocalServiceUtil.isClientOutOfGujrat(client);
 			
 			if(billType.equals(PRINTING_BILL_TYPE)){
-				iGSTRATE = 0.12d;
-				sGSTRATE = 0.06d;
-				cGSTRATE = 0.06d;
+				iGSTRATE = 0.18d;
+				sGSTRATE = 0.09d;
+				cGSTRATE = 0.09d;
 			}
 			
 			 totalBillAmount= totalHordingDisplayCharges;

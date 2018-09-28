@@ -88,7 +88,7 @@
             		 "order": []
             	 });
             	 
-            	 $("#clients").removeClass("dataTable	");
+            	 $("#clients").removeClass("dataTable");
             });
         })(jQuery);
  </script>
