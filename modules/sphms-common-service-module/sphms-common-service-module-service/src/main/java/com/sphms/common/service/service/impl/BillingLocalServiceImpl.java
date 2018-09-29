@@ -512,7 +512,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 				paymentDetail.put("deduction", Math.round(payment.getDeduction()));
 				paymentDetail.put("descrition", payment.getDescription());
 				paymentDetail.put("tds", Math.round(payment.getTds()));
-				paymentDetail.put("paymentdate", payment.getCreateDate());
+				paymentDetail.put("paymentdate", dateFormat.format(payment.getCreateDate()));
 				if(Validator.isNotNull(payment.getChequeNo())){
 					paymentDetail.put("paymenttype", "Cheque No: " + payment.getChequeNo());
 				}else{

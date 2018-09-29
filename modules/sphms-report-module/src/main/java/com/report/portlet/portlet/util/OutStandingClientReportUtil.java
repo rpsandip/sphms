@@ -327,7 +327,7 @@ public class OutStandingClientReportUtil {
 		cell12_1.setCellStyle(style);
 
 		XSSFCell cell12_2 = paymentDetail.createCell(2);
-		cell12_2.setCellValue("Check No(Payment Type)");
+		cell12_2.setCellValue("Payment Detail");
 		cell12_2.setCellStyle(style);
 
 		XSSFCell cell12_3 = paymentDetail.createCell(3);
@@ -373,7 +373,7 @@ public class OutStandingClientReportUtil {
 		cell1.setCellStyle(firstCellStyle);
 
 		XSSFCell cell2 = outStandingDetail.createCell(2);
-		cell2.setCellValue(detailRow.getString("chequeNo") + "(" + detailRow.getString("paymenttype") + ")");
+		cell2.setCellValue(detailRow.getString("paymentdate") +"  " + detailRow.getString("chequeNo") + "(" + detailRow.getString("paymenttype") + ")");
 		cell2.setCellStyle(style);
 
 		XSSFCell cell3 = outStandingDetail.createCell(3);
