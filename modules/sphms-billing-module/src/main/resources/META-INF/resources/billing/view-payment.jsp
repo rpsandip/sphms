@@ -72,8 +72,12 @@
        							 <portlet:param name="paymentId" value="${ payment.paymentId}" />
        							 <portlet:param name="billingId" value="${billingBean.billingId}" />
 							</portlet:renderURL>
+							<portlet:actionURL var="deletePaymentURL" name="/delete_payment">
+			                	 <portlet:param name="paymentId" value="${ payment.paymentId}" />
+							</portlet:actionURL>
 							<td>
-								<a href="${editPaymentURL }" class="btn btn-block btn-primary">Edit Payment</a>
+								<a href="${editPaymentURL }" class="btn btn-block btn-primary">Edit</a>
+								<a href="${deletePaymentURL }" class="btn btn-block btn-primary">Delete</a>
 							</td>
         			    </tr>
            			</c:forEach>

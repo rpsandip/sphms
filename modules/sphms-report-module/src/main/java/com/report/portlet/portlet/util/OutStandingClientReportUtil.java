@@ -196,7 +196,7 @@ public class OutStandingClientReportUtil {
 		cell12_4.setCellStyle(style);
 
 		XSSFCell cell12_5 = billDetailHeader.createCell(5);
-		cell12_5.setCellValue("Place");
+		cell12_5.setCellValue("Campaign");
 		cell12_5.setCellStyle(style);
 
 		XSSFCell cell12_6 = billDetailHeader.createCell(6);

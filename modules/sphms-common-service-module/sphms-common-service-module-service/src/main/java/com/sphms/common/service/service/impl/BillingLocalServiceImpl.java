@@ -309,7 +309,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		}
 		
 		if(status==-1){
-			dynamicQuery.add(RestrictionsFactoryUtil.ne("status", BillingStatus.DELETE.getValue()));
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("status", BillingStatus.PUBLISHED.getValue()));
 		}else{
 			dynamicQuery.add(RestrictionsFactoryUtil.eq("status", status));
 		}

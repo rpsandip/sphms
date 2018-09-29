@@ -13,6 +13,9 @@
 <liferay-ui:error key="error-po-publish" message="error-po-publish"/>
 <liferay-ui:success key="po-publish-success" message="po-publish-success"/>
 
+<liferay-ui:error key="payment-delete-error" message="payment-delete-error"/>
+<liferay-ui:success key="payment-delete-scuccess" message="payment-delete-scuccess"/>
+
 
 <section class="content">
  <div class="row">
