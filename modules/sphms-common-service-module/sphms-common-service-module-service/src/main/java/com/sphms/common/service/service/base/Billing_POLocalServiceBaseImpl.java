@@ -53,6 +53,7 @@ import com.sphms.common.service.service.persistence.ClientPersistence;
 import com.sphms.common.service.service.persistence.CreditNotePersistence;
 import com.sphms.common.service.service.persistence.CustomCompanyPersistence;
 import com.sphms.common.service.service.persistence.ExpensePersistence;
+import com.sphms.common.service.service.persistence.HordingFinder;
 import com.sphms.common.service.service.persistence.HordingPersistence;
 import com.sphms.common.service.service.persistence.LandLordFinder;
 import com.sphms.common.service.service.persistence.LandLordPaymentPersistence;
@@ -706,6 +707,24 @@ public abstract class Billing_POLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the hording finder.
+	 *
+	 * @return the hording finder
+	 */
+	public HordingFinder getHordingFinder() {
+		return hordingFinder;
+	}
+
+	/**
+	 * Sets the hording finder.
+	 *
+	 * @param hordingFinder the hording finder
+	 */
+	public void setHordingFinder(HordingFinder hordingFinder) {
+		this.hordingFinder = hordingFinder;
+	}
+
+	/**
 	 * Returns the land lord local service.
 	 *
 	 * @return the land lord local service
@@ -1134,6 +1153,8 @@ public abstract class Billing_POLocalServiceBaseImpl
 	protected com.sphms.common.service.service.HordingLocalService hordingLocalService;
 	@BeanReference(type = HordingPersistence.class)
 	protected HordingPersistence hordingPersistence;
+	@BeanReference(type = HordingFinder.class)
+	protected HordingFinder hordingFinder;
 	@BeanReference(type = com.sphms.common.service.service.LandLordLocalService.class)
 	protected com.sphms.common.service.service.LandLordLocalService landLordLocalService;
 	@BeanReference(type = LandLordPersistence.class)

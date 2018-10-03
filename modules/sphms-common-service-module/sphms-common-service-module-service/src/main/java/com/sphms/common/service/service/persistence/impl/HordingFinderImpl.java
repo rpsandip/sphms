@@ -71,7 +71,7 @@ public class HordingFinderImpl extends HordingFinderBaseImpl implements HordingF
 		}
 	
 	private String getHordingsQuery(long hordingId, String startDate, String endDate){
-		String selectQuery="select h.title,h.city, bl.display, cl.clientName, h.size, bh.units,h.hordingType, bh.hordingBookingStartDate, bh.hordingBookingEndDate,h.pricePerMonth, bh.totalMountingCharge, bh.totalPrintingCharge, bh.totalHordingCharge";
+		String selectQuery="select h.title,h.city, bl.display, cl.clientName, h.size_ as size, bh.units,h.hordingType, bh.hordingBookingStartDate, bh.hordingBookingEndDate,h.pricePerMonth, bh.totalMountingCharge, bh.totalPrintingCharge, bh.totalHordingCharge";
 		
 		StringBuilder query=new StringBuilder(selectQuery + " FROM SPHMS_Hording h ");
 		query.append("inner join SPHMS_Billing_Hording bh on bh.hordingid = h.hordingid");

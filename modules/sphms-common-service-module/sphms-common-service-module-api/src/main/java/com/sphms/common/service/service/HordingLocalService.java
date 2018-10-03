@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
@@ -68,6 +69,18 @@ public interface HordingLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+
+	/**
+	* This method will a common method to reterive a hordings Report
+	*
+	* @param landLoadId
+	* @param startDate
+	* @param endDate
+	* @return
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getHordingsFilter(long hordingId,
+		java.lang.String startDate, java.lang.String endDate);
 
 	/**
 	* @throws PortalException

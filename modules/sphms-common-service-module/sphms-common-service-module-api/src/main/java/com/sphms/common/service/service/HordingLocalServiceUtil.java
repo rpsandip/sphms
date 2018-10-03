@@ -54,6 +54,19 @@ public class HordingLocalServiceUtil {
 	}
 
 	/**
+	* This method will a common method to reterive a hordings Report
+	*
+	* @param landLoadId
+	* @param startDate
+	* @param endDate
+	* @return
+	*/
+	public static com.liferay.portal.kernel.json.JSONObject getHordingsFilter(
+		long hordingId, java.lang.String startDate, java.lang.String endDate) {
+		return getService().getHordingsFilter(hordingId, startDate, endDate);
+	}
+
+	/**
 	* @throws PortalException
 	*/
 	public static com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(

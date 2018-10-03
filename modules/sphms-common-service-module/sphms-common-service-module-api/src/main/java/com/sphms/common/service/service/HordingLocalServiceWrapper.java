@@ -48,6 +48,21 @@ public class HordingLocalServiceWrapper implements HordingLocalService,
 	}
 
 	/**
+	* This method will a common method to reterive a hordings Report
+	*
+	* @param landLoadId
+	* @param startDate
+	* @param endDate
+	* @return
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getHordingsFilter(
+		long hordingId, java.lang.String startDate, java.lang.String endDate) {
+		return _hordingLocalService.getHordingsFilter(hordingId, startDate,
+			endDate);
+	}
+
+	/**
 	* @throws PortalException
 	*/
 	@Override

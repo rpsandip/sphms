@@ -186,7 +186,7 @@ public class HordingReportUtil {
 		cell4.setCellStyle(style);
 
 		XSSFCell cell5 = holdingDetail.createCell(5);
-		cell5.setCellValue(detailRow.getString("size_"));
+		cell5.setCellValue(detailRow.getString("size"));
 		cell5.setCellStyle(style);
 
 		XSSFCell cell6 = holdingDetail.createCell(6);
