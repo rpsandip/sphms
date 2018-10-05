@@ -97,7 +97,7 @@ public class HordingReportUtil {
 		style.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		XSSFCell cell12_1 = poTableRow.createCell(1);
-		cell12_1.setCellValue("Title");
+		cell12_1.setCellValue("Town");
 		cell12_1.setCellStyle(style);
 
 		XSSFCell cell12_2 = poTableRow.createCell(2);
@@ -109,7 +109,7 @@ public class HordingReportUtil {
 		cell12_3.setCellStyle(style);
 
 		XSSFCell cell12_4 = poTableRow.createCell(4);
-		cell12_4.setCellValue("ClientName");
+		cell12_4.setCellValue("Booking Agency");
 		cell12_4.setCellStyle(style);
 
 		XSSFCell cell12_5 = poTableRow.createCell(5);
@@ -130,19 +130,19 @@ public class HordingReportUtil {
 		cell12_8.setCellStyle(style);
 
 		XSSFCell cell12_9 = poTableRow.createCell(9);
-		cell12_9.setCellValue("HordingType");
+		cell12_9.setCellValue("Type");
 		cell12_9.setCellStyle(style);
 
 		XSSFCell cell12_10 = poTableRow.createCell(10);
-		cell12_10.setCellValue("BookingStartDate");
+		cell12_10.setCellValue("StartDate");
 		cell12_10.setCellStyle(style);
 
 		XSSFCell cell12_11 = poTableRow.createCell(11);
-		cell12_11.setCellValue("HordingBookingEndDate");
+		cell12_11.setCellValue("EndDate");
 		cell12_11.setCellStyle(style);
 
 		XSSFCell cell12_12 = poTableRow.createCell(12);
-		cell12_12.setCellValue("Display duration");
+		cell12_12.setCellValue("Total duration");
 		cell12_12.setCellStyle(style);
 
 		XSSFCell cell12_13 = poTableRow.createCell(13);
@@ -150,16 +150,16 @@ public class HordingReportUtil {
 		cell12_13.setCellStyle(style);
 
 		XSSFCell cell12_14 = poTableRow.createCell(14);
-		cell12_14.setCellValue("TotalMountingCharge");
+		cell12_14.setCellValue("Mounting");
 		cell12_14.setCellStyle(style);
 		
 		
 		XSSFCell cell12_15 = poTableRow.createCell(15);
-		cell12_15.setCellValue("TotalPrintingCharge");
+		cell12_15.setCellValue("Printing");
 		cell12_15.setCellStyle(style);
 
 		XSSFCell cell12_16 = poTableRow.createCell(16);
-		cell12_16.setCellValue("TotalHordingCharge");
+		cell12_16.setCellValue("Amount");
 		cell12_16.setCellStyle(style);
 
 		index++;
@@ -227,7 +227,7 @@ public class HordingReportUtil {
 		cell11.setCellValue(detailRow.getString("hordingBookingEndDate"));
 		cell11.setCellStyle(style);
 		
-		XSSFCell cell12 = holdingDetail.createCell(13);
+		XSSFCell cell12 = holdingDetail.createCell(12);
 		cell12.setCellValue(detailRow.getString("displayDuration"));
 		cell12.setCellStyle(style);
 		
