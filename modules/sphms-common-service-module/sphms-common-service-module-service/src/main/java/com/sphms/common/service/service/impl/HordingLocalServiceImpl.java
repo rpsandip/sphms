@@ -15,6 +15,9 @@
 package com.sphms.common.service.service.impl;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +37,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
@@ -327,7 +331,9 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 
 		JSONObject responseObj = JSONFactoryUtil.createJSONObject();
 		JSONArray dataArray = JSONFactoryUtil.createJSONArray();
-
+		double sumOFTHCharg=0.0;
+		double sumOFTPharg=0.0;
+		double sumOfTMCharg=0.0;
 		for (Object row : hordingDetail) {
 			Object[] detailObj = (Object[]) row;
 			JSONObject proposalJsonObj = JSONFactoryUtil.createJSONObject();
@@ -335,7 +341,29 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 			proposalJsonObj.put("city", detailObj[1]);
 			proposalJsonObj.put("display", detailObj[2]);
 			proposalJsonObj.put("clientName", detailObj[3]);
-			proposalJsonObj.put("size", detailObj[4]);
+			String[] size = StringUtil.split(String.valueOf(detailObj[4]), 'X');
+			if (size.length > 0) {
+				proposalJsonObj.put("size_X", size[0]);
+				proposalJsonObj.put("size_Y", size[1]);
+				float area= Float.parseFloat(size[0]) * Float.parseFloat(size[1]);
+				proposalJsonObj.put("area", String.valueOf(area));
+			} else {
+				proposalJsonObj.put("size_X", "");
+				proposalJsonObj.put("size_Y", "");
+				proposalJsonObj.put("area", "");
+			}
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				Date hordingStartDate = formatter.parse(String.valueOf(detailObj[7]));
+				Date hordingEndDate = formatter.parse(String.valueOf(detailObj[8]));
+				String displayDuration=sphmsCommonLocalService.getDateTimeDiff(hordingStartDate, hordingEndDate);
+				proposalJsonObj.put("displayDuration", displayDuration);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				proposalJsonObj.put("displayDuration", "");
+			}
+
 			proposalJsonObj.put("units", detailObj[5]);
 			proposalJsonObj.put("hordingType", detailObj[6]);
 			proposalJsonObj.put("hordingBookingStartDate", detailObj[7]);
@@ -345,8 +373,15 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 			proposalJsonObj.put("totalPrintingCharge", detailObj[11]);
 			proposalJsonObj.put("totalHordingCharge", detailObj[12]);
 
+			sumOfTMCharg =sumOfTMCharg+Double.valueOf(String.valueOf(detailObj[10]));
+			sumOFTPharg =sumOFTPharg+Double.valueOf(String.valueOf(detailObj[11]));
+			sumOFTHCharg  =sumOFTHCharg+Double.valueOf(String.valueOf(detailObj[12]));
+
 			dataArray.put(proposalJsonObj);
 		}
+		responseObj.put("sumOfTMCharg", Math.round(sumOfTMCharg));
+		responseObj.put("sumOFTPharg", Math.round(sumOFTPharg));
+		responseObj.put("sumOFTHCharg", Math.round(sumOFTHCharg));
 		responseObj.put("hordingArray", dataArray);
 		return responseObj;
 	}

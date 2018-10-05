@@ -58,7 +58,7 @@ public class HordingReportUtil {
 		index = blankRow(sheet, wb, index, font);
 		
 		//total ammount colum
-		createTotalBillAmount(sheet, wb, index);
+		createTotalBillAmount(sheet, wb, index,hordingsDetail);
 	
 		//index = createTotalBillAmount(sheet, wb, index, totalbillAmount);
 		//index++;
@@ -113,43 +113,55 @@ public class HordingReportUtil {
 		cell12_4.setCellStyle(style);
 
 		XSSFCell cell12_5 = poTableRow.createCell(5);
-		cell12_5.setCellValue("Size");
+		cell12_5.setCellValue("Size(W)");
 		cell12_5.setCellStyle(style);
-
+		
 		XSSFCell cell12_6 = poTableRow.createCell(6);
-		cell12_6.setCellValue("Units");
+		cell12_6.setCellValue("Size(H)");
 		cell12_6.setCellStyle(style);
-
+		
 		XSSFCell cell12_7 = poTableRow.createCell(7);
-		cell12_7.setCellValue("HordingType");
+		cell12_7.setCellValue("Area");
 		cell12_7.setCellStyle(style);
+		
 
 		XSSFCell cell12_8 = poTableRow.createCell(8);
-		cell12_8.setCellValue("BookingStartDate");
+		cell12_8.setCellValue("Units");
 		cell12_8.setCellStyle(style);
 
 		XSSFCell cell12_9 = poTableRow.createCell(9);
-		cell12_9.setCellValue("HordingBookingEndDate");
+		cell12_9.setCellValue("HordingType");
 		cell12_9.setCellStyle(style);
 
 		XSSFCell cell12_10 = poTableRow.createCell(10);
-		cell12_10.setCellValue("PricePerMonth");
+		cell12_10.setCellValue("BookingStartDate");
 		cell12_10.setCellStyle(style);
 
 		XSSFCell cell12_11 = poTableRow.createCell(11);
-		cell12_11.setCellValue("TotalMountingCharge");
+		cell12_11.setCellValue("HordingBookingEndDate");
 		cell12_11.setCellStyle(style);
-		
-		
+
 		XSSFCell cell12_12 = poTableRow.createCell(12);
-		cell12_12.setCellValue("TotalPrintingCharge");
+		cell12_12.setCellValue("Display duration");
 		cell12_12.setCellStyle(style);
 
 		XSSFCell cell12_13 = poTableRow.createCell(13);
-		cell12_13.setCellValue("TotalHordingCharge");
+		cell12_13.setCellValue("PricePerMonth");
 		cell12_13.setCellStyle(style);
 
+		XSSFCell cell12_14 = poTableRow.createCell(14);
+		cell12_14.setCellValue("TotalMountingCharge");
+		cell12_14.setCellStyle(style);
 		
+		
+		XSSFCell cell12_15 = poTableRow.createCell(15);
+		cell12_15.setCellValue("TotalPrintingCharge");
+		cell12_15.setCellStyle(style);
+
+		XSSFCell cell12_16 = poTableRow.createCell(16);
+		cell12_16.setCellValue("TotalHordingCharge");
+		cell12_16.setCellStyle(style);
+
 		index++;
 		return index;
 	}
@@ -186,43 +198,55 @@ public class HordingReportUtil {
 		cell4.setCellStyle(style);
 
 		XSSFCell cell5 = holdingDetail.createCell(5);
-		cell5.setCellValue(detailRow.getString("size"));
+		cell5.setCellValue(detailRow.getString("size_X"));
 		cell5.setCellStyle(style);
-
+		
 		XSSFCell cell6 = holdingDetail.createCell(6);
-		cell6.setCellValue(detailRow.getString("units"));
+		cell6.setCellValue(detailRow.getString("size_Y"));
 		cell6.setCellStyle(style);
 		
-		
 		XSSFCell cell7 = holdingDetail.createCell(7);
-		cell7.setCellValue(detailRow.getString("hordingType"));
+		cell7.setCellValue(detailRow.getString("area"));
 		cell7.setCellStyle(style);
-		
-		
+
 		XSSFCell cell8 = holdingDetail.createCell(8);
-		cell8.setCellValue(detailRow.getString("hordingBookingStartDate"));
+		cell8.setCellValue(detailRow.getString("units"));
 		cell8.setCellStyle(style);
 		
+		
 		XSSFCell cell9 = holdingDetail.createCell(9);
-		cell9.setCellValue(detailRow.getString("hordingBookingEndDate"));
+		cell9.setCellValue(detailRow.getString("hordingType"));
 		cell9.setCellStyle(style);
 		
+		
 		XSSFCell cell10 = holdingDetail.createCell(10);
-		cell10.setCellValue(detailRow.getString("pricePerMonth"));
+		cell10.setCellValue(detailRow.getString("hordingBookingStartDate"));
 		cell10.setCellStyle(style);
 		
-		
 		XSSFCell cell11 = holdingDetail.createCell(11);
-		cell11.setCellValue(detailRow.getString("totalMountingCharge"));
+		cell11.setCellValue(detailRow.getString("hordingBookingEndDate"));
 		cell11.setCellStyle(style);
 		
-		XSSFCell cell12 = holdingDetail.createCell(12);
-		cell12.setCellValue(detailRow.getString("totalPrintingCharge"));
+		XSSFCell cell12 = holdingDetail.createCell(13);
+		cell12.setCellValue(detailRow.getString("displayDuration"));
 		cell12.setCellStyle(style);
 		
 		XSSFCell cell13 = holdingDetail.createCell(13);
-		cell13.setCellValue(detailRow.getString("totalHordingCharge"));
-		cell13.setCellStyle(lastcellStyle);
+		cell13.setCellValue(detailRow.getString("pricePerMonth"));
+		cell13.setCellStyle(style);
+		
+		
+		XSSFCell cell14 = holdingDetail.createCell(14);
+		cell14.setCellValue(detailRow.getString("totalMountingCharge"));
+		cell14.setCellStyle(style);
+		
+		XSSFCell cell15 = holdingDetail.createCell(15);
+		cell15.setCellValue(detailRow.getString("totalPrintingCharge"));
+		cell15.setCellStyle(style);
+		
+		XSSFCell cell16 = holdingDetail.createCell(16);
+		cell16.setCellValue(detailRow.getString("totalHordingCharge"));
+		cell16.setCellStyle(lastcellStyle);
 		
 	
 		index++;
@@ -238,8 +262,8 @@ public class HordingReportUtil {
 		XSSFCell cell1 = cityRow.createCell(1);
 		cell1.setCellStyle(style);
 
-		XSSFCell cell6 = cityRow.createCell(13);
-		cell6.setCellStyle(getRightBorderStyle(wb));
+		XSSFCell cell16 = cityRow.createCell(16);
+		cell16.setCellStyle(getRightBorderStyle(wb));
 
 		// mergedRegion(index, index, 1, 6, sheet);
 
@@ -247,7 +271,7 @@ public class HordingReportUtil {
 		return index;
 	}
 
-	private static int createTotalBillAmount(XSSFSheet sheet, XSSFWorkbook wb, int index) {
+	private static int createTotalBillAmount(XSSFSheet sheet, XSSFWorkbook wb, int index,JSONObject totalObject) {
 
 		XSSFFont font = wb.createFont();
 		font.setFontHeightInPoints((short) 14);
@@ -266,6 +290,7 @@ public class HordingReportUtil {
 		lastCellStyle.setFont(font);
 
 		XSSFCell cell1 = billTotalRow.createCell(1);
+		cell1.setCellValue("Total");
 		cell1.setCellStyle(firstCellStyle);
 
 		XSSFCell cell2 = billTotalRow.createCell(2);
@@ -302,7 +327,20 @@ public class HordingReportUtil {
 		cell12.setCellStyle(style);
 		
 		XSSFCell cell13 = billTotalRow.createCell(13);
-		cell13.setCellStyle(lastCellStyle);
+		cell13.setCellStyle(style);
+		
+		XSSFCell cell14 = billTotalRow.createCell(14);
+		cell14.setCellValue(totalObject.getString("sumOfTMCharg"));
+		cell14.setCellStyle(style);
+		
+		XSSFCell cell15 = billTotalRow.createCell(15);
+		cell15.setCellValue(totalObject.getString("sumOFTPharg"));
+		cell15.setCellStyle(style);
+		
+		
+		XSSFCell cell16 = billTotalRow.createCell(16);
+		cell16.setCellValue(totalObject.getString("sumOFTHCharg"));
+		cell16.setCellStyle(lastCellStyle);
 	
 
 		index++;
