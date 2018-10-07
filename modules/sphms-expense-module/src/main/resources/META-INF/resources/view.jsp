@@ -8,6 +8,9 @@
 <liferay-ui:success key="expense-update-success" message="expense-update-success"/>
 
 
+<portlet:resourceURL id="/getExpenseList" var="getExpenseListReportURL"></portlet:resourceURL>
+
+
 <portlet:renderURL var="addExpenseURL">
         <portlet:param name="mvcRenderCommandName" value="/add_expense" />
 </portlet:renderURL>
@@ -55,6 +58,7 @@
 	                </div>
 	                <div class="form-group col-md-2">
 	                  <input type=button class="btn btn-primary"  value="Search" id="filterSearch">
+	                  <input type=button class="btn btn-primary"  value="Export" id="exportExpense">
 	                </div>
 	              </form>
             	<table id="expenseList" class="display table table-bordered table-hover table-striped" cellspacing="0" width="100%">
@@ -124,14 +128,27 @@
                		 	resourceURL.setParameter('expenseType',expenseType);
                		 	resourceURL.setParameter('searchStartDate',startDate);
                		 	resourceURL.setParameter('companyId',companyId);
-               		 	
-                     	var getDocumentURL = resourceURL.toString();
+               			resourceURL.setParameter('isExport',false);
+                  	 	var getDocumentURL = resourceURL.toString();
                          expenseDataTable.ajax.url(getDocumentURL).load();
-         			});  	 
+         			});  
+                      
+                       
             });
+            	
           });
           
-          $('#startDate').datepicker({
+            $("#exportExpense").on('click',function(){
+             	debugger;
+             	var customCompany = $("#company").val();
+              	var expenseType = $("#expenseType").val();
+              	var startDate = $("#startDate").val();
+              	var endDate = $("#endDate").val();
+              	var getDocumentURL = '${getExpenseListReportURL}&<portlet:namespace />companyId='+customCompany+'&<portlet:namespace />expenseType='+expenseType+'&<portlet:namespace />startDate='+startDate+'&<portlet:namespace />endDate='+endDate+'&<portlet:namespace />isExport='+true;;
+                  window.location.href=getDocumentURL; 
+   			});
+           
+           $('#startDate').datepicker({
         		format: 'dd/mm/yyyy',  
         	    autoclose: true
           }); 
@@ -141,5 +158,7 @@
       	    autoclose: true
         }); 
             
+         
+          
         })(jQuery);
 </script>

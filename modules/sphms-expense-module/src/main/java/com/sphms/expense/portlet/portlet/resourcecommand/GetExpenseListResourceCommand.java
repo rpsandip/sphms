@@ -1,6 +1,10 @@
 package com.sphms.expense.portlet.portlet.resourcecommand;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,12 +23,14 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.model.Expense;
 import com.sphms.common.service.service.ExpenseLocalServiceUtil;
 import com.sphms.expense.portlet.portlet.util.ExpensePortletConstant;
+import com.sphms.expense.portlet.portlet.util.ExpenseReportUtil;
 
 
 @Component(
@@ -48,6 +54,7 @@ public class GetExpenseListResourceCommand implements MVCResourceCommand{
 		String startDateStr = ParamUtil.getString(resourceRequest, "searchStartDate");
 		String endDateStr = ParamUtil.getString(resourceRequest, "searchEndDate");
 		long companyId = ParamUtil.getLong(resourceRequest, "companyId");
+		boolean isExportReport = ParamUtil.getBoolean(resourceRequest, "isExport");
 		JSONObject responseObj = JSONFactoryUtil.createJSONObject();
 		JSONArray dataArray = JSONFactoryUtil.createJSONArray();
 		Date startDate = null;
@@ -81,7 +88,7 @@ public class GetExpenseListResourceCommand implements MVCResourceCommand{
 			
 			dataArray.put(expenseObj);
 		}
-		
+		if(!isExportReport){
 		responseObj.put("iTotalRecords", totalExpenseCount);
 		 responseObj.put("iTotalDisplayRecords", totalExpenseCount);
 		 responseObj.put("aaData", dataArray);
@@ -91,7 +98,39 @@ public class GetExpenseListResourceCommand implements MVCResourceCommand{
 			} catch (IOException e) {
 				_log.error(e.getMessage(), e);
 			}
-		
+		}else{
+			
+			try {
+				File file = ExpenseReportUtil.createExpenseReport(dataArray);
+				try {
+					resourceResponse.setContentType("application/vnd.ms-excel");
+					resourceResponse.addProperty(HttpHeaders.CONTENT_DISPOSITION,
+							"attachment;  filename=" + file.getName());
+
+					OutputStream pos = resourceResponse.getPortletOutputStream();
+					try {
+						byte[] bytesArray = new byte[(int) file.length()];
+						FileInputStream fis = new FileInputStream(file);
+						fis.read(bytesArray); // read file into bytes[]
+						fis.close();
+
+						pos.write(bytesArray);
+						pos.flush();
+
+					} finally {
+						pos.close();
+					}
+				} catch (IOException e) {
+					_log.error(e);
+				}
+
+			} catch (FileNotFoundException e) {
+				_log.error(e.getMessage());
+			} catch (IOException e) {
+				_log.error(e.getMessage());
+			}
+			
+		}
 		return true;
 	}
 
