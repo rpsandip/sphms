@@ -17,7 +17,6 @@ package com.sphms.common.service.service.impl;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -334,6 +333,7 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 		double sumOFTHCharg=0.0;
 		double sumOFTPharg=0.0;
 		double sumOfTMCharg=0.0;
+		double sumOfgrandTotal=0.0;
 		for (Object row : hordingDetail) {
 			Object[] detailObj = (Object[]) row;
 			JSONObject proposalJsonObj = JSONFactoryUtil.createJSONObject();
@@ -363,7 +363,7 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 				e.printStackTrace();
 				proposalJsonObj.put("displayDuration", "");
 			}
-
+			Double grandTotalVal=Double.valueOf(String.valueOf(detailObj[10])) + Double.valueOf(String.valueOf(detailObj[11])) + Double.valueOf(String.valueOf(detailObj[12]));
 			proposalJsonObj.put("units", detailObj[5]);
 			proposalJsonObj.put("hordingType", detailObj[6]);
 			proposalJsonObj.put("hordingBookingStartDate", detailObj[7]);
@@ -372,16 +372,20 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 			proposalJsonObj.put("totalMountingCharge", detailObj[10]);
 			proposalJsonObj.put("totalPrintingCharge", detailObj[11]);
 			proposalJsonObj.put("totalHordingCharge", detailObj[12]);
+			proposalJsonObj.put("grandTotal",grandTotalVal);
+			
 
 			sumOfTMCharg =sumOfTMCharg+Double.valueOf(String.valueOf(detailObj[10]));
 			sumOFTPharg =sumOFTPharg+Double.valueOf(String.valueOf(detailObj[11]));
 			sumOFTHCharg  =sumOFTHCharg+Double.valueOf(String.valueOf(detailObj[12]));
-
+			sumOfgrandTotal = sumOfgrandTotal + grandTotalVal;
 			dataArray.put(proposalJsonObj);
 		}
 		responseObj.put("sumOfTMCharg", Math.round(sumOfTMCharg));
 		responseObj.put("sumOFTPharg", Math.round(sumOFTPharg));
 		responseObj.put("sumOFTHCharg", Math.round(sumOFTHCharg));
+		responseObj.put("sumOFTHCharg", Math.round(sumOFTHCharg));
+		responseObj.put("sumOfgrandTotal", Math.round(sumOfgrandTotal));
 		responseObj.put("hordingArray", dataArray);
 		return responseObj;
 	}

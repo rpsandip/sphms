@@ -161,6 +161,10 @@ public class HordingReportUtil {
 		XSSFCell cell12_16 = poTableRow.createCell(16);
 		cell12_16.setCellValue("Amount");
 		cell12_16.setCellStyle(style);
+		
+		XSSFCell cell12_17 = poTableRow.createCell(17);
+		cell12_17.setCellValue("GrandTotal");
+		cell12_17.setCellStyle(style);
 
 		index++;
 		return index;
@@ -246,7 +250,11 @@ public class HordingReportUtil {
 		
 		XSSFCell cell16 = holdingDetail.createCell(16);
 		cell16.setCellValue(detailRow.getString("totalHordingCharge"));
-		cell16.setCellStyle(lastcellStyle);
+		cell16.setCellStyle(style);
+		
+		XSSFCell cell17 = holdingDetail.createCell(17);
+		cell17.setCellValue(detailRow.getString("grandTotal"));
+		cell17.setCellStyle(lastcellStyle);
 		
 	
 		index++;
@@ -262,8 +270,8 @@ public class HordingReportUtil {
 		XSSFCell cell1 = cityRow.createCell(1);
 		cell1.setCellStyle(style);
 
-		XSSFCell cell16 = cityRow.createCell(16);
-		cell16.setCellStyle(getRightBorderStyle(wb));
+		XSSFCell cell17 = cityRow.createCell(17);
+		cell17.setCellStyle(getRightBorderStyle(wb));
 
 		// mergedRegion(index, index, 1, 6, sheet);
 
@@ -340,7 +348,11 @@ public class HordingReportUtil {
 		
 		XSSFCell cell16 = billTotalRow.createCell(16);
 		cell16.setCellValue(totalObject.getString("sumOFTHCharg"));
-		cell16.setCellStyle(lastCellStyle);
+		cell16.setCellStyle(style);
+		
+		XSSFCell cell17 = billTotalRow.createCell(17);
+		cell17.setCellValue(totalObject.getString("sumOfgrandTotal"));
+		cell17.setCellStyle(lastCellStyle);
 	
 
 		index++;

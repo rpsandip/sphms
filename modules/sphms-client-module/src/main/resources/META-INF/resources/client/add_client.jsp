@@ -30,7 +30,7 @@
 	       				<div class="form-group col-md-12">
 	       					 <aui:input name="clientName" label="clientName" cssClass="form-control" value="${client.clientName }">
 						     	<aui:validator name="required" />
-						     	<aui:validator name="maxLength">70</aui:validator>
+						     	<aui:validator name="maxLength">100</aui:validator>
 							 </aui:input>
 						</div>	 
        				</div>

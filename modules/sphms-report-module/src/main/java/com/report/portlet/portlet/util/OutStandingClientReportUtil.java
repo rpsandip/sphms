@@ -210,6 +210,9 @@ public class OutStandingClientReportUtil {
 		XSSFFont font = wb.createFont();
 		font.setFontHeightInPoints((short) 11);
 		font.setFontName("Arial");
+		if(Integer.valueOf(detailRow.getString("totalBillAmount")) <= 0){
+		font.setColor(HSSFColor.GREEN.index);
+		}
 
 		XSSFRow outStandingDetail = sheet.createRow(index);
 		XSSFCellStyle style = getRowStyle(outStandingDetail, wb);
@@ -219,7 +222,7 @@ public class OutStandingClientReportUtil {
 		firstCellStyle.setFont(font);
 
 		XSSFCellStyle lastcellStyle = getRightBorderStyle(wb);
-		style.setFont(font);
+		lastcellStyle.setFont(font);
 
 		XSSFCell cell1 = outStandingDetail.createCell(1);
 		cell1.setCellValue(detailRow.getString("billNo"));
