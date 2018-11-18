@@ -51,6 +51,8 @@ public class GenerateBillResourceCommand implements MVCResourceCommand{
 		long billingId = ParamUtil.getLong(resourceRequest, "billingId");
 		String billType = ParamUtil.getString(resourceRequest, "billType");
 		
+		_log.debug("DownLoad bill ->" + billingId);
+		
 		Billing billing = null;
 		Booking booking = null;
 		CustomCompany company = null;
@@ -59,11 +61,13 @@ public class GenerateBillResourceCommand implements MVCResourceCommand{
 				billing = BillingLocalServiceUtil.getBilling(billingId);
 				booking = BookingLocalServiceUtil.getBooking(billing.getBookingId());
 				company = CustomCompanyLocalServiceUtil.getCustomCompany(booking.getCustomCompanyId());
+				_log.debug("DownLoad bill ->" + " valid billing booking company");
 			} catch (PortalException e) {
 				_log.error(e.getMessage());
 			}
 		}
 		
+		_log.debug("DownLoad bill billType->" + Validator.isNotNull(billType) + " booking->" + Validator.isNotNull(booking));
 		if(Validator.isNotNull(billType) && Validator.isNotNull(booking)){
 			
 			List<Billing_HordingBean> billing_HordingBeansList = new ArrayList<Billing_HordingBean>();
@@ -74,8 +78,9 @@ public class GenerateBillResourceCommand implements MVCResourceCommand{
 			}
 			
 			try {
+				_log.debug("DownLoad bill ->" + "goung to create file");
 				File file = FileUtil.createBillXlsForBooking(booking, billing, billing_HordingBeansList, company);
-				
+				_log.debug("DownLoad bill ->" + "after file created");
 				try {
 		        	resourceResponse.setContentType("application/vnd.ms-excel");
 		        	resourceResponse.addProperty(
@@ -83,14 +88,16 @@ public class GenerateBillResourceCommand implements MVCResourceCommand{
 
 		            OutputStream pos = resourceResponse.getPortletOutputStream();
 		            try {
+		            	
+		            	_log.debug("DownLoad bill ->" + " convert file to byte array");
 		            	byte[] bytesArray = new byte[(int) file.length()];
 		            	FileInputStream fis = new FileInputStream(file);
 		            	fis.read(bytesArray); //read file into bytes[]
 		            	fis.close();
-
+		            	_log.debug("DownLoad bill ->" + " fis close");
 		                pos.write(bytesArray);
 		                pos.flush();
-		                
+		                _log.debug("DownLoad bill ->" + " pos close");
 		            } finally {
 		                pos.close();
 		            }

@@ -41,31 +41,34 @@ public class PublishPOActionCommand  extends BaseMVCActionCommand{
 	@Override
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse){
 		long billingId = ParamUtil.getLong(actionRequest, "billingId");
-		long hordingId = ParamUtil.getLong(actionRequest, "hordingId");
+	
+		List<Billing_PO> billingPOList =  Billing_POLocalServiceUtil.getBillingPOListByBillingId(billingId);
 		
-		Billing_POPK billingPOPK = new Billing_POPK(billingId, hordingId);
-		try {
-			Billing_PO billingPO = Billing_POLocalServiceUtil.getBilling_PO(billingPOPK);
-			Billing billing = BillingLocalServiceUtil.getBilling(billingId);
-			if(billingPO.getStatus()==Billing_PO_Status.GENERATED.getValue()){
-				long landLordId = billingPO.getLandLordId();
-				String nextPONumber = Billing_POLocalServiceUtil.getNextPONumber(billingId, billingPO.getLandLordId(),billing.getCustomCompanyId());
+		for(Billing_PO billingPO : billingPOList){
+			
+			try {
 				
-				// Find other hording in same billings
-				List<Billing_PO> otherHordingList = Billing_POLocalServiceUtil.getBilling_POByBillingIdAndLandLordId(billingId, landLordId);
-				for(Billing_PO otherBillingPO : otherHordingList){
-					otherBillingPO.setPoNumber(nextPONumber);
-					otherBillingPO.setStatus(Billing_PO_Status.PUBLISH.getValue());
-					Billing_POLocalServiceUtil.updateBilling_PO(otherBillingPO);
+				Billing billing = BillingLocalServiceUtil.getBilling(billingId);
+				if(billingPO.getStatus()==Billing_PO_Status.GENERATED.getValue()){
+					long landLordId = billingPO.getLandLordId();
+					String nextPONumber = Billing_POLocalServiceUtil.getNextPONumber(billingId, billingPO.getLandLordId(),billing.getCustomCompanyId());
+					
+					// Find other hording in same billings
+					List<Billing_PO> otherHordingList = Billing_POLocalServiceUtil.getBilling_POByBillingIdAndLandLordId(billingId, landLordId);
+					for(Billing_PO otherBillingPO : otherHordingList){
+						otherBillingPO.setPoNumber(nextPONumber);
+						otherBillingPO.setStatus(Billing_PO_Status.PUBLISH.getValue());
+						Billing_POLocalServiceUtil.updateBilling_PO(otherBillingPO);
+					}	
+				}else{
+					throw new PortalException();
 				}
-				
-			}else{
-				throw new PortalException();
+				SessionMessages.add(actionRequest, "po-publish-success");
+				break;
+			} catch (PortalException e) {
+				SessionErrors.add(actionRequest, "error-po-publish");
+				_log.error(e);
 			}
-			SessionMessages.add(actionRequest, "po-publish-success");
-		} catch (PortalException e) {
-			SessionErrors.add(actionRequest, "error-po-publish");
-			_log.error(e);
 		}
 		
 	}

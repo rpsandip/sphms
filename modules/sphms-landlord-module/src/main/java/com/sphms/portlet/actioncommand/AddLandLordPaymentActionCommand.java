@@ -73,6 +73,9 @@ public class AddLandLordPaymentActionCommand extends BaseMVCActionCommand{
 			}
 		}
 		
+		actionResponse.setRenderParameter("mvcRenderCommandName", "/viewPayment");
+	    actionResponse.setRenderParameter("landLordId", String.valueOf(landLordId));
+		
 	}
 
 }

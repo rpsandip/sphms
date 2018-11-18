@@ -57,8 +57,8 @@ public class BillingBean {
 		this.clientPONumber = billing.getClientPONumber();
 		this.clientGSTNumber = billing.getClientGSTNumber();
 		this.display = billing.getDisplay();
-		this.accessAmount = billing.getAccessAmount();
-		this.pendingAmount = billing.getPendingAmount();
+		this.accessAmount = Math.round(billing.getAccessAmount());
+		this.pendingAmount = Math.round(billing.getPendingAmount());
 		this.financialYear = billing.getFinancialYear();
 		this.status = billing.getStatus();
 		this.createDate =billing.getCreateDate();

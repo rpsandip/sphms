@@ -33,7 +33,7 @@ public class LandLordPaymentBean {
 	public LandLordPaymentBean(LandLordPayment landLordPayment){
 		this.landLordId = landLordPayment.getLandLoadId();
 		this.hordingId = landLordPayment.getHordingId();
-		this.amount = landLordPayment.getAmount();
+		this.amount = Math.round(landLordPayment.getAmount());
 		this.paymentDate = landLordPayment.getPaymentDate();
 		this.landLordPaymentId = landLordPayment.getLandLordPaymentId();
 		this.chequeNo = landLordPayment.getChequeNo();

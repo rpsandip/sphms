@@ -23,8 +23,8 @@ public class Proposal_HordingBean {
 	public Proposal_HordingBean(Proposal proposal, Proposal_Hording proposalHording){
 		this.proposalId = proposal.getProposalId();
 		this.hordingId = proposalHording.getHordingId();
-		this.mountingCharge = proposalHording.getMountingCharge();
-		this.printingCharge = proposalHording.getPrintingCharge();
+		this.mountingCharge = Math.round(proposalHording.getMountingCharge());
+		this.printingCharge = Math.round(proposalHording.getPrintingCharge());
 		this.units = proposalHording.getUnits();
 		
 		try {

@@ -1,5 +1,8 @@
 package com.sphms.portlet.portlet.rendercommand;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -39,6 +42,7 @@ public class EditPODetailRenderCommand implements MVCRenderCommand{
 		long billingId = ParamUtil.getLong(renderRequest, "billingId");
 		long hordingId = ParamUtil.getLong(renderRequest, "hordingId");
 		
+		/*
 		Billing_POPK billing_POPK = new Billing_POPK(billingId, hordingId);
 		try {
 			Billing billing = BillingLocalServiceUtil.getBilling(billingId);
@@ -50,7 +54,26 @@ public class EditPODetailRenderCommand implements MVCRenderCommand{
 		} catch (PortalException e) {
 			_log.error(e);
 			return "/view.jsp";
-		}
+		}*/
+		
+		List<BillingPOBean> billingPOBeanList = new ArrayList<BillingPOBean>();
+		List<Billing_PO> billingPOList =  Billing_POLocalServiceUtil.getBillingPOListByBillingId(billingId);
+		try {
+			Billing billing = BillingLocalServiceUtil.getBilling(billingId);
+			CustomCompany customCompany = CustomCompanyLocalServiceUtil.getCustomCompany(billing.getCustomCompanyId());
+			for(Billing_PO billingPO : billingPOList){
+				BillingPOBean billingPOBean= new BillingPOBean(billingPO, customCompany);
+				billingPOBean.setPoNumber(Billing_POLocalServiceUtil.getPONumber(billingPO,customCompany));
+				renderRequest.setAttribute("poNumber", Billing_POLocalServiceUtil.getPONumber(billingPO,customCompany));
+				billingPOBeanList.add(billingPOBean);
+			}
+			
+			renderRequest.setAttribute("billingPOBeanList", billingPOBeanList);
+			renderRequest.setAttribute("billingId", billingId);
+		} catch (PortalException e) {
+			_log.error(e);
+			return "/view.jsp";
+		}	
 		
 		return "/billing/edit_po.jsp";
 	}

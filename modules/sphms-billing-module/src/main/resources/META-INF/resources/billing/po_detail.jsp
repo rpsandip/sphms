@@ -3,6 +3,11 @@
 <%@ include file="../init.jsp" %>
 
 <portlet:resourceURL id="/download-po" var="downLoadPOURL" />
+<liferay-ui:error key="error-po-publish" message="error-po-publish"/>
+<liferay-ui:success key="po-publish-success" message="po-publish-success"/>
+
+<liferay-ui:success key="po-update-success" message="po-update-success"/>
+<liferay-ui:success key="po-update-error" message="po-update-error"/>
 
 <section class="content-header">
   <h1>
@@ -58,14 +63,10 @@
             				<td>${poBean.financialYear}</td>
             				<td><a data-billing-id="${ poBean.billingId}" data-landlord-id="${poBean.landlordId }" class="po-download">DownLoad</a></td>
         			    	<td>
-        			    		<ul>
-        			    				<c:forEach items="${poBean.hordingList }" var="poHordingDTO">
-        			    				<li>
         			    					<c:choose>
-            									<c:when test="${poHordingDTO.status eq 0 }">
+            									<c:when test='${poBean.status eq "Generated" }'>
 	            										<portlet:actionURL var="publishPOActionURL" name="/publish_PO">
 															<portlet:param name="billingId" value="${ poBean.billingId}"/>
-															<portlet:param name="hordingId" value="${ poHordingDTO.hordingId}"/>
 														</portlet:actionURL>
 										
 														<a href="${publishPOActionURL}">
@@ -76,25 +77,20 @@
             										Sent To Client
             									</c:otherwise>
             								</c:choose>
-            								</li>
-        			    				</c:forEach>
-        			    			</ul>
+            							
         			    	</td>
         			    	<td>
-								<ul>
-            						<c:forEach items="${poBean.hordingList }" var="poHordingDTO">
+								
+            						
             							<portlet:renderURL var="editPODetailURL">
        							 			<portlet:param name="mvcRenderCommandName" value="/edit_po" />
        							 			<portlet:param name="billingId" value="${ poBean.billingId}" />
-       							 			<portlet:param name="hordingId" value="${ poHordingDTO.hordingId}" />
 										</portlet:renderURL>
-            							<li>
+            							
             								<a href="${editPODetailURL}">
             									Edit
             								</a>
-            							</li>
-            						</c:forEach>
-            					</ul>
+            						
         			    	</td>
         			    </tr>
            			</c:forEach>

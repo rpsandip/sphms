@@ -25,7 +25,7 @@ public class BillingPOBean {
 		this.hordingId = billingPO.getHordingId();
 		this.poNumber = Billing_POLocalServiceUtil.getPONumber(billingPO, company);
 		this.financialYear = billingPO.getFinancialYear();
-		this.totalAmount = billingPO.getTotalAmount();
+		this.totalAmount = Math.round(billingPO.getTotalAmount());
 		
 		if(this.hordingId>0){
 			try {

@@ -36,19 +36,37 @@ public class EditPOActionCommand extends BaseMVCActionCommand{
 	
 	@Override
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
-		long hordingId = ParamUtil.getLong(actionRequest, "hordingId");	
+		
 		long billingId = ParamUtil.getLong(actionRequest, "billingId");
-		double totalAmount = ParamUtil.getDouble(actionRequest, "totalAmount");
-		Billing_POPK billing_POPK = new Billing_POPK(billingId, hordingId);
-		try {
-			Billing_PO billingPO = Billing_POLocalServiceUtil.getBilling_PO(billing_POPK);
-			billingPO.setTotalAmount(totalAmount);
-			Billing_POLocalServiceUtil.updateBilling_PO(billingPO);
-			SessionMessages.add(actionRequest, "po-update-success");
-		} catch (PortalException e) {
-			SessionErrors.add(actionRequest, "po-update-error");
-			_log.error(e);
+	
+		String[] hordingArray = ParamUtil.getParameterValues(actionRequest, "hordingId");
+		String[] totalAmountArray = ParamUtil.getParameterValues(actionRequest, "totalAmount");
+		int count=0;
+		for(int i=0; i<hordingArray.length;i++){
+			long hordingId = Long.parseLong(hordingArray[i]);
+			double totalAmount = Double.parseDouble(totalAmountArray[i]);
+			
+			Billing_POPK billing_POPK = new Billing_POPK(billingId, hordingId);
+			try {
+				Billing_PO billingPO = Billing_POLocalServiceUtil.getBilling_PO(billing_POPK);
+				billingPO.setTotalAmount(totalAmount);
+				Billing_POLocalServiceUtil.updateBilling_PO(billingPO);
+				count++;
+				
+			} catch (PortalException e) {
+				_log.error(e);
+			}
 		}
+		
+		if(count==hordingArray.length){
+			SessionMessages.add(actionRequest, "po-update-success");
+		}else{
+			SessionErrors.add(actionRequest, "po-update-error");
+		}
+		
+		actionResponse.setRenderParameter("mvcRenderCommandName", "/po_detail");
+	    actionResponse.setRenderParameter("billingId", String.valueOf(billingId));
+		
 	}
 
 }

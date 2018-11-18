@@ -1,5 +1,7 @@
 <%@ include file="../init.jsp" %>
 
+<liferay-ui:success key="add-land-lord-payment-successfully" message="add-land-lord-payment-successfully"/>
+<liferay-ui:success key="update-land-lord-payment-successfully" message="update-land-lord-payment-successfully"/>
 
 <section class="content-header">
   <h1>

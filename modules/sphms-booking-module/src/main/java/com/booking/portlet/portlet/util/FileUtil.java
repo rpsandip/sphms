@@ -53,6 +53,7 @@ public class FileUtil {
 		//if(globalSiteGroupId!=0 && Validator.isNotNull(bookingParentFolder)){																																
 			//Folder billingFolder = SPHMSCommonLocalServiceUtil.getFolder(globalSiteGroupId, bookingParentFolder.getFolderId(), String.valueOf(billing.getBillingId()));
 			//if(Validator.isNotNull(billingFolder)){
+		        _log.debug("DownLoad bill ->" + " inside FileUtil.createBillXlsForBooking");
 				File xlsxFile = createBillXlsFile(booking, billing,billiingHordingBeanList,company);
 				/*
 				ServiceContext serviceContext = new ServiceContext(); 
@@ -69,6 +70,7 @@ public class FileUtil {
 				}*/
 			//}
 		//}
+				_log.debug("DownLoad bill ->" + " return xlsxFile " + xlsxFile.getName());
 		return xlsxFile;
 	}
 	
@@ -241,9 +243,13 @@ public class FileUtil {
 		String fileName = booking.getCampaignTitle()+".xlsx";
 		File file = new File(System.getProperty("catalina.home")+"/temp/"+fileName);
 		
+		_log.debug("DownLoad bill ->" + file.getName());
+				
 		FileOutputStream fileOut = new FileOutputStream(file);
 		wb.write(fileOut);
 		fileOut.close();
+		
+		_log.debug("DownLoad bill ->" + " fileout close");
 		
 		return file;
 

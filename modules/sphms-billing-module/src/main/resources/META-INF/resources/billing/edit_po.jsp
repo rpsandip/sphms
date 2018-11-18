@@ -9,7 +9,7 @@
     		<liferay-ui:message key="edit.po"/> 
     	</span>
     	<span class="pull-right">
-    		<h4>Hoarding  : </h4> ${billingPOBean.poNumber }
+    		<h4>PO  : </h4> ${poNumber }
     	</span>
   	</h1>
 </section>
@@ -19,18 +19,26 @@
     	<div class="box">
        		<div class="box-body">
        			<aui:form name="editPOFm" action="${editPODetailURL}" cssClass="row contact_form" method="POST">
-      				<div class="row">
-	       				<div class="form-group col-md-12">
-	       					<b>Hoarding : </b> ${billingPOBean.hordingTitle }
-	       				</div>
-	       				<div class="form-group col-md-12">
-	       					<aui:input type="text" name="totalAmount" label="Total Amount" value="${billingPOBean.totalAmount }"/>
-	       				</div>
-	       			</div>	
+      				
+      				<c:forEach items="${billingPOBeanList }" var="billingPOBean" >
+      				
+	      				<div class="row">
+		       				<div class="form-group col-md-12">
+		       					<b>Hoarding : </b> ${billingPOBean.hordingTitle }
+		       				</div>
+		       				<div class="form-group col-md-12">
+		       					<aui:input type="text" name="totalAmount" label="Total Amount" value="${billingPOBean.totalAmount }"/>
+		       					<aui:input type="hidden" name="hordingId" label="" value="${billingPOBean.hordingId }"/>
+		       				</div>
+		       			</div>	
+	       			
+	       			</c:forEach>
+	       			
+	       			
 	       			<div class="row">
      					<div class="form-group col-md-12">
-     						<aui:input type="hidden" name="hordingId" value="${billingPOBean.hordingId }"></aui:input>
-     						<aui:input type="hidden" name="billingId" value="${billingPOBean.billingId }"></aui:input>
+     						<%-- <aui:input type="hidden" name="hordingId" value="${billingPOBean.hordingId }"></aui:input> --%>
+     						 <aui:input type="hidden" name="billingId" value="${billingId }"></aui:input>
 							<aui:button type="button" value="Update PO"  cssClass="editPOBtn btn btn-primary"/>
 						</div>
 					</div>

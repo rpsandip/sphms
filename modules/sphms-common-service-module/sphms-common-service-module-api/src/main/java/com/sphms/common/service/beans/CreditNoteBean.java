@@ -36,8 +36,8 @@ public class CreditNoteBean {
 			this.clientId = creditNote.getClientId();
 			this.billingId = creditNote.getBillingId();
 			this.creditNoteNumber = creditNote.getCreditNoteNumber();
-			this.creditNoteAmount = creditNote.getCreditNoteAmount();
-			this.creditNoteTax =creditNote.getCreditNoteTax();
+			this.creditNoteAmount = Math.round(creditNote.getCreditNoteAmount());
+			this.creditNoteTax =Math.round(creditNote.getCreditNoteTax());
 			this.paymentDate = creditNote.getPaymentDate();
 			this.chequeNo = creditNote.getChequeNo();
 			this.bankName = creditNote.getBankName();
