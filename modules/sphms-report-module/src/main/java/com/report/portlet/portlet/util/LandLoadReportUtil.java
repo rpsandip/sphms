@@ -91,31 +91,27 @@ public class LandLoadReportUtil {
 		cell12_2.setCellValue("Last Name");
 		cell12_2.setCellStyle(style);
 
-		XSSFCell cell12_3 = poTableRow.createCell(3);
-		cell12_3.setCellValue("Address");
-		cell12_3.setCellStyle(style);
-
-		XSSFCell cell12_4 = poTableRow.createCell(4);
+		XSSFCell cell12_4 = poTableRow.createCell(3);
 		cell12_4.setCellValue("City");
 		cell12_4.setCellStyle(style);
 
-		XSSFCell cell12_5 = poTableRow.createCell(5);
+		XSSFCell cell12_5 = poTableRow.createCell(4);
 		cell12_5.setCellValue("Phone No");
 		cell12_5.setCellStyle(style);
 
-		XSSFCell cell12_6 = poTableRow.createCell(6);
+		XSSFCell cell12_6 = poTableRow.createCell(5);
 		cell12_6.setCellValue("Amount");
 		cell12_6.setCellStyle(style);
 
-		XSSFCell cell12_12 = poTableRow.createCell(7);
+		XSSFCell cell12_12 = poTableRow.createCell(6);
 		cell12_12.setCellValue("Payment Date");
 		cell12_12.setCellStyle(style);
 
-		XSSFCell cell12_7 = poTableRow.createCell(8);
+		XSSFCell cell12_7 = poTableRow.createCell(7);
 		cell12_7.setCellValue("Payment Type");
 		cell12_7.setCellStyle(style);
 
-		XSSFCell cell12_9 = poTableRow.createCell(9);
+		XSSFCell cell12_9 = poTableRow.createCell(8);
 		cell12_9.setCellValue("Hoarding");
 		cell12_9.setCellStyle(style);
 
@@ -145,24 +141,20 @@ public class LandLoadReportUtil {
 		XSSFCell cell2 = landLoadDetail.createCell(2);
 		cell2.setCellValue(String.valueOf(detailRow[1]));
 		cell2.setCellStyle(style);
-
-		XSSFCell cell3 = landLoadDetail.createCell(3);
-		cell3.setCellValue(String.valueOf(detailRow[2]));
-		cell3.setCellStyle(style);
 		
-		XSSFCell cell4 = landLoadDetail.createCell(4);
+		XSSFCell cell4 = landLoadDetail.createCell(3);
 		cell4.setCellValue(String.valueOf(detailRow[3]));
 		cell4.setCellStyle(style);
 		
-		XSSFCell cell5 = landLoadDetail.createCell(5);
+		XSSFCell cell5 = landLoadDetail.createCell(4);
 		cell5.setCellValue(String.valueOf(detailRow[4]));
 		cell5.setCellStyle(style);
 		
-		XSSFCell cell6 = landLoadDetail.createCell(6);
+		XSSFCell cell6 = landLoadDetail.createCell(5);
 		cell6.setCellValue(String.valueOf(detailRow[5]));
 		cell6.setCellStyle(style);
 		
-		XSSFCell cell7 = landLoadDetail.createCell(7);
+		XSSFCell cell7 = landLoadDetail.createCell(6);
 		cell7.setCellValue(String.valueOf(detailRow[11]));
 		cell7.setCellStyle(style);
 		
@@ -173,11 +165,11 @@ public class LandLoadReportUtil {
 			paymentType = "Cash";
 		}
 
-		XSSFCell cell8 = landLoadDetail.createCell(8);
+		XSSFCell cell8 = landLoadDetail.createCell(7);
 		cell8.setCellValue(paymentType);
 		cell8.setCellStyle(style);
 		
-		XSSFCell cel9 = landLoadDetail.createCell(9);
+		XSSFCell cel9 = landLoadDetail.createCell(8);
 		cel9.setCellValue(String.valueOf(detailRow[8]));
 		cel9.setCellStyle(lastcellStyle);
 

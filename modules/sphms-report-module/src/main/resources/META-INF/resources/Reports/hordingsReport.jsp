@@ -14,7 +14,7 @@
 	                  <select name="hordingName" id="activeHording" class="form-control">
 						<option value="0">Select Hording</option>
 							<c:forEach items="${hordingList}" var="hording">
-								<option value="${hording.hordingId }">${hording.title}</option>
+								<option value="${hording.hordingId }">${hording.title} - ${hording.city}</option>
 							</c:forEach>	
 						</select>
 	                </div>

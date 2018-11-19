@@ -38,6 +38,8 @@ public class EditPOActionCommand extends BaseMVCActionCommand{
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
 		
 		long billingId = ParamUtil.getLong(actionRequest, "billingId");
+		long landLordId = ParamUtil.getLong(actionRequest, "landLordId");
+		
 	
 		String[] hordingArray = ParamUtil.getParameterValues(actionRequest, "hordingId");
 		String[] totalAmountArray = ParamUtil.getParameterValues(actionRequest, "totalAmount");
@@ -66,6 +68,8 @@ public class EditPOActionCommand extends BaseMVCActionCommand{
 		
 		actionResponse.setRenderParameter("mvcRenderCommandName", "/po_detail");
 	    actionResponse.setRenderParameter("billingId", String.valueOf(billingId));
+	    actionResponse.setRenderParameter("landLordId", String.valueOf(landLordId));
+	    
 		
 	}
 

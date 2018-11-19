@@ -67,6 +67,7 @@
             									<c:when test='${poBean.status eq "Generated" }'>
 	            										<portlet:actionURL var="publishPOActionURL" name="/publish_PO">
 															<portlet:param name="billingId" value="${ poBean.billingId}"/>
+															<portlet:param name="landLordId" value="${landLordId }"/>
 														</portlet:actionURL>
 										
 														<a href="${publishPOActionURL}">
@@ -85,6 +86,7 @@
             							<portlet:renderURL var="editPODetailURL">
        							 			<portlet:param name="mvcRenderCommandName" value="/edit_po" />
        							 			<portlet:param name="billingId" value="${ poBean.billingId}" />
+       							 			<portlet:param name="landLordId" value="${landLordId }"/>
 										</portlet:renderURL>
             							
             								<a href="${editPODetailURL}">

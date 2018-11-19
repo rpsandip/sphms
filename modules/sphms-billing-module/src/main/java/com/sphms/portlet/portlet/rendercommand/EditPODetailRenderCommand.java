@@ -40,21 +40,7 @@ public class EditPODetailRenderCommand implements MVCRenderCommand{
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {
 		
 		long billingId = ParamUtil.getLong(renderRequest, "billingId");
-		long hordingId = ParamUtil.getLong(renderRequest, "hordingId");
-		
-		/*
-		Billing_POPK billing_POPK = new Billing_POPK(billingId, hordingId);
-		try {
-			Billing billing = BillingLocalServiceUtil.getBilling(billingId);
-			CustomCompany customCompany = CustomCompanyLocalServiceUtil.getCustomCompany(billing.getCustomCompanyId());
-			Billing_PO  billingPO = Billing_POLocalServiceUtil.getBilling_PO(billing_POPK);
-			BillingPOBean billingPOBean= new BillingPOBean(billingPO, customCompany);
-			billingPOBean.setPoNumber(Billing_POLocalServiceUtil.getPONumber(billingPO,customCompany));
-			renderRequest.setAttribute("billingPOBean", billingPOBean);
-		} catch (PortalException e) {
-			_log.error(e);
-			return "/view.jsp";
-		}*/
+		long landLordId = ParamUtil.getLong(renderRequest, "landLordId");
 		
 		List<BillingPOBean> billingPOBeanList = new ArrayList<BillingPOBean>();
 		List<Billing_PO> billingPOList =  Billing_POLocalServiceUtil.getBillingPOListByBillingId(billingId);
@@ -62,14 +48,17 @@ public class EditPODetailRenderCommand implements MVCRenderCommand{
 			Billing billing = BillingLocalServiceUtil.getBilling(billingId);
 			CustomCompany customCompany = CustomCompanyLocalServiceUtil.getCustomCompany(billing.getCustomCompanyId());
 			for(Billing_PO billingPO : billingPOList){
-				BillingPOBean billingPOBean= new BillingPOBean(billingPO, customCompany);
-				billingPOBean.setPoNumber(Billing_POLocalServiceUtil.getPONumber(billingPO,customCompany));
-				renderRequest.setAttribute("poNumber", Billing_POLocalServiceUtil.getPONumber(billingPO,customCompany));
-				billingPOBeanList.add(billingPOBean);
+				if(billingPO.getLandLordId()==landLordId){
+					BillingPOBean billingPOBean= new BillingPOBean(billingPO, customCompany);
+					billingPOBean.setPoNumber(Billing_POLocalServiceUtil.getPONumber(billingPO,customCompany));
+					renderRequest.setAttribute("poNumber", Billing_POLocalServiceUtil.getPONumber(billingPO,customCompany));
+					billingPOBeanList.add(billingPOBean);
+				}
 			}
 			
 			renderRequest.setAttribute("billingPOBeanList", billingPOBeanList);
 			renderRequest.setAttribute("billingId", billingId);
+			renderRequest.setAttribute("landLordId", landLordId);
 		} catch (PortalException e) {
 			_log.error(e);
 			return "/view.jsp";

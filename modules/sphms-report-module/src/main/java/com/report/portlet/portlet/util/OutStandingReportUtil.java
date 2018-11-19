@@ -176,11 +176,11 @@ public class OutStandingReportUtil {
 
 		XSSFCell cell1 = outStandingDetail.createCell(1);
 		cell1.setCellValue("Total");
-		XSSFCell cell6 = outStandingDetail.createCell(6);
+		XSSFCell cell6 = outStandingDetail.createCell(7);
 		cell6.setCellValue(String.valueOf(totalBillAmount));
-		XSSFCell cell7 = outStandingDetail.createCell(7);
+		XSSFCell cell7 = outStandingDetail.createCell(8);
 		cell7.setCellValue(String.valueOf(totalPayment));
-		XSSFCell cell8 = outStandingDetail.createCell(8);
+		XSSFCell cell8 = outStandingDetail.createCell(9);
 		cell8.setCellValue(String.valueOf(totalOutStanding));
 		index++;
 		return index;

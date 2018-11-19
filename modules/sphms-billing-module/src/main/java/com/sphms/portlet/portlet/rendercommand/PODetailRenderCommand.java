@@ -48,6 +48,8 @@ public class PODetailRenderCommand implements MVCRenderCommand{
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {
 
 		long billingId = ParamUtil.getLong(renderRequest, "billingId");
+	
+	
 		Map<Long, POBean> poBeanMap = new HashMap<Long,POBean>();
 		
 		if(billingId>0){

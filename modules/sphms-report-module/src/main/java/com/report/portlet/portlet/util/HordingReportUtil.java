@@ -241,19 +241,19 @@ public class HordingReportUtil {
 		
 		
 		XSSFCell cell14 = holdingDetail.createCell(14);
-		cell14.setCellValue(detailRow.getString("totalMountingCharge"));
+		cell14.setCellValue(Math.round(detailRow.getDouble("totalMountingCharge")));
 		cell14.setCellStyle(style);
 		
 		XSSFCell cell15 = holdingDetail.createCell(15);
-		cell15.setCellValue(detailRow.getString("totalPrintingCharge"));
+		cell15.setCellValue(Math.round(detailRow.getDouble("totalPrintingCharge")));
 		cell15.setCellStyle(style);
 		
 		XSSFCell cell16 = holdingDetail.createCell(16);
-		cell16.setCellValue(detailRow.getString("totalHordingCharge"));
+		cell16.setCellValue(Math.round(detailRow.getDouble("totalHordingCharge")));
 		cell16.setCellStyle(style);
 		
 		XSSFCell cell17 = holdingDetail.createCell(17);
-		cell17.setCellValue(detailRow.getString("grandTotal"));
+		cell17.setCellValue(Math.round(detailRow.getDouble("grandTotal")));
 		cell17.setCellStyle(lastcellStyle);
 		
 	
@@ -338,20 +338,20 @@ public class HordingReportUtil {
 		cell13.setCellStyle(style);
 		
 		XSSFCell cell14 = billTotalRow.createCell(14);
-		cell14.setCellValue(totalObject.getString("sumOfTMCharg"));
+		cell14.setCellValue(Math.round(totalObject.getDouble("sumOfTMCharg")));
 		cell14.setCellStyle(style);
 		
 		XSSFCell cell15 = billTotalRow.createCell(15);
-		cell15.setCellValue(totalObject.getString("sumOFTPharg"));
+		cell15.setCellValue(Math.round(totalObject.getDouble("sumOFTPharg")));
 		cell15.setCellStyle(style);
 		
 		
 		XSSFCell cell16 = billTotalRow.createCell(16);
-		cell16.setCellValue(totalObject.getString("sumOFTHCharg"));
+		cell16.setCellValue(Math.round(totalObject.getDouble("sumOFTHCharg")));
 		cell16.setCellStyle(style);
 		
 		XSSFCell cell17 = billTotalRow.createCell(17);
-		cell17.setCellValue(totalObject.getString("sumOfgrandTotal"));
+		cell17.setCellValue(Math.round(totalObject.getDouble("sumOfgrandTotal")));
 		cell17.setCellStyle(lastCellStyle);
 	
 

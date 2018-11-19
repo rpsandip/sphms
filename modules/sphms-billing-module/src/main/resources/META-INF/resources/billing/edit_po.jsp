@@ -39,6 +39,7 @@
      					<div class="form-group col-md-12">
      						<%-- <aui:input type="hidden" name="hordingId" value="${billingPOBean.hordingId }"></aui:input> --%>
      						 <aui:input type="hidden" name="billingId" value="${billingId }"></aui:input>
+     						 <aui:input type="hidden" name="landLordId" value="${landLordId }"></aui:input>
 							<aui:button type="button" value="Update PO"  cssClass="editPOBtn btn btn-primary"/>
 						</div>
 					</div>
