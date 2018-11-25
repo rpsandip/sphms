@@ -37,6 +37,10 @@
 		<field name="billingId" type="long" />
 		<field name="hordingId" type="long" />
 		<field name="landLordId" type="long" />
+		<field name="supplierBillNo" type="long" />
+		<field name="supplierBillDate" type="Date" />
+		<field name="supplierTotalAmount" type="double" />
+		<field name="supplierGstAmmount" type="double" />
 		<field name="poNumber" type="String" />
 		<field name="internalPONumber" type="String" />
 		<field name="financialYear" type="String" />

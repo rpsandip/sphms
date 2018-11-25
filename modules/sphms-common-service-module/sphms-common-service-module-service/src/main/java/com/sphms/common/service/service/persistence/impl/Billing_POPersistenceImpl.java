@@ -1443,6 +1443,10 @@ public class Billing_POPersistenceImpl extends BasePersistenceImpl<Billing_PO>
 		billing_POImpl.setBillingId(billing_PO.getBillingId());
 		billing_POImpl.setHordingId(billing_PO.getHordingId());
 		billing_POImpl.setLandLordId(billing_PO.getLandLordId());
+		billing_POImpl.setSupplierBillNo(billing_PO.getSupplierBillNo());
+		billing_POImpl.setSupplierBillDate(billing_PO.getSupplierBillDate());
+		billing_POImpl.setSupplierTotalAmount(billing_PO.getSupplierTotalAmount());
+		billing_POImpl.setSupplierGstAmmount(billing_PO.getSupplierGstAmmount());
 		billing_POImpl.setPoNumber(billing_PO.getPoNumber());
 		billing_POImpl.setInternalPONumber(billing_PO.getInternalPONumber());
 		billing_POImpl.setFinancialYear(billing_PO.getFinancialYear());

@@ -288,6 +288,12 @@
 		<column name="hordingId" primary="true" type="long" />
 		
 		<column name="landLordId" type="long"></column>
+		
+		<column name="supplierBillNo" type="long"></column>
+		<column name="supplierBillDate" type="Date"></column>
+		<column name="supplierTotalAmount" type="double"></column>
+		<column name="supplierGstAmmount" type="double"></column>
+		
 		<column name="poNumber" type="String"></column>
 		<column name="internalPONumber"  type="String" />
 		<column name="financialYear"  type="String" />

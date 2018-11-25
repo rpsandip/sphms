@@ -59,6 +59,10 @@ public class EditPODetailRenderCommand implements MVCRenderCommand{
 			renderRequest.setAttribute("billingPOBeanList", billingPOBeanList);
 			renderRequest.setAttribute("billingId", billingId);
 			renderRequest.setAttribute("landLordId", landLordId);
+			renderRequest.setAttribute("supplierGstAmt", billingPOList.get(0).getSupplierGstAmmount());
+			renderRequest.setAttribute("supplierBillNo", billingPOList.get(0).getSupplierBillNo());
+			renderRequest.setAttribute("supplierBillDate", billingPOList.get(0).getSupplierBillDate());
+			renderRequest.setAttribute("supplierTotalAmt", billingPOList.get(0).getSupplierTotalAmount());
 		} catch (PortalException e) {
 			_log.error(e);
 			return "/view.jsp";

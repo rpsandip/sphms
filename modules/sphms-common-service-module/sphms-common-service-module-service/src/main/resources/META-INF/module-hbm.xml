@@ -60,6 +60,10 @@
 			<key-property name="hordingId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 		<property name="landLordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="supplierBillNo" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="supplierBillDate" type="org.hibernate.type.TimestampType" />
+		<property name="supplierTotalAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="supplierGstAmmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="poNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="internalPONumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="financialYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />

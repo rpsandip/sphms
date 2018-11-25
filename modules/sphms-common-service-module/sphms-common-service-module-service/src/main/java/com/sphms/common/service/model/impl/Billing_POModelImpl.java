@@ -62,6 +62,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 			{ "billingId", Types.BIGINT },
 			{ "hordingId", Types.BIGINT },
 			{ "landLordId", Types.BIGINT },
+			{ "supplierBillNo", Types.BIGINT },
+			{ "supplierBillDate", Types.TIMESTAMP },
+			{ "supplierTotalAmount", Types.DOUBLE },
+			{ "supplierGstAmmount", Types.DOUBLE },
 			{ "poNumber", Types.VARCHAR },
 			{ "internalPONumber", Types.VARCHAR },
 			{ "financialYear", Types.VARCHAR },
@@ -79,6 +83,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		TABLE_COLUMNS_MAP.put("billingId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("hordingId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("landLordId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("supplierBillNo", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("supplierBillDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("supplierTotalAmount", Types.DOUBLE);
+		TABLE_COLUMNS_MAP.put("supplierGstAmmount", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("poNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("internalPONumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("financialYear", Types.VARCHAR);
@@ -91,7 +99,7 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing_PO (billingId LONG not null,hordingId LONG not null,landLordId LONG,poNumber VARCHAR(75) null,internalPONumber VARCHAR(75) null,financialYear VARCHAR(75) null,totalAmount DOUBLE,customCompanyId LONG,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG,status INTEGER,primary key (billingId, hordingId))";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing_PO (billingId LONG not null,hordingId LONG not null,landLordId LONG,supplierBillNo LONG,supplierBillDate DATE null,supplierTotalAmount DOUBLE,supplierGstAmmount DOUBLE,poNumber VARCHAR(75) null,internalPONumber VARCHAR(75) null,financialYear VARCHAR(75) null,totalAmount DOUBLE,customCompanyId LONG,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG,status INTEGER,primary key (billingId, hordingId))";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Billing_PO";
 	public static final String ORDER_BY_JPQL = " ORDER BY billing_PO.id.billingId ASC, billing_PO.id.hordingId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Billing_PO.billingId ASC, SPHMS_Billing_PO.hordingId ASC";
@@ -154,6 +162,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		attributes.put("billingId", getBillingId());
 		attributes.put("hordingId", getHordingId());
 		attributes.put("landLordId", getLandLordId());
+		attributes.put("supplierBillNo", getSupplierBillNo());
+		attributes.put("supplierBillDate", getSupplierBillDate());
+		attributes.put("supplierTotalAmount", getSupplierTotalAmount());
+		attributes.put("supplierGstAmmount", getSupplierGstAmmount());
 		attributes.put("poNumber", getPoNumber());
 		attributes.put("internalPONumber", getInternalPONumber());
 		attributes.put("financialYear", getFinancialYear());
@@ -189,6 +201,31 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 		if (landLordId != null) {
 			setLandLordId(landLordId);
+		}
+
+		Long supplierBillNo = (Long)attributes.get("supplierBillNo");
+
+		if (supplierBillNo != null) {
+			setSupplierBillNo(supplierBillNo);
+		}
+
+		Date supplierBillDate = (Date)attributes.get("supplierBillDate");
+
+		if (supplierBillDate != null) {
+			setSupplierBillDate(supplierBillDate);
+		}
+
+		Double supplierTotalAmount = (Double)attributes.get(
+				"supplierTotalAmount");
+
+		if (supplierTotalAmount != null) {
+			setSupplierTotalAmount(supplierTotalAmount);
+		}
+
+		Double supplierGstAmmount = (Double)attributes.get("supplierGstAmmount");
+
+		if (supplierGstAmmount != null) {
+			setSupplierGstAmmount(supplierGstAmmount);
 		}
 
 		String poNumber = (String)attributes.get("poNumber");
@@ -304,6 +341,46 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 	public long getOriginalLandLordId() {
 		return _originalLandLordId;
+	}
+
+	@Override
+	public long getSupplierBillNo() {
+		return _supplierBillNo;
+	}
+
+	@Override
+	public void setSupplierBillNo(long supplierBillNo) {
+		_supplierBillNo = supplierBillNo;
+	}
+
+	@Override
+	public Date getSupplierBillDate() {
+		return _supplierBillDate;
+	}
+
+	@Override
+	public void setSupplierBillDate(Date supplierBillDate) {
+		_supplierBillDate = supplierBillDate;
+	}
+
+	@Override
+	public double getSupplierTotalAmount() {
+		return _supplierTotalAmount;
+	}
+
+	@Override
+	public void setSupplierTotalAmount(double supplierTotalAmount) {
+		_supplierTotalAmount = supplierTotalAmount;
+	}
+
+	@Override
+	public double getSupplierGstAmmount() {
+		return _supplierGstAmmount;
+	}
+
+	@Override
+	public void setSupplierGstAmmount(double supplierGstAmmount) {
+		_supplierGstAmmount = supplierGstAmmount;
 	}
 
 	@Override
@@ -448,6 +525,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		billing_POImpl.setBillingId(getBillingId());
 		billing_POImpl.setHordingId(getHordingId());
 		billing_POImpl.setLandLordId(getLandLordId());
+		billing_POImpl.setSupplierBillNo(getSupplierBillNo());
+		billing_POImpl.setSupplierBillDate(getSupplierBillDate());
+		billing_POImpl.setSupplierTotalAmount(getSupplierTotalAmount());
+		billing_POImpl.setSupplierGstAmmount(getSupplierGstAmmount());
 		billing_POImpl.setPoNumber(getPoNumber());
 		billing_POImpl.setInternalPONumber(getInternalPONumber());
 		billing_POImpl.setFinancialYear(getFinancialYear());
@@ -537,6 +618,21 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 		billing_POCacheModel.landLordId = getLandLordId();
 
+		billing_POCacheModel.supplierBillNo = getSupplierBillNo();
+
+		Date supplierBillDate = getSupplierBillDate();
+
+		if (supplierBillDate != null) {
+			billing_POCacheModel.supplierBillDate = supplierBillDate.getTime();
+		}
+		else {
+			billing_POCacheModel.supplierBillDate = Long.MIN_VALUE;
+		}
+
+		billing_POCacheModel.supplierTotalAmount = getSupplierTotalAmount();
+
+		billing_POCacheModel.supplierGstAmmount = getSupplierGstAmmount();
+
 		billing_POCacheModel.poNumber = getPoNumber();
 
 		String poNumber = billing_POCacheModel.poNumber;
@@ -594,7 +690,7 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{billingId=");
 		sb.append(getBillingId());
@@ -602,6 +698,14 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		sb.append(getHordingId());
 		sb.append(", landLordId=");
 		sb.append(getLandLordId());
+		sb.append(", supplierBillNo=");
+		sb.append(getSupplierBillNo());
+		sb.append(", supplierBillDate=");
+		sb.append(getSupplierBillDate());
+		sb.append(", supplierTotalAmount=");
+		sb.append(getSupplierTotalAmount());
+		sb.append(", supplierGstAmmount=");
+		sb.append(getSupplierGstAmmount());
 		sb.append(", poNumber=");
 		sb.append(getPoNumber());
 		sb.append(", internalPONumber=");
@@ -629,7 +733,7 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Billing_PO");
@@ -646,6 +750,22 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 		sb.append(
 			"<column><column-name>landLordId</column-name><column-value><![CDATA[");
 		sb.append(getLandLordId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>supplierBillNo</column-name><column-value><![CDATA[");
+		sb.append(getSupplierBillNo());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>supplierBillDate</column-name><column-value><![CDATA[");
+		sb.append(getSupplierBillDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>supplierTotalAmount</column-name><column-value><![CDATA[");
+		sb.append(getSupplierTotalAmount());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>supplierGstAmmount</column-name><column-value><![CDATA[");
+		sb.append(getSupplierGstAmmount());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>poNumber</column-name><column-value><![CDATA[");
@@ -704,6 +824,10 @@ public class Billing_POModelImpl extends BaseModelImpl<Billing_PO>
 	private long _landLordId;
 	private long _originalLandLordId;
 	private boolean _setOriginalLandLordId;
+	private long _supplierBillNo;
+	private Date _supplierBillDate;
+	private double _supplierTotalAmount;
+	private double _supplierGstAmmount;
 	private String _poNumber;
 	private String _internalPONumber;
 	private String _financialYear;

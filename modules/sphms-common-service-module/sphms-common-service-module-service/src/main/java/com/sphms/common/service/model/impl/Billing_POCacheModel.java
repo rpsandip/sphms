@@ -67,7 +67,7 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{billingId=");
 		sb.append(billingId);
@@ -75,6 +75,14 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		sb.append(hordingId);
 		sb.append(", landLordId=");
 		sb.append(landLordId);
+		sb.append(", supplierBillNo=");
+		sb.append(supplierBillNo);
+		sb.append(", supplierBillDate=");
+		sb.append(supplierBillDate);
+		sb.append(", supplierTotalAmount=");
+		sb.append(supplierTotalAmount);
+		sb.append(", supplierGstAmmount=");
+		sb.append(supplierGstAmmount);
 		sb.append(", poNumber=");
 		sb.append(poNumber);
 		sb.append(", internalPONumber=");
@@ -107,6 +115,17 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		billing_POImpl.setBillingId(billingId);
 		billing_POImpl.setHordingId(hordingId);
 		billing_POImpl.setLandLordId(landLordId);
+		billing_POImpl.setSupplierBillNo(supplierBillNo);
+
+		if (supplierBillDate == Long.MIN_VALUE) {
+			billing_POImpl.setSupplierBillDate(null);
+		}
+		else {
+			billing_POImpl.setSupplierBillDate(new Date(supplierBillDate));
+		}
+
+		billing_POImpl.setSupplierTotalAmount(supplierTotalAmount);
+		billing_POImpl.setSupplierGstAmmount(supplierGstAmmount);
 
 		if (poNumber == null) {
 			billing_POImpl.setPoNumber(StringPool.BLANK);
@@ -163,6 +182,13 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		hordingId = objectInput.readLong();
 
 		landLordId = objectInput.readLong();
+
+		supplierBillNo = objectInput.readLong();
+		supplierBillDate = objectInput.readLong();
+
+		supplierTotalAmount = objectInput.readDouble();
+
+		supplierGstAmmount = objectInput.readDouble();
 		poNumber = objectInput.readUTF();
 		internalPONumber = objectInput.readUTF();
 		financialYear = objectInput.readUTF();
@@ -190,6 +216,13 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		objectOutput.writeLong(hordingId);
 
 		objectOutput.writeLong(landLordId);
+
+		objectOutput.writeLong(supplierBillNo);
+		objectOutput.writeLong(supplierBillDate);
+
+		objectOutput.writeDouble(supplierTotalAmount);
+
+		objectOutput.writeDouble(supplierGstAmmount);
 
 		if (poNumber == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -228,6 +261,10 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 	public long billingId;
 	public long hordingId;
 	public long landLordId;
+	public long supplierBillNo;
+	public long supplierBillDate;
+	public double supplierTotalAmount;
+	public double supplierGstAmmount;
 	public String poNumber;
 	public String internalPONumber;
 	public String financialYear;
