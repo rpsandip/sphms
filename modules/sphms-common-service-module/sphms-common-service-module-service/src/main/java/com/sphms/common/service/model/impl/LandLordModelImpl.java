@@ -71,6 +71,7 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 			{ "statec", Types.VARCHAR },
 			{ "status", Types.INTEGER },
 			{ "phoneNo", Types.VARCHAR },
+			{ "gstNo", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "createdBy", Types.BIGINT }
 		};
@@ -85,11 +86,12 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 		TABLE_COLUMNS_MAP.put("statec", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("phoneNo", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("gstNo", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createdBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_LandLord (landLordId LONG not null primary key,firstName VARCHAR(100) null,lastName VARCHAR(100) null,location VARCHAR(100) null,city VARCHAR(75) null,statec VARCHAR(75) null,status INTEGER,phoneNo VARCHAR(75) null,createDate DATE null,createdBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_LandLord (landLordId LONG not null primary key,firstName VARCHAR(100) null,lastName VARCHAR(100) null,location VARCHAR(100) null,city VARCHAR(75) null,statec VARCHAR(75) null,status INTEGER,phoneNo VARCHAR(75) null,gstNo VARCHAR(75) null,createDate DATE null,createdBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_LandLord";
 	public static final String ORDER_BY_JPQL = " ORDER BY landLord.createDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_LandLord.createDate DESC";
@@ -151,6 +153,7 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 		attributes.put("statec", getStatec());
 		attributes.put("status", getStatus());
 		attributes.put("phoneNo", getPhoneNo());
+		attributes.put("gstNo", getGstNo());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 
@@ -208,6 +211,12 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 
 		if (phoneNo != null) {
 			setPhoneNo(phoneNo);
+		}
+
+		String gstNo = (String)attributes.get("gstNo");
+
+		if (gstNo != null) {
+			setGstNo(gstNo);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -334,6 +343,21 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 	}
 
 	@Override
+	public String getGstNo() {
+		if (_gstNo == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _gstNo;
+		}
+	}
+
+	@Override
+	public void setGstNo(String gstNo) {
+		_gstNo = gstNo;
+	}
+
+	@Override
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -388,6 +412,7 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 		landLordImpl.setStatec(getStatec());
 		landLordImpl.setStatus(getStatus());
 		landLordImpl.setPhoneNo(getPhoneNo());
+		landLordImpl.setGstNo(getGstNo());
 		landLordImpl.setCreateDate(getCreateDate());
 		landLordImpl.setCreatedBy(getCreatedBy());
 
@@ -508,6 +533,14 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 			landLordCacheModel.phoneNo = null;
 		}
 
+		landLordCacheModel.gstNo = getGstNo();
+
+		String gstNo = landLordCacheModel.gstNo;
+
+		if ((gstNo != null) && (gstNo.length() == 0)) {
+			landLordCacheModel.gstNo = null;
+		}
+
 		Date createDate = getCreateDate();
 
 		if (createDate != null) {
@@ -524,7 +557,7 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{landLordId=");
 		sb.append(getLandLordId());
@@ -542,6 +575,8 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 		sb.append(getStatus());
 		sb.append(", phoneNo=");
 		sb.append(getPhoneNo());
+		sb.append(", gstNo=");
+		sb.append(getGstNo());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
 		sb.append(", createdBy=");
@@ -553,7 +588,7 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.LandLord");
@@ -592,6 +627,10 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 		sb.append(getPhoneNo());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>gstNo</column-name><column-value><![CDATA[");
+		sb.append(getGstNo());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
 		sb.append(getCreateDate());
 		sb.append("]]></column-value></column>");
@@ -617,6 +656,7 @@ public class LandLordModelImpl extends BaseModelImpl<LandLord>
 	private String _statec;
 	private int _status;
 	private String _phoneNo;
+	private String _gstNo;
 	private Date _createDate;
 	private long _createdBy;
 	private LandLord _escapedModel;

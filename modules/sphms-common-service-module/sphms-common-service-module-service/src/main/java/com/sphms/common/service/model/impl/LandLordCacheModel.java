@@ -65,7 +65,7 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{landLordId=");
 		sb.append(landLordId);
@@ -83,6 +83,8 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 		sb.append(status);
 		sb.append(", phoneNo=");
 		sb.append(phoneNo);
+		sb.append(", gstNo=");
+		sb.append(gstNo);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", createdBy=");
@@ -142,6 +144,13 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 			landLordImpl.setPhoneNo(phoneNo);
 		}
 
+		if (gstNo == null) {
+			landLordImpl.setGstNo(StringPool.BLANK);
+		}
+		else {
+			landLordImpl.setGstNo(gstNo);
+		}
+
 		if (createDate == Long.MIN_VALUE) {
 			landLordImpl.setCreateDate(null);
 		}
@@ -167,6 +176,7 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 
 		status = objectInput.readInt();
 		phoneNo = objectInput.readUTF();
+		gstNo = objectInput.readUTF();
 		createDate = objectInput.readLong();
 
 		createdBy = objectInput.readLong();
@@ -221,6 +231,13 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 			objectOutput.writeUTF(phoneNo);
 		}
 
+		if (gstNo == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(gstNo);
+		}
+
 		objectOutput.writeLong(createDate);
 
 		objectOutput.writeLong(createdBy);
@@ -234,6 +251,7 @@ public class LandLordCacheModel implements CacheModel<LandLord>, Externalizable 
 	public String statec;
 	public int status;
 	public String phoneNo;
+	public String gstNo;
 	public long createDate;
 	public long createdBy;
 }

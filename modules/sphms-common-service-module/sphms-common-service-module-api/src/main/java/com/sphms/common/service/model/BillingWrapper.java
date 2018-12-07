@@ -72,6 +72,7 @@ public class BillingWrapper implements Billing, ModelWrapper<Billing> {
 		attributes.put("pendingAmount", getPendingAmount());
 		attributes.put("financialYear", getFinancialYear());
 		attributes.put("status", getStatus());
+		attributes.put("publishDate", getPublishDate());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -170,6 +171,12 @@ public class BillingWrapper implements Billing, ModelWrapper<Billing> {
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Date publishDate = (Date)attributes.get("publishDate");
+
+		if (publishDate != null) {
+			setPublishDate(publishDate);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -380,6 +387,16 @@ public class BillingWrapper implements Billing, ModelWrapper<Billing> {
 	@Override
 	public Date getModifiedDate() {
 		return _billing.getModifiedDate();
+	}
+
+	/**
+	* Returns the publish date of this billing.
+	*
+	* @return the publish date of this billing
+	*/
+	@Override
+	public Date getPublishDate() {
+		return _billing.getPublishDate();
 	}
 
 	/**
@@ -686,6 +703,16 @@ public class BillingWrapper implements Billing, ModelWrapper<Billing> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_billing.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the publish date of this billing.
+	*
+	* @param publishDate the publish date of this billing
+	*/
+	@Override
+	public void setPublishDate(Date publishDate) {
+		_billing.setPublishDate(publishDate);
 	}
 
 	/**

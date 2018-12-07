@@ -79,6 +79,8 @@ public class PODetailRenderCommand implements MVCRenderCommand{
 						poBean.setStatus(Billing_PO_Status.findByValue(billingPO.getStatus()).getLabel());
 						hordingList.add(poHordingDTO);
 						poBean.setHordingList(hordingList);
+						poBean.setSupplierBillNo(billingPO.getSupplierBillNo());
+						poBean.setSupplierPaymentGiven(billingPO.getPaymentGiven());
 						poBeanMap.put(billingPO.getLandLordId(), poBean);
 						
 					}else{

@@ -285,20 +285,30 @@ public class HordingReportUtil {
 		font.setFontHeightInPoints((short) 14);
 		font.setBold(true);
 		font.setFontName("Arial");
-		font.setColor(HSSFColor.RED.index);
+		font.setColor(HSSFColor.WHITE.index);
 
 		XSSFRow billTotalRow = sheet.createRow(index);
-		XSSFCellStyle style = getBottomBorderStyle(wb);
+		XSSFCellStyle style = getBottomTOPBorderStyle(wb);
 		style.setFont(font);
+		style.setFillForegroundColor(HSSFColor.GREEN.index);
 
 		XSSFCellStyle firstCellStyle = getLeftBottomBorderStyle(wb);
 		firstCellStyle.setFont(font);
+		firstCellStyle.setFillForegroundColor(HSSFColor.GREEN.index);
+		firstCellStyle.setBorderBottom(BorderStyle.MEDIUM);
+		firstCellStyle.setBorderTop(BorderStyle.MEDIUM);
+		firstCellStyle.setBorderLeft(BorderStyle.MEDIUM);
+		firstCellStyle.setBorderLeft(BorderStyle.NONE);
 
 		XSSFCellStyle lastCellStyle = getRightBottomBorderStyle(wb);
 		lastCellStyle.setFont(font);
+		lastCellStyle.setFillForegroundColor(HSSFColor.GREEN.index);
+		firstCellStyle.setBorderBottom(BorderStyle.MEDIUM);
+		firstCellStyle.setBorderTop(BorderStyle.MEDIUM);
+		firstCellStyle.setBorderRight(BorderStyle.MEDIUM);
 
 		XSSFCell cell1 = billTotalRow.createCell(1);
-		cell1.setCellValue("Total");
+		cell1.setCellValue("");
 		cell1.setCellStyle(firstCellStyle);
 
 		XSSFCell cell2 = billTotalRow.createCell(2);
@@ -318,6 +328,7 @@ public class HordingReportUtil {
 		
 		XSSFCell cell7 = billTotalRow.createCell(7);
 		cell7.setCellStyle(style);
+		cell7.setCellValue("Total");
 	
 		XSSFCell cell8 = billTotalRow.createCell(8);
 		cell8.setCellStyle(style);
@@ -362,6 +373,13 @@ public class HordingReportUtil {
 	private static XSSFCellStyle getBottomBorderStyle(XSSFWorkbook workbook) {
 		XSSFCellStyle style = workbook.createCellStyle();
 		style.setBorderBottom(BorderStyle.MEDIUM);
+		return style;
+	}
+	
+	private static XSSFCellStyle getBottomTOPBorderStyle(XSSFWorkbook workbook) {
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
 		return style;
 	}
 

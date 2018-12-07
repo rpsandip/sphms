@@ -77,6 +77,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 			{ "pendingAmount", Types.DOUBLE },
 			{ "financialYear", Types.VARCHAR },
 			{ "status", Types.INTEGER },
+			{ "publishDate", Types.TIMESTAMP },
 			{ "createDate", Types.TIMESTAMP },
 			{ "createdBy", Types.BIGINT },
 			{ "modifiedDate", Types.TIMESTAMP },
@@ -100,13 +101,14 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		TABLE_COLUMNS_MAP.put("pendingAmount", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("financialYear", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("publishDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createdBy", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedBy", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing (billingId LONG not null primary key,customCompanyId LONG,billNo VARCHAR(75) null,internalBillNo VARCHAR(75) null,bookingId LONG,clientId LONG,billFileEntryId LONG,clientPANNo VARCHAR(75) null,clientPONumber VARCHAR(75) null,clientGSTNumber VARCHAR(75) null,display VARCHAR(75) null,accessAmount DOUBLE,pendingAmount DOUBLE,financialYear VARCHAR(75) null,status INTEGER,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
+	public static final String TABLE_SQL_CREATE = "create table SPHMS_Billing (billingId LONG not null primary key,customCompanyId LONG,billNo VARCHAR(75) null,internalBillNo VARCHAR(75) null,bookingId LONG,clientId LONG,billFileEntryId LONG,clientPANNo VARCHAR(75) null,clientPONumber VARCHAR(75) null,clientGSTNumber VARCHAR(75) null,display VARCHAR(75) null,accessAmount DOUBLE,pendingAmount DOUBLE,financialYear VARCHAR(75) null,status INTEGER,publishDate DATE null,createDate DATE null,createdBy LONG,modifiedDate DATE null,modifiedBy LONG)";
 	public static final String TABLE_SQL_DROP = "drop table SPHMS_Billing";
 	public static final String ORDER_BY_JPQL = " ORDER BY billing.billingId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SPHMS_Billing.billingId ASC";
@@ -180,6 +182,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		attributes.put("pendingAmount", getPendingAmount());
 		attributes.put("financialYear", getFinancialYear());
 		attributes.put("status", getStatus());
+		attributes.put("publishDate", getPublishDate());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -281,6 +284,12 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Date publishDate = (Date)attributes.get("publishDate");
+
+		if (publishDate != null) {
+			setPublishDate(publishDate);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -518,6 +527,16 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 	}
 
 	@Override
+	public Date getPublishDate() {
+		return _publishDate;
+	}
+
+	@Override
+	public void setPublishDate(Date publishDate) {
+		_publishDate = publishDate;
+	}
+
+	@Override
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -609,6 +628,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		billingImpl.setPendingAmount(getPendingAmount());
 		billingImpl.setFinancialYear(getFinancialYear());
 		billingImpl.setStatus(getStatus());
+		billingImpl.setPublishDate(getPublishDate());
 		billingImpl.setCreateDate(getCreateDate());
 		billingImpl.setCreatedBy(getCreatedBy());
 		billingImpl.setModifiedDate(getModifiedDate());
@@ -764,6 +784,15 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 
 		billingCacheModel.status = getStatus();
 
+		Date publishDate = getPublishDate();
+
+		if (publishDate != null) {
+			billingCacheModel.publishDate = publishDate.getTime();
+		}
+		else {
+			billingCacheModel.publishDate = Long.MIN_VALUE;
+		}
+
 		Date createDate = getCreateDate();
 
 		if (createDate != null) {
@@ -791,7 +820,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(39);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{billingId=");
 		sb.append(getBillingId());
@@ -823,6 +852,8 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		sb.append(getFinancialYear());
 		sb.append(", status=");
 		sb.append(getStatus());
+		sb.append(", publishDate=");
+		sb.append(getPublishDate());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
 		sb.append(", createdBy=");
@@ -838,7 +869,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("com.sphms.common.service.model.Billing");
@@ -905,6 +936,10 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>publishDate</column-name><column-value><![CDATA[");
+		sb.append(getPublishDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
 		sb.append(getCreateDate());
 		sb.append("]]></column-value></column>");
@@ -949,6 +984,7 @@ public class BillingModelImpl extends BaseModelImpl<Billing>
 	private double _pendingAmount;
 	private String _financialYear;
 	private int _status;
+	private Date _publishDate;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

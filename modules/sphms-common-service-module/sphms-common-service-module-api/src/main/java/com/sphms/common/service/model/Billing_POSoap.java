@@ -38,11 +38,17 @@ public class Billing_POSoap implements Serializable {
 		soapModel.setBillingId(model.getBillingId());
 		soapModel.setHordingId(model.getHordingId());
 		soapModel.setLandLordId(model.getLandLordId());
+		soapModel.setSupplierBillNo(model.getSupplierBillNo());
+		soapModel.setSupplierBillDate(model.getSupplierBillDate());
+		soapModel.setSupplierTotalAmount(model.getSupplierTotalAmount());
+		soapModel.setSupplierGstAmmount(model.getSupplierGstAmmount());
 		soapModel.setPoNumber(model.getPoNumber());
 		soapModel.setInternalPONumber(model.getInternalPONumber());
 		soapModel.setFinancialYear(model.getFinancialYear());
 		soapModel.setTotalAmount(model.getTotalAmount());
 		soapModel.setCustomCompanyId(model.getCustomCompanyId());
+		soapModel.setPaymentGiven(model.getPaymentGiven());
+		soapModel.setPublishDate(model.getPublishDate());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setCreatedBy(model.getCreatedBy());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -125,6 +131,38 @@ public class Billing_POSoap implements Serializable {
 		_landLordId = landLordId;
 	}
 
+	public String getSupplierBillNo() {
+		return _supplierBillNo;
+	}
+
+	public void setSupplierBillNo(String supplierBillNo) {
+		_supplierBillNo = supplierBillNo;
+	}
+
+	public Date getSupplierBillDate() {
+		return _supplierBillDate;
+	}
+
+	public void setSupplierBillDate(Date supplierBillDate) {
+		_supplierBillDate = supplierBillDate;
+	}
+
+	public double getSupplierTotalAmount() {
+		return _supplierTotalAmount;
+	}
+
+	public void setSupplierTotalAmount(double supplierTotalAmount) {
+		_supplierTotalAmount = supplierTotalAmount;
+	}
+
+	public double getSupplierGstAmmount() {
+		return _supplierGstAmmount;
+	}
+
+	public void setSupplierGstAmmount(double supplierGstAmmount) {
+		_supplierGstAmmount = supplierGstAmmount;
+	}
+
 	public String getPoNumber() {
 		return _poNumber;
 	}
@@ -163,6 +201,22 @@ public class Billing_POSoap implements Serializable {
 
 	public void setCustomCompanyId(long customCompanyId) {
 		_customCompanyId = customCompanyId;
+	}
+
+	public String getPaymentGiven() {
+		return _paymentGiven;
+	}
+
+	public void setPaymentGiven(String paymentGiven) {
+		_paymentGiven = paymentGiven;
+	}
+
+	public Date getPublishDate() {
+		return _publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		_publishDate = publishDate;
 	}
 
 	public Date getCreateDate() {
@@ -208,11 +262,17 @@ public class Billing_POSoap implements Serializable {
 	private long _billingId;
 	private long _hordingId;
 	private long _landLordId;
+	private String _supplierBillNo;
+	private Date _supplierBillDate;
+	private double _supplierTotalAmount;
+	private double _supplierGstAmmount;
 	private String _poNumber;
 	private String _internalPONumber;
 	private String _financialYear;
 	private double _totalAmount;
 	private long _customCompanyId;
+	private String _paymentGiven;
+	private Date _publishDate;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

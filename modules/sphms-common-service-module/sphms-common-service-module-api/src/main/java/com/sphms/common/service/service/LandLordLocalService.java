@@ -92,7 +92,8 @@ public interface LandLordLocalService extends BaseLocalService,
 	public LandLord addLandLordDetail(java.lang.String fName,
 		java.lang.String lName, java.lang.String location,
 		java.lang.String city, java.lang.String state,
-		java.lang.String phoneNo, int status, long createdBy);
+		java.lang.String phoneNo, java.lang.String gstNo, int status,
+		long createdBy);
 
 	/**
 	* Creates a new land lord with the primary key. Does not add the land lord to the database.
@@ -146,8 +147,8 @@ public interface LandLordLocalService extends BaseLocalService,
 	public LandLord updateLandLord(long landLordId, java.lang.String fName,
 		java.lang.String lName, java.lang.String location,
 		java.lang.String city, java.lang.String state,
-		java.lang.String phoneNo, int status, long createdBy)
-		throws PortalException;
+		java.lang.String phoneNo, java.lang.String gstNo, int status,
+		long createdBy) throws PortalException;
 
 	/**
 	* Returns the number of land lords.

@@ -34,6 +34,7 @@
 					<div class="row">
 
 						<div class="form-group col-md-6">
+						<fmt:formatDate pattern = "dd/MM/yyyy" value = "${supplierBillDate}" var="supplierBillDate"/>
 							<aui:input type="text" name="supplierBillDate"
 								id="supplierBillDateVal" label="Supllier Bill Date"
 								value="${supplierBillDate}" />
@@ -53,7 +54,7 @@
 							<div class="form-group col-md-12">
 								<b>Hoarding : </b> ${billingPOBean.hordingTitle }
 							</div>
-							<div class="form-group col-md-12">
+							<div class="form-group col-md-6">
 								<aui:input type="text" name="totalAmount" label="Total Amount"
 									value="${billingPOBean.totalAmount }" />
 								<aui:input type="hidden" name="hordingId" label=""
@@ -63,6 +64,15 @@
 
 					</c:forEach>
 
+					<div class="row">
+						<div class="form-group col-md-6">
+							<aui:select name="paymentGiven" label="Payment Given" cssClass="form-control">
+	       					 	<aui:option value="NO" selected='${supplierPaymentGiven eq "NO" ? true : false }'>No</aui:option>
+	       					 	<aui:option value="YES" selected='${supplierPaymentGiven eq "YES" ? true : false }'>Yes</aui:option>
+							</aui:select>
+							
+						</div>
+					</div>
 
 					<div class="row">
 						<div class="form-group col-md-12">
@@ -72,39 +82,45 @@
 							<aui:button type="button" value="Update PO"
 								cssClass="editPOBtn btn btn-primary" />
 						</div>
-					</div>
+					</div>	
+					
 				</aui:form>
 			</div>
 		</div>
 	</div>
 </div>
-<aui:script>
-	var userModuleNameSpace = '<portlet:namespace/>';
-	AUI().use('aui-base', 'aui-form-validator', function(A) {
-		var editPOBtn = A.one(".editPOBtn");
-		editPOBtn.on('click', function(e) {
-			/* var formValidator = Liferay.Form.get('<portlet:namespace />editPOFm').formValidator;
-			formValidator.validate();
-			if(!formValidator.hasErrors()){ */
-			document.<portlet:namespace />editPOFm.submit();
-			/* 	} */
-		});
+	
+<script type="text/javascript">
 
-	});
-</aui:script>
+		jQuery.noConflict();
+		(function($) {
+		    $(function() {
+		    	
+		   		AUI().use('aui-base','liferay-portlet-url','aui-form-validator', function(A) {
+		   			
+		   			
+		   			var userModuleNameSpace = '<portlet:namespace/>';
+		   			AUI().use('aui-base', 'aui-form-validator', function(A) {
+		   				var editPOBtn = A.one(".editPOBtn");
+		   				editPOBtn.on('click', function(e) {
+		   					/* var formValidator = Liferay.Form.get('<portlet:namespace />editPOFm').formValidator;
+		   					formValidator.validate();
+		   					if(!formValidator.hasErrors()){ */
+		   					document.<portlet:namespace />editPOFm.submit();
+		   					/* 	} */
+		   				});
+
+		   			});
+
+					$('#'+'<portlet:namespace/>'+'supplierBillDateVal').datepicker({
+						format : 'dd/mm/yyyy',
+						autoclose : true
+					});
+	
 	
 
-<script type="text/javascript">
-	jQuery.noConflict();
-	(function($) {
-
-		$('#supplierBillDateVal').datepicker({
-			format : 'dd/mm/yyyy',
-			autoclose : true
-		});
-
-		$('#supplierBillDateVal').datepicker('setDate', ${supplierBillDate});
-
-	})(jQuery);
+		   	  });
+		    });
+		   })(jQuery);
 </script>
 

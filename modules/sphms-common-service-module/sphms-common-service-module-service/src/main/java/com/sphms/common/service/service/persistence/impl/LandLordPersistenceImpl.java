@@ -318,6 +318,7 @@ public class LandLordPersistenceImpl extends BasePersistenceImpl<LandLord>
 		landLordImpl.setStatec(landLord.getStatec());
 		landLordImpl.setStatus(landLord.getStatus());
 		landLordImpl.setPhoneNo(landLord.getPhoneNo());
+		landLordImpl.setGstNo(landLord.getGstNo());
 		landLordImpl.setCreateDate(landLord.getCreateDate());
 		landLordImpl.setCreatedBy(landLord.getCreatedBy());
 

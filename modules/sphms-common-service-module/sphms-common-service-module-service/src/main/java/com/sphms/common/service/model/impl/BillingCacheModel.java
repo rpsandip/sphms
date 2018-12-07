@@ -65,7 +65,7 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(39);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{billingId=");
 		sb.append(billingId);
@@ -97,6 +97,8 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 		sb.append(financialYear);
 		sb.append(", status=");
 		sb.append(status);
+		sb.append(", publishDate=");
+		sb.append(publishDate);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", createdBy=");
@@ -175,6 +177,13 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 
 		billingImpl.setStatus(status);
 
+		if (publishDate == Long.MIN_VALUE) {
+			billingImpl.setPublishDate(null);
+		}
+		else {
+			billingImpl.setPublishDate(new Date(publishDate));
+		}
+
 		if (createDate == Long.MIN_VALUE) {
 			billingImpl.setCreateDate(null);
 		}
@@ -222,6 +231,7 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 		financialYear = objectInput.readUTF();
 
 		status = objectInput.readInt();
+		publishDate = objectInput.readLong();
 		createDate = objectInput.readLong();
 
 		createdBy = objectInput.readLong();
@@ -297,6 +307,7 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 		}
 
 		objectOutput.writeInt(status);
+		objectOutput.writeLong(publishDate);
 		objectOutput.writeLong(createDate);
 
 		objectOutput.writeLong(createdBy);
@@ -320,6 +331,7 @@ public class BillingCacheModel implements CacheModel<Billing>, Externalizable {
 	public double pendingAmount;
 	public String financialYear;
 	public int status;
+	public long publishDate;
 	public long createDate;
 	public long createdBy;
 	public long modifiedDate;

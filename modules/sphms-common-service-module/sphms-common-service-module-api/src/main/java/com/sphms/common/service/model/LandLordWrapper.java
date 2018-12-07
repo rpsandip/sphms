@@ -65,6 +65,7 @@ public class LandLordWrapper implements LandLord, ModelWrapper<LandLord> {
 		attributes.put("statec", getStatec());
 		attributes.put("status", getStatus());
 		attributes.put("phoneNo", getPhoneNo());
+		attributes.put("gstNo", getGstNo());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 
@@ -119,6 +120,12 @@ public class LandLordWrapper implements LandLord, ModelWrapper<LandLord> {
 
 		if (phoneNo != null) {
 			setPhoneNo(phoneNo);
+		}
+
+		String gstNo = (String)attributes.get("gstNo");
+
+		if (gstNo != null) {
+			setGstNo(gstNo);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -217,6 +224,16 @@ public class LandLordWrapper implements LandLord, ModelWrapper<LandLord> {
 	@Override
 	public java.lang.String getFirstName() {
 		return _landLord.getFirstName();
+	}
+
+	/**
+	* Returns the gst no of this land lord.
+	*
+	* @return the gst no of this land lord
+	*/
+	@Override
+	public java.lang.String getGstNo() {
+		return _landLord.getGstNo();
 	}
 
 	/**
@@ -373,6 +390,16 @@ public class LandLordWrapper implements LandLord, ModelWrapper<LandLord> {
 	@Override
 	public void setFirstName(java.lang.String firstName) {
 		_landLord.setFirstName(firstName);
+	}
+
+	/**
+	* Sets the gst no of this land lord.
+	*
+	* @param gstNo the gst no of this land lord
+	*/
+	@Override
+	public void setGstNo(java.lang.String gstNo) {
+		_landLord.setGstNo(gstNo);
 	}
 
 	/**

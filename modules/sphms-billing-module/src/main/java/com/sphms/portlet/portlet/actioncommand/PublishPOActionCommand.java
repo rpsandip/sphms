@@ -1,5 +1,6 @@
 package com.sphms.portlet.portlet.actioncommand;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -59,6 +60,7 @@ public class PublishPOActionCommand  extends BaseMVCActionCommand{
 						for(Billing_PO otherBillingPO : otherHordingList){
 							otherBillingPO.setPoNumber(nextPONumber);
 							otherBillingPO.setStatus(Billing_PO_Status.PUBLISH.getValue());
+							otherBillingPO.setPublishDate(new Date());
 							Billing_POLocalServiceUtil.updateBilling_PO(otherBillingPO);
 						}	
 					}else{

@@ -25,6 +25,8 @@
 			                <th>Owner</th>
 			                <th>Hoardings</th>
 			                <th>PO Number</th>
+			                <th>Supplier Bill No</th>
+			                <th>Supplier Payment Given</th>
 			                <th>Financial Year</th>
 			                <th>Download</th>
 			                 <th>Status</th>
@@ -60,6 +62,8 @@
             					</ul>
             				</td>
             				<td>${poBean.poNumber}</td>
+            				<td>${poBean.supplierBillNo }</td>
+            				<td>${poBean.supplierPaymentGiven }</td>
             				<td>${poBean.financialYear}</td>
             				<td><a data-billing-id="${ poBean.billingId}" data-landlord-id="${poBean.landlordId }" class="po-download">DownLoad</a></td>
         			    	<td>

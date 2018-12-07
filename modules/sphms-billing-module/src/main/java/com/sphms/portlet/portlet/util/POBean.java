@@ -10,10 +10,12 @@ public class POBean {
 	private long landlordId;
 	private long hordingId;
 	private String status;
+	private String supplierBillNo;
 	private String landLordName;
 	private List<POHordingDTO> hordingList;
 	private String financialYear;
 	private String poNumber;
+	private String supplierPaymentGiven;
 	
 	
 	public long getBillingId() {
@@ -64,7 +66,21 @@ public class POBean {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public String getSupplierBillNo() {
+		return supplierBillNo;
+	}
+	public void setSupplierBillNo(String supplierBillNo) {
+		this.supplierBillNo = supplierBillNo;
+	}
+	public String getSupplierPaymentGiven() {
+		return supplierPaymentGiven;
+	}
+	public void setSupplierPaymentGiven(String supplierPaymentGiven) {
+		this.supplierPaymentGiven = supplierPaymentGiven;
+	}
 
+	
+	
 	
 	
 	

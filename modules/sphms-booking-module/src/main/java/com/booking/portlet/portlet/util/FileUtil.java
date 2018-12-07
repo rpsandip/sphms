@@ -387,7 +387,12 @@ public class FileUtil {
 		XSSFCellStyle style = getRowStyle(addressRow3, wb);
 		XSSFCell cell44 = addressRow3.createCell(4);
 		cell44.setCellStyle(style);
-		cell44.setCellValue("Date : " + dateformat.format(new Date()));
+		if(Validator.isNotNull(billing.getPublishDate())){
+			cell44.setCellValue("Date : " + dateformat.format(billing.getPublishDate()));
+		}else{
+			cell44.setCellValue("Date : ");
+		}
+		
 		
 		XSSFCell cell46 = addressRow3.createCell(MAX_ColUMN);
 		cell46.setCellStyle(getRightBorderStyle(wb));

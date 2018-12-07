@@ -60,11 +60,17 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 		attributes.put("billingId", getBillingId());
 		attributes.put("hordingId", getHordingId());
 		attributes.put("landLordId", getLandLordId());
+		attributes.put("supplierBillNo", getSupplierBillNo());
+		attributes.put("supplierBillDate", getSupplierBillDate());
+		attributes.put("supplierTotalAmount", getSupplierTotalAmount());
+		attributes.put("supplierGstAmmount", getSupplierGstAmmount());
 		attributes.put("poNumber", getPoNumber());
 		attributes.put("internalPONumber", getInternalPONumber());
 		attributes.put("financialYear", getFinancialYear());
 		attributes.put("totalAmount", getTotalAmount());
 		attributes.put("customCompanyId", getCustomCompanyId());
+		attributes.put("paymentGiven", getPaymentGiven());
+		attributes.put("publishDate", getPublishDate());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("createdBy", getCreatedBy());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -92,6 +98,31 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 
 		if (landLordId != null) {
 			setLandLordId(landLordId);
+		}
+
+		String supplierBillNo = (String)attributes.get("supplierBillNo");
+
+		if (supplierBillNo != null) {
+			setSupplierBillNo(supplierBillNo);
+		}
+
+		Date supplierBillDate = (Date)attributes.get("supplierBillDate");
+
+		if (supplierBillDate != null) {
+			setSupplierBillDate(supplierBillDate);
+		}
+
+		Double supplierTotalAmount = (Double)attributes.get(
+				"supplierTotalAmount");
+
+		if (supplierTotalAmount != null) {
+			setSupplierTotalAmount(supplierTotalAmount);
+		}
+
+		Double supplierGstAmmount = (Double)attributes.get("supplierGstAmmount");
+
+		if (supplierGstAmmount != null) {
+			setSupplierGstAmmount(supplierGstAmmount);
 		}
 
 		String poNumber = (String)attributes.get("poNumber");
@@ -122,6 +153,18 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 
 		if (customCompanyId != null) {
 			setCustomCompanyId(customCompanyId);
+		}
+
+		String paymentGiven = (String)attributes.get("paymentGiven");
+
+		if (paymentGiven != null) {
+			setPaymentGiven(paymentGiven);
+		}
+
+		Date publishDate = (Date)attributes.get("publishDate");
+
+		if (publishDate != null) {
+			setPublishDate(publishDate);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -201,6 +244,26 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	}
 
 	/**
+	* Returns the supplier gst ammount of this billing_ p o.
+	*
+	* @return the supplier gst ammount of this billing_ p o
+	*/
+	@Override
+	public double getSupplierGstAmmount() {
+		return _billing_PO.getSupplierGstAmmount();
+	}
+
+	/**
+	* Returns the supplier total amount of this billing_ p o.
+	*
+	* @return the supplier total amount of this billing_ p o
+	*/
+	@Override
+	public double getSupplierTotalAmount() {
+		return _billing_PO.getSupplierTotalAmount();
+	}
+
+	/**
 	* Returns the total amount of this billing_ p o.
 	*
 	* @return the total amount of this billing_ p o
@@ -261,6 +324,16 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	}
 
 	/**
+	* Returns the payment given of this billing_ p o.
+	*
+	* @return the payment given of this billing_ p o
+	*/
+	@Override
+	public java.lang.String getPaymentGiven() {
+		return _billing_PO.getPaymentGiven();
+	}
+
+	/**
 	* Returns the po number of this billing_ p o.
 	*
 	* @return the po number of this billing_ p o
@@ -268,6 +341,16 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	@Override
 	public java.lang.String getPoNumber() {
 		return _billing_PO.getPoNumber();
+	}
+
+	/**
+	* Returns the supplier bill no of this billing_ p o.
+	*
+	* @return the supplier bill no of this billing_ p o
+	*/
+	@Override
+	public java.lang.String getSupplierBillNo() {
+		return _billing_PO.getSupplierBillNo();
 	}
 
 	@Override
@@ -298,6 +381,26 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	@Override
 	public Date getModifiedDate() {
 		return _billing_PO.getModifiedDate();
+	}
+
+	/**
+	* Returns the publish date of this billing_ p o.
+	*
+	* @return the publish date of this billing_ p o
+	*/
+	@Override
+	public Date getPublishDate() {
+		return _billing_PO.getPublishDate();
+	}
+
+	/**
+	* Returns the supplier bill date of this billing_ p o.
+	*
+	* @return the supplier bill date of this billing_ p o
+	*/
+	@Override
+	public Date getSupplierBillDate() {
+		return _billing_PO.getSupplierBillDate();
 	}
 
 	/**
@@ -492,6 +595,16 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	}
 
 	/**
+	* Sets the payment given of this billing_ p o.
+	*
+	* @param paymentGiven the payment given of this billing_ p o
+	*/
+	@Override
+	public void setPaymentGiven(java.lang.String paymentGiven) {
+		_billing_PO.setPaymentGiven(paymentGiven);
+	}
+
+	/**
 	* Sets the po number of this billing_ p o.
 	*
 	* @param poNumber the po number of this billing_ p o
@@ -518,6 +631,16 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	}
 
 	/**
+	* Sets the publish date of this billing_ p o.
+	*
+	* @param publishDate the publish date of this billing_ p o
+	*/
+	@Override
+	public void setPublishDate(Date publishDate) {
+		_billing_PO.setPublishDate(publishDate);
+	}
+
+	/**
 	* Sets the status of this billing_ p o.
 	*
 	* @param status the status of this billing_ p o
@@ -525,6 +648,46 @@ public class Billing_POWrapper implements Billing_PO, ModelWrapper<Billing_PO> {
 	@Override
 	public void setStatus(int status) {
 		_billing_PO.setStatus(status);
+	}
+
+	/**
+	* Sets the supplier bill date of this billing_ p o.
+	*
+	* @param supplierBillDate the supplier bill date of this billing_ p o
+	*/
+	@Override
+	public void setSupplierBillDate(Date supplierBillDate) {
+		_billing_PO.setSupplierBillDate(supplierBillDate);
+	}
+
+	/**
+	* Sets the supplier bill no of this billing_ p o.
+	*
+	* @param supplierBillNo the supplier bill no of this billing_ p o
+	*/
+	@Override
+	public void setSupplierBillNo(java.lang.String supplierBillNo) {
+		_billing_PO.setSupplierBillNo(supplierBillNo);
+	}
+
+	/**
+	* Sets the supplier gst ammount of this billing_ p o.
+	*
+	* @param supplierGstAmmount the supplier gst ammount of this billing_ p o
+	*/
+	@Override
+	public void setSupplierGstAmmount(double supplierGstAmmount) {
+		_billing_PO.setSupplierGstAmmount(supplierGstAmmount);
+	}
+
+	/**
+	* Sets the supplier total amount of this billing_ p o.
+	*
+	* @param supplierTotalAmount the supplier total amount of this billing_ p o
+	*/
+	@Override
+	public void setSupplierTotalAmount(double supplierTotalAmount) {
+		_billing_PO.setSupplierTotalAmount(supplierTotalAmount);
 	}
 
 	/**

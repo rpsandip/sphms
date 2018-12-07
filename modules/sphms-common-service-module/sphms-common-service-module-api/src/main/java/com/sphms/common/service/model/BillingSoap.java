@@ -48,6 +48,7 @@ public class BillingSoap implements Serializable {
 		soapModel.setPendingAmount(model.getPendingAmount());
 		soapModel.setFinancialYear(model.getFinancialYear());
 		soapModel.setStatus(model.getStatus());
+		soapModel.setPublishDate(model.getPublishDate());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setCreatedBy(model.getCreatedBy());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -224,6 +225,14 @@ public class BillingSoap implements Serializable {
 		_status = status;
 	}
 
+	public Date getPublishDate() {
+		return _publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		_publishDate = publishDate;
+	}
+
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -271,6 +280,7 @@ public class BillingSoap implements Serializable {
 	private double _pendingAmount;
 	private String _financialYear;
 	private int _status;
+	private Date _publishDate;
 	private Date _createDate;
 	private long _createdBy;
 	private Date _modifiedDate;

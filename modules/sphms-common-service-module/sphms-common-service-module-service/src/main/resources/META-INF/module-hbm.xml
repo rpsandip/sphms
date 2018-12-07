@@ -36,6 +36,7 @@
 		<property name="pendingAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="financialYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="publishDate" type="org.hibernate.type.TimestampType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
@@ -60,7 +61,7 @@
 			<key-property name="hordingId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 		<property name="landLordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="supplierBillNo" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="supplierBillNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="supplierBillDate" type="org.hibernate.type.TimestampType" />
 		<property name="supplierTotalAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="supplierGstAmmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
@@ -69,6 +70,8 @@
 		<property name="financialYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="totalAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="customCompanyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="paymentGiven" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="publishDate" type="org.hibernate.type.TimestampType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
@@ -205,6 +208,7 @@
 		<property name="statec" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="phoneNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="gstNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>

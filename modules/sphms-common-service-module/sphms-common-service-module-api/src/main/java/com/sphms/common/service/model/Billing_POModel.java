@@ -107,6 +107,63 @@ public interface Billing_POModel extends BaseModel<Billing_PO> {
 	public void setLandLordId(long landLordId);
 
 	/**
+	 * Returns the supplier bill no of this billing_ p o.
+	 *
+	 * @return the supplier bill no of this billing_ p o
+	 */
+	@AutoEscape
+	public String getSupplierBillNo();
+
+	/**
+	 * Sets the supplier bill no of this billing_ p o.
+	 *
+	 * @param supplierBillNo the supplier bill no of this billing_ p o
+	 */
+	public void setSupplierBillNo(String supplierBillNo);
+
+	/**
+	 * Returns the supplier bill date of this billing_ p o.
+	 *
+	 * @return the supplier bill date of this billing_ p o
+	 */
+	public Date getSupplierBillDate();
+
+	/**
+	 * Sets the supplier bill date of this billing_ p o.
+	 *
+	 * @param supplierBillDate the supplier bill date of this billing_ p o
+	 */
+	public void setSupplierBillDate(Date supplierBillDate);
+
+	/**
+	 * Returns the supplier total amount of this billing_ p o.
+	 *
+	 * @return the supplier total amount of this billing_ p o
+	 */
+	public double getSupplierTotalAmount();
+
+	/**
+	 * Sets the supplier total amount of this billing_ p o.
+	 *
+	 * @param supplierTotalAmount the supplier total amount of this billing_ p o
+	 */
+	public void setSupplierTotalAmount(double supplierTotalAmount);
+
+	/**
+	 * Returns the supplier gst ammount of this billing_ p o.
+	 *
+	 * @return the supplier gst ammount of this billing_ p o
+	 */
+	public double getSupplierGstAmmount();
+
+	/**
+	 * Sets the supplier gst ammount of this billing_ p o.
+	 *
+	 * @param supplierGstAmmount the supplier gst ammount of this billing_ p o
+	 */
+	public void setSupplierGstAmmount(double supplierGstAmmount);
+
+	/**
 	 * Returns the po number of this billing_ p o.
 	 *
 	 * @return the po number of this billing_ p o
@@ -178,6 +235,35 @@ public interface Billing_POModel extends BaseModel<Billing_PO> {
 	 * @param customCompanyId the custom company ID of this billing_ p o
 	 */
 	public void setCustomCompanyId(long customCompanyId);
+
+	/**
+	 * Returns the payment given of this billing_ p o.
+	 *
+	 * @return the payment given of this billing_ p o
+	 */
+	@AutoEscape
+	public String getPaymentGiven();
+
+	/**
+	 * Sets the payment given of this billing_ p o.
+	 *
+	 * @param paymentGiven the payment given of this billing_ p o
+	 */
+	public void setPaymentGiven(String paymentGiven);
+
+	/**
+	 * Returns the publish date of this billing_ p o.
+	 *
+	 * @return the publish date of this billing_ p o
+	 */
+	public Date getPublishDate();
+
+	/**
+	 * Sets the publish date of this billing_ p o.
+	 *
+	 * @param publishDate the publish date of this billing_ p o
+	 */
+	public void setPublishDate(Date publishDate);
 
 	/**
 	 * Returns the create date of this billing_ p o.

@@ -1130,6 +1130,7 @@ public class BillingPersistenceImpl extends BasePersistenceImpl<Billing>
 		billingImpl.setPendingAmount(billing.getPendingAmount());
 		billingImpl.setFinancialYear(billing.getFinancialYear());
 		billingImpl.setStatus(billing.getStatus());
+		billingImpl.setPublishDate(billing.getPublishDate());
 		billingImpl.setCreateDate(billing.getCreateDate());
 		billingImpl.setCreatedBy(billing.getCreatedBy());
 		billingImpl.setModifiedDate(billing.getModifiedDate());

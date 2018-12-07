@@ -46,6 +46,7 @@ public class BillingBean {
 	private long modifiedBy;
 	private String displayBillNo;
 	private String internalBillNo;
+	private Date publishDate;
 	
 	public BillingBean(Billing billing){
 		this.billingId = billing.getBillingId();
@@ -67,6 +68,7 @@ public class BillingBean {
 		this.modifiedBy = billing.getModifiedBy();
 		this.displayBillNo = BillingLocalServiceUtil.getDisplayBillNo(billing);
 		this.internalBillNo=billing.getInternalBillNo();
+		this.publishDate = billing.getPublishDate();
 		if(this.clientId>0){
 			try {
 				Client client = ClientLocalServiceUtil.getClient(this.clientId);
@@ -264,6 +266,16 @@ public class BillingBean {
 
 	public void setInternalBillNo(String internalBillNo) {
 		this.internalBillNo = internalBillNo;
+	}
+
+
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
 	}
 	
 	

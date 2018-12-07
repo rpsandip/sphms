@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 )
 public class AddLandLordRenderCommand implements MVCRenderCommand{
 	Log _log = LogFactoryUtil.getLog(AddLandLordRenderCommand.class.getName());
+	
 	@Override
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {
 		long landLordId = ParamUtil.getLong(renderRequest, "landLordId");

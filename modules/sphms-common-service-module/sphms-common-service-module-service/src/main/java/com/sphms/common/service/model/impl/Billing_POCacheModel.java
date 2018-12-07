@@ -67,7 +67,7 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{billingId=");
 		sb.append(billingId);
@@ -93,6 +93,10 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		sb.append(totalAmount);
 		sb.append(", customCompanyId=");
 		sb.append(customCompanyId);
+		sb.append(", paymentGiven=");
+		sb.append(paymentGiven);
+		sb.append(", publishDate=");
+		sb.append(publishDate);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", createdBy=");
@@ -115,7 +119,13 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		billing_POImpl.setBillingId(billingId);
 		billing_POImpl.setHordingId(hordingId);
 		billing_POImpl.setLandLordId(landLordId);
-		billing_POImpl.setSupplierBillNo(supplierBillNo);
+
+		if (supplierBillNo == null) {
+			billing_POImpl.setSupplierBillNo(StringPool.BLANK);
+		}
+		else {
+			billing_POImpl.setSupplierBillNo(supplierBillNo);
+		}
 
 		if (supplierBillDate == Long.MIN_VALUE) {
 			billing_POImpl.setSupplierBillDate(null);
@@ -151,6 +161,20 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		billing_POImpl.setTotalAmount(totalAmount);
 		billing_POImpl.setCustomCompanyId(customCompanyId);
 
+		if (paymentGiven == null) {
+			billing_POImpl.setPaymentGiven(StringPool.BLANK);
+		}
+		else {
+			billing_POImpl.setPaymentGiven(paymentGiven);
+		}
+
+		if (publishDate == Long.MIN_VALUE) {
+			billing_POImpl.setPublishDate(null);
+		}
+		else {
+			billing_POImpl.setPublishDate(new Date(publishDate));
+		}
+
 		if (createDate == Long.MIN_VALUE) {
 			billing_POImpl.setCreateDate(null);
 		}
@@ -182,8 +206,7 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		hordingId = objectInput.readLong();
 
 		landLordId = objectInput.readLong();
-
-		supplierBillNo = objectInput.readLong();
+		supplierBillNo = objectInput.readUTF();
 		supplierBillDate = objectInput.readLong();
 
 		supplierTotalAmount = objectInput.readDouble();
@@ -196,6 +219,8 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		totalAmount = objectInput.readDouble();
 
 		customCompanyId = objectInput.readLong();
+		paymentGiven = objectInput.readUTF();
+		publishDate = objectInput.readLong();
 		createDate = objectInput.readLong();
 
 		createdBy = objectInput.readLong();
@@ -217,7 +242,13 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 
 		objectOutput.writeLong(landLordId);
 
-		objectOutput.writeLong(supplierBillNo);
+		if (supplierBillNo == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(supplierBillNo);
+		}
+
 		objectOutput.writeLong(supplierBillDate);
 
 		objectOutput.writeDouble(supplierTotalAmount);
@@ -248,6 +279,15 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 		objectOutput.writeDouble(totalAmount);
 
 		objectOutput.writeLong(customCompanyId);
+
+		if (paymentGiven == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(paymentGiven);
+		}
+
+		objectOutput.writeLong(publishDate);
 		objectOutput.writeLong(createDate);
 
 		objectOutput.writeLong(createdBy);
@@ -261,7 +301,7 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 	public long billingId;
 	public long hordingId;
 	public long landLordId;
-	public long supplierBillNo;
+	public String supplierBillNo;
 	public long supplierBillDate;
 	public double supplierTotalAmount;
 	public double supplierGstAmmount;
@@ -270,6 +310,8 @@ public class Billing_POCacheModel implements CacheModel<Billing_PO>,
 	public String financialYear;
 	public double totalAmount;
 	public long customCompanyId;
+	public String paymentGiven;
+	public long publishDate;
 	public long createDate;
 	public long createdBy;
 	public long modifiedDate;

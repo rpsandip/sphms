@@ -280,6 +280,20 @@ public interface BillingModel extends BaseModel<Billing> {
 	public void setStatus(int status);
 
 	/**
+	 * Returns the publish date of this billing.
+	 *
+	 * @return the publish date of this billing
+	 */
+	public Date getPublishDate();
+
+	/**
+	 * Sets the publish date of this billing.
+	 *
+	 * @param publishDate the publish date of this billing
+	 */
+	public void setPublishDate(Date publishDate);
+
+	/**
 	 * Returns the create date of this billing.
 	 *
 	 * @return the create date of this billing

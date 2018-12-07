@@ -16,6 +16,8 @@
 		<column name="statec" type="String" />
 		<column name="status" type="int" />
 		<column name="phoneNo" type="String" />
+		<column name="gstNo" type="String" />
+		
 		<column name="createDate" type="Date"></column>
 		<column name="createdBy" type="long"></column>
 		
@@ -241,6 +243,7 @@
 		<column name="pendingAmount"  type="double" />
 		<column name="financialYear"  type="String" />
 		<column name="status"  type="int" />
+		<column name="publishDate" type="Date"></column>
 		
 		<column name="createDate" type="Date"></column>
 		<column name="createdBy" type="long"></column>
@@ -289,7 +292,7 @@
 		
 		<column name="landLordId" type="long"></column>
 		
-		<column name="supplierBillNo" type="long"></column>
+		<column name="supplierBillNo" type="String"></column>
 		<column name="supplierBillDate" type="Date"></column>
 		<column name="supplierTotalAmount" type="double"></column>
 		<column name="supplierGstAmmount" type="double"></column>
@@ -299,6 +302,8 @@
 		<column name="financialYear"  type="String" />
 		<column name="totalAmount" type="double"></column>
 		<column name="customCompanyId" type="long"></column>
+		<column name="paymentGiven" type="String"></column>
+		<column name="publishDate" type="Date"></column>
 		
 		<column name="createDate" type="Date"></column>
 		<column name="createdBy" type="long"></column>

@@ -76,6 +76,7 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 		billingPO.setCreateDate(new Date());
 		billingPO.setCreatedBy(createdBy);
 		billingPO.setModifiedBy(createdBy);
+		billingPO.setPaymentGiven("NO");
 		billingPO.setCustomCompanyId(company.getCompanyId());
 		billingPO.setStatus(Billing_PO_Status.GENERATED.getValue());
 		billingPO.setModifiedDate(new Date());

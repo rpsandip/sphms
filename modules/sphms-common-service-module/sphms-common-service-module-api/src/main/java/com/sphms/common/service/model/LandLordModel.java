@@ -181,6 +181,21 @@ public interface LandLordModel extends BaseModel<LandLord> {
 	public void setPhoneNo(String phoneNo);
 
 	/**
+	 * Returns the gst no of this land lord.
+	 *
+	 * @return the gst no of this land lord
+	 */
+	@AutoEscape
+	public String getGstNo();
+
+	/**
+	 * Sets the gst no of this land lord.
+	 *
+	 * @param gstNo the gst no of this land lord
+	 */
+	public void setGstNo(String gstNo);
+
+	/**
 	 * Returns the create date of this land lord.
 	 *
 	 * @return the create date of this land lord

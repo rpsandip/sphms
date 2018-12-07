@@ -333,6 +333,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		if(billing.getStatus()==BillingStatus.CREATED.getValue()){
 			billing.setBillNo(getNextBillNo(billing.getCustomCompanyId()));
 			billing.setStatus(BillingStatus.PUBLISHED.getValue());
+			billing.setPublishDate(new Date());
 			billing = BillingLocalServiceUtil.updateBilling(billing);
 			return true;
 		}else{
@@ -425,7 +426,12 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 			billObject.put("campaign", billingBean.getCampaign());
 			billObject.put("financeYear", billingBean.getFinancialYear());
 			billObject.put("billNo", BillingLocalServiceUtil.getDisplayBillNo(billing));
-			billObject.put("bookingDate", dateFormat.format(billingBean.getBookingDate()));
+			if(Validator.isNotNull(billingBean.getPublishDate())){
+				billObject.put("bookingDate", dateFormat.format(billingBean.getPublishDate()));
+			}else{
+				billObject.put("bookingDate", "");
+			}
+			
 			billObject.put("clientPO", billing.getClientPONumber());
 			billObject.put("displayDate", dateFormat.format(booking.getStartDate())+" to " + dateFormat.format(booking.getEndDate()));
 			

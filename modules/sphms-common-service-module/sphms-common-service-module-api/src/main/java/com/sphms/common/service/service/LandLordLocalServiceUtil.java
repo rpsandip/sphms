@@ -82,11 +82,11 @@ public class LandLordLocalServiceUtil {
 	public static com.sphms.common.service.model.LandLord addLandLordDetail(
 		java.lang.String fName, java.lang.String lName,
 		java.lang.String location, java.lang.String city,
-		java.lang.String state, java.lang.String phoneNo, int status,
-		long createdBy) {
+		java.lang.String state, java.lang.String phoneNo,
+		java.lang.String gstNo, int status, long createdBy) {
 		return getService()
 				   .addLandLordDetail(fName, lName, location, city, state,
-			phoneNo, status, createdBy);
+			phoneNo, gstNo, status, createdBy);
 	}
 
 	/**
@@ -156,12 +156,12 @@ public class LandLordLocalServiceUtil {
 	public static com.sphms.common.service.model.LandLord updateLandLord(
 		long landLordId, java.lang.String fName, java.lang.String lName,
 		java.lang.String location, java.lang.String city,
-		java.lang.String state, java.lang.String phoneNo, int status,
-		long createdBy)
+		java.lang.String state, java.lang.String phoneNo,
+		java.lang.String gstNo, int status, long createdBy)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateLandLord(landLordId, fName, lName, location, city,
-			state, phoneNo, status, createdBy);
+			state, phoneNo, gstNo, status, createdBy);
 	}
 
 	/**

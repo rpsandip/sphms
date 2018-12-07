@@ -40,10 +40,11 @@ public class AddLandLordActionCommand extends BaseMVCActionCommand{
 		String city= ParamUtil.getString(actionRequest, "city");
 		String state= ParamUtil.getString(actionRequest, "state");
 		String phoneNo = ParamUtil.getString(actionRequest, "phoneNo");
+		String gstNo = ParamUtil.getString(actionRequest, "gstNo");
 		
 		// Adding land lord detail, pass 0 as status- active
 		if(landLordId==0){
-			LandLord landLord = LandLordLocalServiceUtil.addLandLordDetail(fName, lName, location, city, state,phoneNo,0, themeDisplay.getUserId());
+			LandLord landLord = LandLordLocalServiceUtil.addLandLordDetail(fName, lName, location, city, state,phoneNo,gstNo, 0, themeDisplay.getUserId());
 			if(Validator.isNotNull(landLord)){
 				SessionMessages.add(actionRequest, "land-lord-added-successfully");
 			}else{
@@ -51,7 +52,7 @@ public class AddLandLordActionCommand extends BaseMVCActionCommand{
 				actionResponse.setRenderParameter("mvcRenderCommandName", "/add-land-lord");
 			}
 		}else{
-			LandLord landLord = LandLordLocalServiceUtil.updateLandLord(landLordId, fName, lName, location, city, state,phoneNo, 0, themeDisplay.getUserId());
+			LandLord landLord = LandLordLocalServiceUtil.updateLandLord(landLordId, fName, lName, location, city, state,phoneNo,gstNo, 0, themeDisplay.getUserId());
 			if(Validator.isNotNull(landLord)){
 				SessionMessages.add(actionRequest, "land-lord-updated-successfully");
 			}else{

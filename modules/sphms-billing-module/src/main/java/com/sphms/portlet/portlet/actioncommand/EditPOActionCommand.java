@@ -35,9 +35,10 @@ public class EditPOActionCommand extends BaseMVCActionCommand {
 		long landLordId = ParamUtil.getLong(actionRequest, "landLordId");
 
 		double supplierGstAmt = ParamUtil.getDouble(actionRequest, "supplierGstAmt");
-		long supplierBillNo = ParamUtil.getLong(actionRequest, "supplierBillNo");
+		String supplierBillNo = ParamUtil.getString(actionRequest, "supplierBillNo");
 		Date supplierBillDate = ParamUtil.getDate(actionRequest, "supplierBillDate", inputFormat);
 		double supplierTotalAmt = ParamUtil.getDouble(actionRequest, "supplierTotalAmt");
+		String supplierPaymentGiven = ParamUtil.getString(actionRequest, "paymentGiven");
 
 		String[] hordingArray = ParamUtil.getParameterValues(actionRequest, "hordingId");
 		String[] totalAmountArray = ParamUtil.getParameterValues(actionRequest, "totalAmount");
@@ -54,6 +55,7 @@ public class EditPOActionCommand extends BaseMVCActionCommand {
 				billingPO.setSupplierBillDate(supplierBillDate);
 				billingPO.setSupplierGstAmmount(supplierGstAmt);
 				billingPO.setSupplierTotalAmount(supplierTotalAmt);
+				billingPO.setPaymentGiven(supplierPaymentGiven);
 				Billing_POLocalServiceUtil.updateBilling_PO(billingPO);
 				count++;
 

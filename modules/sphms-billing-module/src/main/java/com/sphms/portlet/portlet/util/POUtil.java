@@ -62,18 +62,20 @@ public class POUtil {
 	    
 	    List<Double> totalHordingAmointList = new ArrayList<Double>();
 	    String landLordName = StringPool.BLANK;
+	    String gsTNo = StringPool.BLANK;
 	    String city = StringPool.BLANK;
 	    LandLord landLord = getLandLord(billingPOList);
 	    if(Validator.isNotNull(landLord)){
 	    	landLordName = landLord.getFirstName()+StringPool.SPACE+landLord.getLastName();
+	    	gsTNo = landLord.getGstNo();
 	    	city = landLord.getCity();
 	    }
 	   
 	    
 	    index = createMainHeaderRow(sheet, wb, index);
-	    index = poNumberRow(sheet, wb, index, font, billingPOList.get(0), company);
-	    index = poDateRow(sheet, wb, index, font, landLordName);
-	    index = cityRow(sheet, wb, index, font, city);
+	    index = poNumberRow(sheet, wb, index, font, company, billingPOList.get(0));
+	    index = poDateRow(sheet, wb, index, font, landLordName, billingPOList.get(0));
+	    index = cityRow(sheet, wb, index, font, city,gsTNo);
 	    index = blankRow(sheet, wb, index, font);
 	    index = topBlankRow(sheet, wb, index, font);
 	    index = displayRow(sheet, wb, index, font,billing);
@@ -197,7 +199,7 @@ public class POUtil {
 		return index;
 	}
 	
-	private static int poNumberRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, Billing_PO billingPO, CustomCompany company){
+	private static int poNumberRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, CustomCompany company, Billing_PO billingPO){
 		XSSFRow poNumberRow = sheet.createRow(index);	
 		XSSFCellStyle style = getLeftTopBorderStyle(wb);
 		style.setFont(font);
@@ -231,7 +233,7 @@ public class POUtil {
 		return index;
 	}
 	
-	private static int poDateRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, String landLordName){
+	private static int poDateRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, String landLordName, Billing_PO billingPO){
 		XSSFRow poNumberRow = sheet.createRow(index);	
 		XSSFCellStyle style = getLeftBorderStyle(wb);
 		style.setFont(font);
@@ -248,7 +250,12 @@ public class POUtil {
 		
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		XSSFCell cell5 = poNumberRow.createCell(5);
-		cell5.setCellValue(df.format(new Date()));
+		if(Validator.isNotNull(billingPO.getPublishDate())){
+			cell5.setCellValue(df.format(billingPO.getPublishDate()));	
+		}else{
+			cell5.setCellValue("");
+		}
+		
 		
 		mergedRegion(index, index, 1, 3, sheet);
 		
@@ -276,7 +283,7 @@ public class POUtil {
 		return index;
 	}
 	
-	private static int cityRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, String city){
+	private static int cityRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, String city, String gsTNo){
 		XSSFRow cityRow = sheet.createRow(index);	
 		XSSFCellStyle style = getLeftBorderStyle(wb);
 		style.setFont(font);
@@ -291,6 +298,21 @@ public class POUtil {
 		cell6.setCellStyle(getRightBorderStyle(wb));
 		
 		index++;
+		
+		
+		XSSFRow gstRow = sheet.createRow(index);	
+		
+		XSSFCell gstCell1 = gstRow.createCell(1);
+		gstCell1.setCellValue("GST No:" + gsTNo);
+		gstCell1.setCellStyle(style);
+		
+		mergedRegion(index, index, 1, 3, sheet);
+	
+		XSSFCell gstCell6 = cityRow.createCell(6);
+		gstCell6.setCellStyle(getRightBorderStyle(wb));
+		
+		index++;
+		
 		return index;
 	}
 

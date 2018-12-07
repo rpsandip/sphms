@@ -327,7 +327,7 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 	public JSONObject getHordingsFilter(long hordingId, String startDate, String endDate) {
 
 		List<Object> hordingDetail = hordingFinder.findHordingsFilter(hordingId, startDate, endDate);
-
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/YYYY");
 		JSONObject responseObj = JSONFactoryUtil.createJSONObject();
 		JSONArray dataArray = JSONFactoryUtil.createJSONArray();
 		double sumOFTHCharg=0.0;
@@ -366,8 +366,26 @@ public class HordingLocalServiceImpl extends HordingLocalServiceBaseImpl {
 			Double grandTotalVal=Double.valueOf(String.valueOf(detailObj[10])) + Double.valueOf(String.valueOf(detailObj[11])) + Double.valueOf(String.valueOf(detailObj[12]));
 			proposalJsonObj.put("units", detailObj[5]);
 			proposalJsonObj.put("hordingType", detailObj[6]);
-			proposalJsonObj.put("hordingBookingStartDate", detailObj[7]);
-			proposalJsonObj.put("hordingBookingEndDate", detailObj[8]);
+			if(Validator.isNotNull(detailObj[7])){
+				try{
+					proposalJsonObj.put("hordingBookingStartDate", df.format(formatter.parse(String.valueOf(detailObj[7]))));
+				}catch(ParseException e){
+					_log.error("hordingBookingStartDate date parsing error ");
+				}
+			}else{
+				proposalJsonObj.put("hordingBookingStartDate", "");
+			}
+			
+			if(Validator.isNotNull(detailObj[8])){
+				try{
+					proposalJsonObj.put("hordingBookingEndDate", df.format(formatter.parse(String.valueOf(detailObj[8]))));
+				}catch(ParseException e){
+					_log.error("hordingBookingEndDate date parsing error ");
+				}
+			}else{
+				proposalJsonObj.put("hordingBookingEndDate", "");
+			}
+		
 			proposalJsonObj.put("pricePerMonth", detailObj[9]);
 			proposalJsonObj.put("totalMountingCharge", detailObj[10]);
 			proposalJsonObj.put("totalPrintingCharge", detailObj[11]);
