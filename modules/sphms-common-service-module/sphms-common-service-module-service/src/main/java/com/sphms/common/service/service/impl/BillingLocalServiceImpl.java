@@ -233,7 +233,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 	 * Update Billing 
 	 */
 	public Billing updateBilling(long billingId, String clientPANum, String clientPONum, String clientGSTNum,String display,
-			double accessAmount, double pendingAmount, List<Billing_HordingBean> billing_HordingBeanList,long modifiedBy) throws PortalException{
+			double accessAmount, double pendingAmount, List<Billing_HordingBean> billing_HordingBeanList, Date publishDate ,long modifiedBy) throws PortalException{
 		
 		Billing billing = BillingLocalServiceUtil.getBilling(billingId);
 		billing.setClientPANNo(clientPANum);
@@ -244,6 +244,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		billing.setPendingAmount(pendingAmount);
 		billing.setModifiedBy(modifiedBy);
 		billing.setModifiedDate(new Date());
+		billing.setPublishDate(publishDate);
 		
 		billing = BillingLocalServiceUtil.updateBilling(billing);
 		

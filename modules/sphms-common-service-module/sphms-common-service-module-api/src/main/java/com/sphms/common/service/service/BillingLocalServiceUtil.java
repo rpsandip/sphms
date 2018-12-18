@@ -180,12 +180,12 @@ public class BillingLocalServiceUtil {
 		java.lang.String clientPONum, java.lang.String clientGSTNum,
 		java.lang.String display, double accessAmount, double pendingAmount,
 		java.util.List<com.sphms.common.service.beans.Billing_HordingBean> billing_HordingBeanList,
-		long modifiedBy)
+		java.util.Date publishDate, long modifiedBy)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateBilling(billingId, clientPANum, clientPONum,
 			clientGSTNum, display, accessAmount, pendingAmount,
-			billing_HordingBeanList, modifiedBy);
+			billing_HordingBeanList, publishDate, modifiedBy);
 	}
 
 	/**

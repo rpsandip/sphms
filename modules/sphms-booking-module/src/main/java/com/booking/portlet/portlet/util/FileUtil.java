@@ -151,6 +151,7 @@ public class FileUtil {
 			index = createHordingDataRow(sheet, wb, index, i, billingHordingList.size(),
 					billingHordingList.get(i).getHording(), booking, billingHordingList.get(i), billType);
 		}
+		
 		for(int i=0;i<4;i++){
 			index=createHordingBlankDataRow(sheet, wb, index, i, 4);
 		}
@@ -239,9 +240,9 @@ public class FileUtil {
 
 		sheet.setColumnWidth(1, 10000);
 		sheet.setColumnWidth(2, 4000);
-		sheet.setColumnWidth(3, 2000);
+		sheet.setColumnWidth(3, 3000);
 		sheet.setColumnWidth(4, 2000);
-		sheet.setColumnWidth(5, 3000);
+		sheet.setColumnWidth(5, 4000);
 		sheet.setColumnWidth(6, 3000);
 		sheet.setColumnWidth(7, 2000);
 
@@ -586,13 +587,14 @@ public class FileUtil {
 
 	private static int createHordingTableHeader(XSSFSheet sheet, XSSFWorkbook wb, int index, String billType) {
 		XSSFRow hordingTableRow = sheet.createRow(index);
-		hordingTableRow.setHeight((short) 500);
+		hordingTableRow.setHeight((short) 800);
 		XSSFCellStyle style = getAllBorderStyle(wb);
 		XSSFFont font = wb.createFont();
 		font.setFontHeightInPoints((short) 12);
 		font.setBold(true);
 		font.setFontName("Arial");
 		style.setFont(font);
+		style.setWrapText(true);
 		style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 		style.setAlignment(HorizontalAlignment.CENTER);
 		style.setVerticalAlignment(VerticalAlignment.CENTER);

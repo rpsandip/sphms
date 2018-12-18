@@ -67,6 +67,13 @@
 	       			</div>
 	       			
 	       			<div class="row">
+	       				<div class="form-group col-md-4">
+	       				 <fmt:formatDate pattern = "dd/MM/yyyy" value = "${billingBean.publishDate}" var="publishDate"/>
+	       					<aui:input type="text" name="publishDate" label="Publish Date" value="${ publishDate}"/>
+	       				</div>	
+	       			</div>	
+	       			
+	       			<div class="row">
 	       				<div class="form-group col-md-12">
 	       					<h4> Hoarding Detail :</h4>
 	       				</div>
@@ -118,16 +125,29 @@
     </div>
 </div>       	
 
-<aui:script>
-var userModuleNameSpace =  '<portlet:namespace/>';
-AUI().use('aui-base','aui-form-validator', function(A) {
-	var editBillBtn= A.one(".editBillBtn");
-	editBillBtn.on('click', function(e) {
-		var formValidator = Liferay.Form.get('<portlet:namespace />editBillingFm').formValidator;
-		formValidator.validate();
-		if(!formValidator.hasErrors()){
-			document.<portlet:namespace />editBillingFm.submit();
-		}
-	});
-});
-</aui:script> 		
+<script type="text/javascript">
+
+		jQuery.noConflict();
+		(function($) {
+		    $(function() {
+		    	
+		    	var userModuleNameSpace =  '<portlet:namespace/>';
+		    	AUI().use('aui-base','aui-form-validator', function(A) {
+		    		var editBillBtn= A.one(".editBillBtn");
+		    		editBillBtn.on('click', function(e) {
+		    			var formValidator = Liferay.Form.get('<portlet:namespace />editBillingFm').formValidator;
+		    			formValidator.validate();
+		    			if(!formValidator.hasErrors()){
+		    				document.<portlet:namespace />editBillingFm.submit();
+		    			}
+		    		});
+		    	});
+		    	
+		    	$('#'+'<portlet:namespace/>'+'publishDate').datepicker({
+					format : 'dd/mm/yyyy',
+					autoclose : true
+				});
+		    	
+		    });
+		   })(jQuery);
+</script>

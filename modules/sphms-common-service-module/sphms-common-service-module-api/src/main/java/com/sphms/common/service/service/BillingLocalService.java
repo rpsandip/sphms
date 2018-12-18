@@ -164,8 +164,8 @@ public interface BillingLocalService extends BaseLocalService,
 	public Billing updateBilling(long billingId, java.lang.String clientPANum,
 		java.lang.String clientPONum, java.lang.String clientGSTNum,
 		java.lang.String display, double accessAmount, double pendingAmount,
-		List<Billing_HordingBean> billing_HordingBeanList, long modifiedBy)
-		throws PortalException;
+		List<Billing_HordingBean> billing_HordingBeanList, Date publishDate,
+		long modifiedBy) throws PortalException;
 
 	/**
 	* Returns the number of billings.

@@ -1,7 +1,10 @@
 package com.sphms.portlet.portlet.actioncommand;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -57,7 +60,8 @@ public class UpdateBillingActionCommand extends BaseMVCActionCommand{
 		double accessAmount = ParamUtil.getDouble(actionRequest, "accessAmount");
 		double pendingAmount = ParamUtil.getDouble(actionRequest, "pendingAmount");
 		long billingId = ParamUtil.getLong(actionRequest, "billingId");
-		
+		String publishDateStr = ParamUtil.getString(actionRequest, "publishDate");
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		int totalHordingCount = ParamUtil.getInteger(actionRequest, "totalHordingCount");
 		List<Billing_HordingBean> bookingHordingBeanList = new ArrayList<Billing_HordingBean>();
 		
@@ -76,9 +80,18 @@ public class UpdateBillingActionCommand extends BaseMVCActionCommand{
 		Billing billing=null;
 		Booking booking=null;
 		CustomCompany company = null;
+		
+		Date publushDate = null;
+		
+		try {
+			publushDate = df.parse(publishDateStr);
+		} catch (ParseException e) {
+			_log.error(e.getMessage());
+		}
+		
 		try {
 			billing = BillingLocalServiceUtil.updateBilling(billingId, clientPANNo, clientPONo, clientGSTNo, display,
-					accessAmount, pendingAmount, bookingHordingBeanList, themeDisplay.getUserId());
+					accessAmount, pendingAmount, bookingHordingBeanList, publushDate,themeDisplay.getUserId());
 		
 			booking = BookingLocalServiceUtil.getBooking(billing.getBookingId());
 			
