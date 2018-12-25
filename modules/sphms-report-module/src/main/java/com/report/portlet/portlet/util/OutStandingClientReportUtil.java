@@ -7,7 +7,9 @@ import java.util.Date;
 
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -274,7 +276,7 @@ public class OutStandingClientReportUtil {
 		font.setFontHeightInPoints((short) 14);
 		font.setBold(true);
 		font.setFontName("Arial");
-		font.setColor(HSSFColor.RED.index);
+		font.setColor(HSSFColor.GREEN.index);
 
 		XSSFRow billTotalRow = sheet.createRow(index);
 		XSSFCellStyle style = getBottomBorderStyle(wb);
@@ -408,7 +410,7 @@ public class OutStandingClientReportUtil {
 		font.setFontHeightInPoints((short) 14);
 		font.setBold(true);
 		font.setFontName("Arial");
-		font.setColor(HSSFColor.RED.index);
+		font.setColor(HSSFColor.GREEN.index);
 
 		XSSFCellStyle style = getBottomBorderStyle(wb);
 		style.setFont(font);
@@ -449,38 +451,40 @@ public class OutStandingClientReportUtil {
 		XSSFFont font = wb.createFont();
 		font.setFontHeightInPoints((short) 14);
 		font.setFontName("Arial");
-		font.setColor(HSSFColor.BLACK.index);
+		font.setColor(HSSFColor.WHITE.index);
 
 		XSSFRow totalPayment = sheet.createRow(index);
 		totalPayment.setHeight((short) 500);
 		
 		XSSFCellStyle style = getAllBorderStyle(wb);
-		style.setFillForegroundColor(HSSFColor.GREEN.index);
+		style.setFillForegroundColor(IndexedColors.GREEN.index);
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 		style.setFont(font);
 		style.setAlignment(HorizontalAlignment.CENTER);
 		style.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		XSSFCell cell1 = totalPayment.createCell(1);
-		cell1.setCellValue("Total OutStanding");
+		
 		cell1.setCellStyle(style);
 		
 		XSSFCell cell2 = totalPayment.createCell(2);
 		cell2.setCellStyle(style);
 		
 		sheet.addMergedRegion(new CellRangeAddress(index, index, 1, 2));
+		cell1.setCellValue("Total OutStanding");
 		
 		XSSFCell cell3 = totalPayment.createCell(3);
-		cell3.setCellValue(String.valueOf(outStandingAmount));
 		cell3.setCellStyle(style);
 		
 		XSSFCell cell4 = totalPayment.createCell(4);
 		cell4.setCellStyle(style);
 		XSSFCell cell5 = totalPayment.createCell(5);
+		
 		cell5.setCellStyle(style);
 		XSSFCell cell6 = totalPayment.createCell(6);
 		cell6.setCellStyle(style);
-
 		sheet.addMergedRegion(new CellRangeAddress(index, index, 3, 6));
+		cell3.setCellValue(String.valueOf(outStandingAmount));
 		
 
 		index++;

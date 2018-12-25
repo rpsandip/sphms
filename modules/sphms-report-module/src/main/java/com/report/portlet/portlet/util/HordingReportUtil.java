@@ -6,10 +6,12 @@ import java.io.IOException;
 
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -280,7 +282,8 @@ public class HordingReportUtil {
 	}
 
 	private static int createTotalBillAmount(XSSFSheet sheet, XSSFWorkbook wb, int index,JSONObject totalObject) {
-
+		
+		
 		XSSFFont font = wb.createFont();
 		font.setFontHeightInPoints((short) 14);
 		font.setBold(true);
@@ -290,27 +293,30 @@ public class HordingReportUtil {
 		XSSFRow billTotalRow = sheet.createRow(index);
 		XSSFCellStyle style = getBottomTOPBorderStyle(wb);
 		style.setFont(font);
-		style.setFillForegroundColor(HSSFColor.GREEN.index);
+		style.setFillForegroundColor(IndexedColors.GREEN.index);
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		style.setAlignment(HorizontalAlignment.CENTER);
+		style.setVerticalAlignment(VerticalAlignment.CENTER);
 
-		XSSFCellStyle firstCellStyle = getLeftBottomBorderStyle(wb);
+		XSSFCellStyle firstCellStyle = getTopLeftBottomBorderStyle(wb);
 		firstCellStyle.setFont(font);
-		firstCellStyle.setFillForegroundColor(HSSFColor.GREEN.index);
-		firstCellStyle.setBorderBottom(BorderStyle.MEDIUM);
-		firstCellStyle.setBorderTop(BorderStyle.MEDIUM);
-		firstCellStyle.setBorderLeft(BorderStyle.MEDIUM);
-		firstCellStyle.setBorderLeft(BorderStyle.NONE);
+		firstCellStyle.setFillForegroundColor(IndexedColors.GREEN.index);
+		firstCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		firstCellStyle.setAlignment(HorizontalAlignment.CENTER);
+		firstCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+	
 
-		XSSFCellStyle lastCellStyle = getRightBottomBorderStyle(wb);
+		XSSFCellStyle lastCellStyle = getRightToptBottomBorderStyle(wb);
 		lastCellStyle.setFont(font);
-		lastCellStyle.setFillForegroundColor(HSSFColor.GREEN.index);
-		firstCellStyle.setBorderBottom(BorderStyle.MEDIUM);
-		firstCellStyle.setBorderTop(BorderStyle.MEDIUM);
-		firstCellStyle.setBorderRight(BorderStyle.MEDIUM);
-
+		lastCellStyle.setFillForegroundColor(IndexedColors.GREEN.index);
+		lastCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		lastCellStyle.setAlignment(HorizontalAlignment.CENTER);
+		lastCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+	
 		XSSFCell cell1 = billTotalRow.createCell(1);
-		cell1.setCellValue("");
+		
 		cell1.setCellStyle(firstCellStyle);
-
+	
 		XSSFCell cell2 = billTotalRow.createCell(2);
 		cell2.setCellStyle(style);
 
@@ -328,7 +334,7 @@ public class HordingReportUtil {
 		
 		XSSFCell cell7 = billTotalRow.createCell(7);
 		cell7.setCellStyle(style);
-		cell7.setCellValue("Total");
+		
 	
 		XSSFCell cell8 = billTotalRow.createCell(8);
 		cell8.setCellStyle(style);
@@ -348,6 +354,10 @@ public class HordingReportUtil {
 		XSSFCell cell13 = billTotalRow.createCell(13);
 		cell13.setCellStyle(style);
 		
+		sheet.addMergedRegion(new CellRangeAddress(index, index, 1, 13));
+		
+		cell1.setCellValue("Total");
+		
 		XSSFCell cell14 = billTotalRow.createCell(14);
 		cell14.setCellValue(Math.round(totalObject.getDouble("sumOfTMCharg")));
 		cell14.setCellStyle(style);
@@ -365,7 +375,6 @@ public class HordingReportUtil {
 		cell17.setCellValue(Math.round(totalObject.getDouble("sumOfgrandTotal")));
 		cell17.setCellStyle(lastCellStyle);
 	
-
 		index++;
 		return index;
 
@@ -383,17 +392,19 @@ public class HordingReportUtil {
 		return style;
 	}
 
-	private static XSSFCellStyle getLeftBottomBorderStyle(XSSFWorkbook workbook) {
+	private static XSSFCellStyle getTopLeftBottomBorderStyle(XSSFWorkbook workbook) {
 		XSSFCellStyle style = workbook.createCellStyle();
 		style.setBorderBottom(BorderStyle.MEDIUM);
 		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
 		return style;
 	}
 
-	private static XSSFCellStyle getRightBottomBorderStyle(XSSFWorkbook workbook) {
+	private static XSSFCellStyle getRightToptBottomBorderStyle(XSSFWorkbook workbook) {
 		XSSFCellStyle style = workbook.createCellStyle();
 		style.setBorderBottom(BorderStyle.MEDIUM);
 		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
 		return style;
 	}
 

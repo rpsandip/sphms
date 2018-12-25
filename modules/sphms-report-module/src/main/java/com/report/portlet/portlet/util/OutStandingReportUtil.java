@@ -5,11 +5,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -129,33 +132,49 @@ public class OutStandingReportUtil {
 		XSSFRow outStandingDetail = sheet.createRow(index);
 		XSSFCellStyle style = getRowStyle(outStandingDetail, wb);
 		style.setFont(font);
+		
+		XSSFCellStyle firstCellStyle = getLeftBorderStyle(wb);
+		firstCellStyle.setFont(font);
+
+		XSSFCellStyle lastCellStyle = getRightBorderStyle(wb);
+		lastCellStyle.setFont(font);
+
 
 		XSSFCell cell1 = outStandingDetail.createCell(1);
 		cell1.setCellValue(detailRow.getString("client"));
+		cell1.setCellStyle(firstCellStyle);
 
 		XSSFCell cell2 = outStandingDetail.createCell(2);
 		cell2.setCellValue(detailRow.getString("campaign"));
+		cell2.setCellStyle(style);
 
 		XSSFCell cell3 = outStandingDetail.createCell(3);
 		cell3.setCellValue(detailRow.getString("financeYear"));
+		cell3.setCellStyle(style);
 
 		XSSFCell cell4 = outStandingDetail.createCell(4);
 		cell4.setCellValue(detailRow.getString("billNo"));
+		cell4.setCellStyle(style);
 		
 		XSSFCell cell9 = outStandingDetail.createCell(5);
 		cell9.setCellValue(detailRow.getString("clientPO"));
+		cell9.setCellStyle(style);
 
 		XSSFCell cell5 = outStandingDetail.createCell(6);
 		cell5.setCellValue(detailRow.getString("bookingDate"));
+		cell5.setCellStyle(style);
 
 		XSSFCell cell6 = outStandingDetail.createCell(7);
 		cell6.setCellValue(detailRow.getString("totalBillAmount"));
+		cell6.setCellStyle(style);
 
 		XSSFCell cell7 = outStandingDetail.createCell(8);
 		cell7.setCellValue(detailRow.getString("totalPayment"));
+		cell7.setCellStyle(style);
 
 		XSSFCell cell8 = outStandingDetail.createCell(9);
 		cell8.setCellValue(detailRow.getString("totalOutStanding"));
+		cell8.setCellStyle(lastCellStyle);
 
 		index++;
 		return index;
@@ -166,22 +185,55 @@ public class OutStandingReportUtil {
 			double totalBillAmount, double totalOutStanding) {
 
 		XSSFFont font = wb.createFont();
-		font.setFontHeightInPoints((short) 12);
-		font.setBold(true);
+		font.setFontHeightInPoints((short) 14);
 		font.setFontName("Arial");
+		font.setColor(HSSFColor.WHITE.index);
 
 		XSSFRow outStandingDetail = sheet.createRow(index);
-		XSSFCellStyle style = getRowStyle(outStandingDetail, wb);
-		style.setFont(font);
+		
+		
+		XSSFCellStyle allBorder = getAllBorderStyle(wb);
+		allBorder.setFont(font);
+		allBorder.setFillForegroundColor(IndexedColors.GREEN.index);
+		allBorder.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		allBorder.setFont(font);
+		allBorder.setAlignment(HorizontalAlignment.CENTER);
+		allBorder.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		XSSFCell cell1 = outStandingDetail.createCell(1);
+		cell1.setCellStyle(allBorder);
+		XSSFCell cell2 = outStandingDetail.createCell(2);
+		cell2.setCellStyle(allBorder);
+		XSSFCell cell3 = outStandingDetail.createCell(3);
+	
+		cell3.setCellStyle(allBorder);
+		
+		XSSFCell cell4 = outStandingDetail.createCell(4);
+		cell4.setCellStyle(allBorder);
+		XSSFCell cell5 = outStandingDetail.createCell(5);
+		cell5.setCellStyle(allBorder);
+		XSSFCell cell6 = outStandingDetail.createCell(6);
+		
+		cell6.setCellStyle(allBorder);
+		
+		sheet.addMergedRegion(new CellRangeAddress(index, index, 1, 6));
+		
 		cell1.setCellValue("Total");
-		XSSFCell cell6 = outStandingDetail.createCell(7);
-		cell6.setCellValue(String.valueOf(totalBillAmount));
-		XSSFCell cell7 = outStandingDetail.createCell(8);
-		cell7.setCellValue(String.valueOf(totalPayment));
-		XSSFCell cell8 = outStandingDetail.createCell(9);
-		cell8.setCellValue(String.valueOf(totalOutStanding));
+		
+		XSSFCell cell7 = outStandingDetail.createCell(7);
+		cell7.setCellValue(String.valueOf(totalBillAmount));
+		cell7.setCellStyle(allBorder);
+		XSSFCell cell8 = outStandingDetail.createCell(8);
+		cell8.setCellValue(String.valueOf(totalPayment));
+		cell8.setCellStyle(allBorder);
+		XSSFCell cell9 = outStandingDetail.createCell(9);
+		cell9.setCellValue(String.valueOf(totalOutStanding));
+		cell9.setCellStyle(allBorder);
+		
+		
+		
+		
+		
 		index++;
 		return index;
 
@@ -209,5 +261,40 @@ public class OutStandingReportUtil {
 		style.setFont(font);
 		return style;
 	}
+	
+	
+	private static XSSFCellStyle getBottomBorderStyle(XSSFWorkbook workbook) {
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		return style;
+	}
+
+	private static XSSFCellStyle getLeftBottomBorderStyle(XSSFWorkbook workbook) {
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		return style;
+	}
+
+	private static XSSFCellStyle getRightBottomBorderStyle(XSSFWorkbook workbook) {
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
+		return style;
+	}
+
+	private static XSSFCellStyle getLeftBorderStyle(XSSFWorkbook workbook) {
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		return style;
+	}
+
+	private static XSSFCellStyle getRightBorderStyle(XSSFWorkbook workbook) {
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setBorderRight(BorderStyle.MEDIUM);
+		return style;
+	}
+
+
 
 }
