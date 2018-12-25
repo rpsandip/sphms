@@ -5,6 +5,8 @@ create index IX_BFAA6CB on SPHMS_Billing_Hording (billingId, hordingId);
 
 create index IX_8BB6B63E on SPHMS_Billing_PO (billingId, landLordId);
 
+create index IX_D9CA80E7 on SPHMS_Booking (billId);
+
 create index IX_C83966C9 on SPHMS_Booking_Hording (bookingId);
 
 create index IX_B117F0E5 on SPHMS_Client (status);

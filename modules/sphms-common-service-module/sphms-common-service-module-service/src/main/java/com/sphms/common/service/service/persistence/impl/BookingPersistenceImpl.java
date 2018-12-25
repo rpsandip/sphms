@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
@@ -30,6 +31,7 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import com.sphms.common.service.exception.NoSuchBookingException;
@@ -83,6 +85,213 @@ public class BookingPersistenceImpl extends BasePersistenceImpl<Booking>
 	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(BookingModelImpl.ENTITY_CACHE_ENABLED,
 			BookingModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+	public static final FinderPath FINDER_PATH_FETCH_BY_BILLID = new FinderPath(BookingModelImpl.ENTITY_CACHE_ENABLED,
+			BookingModelImpl.FINDER_CACHE_ENABLED, BookingImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchBybillId",
+			new String[] { Long.class.getName() },
+			BookingModelImpl.BILLID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_BILLID = new FinderPath(BookingModelImpl.ENTITY_CACHE_ENABLED,
+			BookingModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBybillId",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns the booking where billId = &#63; or throws a {@link NoSuchBookingException} if it could not be found.
+	 *
+	 * @param billId the bill ID
+	 * @return the matching booking
+	 * @throws NoSuchBookingException if a matching booking could not be found
+	 */
+	@Override
+	public Booking findBybillId(long billId) throws NoSuchBookingException {
+		Booking booking = fetchBybillId(billId);
+
+		if (booking == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("billId=");
+			msg.append(billId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchBookingException(msg.toString());
+		}
+
+		return booking;
+	}
+
+	/**
+	 * Returns the booking where billId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param billId the bill ID
+	 * @return the matching booking, or <code>null</code> if a matching booking could not be found
+	 */
+	@Override
+	public Booking fetchBybillId(long billId) {
+		return fetchBybillId(billId, true);
+	}
+
+	/**
+	 * Returns the booking where billId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param billId the bill ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching booking, or <code>null</code> if a matching booking could not be found
+	 */
+	@Override
+	public Booking fetchBybillId(long billId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { billId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_BILLID,
+					finderArgs, this);
+		}
+
+		if (result instanceof Booking) {
+			Booking booking = (Booking)result;
+
+			if ((billId != booking.getBillId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_BOOKING_WHERE);
+
+			query.append(_FINDER_COLUMN_BILLID_BILLID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(billId);
+
+				List<Booking> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_BILLID,
+						finderArgs, list);
+				}
+				else {
+					if ((list.size() > 1) && _log.isWarnEnabled()) {
+						_log.warn(
+							"BookingPersistenceImpl.fetchBybillId(long, boolean) with parameters (" +
+							StringUtil.merge(finderArgs) +
+							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					}
+
+					Booking booking = list.get(0);
+
+					result = booking;
+
+					cacheResult(booking);
+
+					if ((booking.getBillId() != billId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_BILLID,
+							finderArgs, booking);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_BILLID, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Booking)result;
+		}
+	}
+
+	/**
+	 * Removes the booking where billId = &#63; from the database.
+	 *
+	 * @param billId the bill ID
+	 * @return the booking that was removed
+	 */
+	@Override
+	public Booking removeBybillId(long billId) throws NoSuchBookingException {
+		Booking booking = findBybillId(billId);
+
+		return remove(booking);
+	}
+
+	/**
+	 * Returns the number of bookings where billId = &#63;.
+	 *
+	 * @param billId the bill ID
+	 * @return the number of matching bookings
+	 */
+	@Override
+	public int countBybillId(long billId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_BILLID;
+
+		Object[] finderArgs = new Object[] { billId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_BOOKING_WHERE);
+
+			query.append(_FINDER_COLUMN_BILLID_BILLID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(billId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_BILLID_BILLID_2 = "booking.billId = ?";
 
 	public BookingPersistenceImpl() {
 		setModelClass(Booking.class);
@@ -97,6 +306,9 @@ public class BookingPersistenceImpl extends BasePersistenceImpl<Booking>
 	public void cacheResult(Booking booking) {
 		entityCache.putResult(BookingModelImpl.ENTITY_CACHE_ENABLED,
 			BookingImpl.class, booking.getPrimaryKey(), booking);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_BILLID,
+			new Object[] { booking.getBillId() }, booking);
 
 		booking.resetOriginalValues();
 	}
@@ -149,6 +361,8 @@ public class BookingPersistenceImpl extends BasePersistenceImpl<Booking>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache((BookingModelImpl)booking);
 	}
 
 	@Override
@@ -159,6 +373,46 @@ public class BookingPersistenceImpl extends BasePersistenceImpl<Booking>
 		for (Booking booking : bookings) {
 			entityCache.removeResult(BookingModelImpl.ENTITY_CACHE_ENABLED,
 				BookingImpl.class, booking.getPrimaryKey());
+
+			clearUniqueFindersCache((BookingModelImpl)booking);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(BookingModelImpl bookingModelImpl,
+		boolean isNew) {
+		if (isNew) {
+			Object[] args = new Object[] { bookingModelImpl.getBillId() };
+
+			finderCache.putResult(FINDER_PATH_COUNT_BY_BILLID, args,
+				Long.valueOf(1));
+			finderCache.putResult(FINDER_PATH_FETCH_BY_BILLID, args,
+				bookingModelImpl);
+		}
+		else {
+			if ((bookingModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_BILLID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { bookingModelImpl.getBillId() };
+
+				finderCache.putResult(FINDER_PATH_COUNT_BY_BILLID, args,
+					Long.valueOf(1));
+				finderCache.putResult(FINDER_PATH_FETCH_BY_BILLID, args,
+					bookingModelImpl);
+			}
+		}
+	}
+
+	protected void clearUniqueFindersCache(BookingModelImpl bookingModelImpl) {
+		Object[] args = new Object[] { bookingModelImpl.getBillId() };
+
+		finderCache.removeResult(FINDER_PATH_COUNT_BY_BILLID, args);
+		finderCache.removeResult(FINDER_PATH_FETCH_BY_BILLID, args);
+
+		if ((bookingModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_BILLID.getColumnBitmask()) != 0) {
+			args = new Object[] { bookingModelImpl.getOriginalBillId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_BILLID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_BILLID, args);
 		}
 	}
 
@@ -314,12 +568,15 @@ public class BookingPersistenceImpl extends BasePersistenceImpl<Booking>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew) {
+		if (isNew || !BookingModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
 
 		entityCache.putResult(BookingModelImpl.ENTITY_CACHE_ENABLED,
 			BookingImpl.class, booking.getPrimaryKey(), booking, false);
+
+		clearUniqueFindersCache(bookingModelImpl);
+		cacheUniqueFindersCache(bookingModelImpl, isNew);
 
 		booking.resetOriginalValues();
 
@@ -755,8 +1012,11 @@ public class BookingPersistenceImpl extends BasePersistenceImpl<Booking>
 	protected FinderCache finderCache;
 	private static final String _SQL_SELECT_BOOKING = "SELECT booking FROM Booking booking";
 	private static final String _SQL_SELECT_BOOKING_WHERE_PKS_IN = "SELECT booking FROM Booking booking WHERE bookingId IN (";
+	private static final String _SQL_SELECT_BOOKING_WHERE = "SELECT booking FROM Booking booking WHERE ";
 	private static final String _SQL_COUNT_BOOKING = "SELECT COUNT(booking) FROM Booking booking";
+	private static final String _SQL_COUNT_BOOKING_WHERE = "SELECT COUNT(booking) FROM Booking booking WHERE ";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "booking.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Booking exists with the primary key ";
+	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Booking exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(BookingPersistenceImpl.class);
 }

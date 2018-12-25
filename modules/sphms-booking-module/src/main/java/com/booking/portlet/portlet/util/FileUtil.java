@@ -239,7 +239,7 @@ public class FileUtil {
 		}
 
 		sheet.setColumnWidth(1, 10000);
-		sheet.setColumnWidth(2, 4000);
+		sheet.setColumnWidth(2, 6000);
 		sheet.setColumnWidth(3, 3000);
 		sheet.setColumnWidth(4, 2000);
 		sheet.setColumnWidth(5, 4000);
@@ -1025,6 +1025,7 @@ public class FileUtil {
 		XSSFRow gstNoRow = sheet.createRow(index);
 		XSSFCellStyle style = getLeftBorderStyle(wb);
 		style.setAlignment(HorizontalAlignment.LEFT);
+		font.setBold(true);
 		style.setFont(font);
 		XSSFCell cell1 = gstNoRow.createCell(1);
 		cell1.setCellValue("GST No   : " + company.getGSTNo());

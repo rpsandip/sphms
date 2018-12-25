@@ -148,6 +148,13 @@ public class BookingLocalServiceWrapper implements BookingLocalService,
 		return _bookingLocalService.getBooking(bookingId);
 	}
 
+	@Override
+	public com.sphms.common.service.model.Booking getBookingByBillingId(
+		long billingId)
+		throws com.sphms.common.service.exception.NoSuchBookingException {
+		return _bookingLocalService.getBookingByBillingId(billingId);
+	}
+
 	/**
 	* Updates the booking in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

@@ -148,6 +148,12 @@ public class BookingLocalServiceUtil {
 		return getService().getBooking(bookingId);
 	}
 
+	public static com.sphms.common.service.model.Booking getBookingByBillingId(
+		long billingId)
+		throws com.sphms.common.service.exception.NoSuchBookingException {
+		return getService().getBookingByBillingId(billingId);
+	}
+
 	/**
 	* Updates the booking in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

@@ -214,10 +214,10 @@ public class LandLoadReportUtil {
 		cell4.setCellStyle(style);
 		
 		XSSFCell cell5 = landLoadDetail.createCell(5);
+		cell5.setCellValue(String.valueOf(total));
 		cell5.setCellStyle(style);
 		
 		XSSFCell cell6 = landLoadDetail.createCell(6);
-		cell6.setCellValue(String.valueOf(total));
 		cell6.setCellStyle(style);
 		
 		XSSFCell cell7 = landLoadDetail.createCell(7);

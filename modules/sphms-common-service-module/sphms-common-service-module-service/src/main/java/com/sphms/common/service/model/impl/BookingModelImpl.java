@@ -105,7 +105,11 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.sphms.common.service.service.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.com.sphms.common.service.model.Booking"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.sphms.common.service.service.util.PropsUtil.get(
+				"value.object.column.bitmask.enabled.com.sphms.common.service.model.Booking"),
+			true);
+	public static final long BILLID_COLUMN_BITMASK = 1L;
+	public static final long BOOKINGID_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.sphms.common.service.service.util.PropsUtil.get(
 				"lock.expiration.time.com.sphms.common.service.model.Booking"));
 
@@ -292,7 +296,19 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 
 	@Override
 	public void setBillId(long billId) {
+		_columnBitmask |= BILLID_COLUMN_BITMASK;
+
+		if (!_setOriginalBillId) {
+			_setOriginalBillId = true;
+
+			_originalBillId = _billId;
+		}
+
 		_billId = billId;
+	}
+
+	public long getOriginalBillId() {
+		return _originalBillId;
 	}
 
 	@Override
@@ -369,6 +385,10 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 	@Override
 	public void setModifiedBy(long modifiedBy) {
 		_modifiedBy = modifiedBy;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -472,7 +492,13 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 	public void resetOriginalValues() {
 		BookingModelImpl bookingModelImpl = this;
 
+		bookingModelImpl._originalBillId = bookingModelImpl._billId;
+
+		bookingModelImpl._setOriginalBillId = false;
+
 		bookingModelImpl._setModifiedDate = false;
+
+		bookingModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -644,6 +670,8 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 	private String _campaignTitle;
 	private long _client;
 	private long _billId;
+	private long _originalBillId;
+	private boolean _setOriginalBillId;
 	private int _status;
 	private Date _startDate;
 	private Date _endDate;
@@ -652,5 +680,6 @@ public class BookingModelImpl extends BaseModelImpl<Booking>
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _modifiedBy;
+	private long _columnBitmask;
 	private Booking _escapedModel;
 }

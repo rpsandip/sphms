@@ -14,6 +14,7 @@
 
 package com.sphms.common.service.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -22,21 +23,30 @@ import com.liferay.portal.kernel.dao.orm.Order;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.sphms.common.service.beans.BillingPOBean;
 import com.sphms.common.service.exception.NoSuchBilling_POException;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Billing_PO;
 import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Hording;
+import com.sphms.common.service.model.LandLord;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_POLocalServiceUtil;
+import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
+import com.sphms.common.service.service.LandLordLocalServiceUtil;
 import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
 import com.sphms.common.service.service.base.Billing_POLocalServiceBaseImpl;
 import com.sphms.common.service.service.persistence.Billing_POPK;
+import com.sphms.common.service.util.BillingStatus;
 import com.sphms.common.service.util.Billing_PO_Status;
 import com.sphms.common.service.util.SPHMSConstant;
 
@@ -161,6 +171,137 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 					// return PO number of other hoarding of same owner.
 					return billingPOList.get(0).getInternalPONumber();
 				}
+	}
+	
+	public JSONObject getBillingPOListForReport(long customComanyId, long landLoardId,Date startDate, Date endDate, int start, int end) throws PortalException{
+		
+		JSONObject finalObject = JSONFactoryUtil.createJSONObject();
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		CustomCompany company = CustomCompanyLocalServiceUtil.getCustomCompany(customComanyId);
+		LandLord landLoard = LandLordLocalServiceUtil.getLandLord(landLoardId);
+		
+		DynamicQuery dynamicQuery = Billing_POLocalServiceUtil.dynamicQuery();
+		
+		if(customComanyId>0){
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", customComanyId));
+		}
+		
+		if(landLoardId>0){
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("landLordId", landLoardId));
+		}
+		
+		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
+			dynamicQuery.add(RestrictionsFactoryUtil.between("createDate", startDate, endDate));
+		}
+		
+	
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("paymentGiven", "NO"));
+	
+		
+		dynamicQuery.setLimit(start, end);
+		
+		Order order = OrderFactoryUtil.desc("modifiedDate");
+		dynamicQuery.addOrder(order);
+		
+		List<Billing_PO> outStandingPOList = Billing_POLocalServiceUtil.dynamicQuery(dynamicQuery);
+		
+		
+		
+		DynamicQuery dynamicQuery1 = Billing_POLocalServiceUtil.dynamicQuery();
+		
+		if(customComanyId>0){
+			dynamicQuery1.add(RestrictionsFactoryUtil.eq("customCompanyId", customComanyId));
+		}
+		
+		if(landLoardId>0){
+			dynamicQuery1.add(RestrictionsFactoryUtil.eq("landLordId", landLoardId));
+		}
+		
+		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
+			dynamicQuery1.add(RestrictionsFactoryUtil.between("createDate", startDate, endDate));
+		}
+		
+	
+		dynamicQuery1.add(RestrictionsFactoryUtil.eq("paymentGiven", "YES"));
+	
+		
+		dynamicQuery1.setLimit(start, end);
+	
+		dynamicQuery1.addOrder(order);
+		
+		List<Billing_PO> submittedPOList = Billing_POLocalServiceUtil.dynamicQuery(dynamicQuery1);
+		
+		
+		JSONArray outStandingJSONArray = JSONFactoryUtil.createJSONArray();
+		double totalOustandingAmount = 0;
+		for(Billing_PO billingPO : outStandingPOList){
+			JSONObject billigPOJSONObject = JSONFactoryUtil.createJSONObject();
+			double totalAmount = Math.round(getTotalPOAmount(billingPO, landLoard));
+			BillingPOBean billlingPOBean = new BillingPOBean(billingPO, company);
+			billigPOJSONObject.put("poNumber", billlingPOBean.getPoNumber());
+			billigPOJSONObject.put("billDate", df.format(billingPO.getPublishDate()));
+			billigPOJSONObject.put("totalAmount", totalAmount);
+			billigPOJSONObject.put("landLoard", landLoard.getFirstName() + " " + landLoard.getLastName());
+			billigPOJSONObject.put("campaign", billlingPOBean.getCampaign());
+			billigPOJSONObject.put("hoarding", billlingPOBean.getHordingTitle());
+			totalOustandingAmount+=totalAmount;
+			outStandingJSONArray.put(billigPOJSONObject);
+		}
+		
+		finalObject.put("outStandingPOs", outStandingJSONArray);
+		finalObject.put("outStandingTotalAmount", Math.round(totalOustandingAmount));
+		
+		JSONArray submittedPOJSONArray = JSONFactoryUtil.createJSONArray();
+		double totalPaymentSubmitted = 0;
+		for(Billing_PO billingPO : submittedPOList){
+			JSONObject billigPOJSONObject = JSONFactoryUtil.createJSONObject();
+			double totalAmount = billingPO.getSupplierTotalAmount() + billingPO.getSupplierGstAmmount();
+			BillingPOBean billlingPOBean = new BillingPOBean(billingPO, company);
+			billigPOJSONObject.put("poNumber", billlingPOBean.getPoNumber());
+			billigPOJSONObject.put("billDate", df.format(billingPO.getPublishDate()));
+			billigPOJSONObject.put("totalAmount", Math.round(totalAmount));
+			billigPOJSONObject.put("landLoard", landLoard.getFirstName() + " " + landLoard.getLastName());
+			billigPOJSONObject.put("campaign", billlingPOBean.getCampaign());
+			billigPOJSONObject.put("hoarding", billlingPOBean.getHordingTitle());
+			totalPaymentSubmitted+=totalAmount;
+			submittedPOJSONArray.put(billigPOJSONObject);
+		}
+		
+		finalObject.put("submittedPOs", submittedPOJSONArray);
+		finalObject.put("totalSubmittedAmount", Math.round(totalPaymentSubmitted));		
+		
+		
+		return finalObject;
+	}
+	
+	private double getTotalPOAmount(Billing_PO billingPO, LandLord landLord){
+			
+		double iGSTCharge = 0d;
+		double cGSTCharge = 0d;
+		double sGSTCharge = 0d;
+		double totalAmount = billingPO.getTotalAmount();
+		boolean isClientOutOfGuj = isLandLordOutOfGujrat(landLord);
+		if(isClientOutOfGuj){
+			iGSTCharge = totalAmount*Double.parseDouble(PropsUtil.get("igst.rate"));
+			totalAmount = totalAmount + iGSTCharge;
+		}else{
+			//Total amount
+			// Considering CGST as 9%
+			 cGSTCharge = totalAmount* Double.parseDouble(PropsUtil.get("cgst.rate"));
+			// Consideting SGST as 9%
+			 sGSTCharge = totalAmount* Double.parseDouble(PropsUtil.get("sgst.rate"));
+			
+			totalAmount = totalAmount + cGSTCharge + sGSTCharge;
+		}
+		
+		return totalAmount;
+	}
+	
+	private  boolean isLandLordOutOfGujrat(LandLord landLord){
+		if(Validator.isNotNull(landLord) && Validator.isNotNull(landLord.getStatec()) && !landLord.getStatec().toLowerCase().equalsIgnoreCase("gujarat")){
+			return true;
+		}
+		return false;
 	}
 	
 	public String getPONumber(Billing_PO billingPO, CustomCompany company){

@@ -110,6 +110,60 @@ public class BookingUtil {
 	}
 
 	/**
+	* Returns the booking where billId = &#63; or throws a {@link NoSuchBookingException} if it could not be found.
+	*
+	* @param billId the bill ID
+	* @return the matching booking
+	* @throws NoSuchBookingException if a matching booking could not be found
+	*/
+	public static Booking findBybillId(long billId)
+		throws com.sphms.common.service.exception.NoSuchBookingException {
+		return getPersistence().findBybillId(billId);
+	}
+
+	/**
+	* Returns the booking where billId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param billId the bill ID
+	* @return the matching booking, or <code>null</code> if a matching booking could not be found
+	*/
+	public static Booking fetchBybillId(long billId) {
+		return getPersistence().fetchBybillId(billId);
+	}
+
+	/**
+	* Returns the booking where billId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param billId the bill ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching booking, or <code>null</code> if a matching booking could not be found
+	*/
+	public static Booking fetchBybillId(long billId, boolean retrieveFromCache) {
+		return getPersistence().fetchBybillId(billId, retrieveFromCache);
+	}
+
+	/**
+	* Removes the booking where billId = &#63; from the database.
+	*
+	* @param billId the bill ID
+	* @return the booking that was removed
+	*/
+	public static Booking removeBybillId(long billId)
+		throws com.sphms.common.service.exception.NoSuchBookingException {
+		return getPersistence().removeBybillId(billId);
+	}
+
+	/**
+	* Returns the number of bookings where billId = &#63;.
+	*
+	* @param billId the bill ID
+	* @return the number of matching bookings
+	*/
+	public static int countBybillId(long billId) {
+		return getPersistence().countBybillId(billId);
+	}
+
+	/**
 	* Caches the booking in the entity cache if it is enabled.
 	*
 	* @param booking the booking

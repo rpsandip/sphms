@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import com.sphms.common.service.beans.Booking_HordingBean;
+import com.sphms.common.service.exception.NoSuchBookingException;
 import com.sphms.common.service.model.Booking;
 
 import java.io.Serializable;
@@ -138,6 +139,10 @@ public interface BookingLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Booking getBooking(long bookingId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Booking getBookingByBillingId(long billingId)
+		throws NoSuchBookingException;
 
 	/**
 	* Updates the booking in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

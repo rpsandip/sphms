@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.Booking_HordingBean;
 import com.sphms.common.service.exception.NoSuchBillingException;
+import com.sphms.common.service.exception.NoSuchBookingException;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Billing_Hording;
 import com.sphms.common.service.model.Booking;
@@ -105,6 +106,12 @@ public class BookingLocalServiceImpl extends BookingLocalServiceBaseImpl {
 					bookingHording.getHordingBookingStartDate(),bookingHording.getHordingbookingEndDate());
 		}
 	}
+	
+	
+	public Booking getBookingByBillingId(long billingId) throws NoSuchBookingException{
+		return bookingPersistence.findBybillId(billingId);
+	}
+	
 	
 	
 	public Booking updateBooking(long bookingId, String campaignTitle, long client, long companyId,Date startDate, Date endDate, List<Booking_HordingBean> bookingHordingList, long modifiedBy) throws PortalException{

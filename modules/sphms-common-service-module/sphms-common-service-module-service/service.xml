@@ -204,6 +204,10 @@
 		<column name="modifiedDate" type="Date"></column>
 		<column name="modifiedBy" type="long"></column>
 		
+		<finder return-type="Booking" name="billId">
+			<finder-column name="billId"></finder-column>
+		</finder>
+		
 	</entity>
 	
 	<entity name="Booking_Hording" local-service="true" remote-service="false">
