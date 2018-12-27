@@ -364,10 +364,10 @@ public class OutStandingClientReportUtil {
 		font.setFontHeightInPoints((short) 11);
 		font.setFontName("Arial");
 
-		XSSFCellStyle firstCellStyle = getLeftBottomBorderStyle(wb);
+		XSSFCellStyle firstCellStyle = getLeftBorderStyle(wb);
 		firstCellStyle.setFont(font);
 
-		XSSFCellStyle lastCellStyle = getRightBottomBorderStyle(wb);
+		XSSFCellStyle lastCellStyle = getRightBorderStyle(wb);
 		lastCellStyle.setFont(font);
 
 		XSSFCellStyle style = getRowStyle(outStandingDetail, wb);

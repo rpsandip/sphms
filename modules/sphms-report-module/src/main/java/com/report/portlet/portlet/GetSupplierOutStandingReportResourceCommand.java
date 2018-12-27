@@ -2,7 +2,6 @@ package com.report.portlet.portlet;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
@@ -23,7 +22,6 @@ import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.report.portlet.constants.SphmsReportModulePortletKeys;
-import com.report.portlet.portlet.util.OutStandingClientReportUtil;
 import com.report.portlet.portlet.util.SupplierOutStandingUtil;
 
 @Component(

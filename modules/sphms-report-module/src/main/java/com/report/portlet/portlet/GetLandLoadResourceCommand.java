@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,7 +86,19 @@ public class GetLandLoadResourceCommand implements MVCResourceCommand{
 				proposalJsonObj.put("hordingtitle", detailObj[8]);
 				proposalJsonObj.put("hordinglocation", detailObj[9]);
 				proposalJsonObj.put("hordingcity", detailObj[10]);
-				proposalJsonObj.put("paymentDate", detailObj[11]);
+				DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+				Date date = null;
+				try {
+					date = inputFormat.parse(String.valueOf(detailObj[11]));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// Format date into output format
+				DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String outputString = outputFormat.format(date);
+				proposalJsonObj.put("paymentDate", outputString);
 				
 				if(Validator.isNotNull(detailObj[6])){
 					proposalJsonObj.put("paymenttype", "Cheque No: " + detailObj[6] + "(" + detailObj[7] + " )");

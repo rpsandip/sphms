@@ -3,6 +3,10 @@ package com.report.portlet.portlet.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.hssf.util.HSSFColor;
@@ -153,9 +157,21 @@ public class LandLoadReportUtil {
 		XSSFCell cell6 = landLoadDetail.createCell(5);
 		cell6.setCellValue(String.valueOf(detailRow[5]));
 		cell6.setCellStyle(style);
+		DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+		Date date = null;
+		try {
+			date = inputFormat.parse(String.valueOf(detailRow[11]));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Format date into output format
+		DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String outputString = outputFormat.format(date);
 		
 		XSSFCell cell7 = landLoadDetail.createCell(6);
-		cell7.setCellValue(String.valueOf(detailRow[11]));
+		cell7.setCellValue(outputString);
 		cell7.setCellStyle(style);
 		
 		String paymentType = StringPool.BLANK;

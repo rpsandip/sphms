@@ -317,7 +317,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		
 		dynamicQuery.setLimit(start, end);
 		
-		Order order = OrderFactoryUtil.desc("modifiedDate");
+		Order order = OrderFactoryUtil.desc("billNo");
 		dynamicQuery.addOrder(order);
 		
 		billingList = BillingLocalServiceUtil.dynamicQuery(dynamicQuery);
