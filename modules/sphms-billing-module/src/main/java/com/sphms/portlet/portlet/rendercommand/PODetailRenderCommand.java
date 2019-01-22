@@ -31,7 +31,7 @@ import com.sphms.common.service.service.LandLordLocalServiceUtil;
 import com.sphms.common.service.util.BillingStatus;
 import com.sphms.common.service.util.Billing_PO_Status;
 import com.sphms.portlet.portlet.util.BillingConstant;
-import com.sphms.portlet.portlet.util.POBean;
+import com.sphms.common.service.beans.POBean;
 
 @Component(
 	    property = {

@@ -48,8 +48,7 @@ public class GetHordingResourceCommand implements MVCResourceCommand {
 			inputEnddate = inputFormat.parse(endDateStr);
 
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			_log.error(e1);
 		}
 
 		// Format date into output format

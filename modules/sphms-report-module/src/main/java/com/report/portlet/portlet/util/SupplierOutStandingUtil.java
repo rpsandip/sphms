@@ -45,7 +45,7 @@ public class SupplierOutStandingUtil {
 
 		// Create Lables
 		index = createReportLable(sheet, wb, index, "Supplier Out Standing Payment");
-		index = createReportLable(sheet, wb, index, "Bill Given");
+		index = createReportLable(sheet, wb, index, "Out Standing Payment");
 		index++;
 		// Create Header for Bill Detail
 		index = createBillDetailHeader(sheet, wb, index);
@@ -70,7 +70,7 @@ public class SupplierOutStandingUtil {
 		index++;
 
 		// payment received lable
-		index = createReportLable(sheet, wb, index, "Payment Received");
+		index = createReportLable(sheet, wb, index, "Payment Given");
 		_log.info("detail of LandLoad are filled");
 		index++;
 
@@ -187,7 +187,7 @@ public class SupplierOutStandingUtil {
 		cell12_3.setCellStyle(style);
 
 		XSSFCell cell12_4 = billDetailHeader.createCell(4);
-		cell12_4.setCellValue("landLoard");
+		cell12_4.setCellValue("Supplier");
 		cell12_4.setCellStyle(style);
 
 		XSSFCell cell12_5 = billDetailHeader.createCell(5);
@@ -229,7 +229,7 @@ public class SupplierOutStandingUtil {
 		cell3.setCellStyle(style);
 
 		XSSFCell cell4 = outStandingDetail.createCell(4);
-		cell4.setCellValue(detailRow.getString("landLoard"));
+		cell4.setCellValue(detailRow.getString("Supplier"));
 		cell4.setCellStyle(style);
 
 		XSSFCell cell5 = outStandingDetail.createCell(5);

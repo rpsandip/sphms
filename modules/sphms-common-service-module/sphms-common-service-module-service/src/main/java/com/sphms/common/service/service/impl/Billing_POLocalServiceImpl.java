@@ -15,8 +15,13 @@
 package com.sphms.common.service.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Order;
@@ -32,17 +37,21 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.sphms.common.service.beans.BillingPOBean;
+import com.sphms.common.service.beans.POBean;
+import com.sphms.common.service.beans.POHordingDTO;
 import com.sphms.common.service.exception.NoSuchBilling_POException;
 import com.sphms.common.service.model.Billing;
 import com.sphms.common.service.model.Billing_PO;
 import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.model.LandLord;
+import com.sphms.common.service.model.POPayment;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_POLocalServiceUtil;
 import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
+import com.sphms.common.service.service.POPaymentLocalServiceUtil;
 import com.sphms.common.service.service.SPHMSCommonLocalServiceUtil;
 import com.sphms.common.service.service.base.Billing_POLocalServiceBaseImpl;
 import com.sphms.common.service.service.persistence.Billing_POPK;
@@ -196,8 +205,7 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 		
 	
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("paymentGiven", "NO"));
-	
-		
+			
 		dynamicQuery.setLimit(start, end);
 		
 		Order order = OrderFactoryUtil.desc("modifiedDate");
@@ -239,9 +247,14 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 			double totalAmount = Math.round(getTotalPOAmount(billingPO, landLoard));
 			BillingPOBean billlingPOBean = new BillingPOBean(billingPO, company);
 			billigPOJSONObject.put("poNumber", billlingPOBean.getPoNumber());
-			billigPOJSONObject.put("billDate", df.format(billingPO.getPublishDate()));
+			if(Validator.isNotNull(billingPO.getPublishDate())){
+				billigPOJSONObject.put("billDate", df.format(billingPO.getPublishDate()));
+			}else{
+				billigPOJSONObject.put("billDate", "-");
+			}
+			
 			billigPOJSONObject.put("totalAmount", totalAmount);
-			billigPOJSONObject.put("landLoard", landLoard.getFirstName() + " " + landLoard.getLastName());
+			billigPOJSONObject.put("Supplier", landLoard.getFirstName() + " " + landLoard.getLastName());
 			billigPOJSONObject.put("campaign", billlingPOBean.getCampaign());
 			billigPOJSONObject.put("hoarding", billlingPOBean.getHordingTitle());
 			totalOustandingAmount+=totalAmount;
@@ -258,9 +271,14 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 			double totalAmount = billingPO.getSupplierTotalAmount() + billingPO.getSupplierGstAmmount();
 			BillingPOBean billlingPOBean = new BillingPOBean(billingPO, company);
 			billigPOJSONObject.put("poNumber", billlingPOBean.getPoNumber());
-			billigPOJSONObject.put("billDate", df.format(billingPO.getPublishDate()));
+			if(Validator.isNotNull(billingPO.getPublishDate())){
+				billigPOJSONObject.put("billDate", df.format(billingPO.getPublishDate()));
+			}else{
+				billigPOJSONObject.put("billDate", "-");
+			}
+			
 			billigPOJSONObject.put("totalAmount", Math.round(totalAmount));
-			billigPOJSONObject.put("landLoard", landLoard.getFirstName() + " " + landLoard.getLastName());
+			billigPOJSONObject.put("Supplier", landLoard.getFirstName() + " " + landLoard.getLastName());
 			billigPOJSONObject.put("campaign", billlingPOBean.getCampaign());
 			billigPOJSONObject.put("hoarding", billlingPOBean.getHordingTitle());
 			totalPaymentSubmitted+=totalAmount;
@@ -272,6 +290,131 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 		
 		
 		return finalObject;
+	}
+	
+	public  JSONObject getAllBillingPOList(long customComanyId, long landLoardId,  long billingId, String poNumber, String paymentStatus, Date startDate, Date endDate,int start, int end) throws PortalException{
+		
+		JSONObject finalJSONObject = JSONFactoryUtil.createJSONObject();
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		CustomCompany company = CustomCompanyLocalServiceUtil.getCustomCompany(customComanyId);
+		LandLord landLord = LandLordLocalServiceUtil.getLandLord(landLoardId);
+		
+		DynamicQuery dynamicQuery = Billing_POLocalServiceUtil.dynamicQuery();
+		
+		if(customComanyId>0){
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("customCompanyId", customComanyId));
+		}
+		
+		if(landLoardId>0){
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("landLordId", landLoardId));
+		}
+		
+		if(billingId>0){
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("billingId", landLoardId));
+		}
+		
+		if(paymentStatus.equals("YES") || paymentStatus.equals("NO")){
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("paymentGiven", paymentStatus));
+		}
+		
+		if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate)){
+			dynamicQuery.add(RestrictionsFactoryUtil.between("createDate", startDate, endDate));
+		}
+		
+		if(Validator.isNotNull(poNumber)){
+			dynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.eq("poNumber", poNumber),
+					RestrictionsFactoryUtil.eq("internalPONumber", poNumber)));
+		}
+					
+		//dynamicQuery.setLimit(start, end);
+		
+		Order order = OrderFactoryUtil.desc("poNumber");
+		dynamicQuery.addOrder(order);
+		
+		List<Billing_PO> poList = Billing_POLocalServiceUtil.dynamicQuery(dynamicQuery);
+		
+		Map<String, POBean> poBeanMap = new HashMap<String,POBean>();
+		
+		for(Billing_PO billingPO : poList){
+			
+			try{
+				
+				
+				BillingPOBean billingPOBean = new BillingPOBean(billingPO,company);
+				LandLord landLoard = LandLordLocalServiceUtil.getLandLord(billingPO.getLandLordId());
+				
+				if(Validator.isNull(poBeanMap.get(billingPO.getLandLordId()+":"+billingPO.getBillingId()))){
+					
+					POBean poBean = new POBean();
+					List<POHordingDTO> hordingList = new ArrayList<POHordingDTO>();
+					POHordingDTO poHordingDTO = new POHordingDTO();
+					poHordingDTO.setHordingTitle(billingPOBean.getHordingTitle());
+					poBean.setBillingId(billingPO.getBillingId());
+					poBean.setLandlordId(billingPO.getLandLordId());
+					poBean.setLandLordName(landLord.getFirstName()+" " + landLord.getLastName());
+					poBean.setPoNumber(Billing_POLocalServiceUtil.getPONumber(billingPO,company));
+					poBean.setFinancialYear(billingPO.getFinancialYear());
+					poBean.setStatus(Billing_PO_Status.findByValue(billingPO.getStatus()).getLabel());
+					hordingList.add(poHordingDTO);
+					poBean.setHordingList(hordingList);
+					poBean.setSupplierBillNo(billingPO.getSupplierBillNo());
+					poBean.setSupplierPaymentGiven(Validator.isNotNull(billingPO.getPaymentGiven())?billingPO.getPaymentGiven():"NO");
+					poBean.setPoSortingNumber(Validator.isNotNull(billingPO.getPoNumber())?Integer.parseInt(billingPO.getPoNumber()):0);
+					poBean.setCampaign(billingPOBean.getCampaign());
+					// Total OustStanding;
+					poBean.setTotalOutStanding(Math.round(billingPO.getTotalAmount()));
+					poBean.setTotalPaymentGiven(Math.round(getTotalPOPayment(billingPO.getBillingId(), billingPO.getLandLordId())));
+					poBean.setCompanyId(billingPOBean.getCompanyId());					
+					poBeanMap.put(billingPO.getLandLordId()+":"+billingPO.getBillingId(), poBean);
+					
+					
+				}else{
+					POBean poBean = poBeanMap.get(billingPO.getLandLordId()+":"+billingPO.getBillingId());
+					
+					List<POHordingDTO> hordingList = poBean.getHordingList();
+					POHordingDTO poHordingDTO = new POHordingDTO();
+					poHordingDTO.setHordingTitle(billingPOBean.getHordingTitle());
+					hordingList.add(poHordingDTO);
+					poBean.setHordingList(hordingList);
+					
+					poBean.setTotalOutStanding(Math.round(poBean.getTotalOutStanding()+billingPO.getTotalAmount()));
+					poBean.setTotalPaymentGiven(Math.round(getTotalPOPayment(billingPO.getBillingId(), billingPO.getLandLordId())));
+					poBean.setPoSortingNumber(Validator.isNotNull(billingPO.getPoNumber())?Integer.parseInt(billingPO.getPoNumber()):0);
+					
+					poBeanMap.put(billingPO.getLandLordId()+":"+billingPO.getBillingId(), poBean);
+				}
+			}catch(Exception e){
+				_log.error(e);
+			}
+		}
+		
+		List<POBean> allPOBeanList = new ArrayList<POBean>();
+		for(Map.Entry<String, POBean> entry : poBeanMap.entrySet()){
+			POBean poBean = entry.getValue();
+			double totalAmountWithGST = getTotalAmountWithGST(landLord, poBean.getTotalOutStanding());
+			poBean.setTotalOutStanding(Math.round(totalAmountWithGST));
+			allPOBeanList.add(entry.getValue());
+		}
+		
+		Collections.sort(allPOBeanList, new Comparator<POBean>() {
+            public int compare(POBean po1, POBean po2) {
+                // avoiding NullPointerException in case name is null
+                Integer idea1 = po1.getPoSortingNumber();
+                Integer idea2 = po2.getPoSortingNumber();
+                return idea2.compareTo(idea1);
+            }
+        });
+		
+		
+       if(allPOBeanList.size()>end){
+    	   finalJSONObject.put("poList", allPOBeanList.subList(start, end));
+       }else{
+    	   finalJSONObject.put("poList", allPOBeanList.subList(start, start+allPOBeanList.size()));
+       }
+		
+       finalJSONObject.put("totalPO", allPOBeanList.size());
+	
+		return finalJSONObject;
 	}
 	
 	private double getTotalPOAmount(Billing_PO billingPO, LandLord landLord){
@@ -313,5 +456,38 @@ public class Billing_POLocalServiceImpl extends Billing_POLocalServiceBaseImpl {
 		}
 		 
 		return displayPONo;
+	}
+	
+	public double getTotalPOPayment(long billingId, long landlordId){
+		double totalAmount = 0;
+		List<POPayment> poPaymentList = POPaymentLocalServiceUtil.getPOPaymnetByBillingIdAndHoardingId(billingId, landlordId);
+		for(POPayment poPayment :poPaymentList){
+			totalAmount += poPayment.getAmount();
+			totalAmount += poPayment.getGst();
+		}
+		
+		return totalAmount;
+	}
+	
+	public double getTotalAmountWithGST(LandLord loadLoard, double totalAmount){
+		double iGSTCharge = 0d;
+		double cGSTCharge = 0d;
+		double sGSTCharge = 0d;
+		boolean isClientOutOfGuj = isLandLordOutOfGujrat(loadLoard);
+		if(isClientOutOfGuj){
+			iGSTCharge = totalAmount*Double.parseDouble(PropsUtil.get("igst.rate"));
+			totalAmount = totalAmount + iGSTCharge;
+		}else{
+			//Total amount
+			// Considering CGST as 9%
+			 cGSTCharge = totalAmount* Double.parseDouble(PropsUtil.get("cgst.rate"));
+			// Consideting SGST as 9%
+			 sGSTCharge = totalAmount* Double.parseDouble(PropsUtil.get("sgst.rate"));
+			
+			totalAmount = totalAmount + cGSTCharge + sGSTCharge;
+			
+		}
+		
+		return totalAmount;
 	}
 }

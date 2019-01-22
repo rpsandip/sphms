@@ -53,6 +53,16 @@ public class Billing_POLocalServiceUtil {
 		return getService().getIndexableActionableDynamicQuery();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getAllBillingPOList(
+		long customComanyId, long landLoardId, long billingId,
+		java.lang.String poNumber, java.lang.String paymentStatus,
+		java.util.Date startDate, java.util.Date endDate, int start, int end)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .getAllBillingPOList(customComanyId, landLoardId, billingId,
+			poNumber, paymentStatus, startDate, endDate, start, end);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getBillingPOListForReport(
 		long customComanyId, long landLoardId, java.util.Date startDate,
 		java.util.Date endDate, int start, int end)
@@ -158,6 +168,15 @@ public class Billing_POLocalServiceUtil {
 	public static com.sphms.common.service.model.Billing_PO updateBilling_PO(
 		com.sphms.common.service.model.Billing_PO billing_PO) {
 		return getService().updateBilling_PO(billing_PO);
+	}
+
+	public static double getTotalAmountWithGST(
+		com.sphms.common.service.model.LandLord loadLoard, double totalAmount) {
+		return getService().getTotalAmountWithGST(loadLoard, totalAmount);
+	}
+
+	public static double getTotalPOPayment(long billingId, long landlordId) {
+		return getService().getTotalPOPayment(billingId, landlordId);
 	}
 
 	/**

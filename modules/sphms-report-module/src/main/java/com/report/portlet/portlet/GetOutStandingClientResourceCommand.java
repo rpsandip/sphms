@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.portlet.PortletException;
@@ -54,7 +55,10 @@ public class GetOutStandingClientResourceCommand implements MVCResourceCommand{
 			try {
 				 startDate = dateFormat.parse(startDateStr);
 				 endDate = dateFormat.parse(endDateStr);
-				
+				 Calendar c = Calendar.getInstance(); 
+				 c.setTime(endDate); 
+				 c.add(Calendar.DATE, 1);
+				 endDate = c.getTime();
 			} catch (ParseException e) {
 				_log.error(e);
 			}

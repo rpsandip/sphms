@@ -8,10 +8,12 @@ import com.sphms.common.service.model.Billing_PO;
 import com.sphms.common.service.model.Booking;
 import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Hording;
+import com.sphms.common.service.model.LandLord;
 import com.sphms.common.service.service.BillingLocalServiceUtil;
 import com.sphms.common.service.service.Billing_POLocalServiceUtil;
 import com.sphms.common.service.service.BookingLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
+import com.sphms.common.service.service.LandLordLocalServiceUtil;
 
 public class BillingPOBean {
 	
@@ -19,11 +21,14 @@ public class BillingPOBean {
 	
 	long billingId;
 	long hordingId;
+	long landLoardId;
+	String supplierName;
 	String poNumber;
 	String financialYear;
 	double totalAmount;
 	String hordingTitle;
 	String campaign;
+	long companyId;
 	
 	public BillingPOBean(Billing_PO billingPO, CustomCompany company){
 		this.billingId = billingPO.getBillingId();
@@ -42,8 +47,18 @@ public class BillingPOBean {
 		}
 		if(this.billingId>0){
 			try {
-				Booking bookign = BookingLocalServiceUtil.getBookingByBillingId(this.billingId);
+				Billing billing = BillingLocalServiceUtil.getBilling(this.billingId);
+				Booking bookign = BookingLocalServiceUtil.getBooking(billing.getBookingId());
 				this.campaign = bookign.getCampaignTitle();
+				this.companyId = billing.getCustomCompanyId();
+			} catch (PortalException e) {
+				_log.error(e);
+			}
+		}
+		if(landLoardId>0){
+			try {
+			LandLord landLoard = LandLordLocalServiceUtil.getLandLord(this.landLoardId);
+			this.supplierName = landLoard.getFirstName()+" " + landLoard.getLastName();
 			} catch (PortalException e) {
 				_log.error(e);
 			}
@@ -93,6 +108,39 @@ public class BillingPOBean {
 	public void setCampaign(String campaign) {
 		this.campaign = campaign;
 	}
+
+
+	public long getLandLoardId() {
+		return landLoardId;
+	}
+
+
+	public void setLandLoardId(long landLoardId) {
+		this.landLoardId = landLoardId;
+	}
+
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+
+
+
+	public long getCompanyId() {
+		return companyId;
+	}
+
+
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
+	}
+	
 	
 	
 	

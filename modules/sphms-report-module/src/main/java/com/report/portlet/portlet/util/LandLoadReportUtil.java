@@ -240,12 +240,8 @@ public class LandLoadReportUtil {
 		cell7.setCellStyle(style);
 		
 		XSSFCell cell8 = landLoadDetail.createCell(8);
-		cell8.setCellStyle(style);
+		cell8.setCellStyle(lastCellStyle);
 		
-		XSSFCell cell9 = landLoadDetail.createCell(9);
-		cell9.setCellStyle(lastCellStyle);
-		
-
 		index++;
 		return index;
 

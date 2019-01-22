@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.portlet.PortletException;
@@ -19,6 +20,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.report.portlet.constants.SphmsReportModulePortletKeys;
@@ -51,6 +53,10 @@ public class GetSupplierOutStandingReportResourceCommand implements MVCResourceC
 			try {
 				 startDate = dateFormat.parse(startDateStr);
 				 endDate = dateFormat.parse(endDateStr);
+				 Calendar c = Calendar.getInstance(); 
+				 c.setTime(endDate); 
+				 c.add(Calendar.DATE, 1);
+				 endDate = c.getTime();
 			} catch (ParseException e) {
 				_log.error(e);
 			}

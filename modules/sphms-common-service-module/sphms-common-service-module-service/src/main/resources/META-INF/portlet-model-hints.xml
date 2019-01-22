@@ -236,6 +236,19 @@
 		<field name="modifiedDate" type="Date" />
 		<field name="modifiedBy" type="long" />
 	</model>
+	<model name="com.sphms.common.service.model.POPayment">
+		<field name="poPaymentId" type="long" />
+		<field name="billingId" type="long" />
+		<field name="landLordId" type="long" />
+		<field name="amount" type="double" />
+		<field name="gst" type="double" />
+		<field name="chequeNo" type="String" />
+		<field name="paymentDate" type="Date" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="long" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="long" />
+	</model>
 	<model name="com.sphms.common.service.model.Proposal">
 		<field name="proposalId" type="long" />
 		<field name="campaignTitle" type="String">

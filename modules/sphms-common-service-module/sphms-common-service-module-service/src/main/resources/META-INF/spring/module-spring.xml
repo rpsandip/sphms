@@ -29,6 +29,8 @@
 	<bean class="com.sphms.common.service.service.persistence.impl.LandLordPaymentPersistenceImpl" id="com.sphms.common.service.service.persistence.LandLordPaymentPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.PaymentLocalServiceImpl" id="com.sphms.common.service.service.PaymentLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.PaymentPersistenceImpl" id="com.sphms.common.service.service.persistence.PaymentPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.POPaymentLocalServiceImpl" id="com.sphms.common.service.service.POPaymentLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.POPaymentPersistenceImpl" id="com.sphms.common.service.service.persistence.POPaymentPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.ProposalLocalServiceImpl" id="com.sphms.common.service.service.ProposalLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.ProposalPersistenceImpl" id="com.sphms.common.service.service.persistence.ProposalPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.Proposal_HordingLocalServiceImpl" id="com.sphms.common.service.service.Proposal_HordingLocalService" />

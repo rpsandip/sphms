@@ -328,6 +328,29 @@
 		
 	</entity>
 	
+	<entity name="POPayment" local-service="true" remote-service="false">
+		
+		<column name="poPaymentId" primary="true" type="long" />
+	
+		<!-- PK fields -->
+		<column name="billingId"  type="long" />
+		<column name="landLordId"  type="long" />
+		<column name="amount" type="double"></column>
+		<column name="gst" type="double"></column>
+		<column name="chequeNo" type="String"></column>
+		<column name="paymentDate" type="Date"></column>
+		
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		<column name="modifiedDate" type="Date"></column>
+		<column name="modifiedBy" type="long"></column>	
+		
+		<finder return-type="Collection" name="billingIdAndLandLordId">
+			<finder-column name="billingId"></finder-column>
+			<finder-column name="landLordId"></finder-column>
+		</finder>	
+	</entity>	
+	
 	
 	<entity name="Payment" local-service="true" remote-service="false">
 		

@@ -15,6 +15,7 @@
 	<import class="com.sphms.common.service.model.LandLord" />
 	<import class="com.sphms.common.service.model.LandLordPayment" />
 	<import class="com.sphms.common.service.model.Payment" />
+	<import class="com.sphms.common.service.model.POPayment" />
 	<import class="com.sphms.common.service.model.Proposal" />
 	<import class="com.sphms.common.service.model.Proposal_Hording" />
 	<import class="com.sphms.common.service.model.SPHMSCommon" />
@@ -237,6 +238,21 @@
 		<property name="tds" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="deduction" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="paymentDate" type="org.hibernate.type.TimestampType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.sphms.common.service.model.impl.POPaymentImpl" table="SPHMS_POPayment">
+		<id name="poPaymentId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="billingId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="landLordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="amount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="gst" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="chequeNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="paymentDate" type="org.hibernate.type.TimestampType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />

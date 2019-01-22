@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import com.sphms.common.service.model.Billing_PO;
 import com.sphms.common.service.model.CustomCompany;
+import com.sphms.common.service.model.LandLord;
 import com.sphms.common.service.service.persistence.Billing_POPK;
 
 import java.io.Serializable;
@@ -71,6 +72,12 @@ public interface Billing_POLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getAllBillingPOList(long customComanyId,
+		long landLoardId, long billingId, java.lang.String poNumber,
+		java.lang.String paymentStatus, Date startDate, Date endDate,
+		int start, int end) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getBillingPOListForReport(long customComanyId,
@@ -151,6 +158,12 @@ public interface Billing_POLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Billing_PO updateBilling_PO(Billing_PO billing_PO);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public double getTotalAmountWithGST(LandLord loadLoard, double totalAmount);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public double getTotalPOPayment(long billingId, long landlordId);
 
 	/**
 	* Returns the number of billing_ p os.

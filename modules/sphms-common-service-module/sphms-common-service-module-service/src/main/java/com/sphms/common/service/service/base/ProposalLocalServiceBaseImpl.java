@@ -57,6 +57,7 @@ import com.sphms.common.service.service.persistence.HordingPersistence;
 import com.sphms.common.service.service.persistence.LandLordFinder;
 import com.sphms.common.service.service.persistence.LandLordPaymentPersistence;
 import com.sphms.common.service.service.persistence.LandLordPersistence;
+import com.sphms.common.service.service.persistence.POPaymentPersistence;
 import com.sphms.common.service.service.persistence.PaymentPersistence;
 import com.sphms.common.service.service.persistence.ProposalPersistence;
 import com.sphms.common.service.service.persistence.Proposal_HordingPersistence;
@@ -849,6 +850,44 @@ public abstract class ProposalLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the p o payment local service.
+	 *
+	 * @return the p o payment local service
+	 */
+	public com.sphms.common.service.service.POPaymentLocalService getPOPaymentLocalService() {
+		return poPaymentLocalService;
+	}
+
+	/**
+	 * Sets the p o payment local service.
+	 *
+	 * @param poPaymentLocalService the p o payment local service
+	 */
+	public void setPOPaymentLocalService(
+		com.sphms.common.service.service.POPaymentLocalService poPaymentLocalService) {
+		this.poPaymentLocalService = poPaymentLocalService;
+	}
+
+	/**
+	 * Returns the p o payment persistence.
+	 *
+	 * @return the p o payment persistence
+	 */
+	public POPaymentPersistence getPOPaymentPersistence() {
+		return poPaymentPersistence;
+	}
+
+	/**
+	 * Sets the p o payment persistence.
+	 *
+	 * @param poPaymentPersistence the p o payment persistence
+	 */
+	public void setPOPaymentPersistence(
+		POPaymentPersistence poPaymentPersistence) {
+		this.poPaymentPersistence = poPaymentPersistence;
+	}
+
+	/**
 	 * Returns the proposal local service.
 	 *
 	 * @return the proposal local service
@@ -1163,6 +1202,10 @@ public abstract class ProposalLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected com.sphms.common.service.service.PaymentLocalService paymentLocalService;
 	@BeanReference(type = PaymentPersistence.class)
 	protected PaymentPersistence paymentPersistence;
+	@BeanReference(type = com.sphms.common.service.service.POPaymentLocalService.class)
+	protected com.sphms.common.service.service.POPaymentLocalService poPaymentLocalService;
+	@BeanReference(type = POPaymentPersistence.class)
+	protected POPaymentPersistence poPaymentPersistence;
 	@BeanReference(type = ProposalLocalService.class)
 	protected ProposalLocalService proposalLocalService;
 	@BeanReference(type = ProposalPersistence.class)

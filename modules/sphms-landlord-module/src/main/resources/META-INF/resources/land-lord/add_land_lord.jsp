@@ -70,8 +70,6 @@
        				<div class="row">
        					<div class="form-group col-md-6">	
 						 	<aui:input name="gstNo" label="GST No" cssClass="form-control" value="${landLord.gstNo }">
-					     		<aui:validator name="required" />
-					     		<aui:validator name="maxLength">70</aui:validator>
 						 	</aui:input>
        					</div>
        				</div>

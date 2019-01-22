@@ -49,6 +49,17 @@ public class Billing_POLocalServiceWrapper implements Billing_POLocalService,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getAllBillingPOList(
+		long customComanyId, long landLoardId, long billingId,
+		java.lang.String poNumber, java.lang.String paymentStatus,
+		java.util.Date startDate, java.util.Date endDate, int start, int end)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _billing_POLocalService.getAllBillingPOList(customComanyId,
+			landLoardId, billingId, poNumber, paymentStatus, startDate,
+			endDate, start, end);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getBillingPOListForReport(
 		long customComanyId, long landLoardId, java.util.Date startDate,
 		java.util.Date endDate, int start, int end)
@@ -162,6 +173,18 @@ public class Billing_POLocalServiceWrapper implements Billing_POLocalService,
 	public com.sphms.common.service.model.Billing_PO updateBilling_PO(
 		com.sphms.common.service.model.Billing_PO billing_PO) {
 		return _billing_POLocalService.updateBilling_PO(billing_PO);
+	}
+
+	@Override
+	public double getTotalAmountWithGST(
+		com.sphms.common.service.model.LandLord loadLoard, double totalAmount) {
+		return _billing_POLocalService.getTotalAmountWithGST(loadLoard,
+			totalAmount);
+	}
+
+	@Override
+	public double getTotalPOPayment(long billingId, long landlordId) {
+		return _billing_POLocalService.getTotalPOPayment(billingId, landlordId);
 	}
 
 	/**

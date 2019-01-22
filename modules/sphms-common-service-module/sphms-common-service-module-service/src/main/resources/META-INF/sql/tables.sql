@@ -197,6 +197,34 @@ create table SPHMS_LandLordPayment (
 	createdBy LONG
 );
 
+create table SPHMS_POPayment (
+	poPaymentId LONG not null primary key,
+	billingId LONG,
+	landLordId LONG,
+	amount DOUBLE,
+	gst DOUBLE,
+	chequeNo VARCHAR(75) null,
+	paymentDate DATE null,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG
+);
+
+create table SPHMS_PO_Payment (
+	billingId LONG not null,
+	landLordId LONG not null,
+	amount DOUBLE,
+	gst DOUBLE,
+	chequeNo VARCHAR(75) null,
+	paymentDate DATE null,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG,
+	primary key (billingId, landLordId)
+);
+
 create table SPHMS_Payment (
 	paymentId LONG not null primary key,
 	billingId LONG,

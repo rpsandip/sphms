@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -67,6 +68,10 @@ public class GetLandLoadResourceCommand implements MVCResourceCommand{
 				startDate = dateFormat2.format(stDate);
 				endDate = dateFormat2.format(edDate);
 				
+				 Calendar c = Calendar.getInstance(); 
+				 c.setTime(edDate); 
+				 c.add(Calendar.DATE, 1);
+				 edDate = c.getTime();
 			} catch (ParseException e) {
 				_log.error(e);
 			}
