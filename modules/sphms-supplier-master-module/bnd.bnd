@@ -1,0 +1,4 @@
+Bundle-Name: sphms-supplier-master-module
+Bundle-SymbolicName: sphms.supplier.master.module.portlet
+Bundle-Version: 1.0.0
+Export-Package: sphms.supplier.master.module.portlet.constants

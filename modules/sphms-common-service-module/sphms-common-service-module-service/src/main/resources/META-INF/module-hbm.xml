@@ -19,6 +19,9 @@
 	<import class="com.sphms.common.service.model.Proposal" />
 	<import class="com.sphms.common.service.model.Proposal_Hording" />
 	<import class="com.sphms.common.service.model.SPHMSCommon" />
+	<import class="com.sphms.common.service.model.Supplier" />
+	<import class="com.sphms.common.service.model.SupplierBill" />
+	<import class="com.sphms.common.service.model.SupplierBillPayment" />
 	<class name="com.sphms.common.service.model.impl.BillingImpl" table="SPHMS_Billing">
 		<id name="billingId" type="long">
 			<generator class="assigned" />
@@ -282,5 +285,55 @@
 		<property name="mountingCharge" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="printingCharge" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="units" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.sphms.common.service.model.impl.SupplierImpl" table="SPHMS_Supplier">
+		<id name="supplierId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="supplierName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="address1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="address2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="panNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="gstNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="state_" name="state" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="contactPersonName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactPersonEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactPersonPhoneNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.sphms.common.service.model.impl.SupplierBillImpl" table="SPHMS_SupplierBill">
+		<id name="supplierBillId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="supplierId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="supplierBillNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="supplierBillDesc" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="supplierBillType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="supplierBillDate" type="org.hibernate.type.TimestampType" />
+		<property name="amount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="gst" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.sphms.common.service.model.impl.SupplierBillPaymentImpl" table="SPHMS_SupplierBillPayment">
+		<id name="supplierBillPaymentId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="supplierBillId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="supplierId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="amount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="gst" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="chequeNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="paymentDate" type="org.hibernate.type.TimestampType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="createdBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

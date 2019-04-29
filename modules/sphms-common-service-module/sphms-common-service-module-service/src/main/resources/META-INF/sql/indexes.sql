@@ -24,3 +24,9 @@ create index IX_A5EF5E5B on SPHMS_PO_Payment (billingId, landLordId);
 create index IX_F262A288 on SPHMS_Payment (billingId);
 
 create index IX_B8AC09B1 on SPHMS_Proposal_Hording (proposalId);
+
+create index IX_FEC65626 on SPHMS_Supplier (status);
+
+create index IX_11CAFEE2 on SPHMS_SupplierBill (supplierId);
+
+create index IX_4FCBF88D on SPHMS_SupplierBillPayment (supplierBillId);

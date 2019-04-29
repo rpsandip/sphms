@@ -36,4 +36,10 @@
 	<bean class="com.sphms.common.service.service.impl.Proposal_HordingLocalServiceImpl" id="com.sphms.common.service.service.Proposal_HordingLocalService" />
 	<bean class="com.sphms.common.service.service.persistence.impl.Proposal_HordingPersistenceImpl" id="com.sphms.common.service.service.persistence.Proposal_HordingPersistence" parent="basePersistence" />
 	<bean class="com.sphms.common.service.service.impl.SPHMSCommonLocalServiceImpl" id="com.sphms.common.service.service.SPHMSCommonLocalService" />
+	<bean class="com.sphms.common.service.service.impl.SupplierLocalServiceImpl" id="com.sphms.common.service.service.SupplierLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.SupplierPersistenceImpl" id="com.sphms.common.service.service.persistence.SupplierPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.SupplierBillLocalServiceImpl" id="com.sphms.common.service.service.SupplierBillLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.SupplierBillPersistenceImpl" id="com.sphms.common.service.service.persistence.SupplierBillPersistence" parent="basePersistence" />
+	<bean class="com.sphms.common.service.service.impl.SupplierBillPaymentLocalServiceImpl" id="com.sphms.common.service.service.SupplierBillPaymentLocalService" />
+	<bean class="com.sphms.common.service.service.persistence.impl.SupplierBillPaymentPersistenceImpl" id="com.sphms.common.service.service.persistence.SupplierBillPaymentPersistence" parent="basePersistence" />
 </beans>

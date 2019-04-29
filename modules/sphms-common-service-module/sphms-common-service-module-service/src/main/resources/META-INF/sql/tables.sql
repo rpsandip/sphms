@@ -263,3 +263,50 @@ create table SPHMS_Proposal_Hording (
 	units INTEGER,
 	primary key (proposalId, hordingId)
 );
+
+create table SPHMS_Supplier (
+	supplierId LONG not null primary key,
+	supplierName VARCHAR(75) null,
+	address1 VARCHAR(75) null,
+	address2 VARCHAR(75) null,
+	city VARCHAR(75) null,
+	panNo VARCHAR(75) null,
+	gstNo VARCHAR(75) null,
+	state_ VARCHAR(75) null,
+	status INTEGER,
+	contactPersonName VARCHAR(75) null,
+	contactPersonEmail VARCHAR(75) null,
+	contactPersonPhoneNo VARCHAR(75) null,
+	createDate DATE null,
+	createdBy LONG
+);
+
+create table SPHMS_SupplierBill (
+	supplierBillId LONG not null primary key,
+	supplierId LONG,
+	companyId LONG,
+	supplierBillNo VARCHAR(75) null,
+	supplierBillDesc VARCHAR(75) null,
+	supplierBillType VARCHAR(75) null,
+	supplierBillDate DATE null,
+	amount DOUBLE,
+	gst DOUBLE,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG
+);
+
+create table SPHMS_SupplierBillPayment (
+	supplierBillPaymentId LONG not null primary key,
+	supplierBillId LONG,
+	supplierId LONG,
+	amount DOUBLE,
+	gst DOUBLE,
+	chequeNo VARCHAR(75) null,
+	paymentDate DATE null,
+	createDate DATE null,
+	createdBy LONG,
+	modifiedDate DATE null,
+	modifiedBy LONG
+);

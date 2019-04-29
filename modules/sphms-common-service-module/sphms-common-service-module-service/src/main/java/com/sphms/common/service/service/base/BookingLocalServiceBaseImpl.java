@@ -61,6 +61,9 @@ import com.sphms.common.service.service.persistence.POPaymentPersistence;
 import com.sphms.common.service.service.persistence.PaymentPersistence;
 import com.sphms.common.service.service.persistence.ProposalPersistence;
 import com.sphms.common.service.service.persistence.Proposal_HordingPersistence;
+import com.sphms.common.service.service.persistence.SupplierBillPaymentPersistence;
+import com.sphms.common.service.service.persistence.SupplierBillPersistence;
+import com.sphms.common.service.service.persistence.SupplierPersistence;
 
 import java.io.Serializable;
 
@@ -980,6 +983,119 @@ public abstract class BookingLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the supplier local service.
+	 *
+	 * @return the supplier local service
+	 */
+	public com.sphms.common.service.service.SupplierLocalService getSupplierLocalService() {
+		return supplierLocalService;
+	}
+
+	/**
+	 * Sets the supplier local service.
+	 *
+	 * @param supplierLocalService the supplier local service
+	 */
+	public void setSupplierLocalService(
+		com.sphms.common.service.service.SupplierLocalService supplierLocalService) {
+		this.supplierLocalService = supplierLocalService;
+	}
+
+	/**
+	 * Returns the supplier persistence.
+	 *
+	 * @return the supplier persistence
+	 */
+	public SupplierPersistence getSupplierPersistence() {
+		return supplierPersistence;
+	}
+
+	/**
+	 * Sets the supplier persistence.
+	 *
+	 * @param supplierPersistence the supplier persistence
+	 */
+	public void setSupplierPersistence(SupplierPersistence supplierPersistence) {
+		this.supplierPersistence = supplierPersistence;
+	}
+
+	/**
+	 * Returns the supplier bill local service.
+	 *
+	 * @return the supplier bill local service
+	 */
+	public com.sphms.common.service.service.SupplierBillLocalService getSupplierBillLocalService() {
+		return supplierBillLocalService;
+	}
+
+	/**
+	 * Sets the supplier bill local service.
+	 *
+	 * @param supplierBillLocalService the supplier bill local service
+	 */
+	public void setSupplierBillLocalService(
+		com.sphms.common.service.service.SupplierBillLocalService supplierBillLocalService) {
+		this.supplierBillLocalService = supplierBillLocalService;
+	}
+
+	/**
+	 * Returns the supplier bill persistence.
+	 *
+	 * @return the supplier bill persistence
+	 */
+	public SupplierBillPersistence getSupplierBillPersistence() {
+		return supplierBillPersistence;
+	}
+
+	/**
+	 * Sets the supplier bill persistence.
+	 *
+	 * @param supplierBillPersistence the supplier bill persistence
+	 */
+	public void setSupplierBillPersistence(
+		SupplierBillPersistence supplierBillPersistence) {
+		this.supplierBillPersistence = supplierBillPersistence;
+	}
+
+	/**
+	 * Returns the supplier bill payment local service.
+	 *
+	 * @return the supplier bill payment local service
+	 */
+	public com.sphms.common.service.service.SupplierBillPaymentLocalService getSupplierBillPaymentLocalService() {
+		return supplierBillPaymentLocalService;
+	}
+
+	/**
+	 * Sets the supplier bill payment local service.
+	 *
+	 * @param supplierBillPaymentLocalService the supplier bill payment local service
+	 */
+	public void setSupplierBillPaymentLocalService(
+		com.sphms.common.service.service.SupplierBillPaymentLocalService supplierBillPaymentLocalService) {
+		this.supplierBillPaymentLocalService = supplierBillPaymentLocalService;
+	}
+
+	/**
+	 * Returns the supplier bill payment persistence.
+	 *
+	 * @return the supplier bill payment persistence
+	 */
+	public SupplierBillPaymentPersistence getSupplierBillPaymentPersistence() {
+		return supplierBillPaymentPersistence;
+	}
+
+	/**
+	 * Sets the supplier bill payment persistence.
+	 *
+	 * @param supplierBillPaymentPersistence the supplier bill payment persistence
+	 */
+	public void setSupplierBillPaymentPersistence(
+		SupplierBillPaymentPersistence supplierBillPaymentPersistence) {
+		this.supplierBillPaymentPersistence = supplierBillPaymentPersistence;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -1214,6 +1330,18 @@ public abstract class BookingLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected Proposal_HordingPersistence proposal_HordingPersistence;
 	@BeanReference(type = com.sphms.common.service.service.SPHMSCommonLocalService.class)
 	protected com.sphms.common.service.service.SPHMSCommonLocalService sphmsCommonLocalService;
+	@BeanReference(type = com.sphms.common.service.service.SupplierLocalService.class)
+	protected com.sphms.common.service.service.SupplierLocalService supplierLocalService;
+	@BeanReference(type = SupplierPersistence.class)
+	protected SupplierPersistence supplierPersistence;
+	@BeanReference(type = com.sphms.common.service.service.SupplierBillLocalService.class)
+	protected com.sphms.common.service.service.SupplierBillLocalService supplierBillLocalService;
+	@BeanReference(type = SupplierBillPersistence.class)
+	protected SupplierBillPersistence supplierBillPersistence;
+	@BeanReference(type = com.sphms.common.service.service.SupplierBillPaymentLocalService.class)
+	protected com.sphms.common.service.service.SupplierBillPaymentLocalService supplierBillPaymentLocalService;
+	@BeanReference(type = SupplierBillPaymentPersistence.class)
+	protected SupplierBillPaymentPersistence supplierBillPaymentPersistence;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

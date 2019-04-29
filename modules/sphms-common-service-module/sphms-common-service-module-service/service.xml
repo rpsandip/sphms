@@ -407,6 +407,78 @@
 		<column name="shortName" type="String"></column>
 	</entity>
 	
+	<entity name="Supplier" local-service="true" remote-service="false">
+		<column name="supplierId" primary="true" type="long" />
+		<column name="supplierName" type="String"/>
+		<column name="address1" type="String"></column>
+		<column name="address2" type="String"></column>
+		<column name="city" type="String"></column>
+		<column name="panNo" type="String"></column>
+		<column name="gstNo" type="String"></column>
+		<column name="state" type="String"></column>
+		<column name="status" type="int"></column>
+		<column name="contactPersonName" type="String"></column>
+		<column name="contactPersonEmail" type="String"></column>
+		<column name="contactPersonPhoneNo" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		
+		<order by="desc">
+			<order-column name="createDate">
+			</order-column>
+		</order>
+
+       <finder return-type="Collection" name="status">
+			 <finder-column name="status"></finder-column>
+		</finder>
+	</entity>
+	
+	<entity name="SupplierBill" local-service="true" remote-service="false">
+			
+			<column name="supplierBillId" primary="true" type="long" />
+			<column name="supplierId"  type="long" />
+			<column name="companyId"  type="long" />
+			
+			<column name="supplierBillNo" type="String"></column>
+			<column name="supplierBillDesc" type="String"></column>
+			<column name="supplierBillType" type="String"></column>
+			<column name="supplierBillDate" type="Date"></column>
+			<column name="amount" type="double"></column>
+			<column name="gst" type="double"></column>
+			
+			<column name="createDate" type="Date"></column>
+			<column name="createdBy" type="long"></column>
+			<column name="modifiedDate" type="Date"></column>
+			<column name="modifiedBy" type="long"></column>
+			
+			<finder return-type="Collection" name="supplierId">
+			 <finder-column name="supplierId"></finder-column>
+			</finder>
+			
+	</entity>
+	
+	<entity name="SupplierBillPayment" local-service="true" remote-service="false">
+	
+		<column name="supplierBillPaymentId" primary="true" type="long" />
+		
+		<column name="supplierBillId"  type="long" />
+		<column name="supplierId" type="long" />
+		
+		<column name="amount" type="double"></column>
+		<column name="gst" type="double"></column>
+		<column name="chequeNo" type="String"></column>
+		<column name="paymentDate" type="Date"></column>
+		
+		<column name="createDate" type="Date"></column>
+		<column name="createdBy" type="long"></column>
+		<column name="modifiedDate" type="Date"></column>
+		<column name="modifiedBy" type="long"></column>	
+		
+		<finder return-type="Collection" name="supplierBillId">
+			<finder-column name="supplierBillId"></finder-column>
+		</finder>
+		
+	</entity>
 	
 	<entity name="SPHMSCommon" local-service="true" remote-service="false"></entity>
 	

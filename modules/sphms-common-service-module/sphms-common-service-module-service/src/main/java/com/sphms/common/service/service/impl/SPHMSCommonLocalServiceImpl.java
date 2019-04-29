@@ -265,7 +265,7 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 
 		    int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		    System.out.println("Financial month : " + month);
-		    if (month < 3) {
+		    if (month <= 3) {
 		    	financialYear = (year - 1) + "-" + getLastDigitOfFinanceYear();
 		    } else {
 		    	financialYear =  year + "-" + (Integer.parseInt(getLastDigitOfFinanceYear())+ 1);
