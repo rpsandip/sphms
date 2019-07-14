@@ -46,6 +46,10 @@ public class SPHMSCommonLocalServiceUtil {
 		return getService().isClientOutOfGujrat(client);
 	}
 
+	public static boolean isClientOutOfGujrat(java.lang.String state) {
+		return getService().isClientOutOfGujrat(state);
+	}
+
 	public static boolean isFolderExist(long groupId, long parentFolderId,
 		java.lang.String folderName) {
 		return getService().isFolderExist(groupId, parentFolderId, folderName);

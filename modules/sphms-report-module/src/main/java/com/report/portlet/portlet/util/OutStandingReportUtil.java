@@ -34,7 +34,6 @@ public class OutStandingReportUtil {
 			Date endDate) throws IOException {
 
 		int index = 2;
-
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet sheet = wb.createSheet();
 
@@ -230,13 +229,8 @@ public class OutStandingReportUtil {
 		cell9.setCellValue(String.valueOf(totalOutStanding));
 		cell9.setCellStyle(allBorder);
 		
-		
-		
-		
-		
 		index++;
 		return index;
-
 	}
 
 	private static XSSFCellStyle getAllBorderStyle(XSSFWorkbook workbook) {

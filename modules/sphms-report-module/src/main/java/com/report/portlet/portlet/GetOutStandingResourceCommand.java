@@ -39,11 +39,13 @@ import com.sphms.common.service.service.BillingLocalServiceUtil;
 	)
 public class GetOutStandingResourceCommand implements MVCResourceCommand{
 
+	Log _log = LogFactoryUtil.getLog(GetOutStandingResourceCommand.class.getName());
+	
+	
 	@Override
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws PortletException {
 		
-		Log _log = LogFactoryUtil.getLog(GetOutStandingResourceCommand.class.getName());
 		
 		long customComanyId = ParamUtil.getLong(resourceRequest, "customCompany");
 		long clientId = ParamUtil.getLong(resourceRequest, "client");
@@ -83,7 +85,7 @@ public class GetOutStandingResourceCommand implements MVCResourceCommand{
 				} catch (IOException e) {
 					_log.error(e.getMessage(), e);
 				}
-			 }else{
+		}else{
 			try {
 				File file = OutStandingReportUtil.createOutStandingReport(customComanyId, clientId, status, startDate, endDate);
 				try {

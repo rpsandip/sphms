@@ -66,6 +66,13 @@ public class BillingLocalServiceUtil {
 			startDate, endDate);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getCompanyBillingDetail(
+		long customCompanyId, java.lang.String startDate,
+		java.lang.String endDate) {
+		return getService()
+				   .getCompanyBillingDetail(customCompanyId, startDate, endDate);
+	}
+
 	/**
 	* @throws PortalException
 	*/

@@ -43,6 +43,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import com.sphms.common.service.model.Proposal_Hording;
 import com.sphms.common.service.service.Proposal_HordingLocalService;
+import com.sphms.common.service.service.persistence.BillingFinder;
 import com.sphms.common.service.service.persistence.BillingPersistence;
 import com.sphms.common.service.service.persistence.Billing_HordingPersistence;
 import com.sphms.common.service.service.persistence.Billing_POPersistence;
@@ -377,6 +378,24 @@ public abstract class Proposal_HordingLocalServiceBaseImpl
 	 */
 	public void setBillingPersistence(BillingPersistence billingPersistence) {
 		this.billingPersistence = billingPersistence;
+	}
+
+	/**
+	 * Returns the billing finder.
+	 *
+	 * @return the billing finder
+	 */
+	public BillingFinder getBillingFinder() {
+		return billingFinder;
+	}
+
+	/**
+	 * Sets the billing finder.
+	 *
+	 * @param billingFinder the billing finder
+	 */
+	public void setBillingFinder(BillingFinder billingFinder) {
+		this.billingFinder = billingFinder;
 	}
 
 	/**
@@ -1279,6 +1298,8 @@ public abstract class Proposal_HordingLocalServiceBaseImpl
 	protected com.sphms.common.service.service.BillingLocalService billingLocalService;
 	@BeanReference(type = BillingPersistence.class)
 	protected BillingPersistence billingPersistence;
+	@BeanReference(type = BillingFinder.class)
+	protected BillingFinder billingFinder;
 	@BeanReference(type = com.sphms.common.service.service.Billing_HordingLocalService.class)
 	protected com.sphms.common.service.service.Billing_HordingLocalService billing_HordingLocalService;
 	@BeanReference(type = Billing_HordingPersistence.class)

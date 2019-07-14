@@ -1,0 +1,4 @@
+Bundle-Name: sphms-supplier-bill-module
+Bundle-SymbolicName: sphms.supplier.bill.module
+Bundle-Version: 1.0.0
+Export-Package: sphms.supplier.bill.module.constants

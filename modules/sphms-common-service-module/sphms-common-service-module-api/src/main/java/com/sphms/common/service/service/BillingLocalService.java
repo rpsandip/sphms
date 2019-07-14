@@ -81,6 +81,10 @@ public interface BillingLocalService extends BaseLocalService,
 	public JSONObject getBillingListForReport(long customComanyId,
 		long clientId, int status, Date startDate, Date endDate);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getCompanyBillingDetail(long customCompanyId,
+		java.lang.String startDate, java.lang.String endDate);
+
 	/**
 	* @throws PortalException
 	*/

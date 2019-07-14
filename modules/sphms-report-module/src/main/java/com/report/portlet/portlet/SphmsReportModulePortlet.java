@@ -16,10 +16,12 @@ import com.sphms.common.service.model.Client;
 import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.model.LandLord;
+import com.sphms.common.service.model.Supplier;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.CustomCompanyLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
+import com.sphms.common.service.service.SupplierLocalServiceUtil;
 
 /**
  * @author ronakDhruv
@@ -49,6 +51,10 @@ public class SphmsReportModulePortlet extends MVCPortlet {
 		// Get Company List
 		List<CustomCompany> companyList = CustomCompanyLocalServiceUtil.getCustomCompanies(-1, -1);
 		renderRequest.setAttribute("companyList", companyList);
+		
+		List<Supplier> supplierList = SupplierLocalServiceUtil.getSuppliers();
+		renderRequest.setAttribute("supplierList", supplierList);
+		
 		include(viewTemplate, renderRequest, renderResponse);
 	}
 

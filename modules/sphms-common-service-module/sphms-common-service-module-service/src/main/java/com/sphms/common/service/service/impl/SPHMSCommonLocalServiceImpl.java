@@ -345,4 +345,11 @@ public class SPHMSCommonLocalServiceImpl extends SPHMSCommonLocalServiceBaseImpl
 		}
 		return false;
 	}
+	
+	public  boolean isClientOutOfGujrat(String state){
+		if(Validator.isNotNull(state)  && !state.toLowerCase().equalsIgnoreCase("gujarat")){
+			return true;
+		}
+		return false;
+	}
 }

@@ -35,6 +35,7 @@ import com.sphms.common.service.model.Client;
 import com.sphms.common.service.model.CustomCompany;
 import com.sphms.common.service.model.Hording;
 import com.sphms.common.service.model.LandLord;
+import com.sphms.common.service.service.Billing_POLocalServiceUtil;
 import com.sphms.common.service.service.ClientLocalServiceUtil;
 import com.sphms.common.service.service.HordingLocalServiceUtil;
 import com.sphms.common.service.service.LandLordLocalServiceUtil;
@@ -67,7 +68,7 @@ public class POUtil {
 			city = landLord.getCity();
 		}
 
-		index = createClientNameRow(sheet, wb, index);
+		index = createClientNameRow(sheet, wb, index,company);
 		index = poNumberRow(sheet, wb, index, font, company, billingPOList.get(0));
 		index = poDateRow(sheet, wb, index, font, landLordName, billingPOList.get(0));
 		index = cityRow(sheet, wb, index, font, city, gsTNo);
@@ -131,17 +132,20 @@ public class POUtil {
 		index = signatureRow(sheet, wb, index, font);
 		index = blankRow(sheet, wb, index, font);
 
-		index = createTermsAndConditionsRow(sheet, wb, index, font);
+		index = createTermsAndConditionsRow(sheet, wb, index, font, company);
 
 		for (int i = 1; i <= 6; i++) {
-			sheet.autoSizeColumn(i);
+			//sheet.autoSizeColumn(i);
 		}
 		sheet.setColumnWidth(1, 10000);
-		sheet.setColumnWidth(2, 4000);
-		sheet.setColumnWidth(3, 2000);
+		sheet.setColumnWidth(2, 5000);
+		sheet.setColumnWidth(3, 5000);
 		sheet.setColumnWidth(4, 2000);
 		sheet.setColumnWidth(5, 3000);
 		sheet.setColumnWidth(6, 2000);
+		sheet.setColumnWidth(7, 2500);
+		sheet.setColumnWidth(8, 2500);
+		sheet.setColumnWidth(9, 2500);
 
 		sheet.getPrintSetup().setPaperSize(PrintSetup.A4_PAPERSIZE);
 		sheet.setFitToPage(true);
@@ -158,8 +162,9 @@ public class POUtil {
 
 	}
 
-	private static int createClientNameRow(XSSFSheet sheet, XSSFWorkbook wb, int index) {
+	private static int createClientNameRow(XSSFSheet sheet, XSSFWorkbook wb, int index, CustomCompany company) {
 		XSSFRow taxInvoiceRow = sheet.createRow(index);
+		taxInvoiceRow.setHeight((short) 1300);
 		XSSFCellStyle style = getAllBorderStyle(wb);
 		XSSFFont font = wb.createFont();
 		font.setFontHeightInPoints((short) 48);
@@ -168,12 +173,12 @@ public class POUtil {
 		style.setFont(font);
 		font.setColor(IndexedColors.ORANGE.getIndex());
 		style.setFont(font);
-		style.setFillForegroundColor(IndexedColors.OLIVE_GREEN.getIndex());
+		style.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
 		style.setAlignment(HorizontalAlignment.CENTER);
 		style.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		XSSFCell cell1 = taxInvoiceRow.createCell(1);
-		cell1.setCellValue("Tulip Media Solutions");
+		cell1.setCellValue(company.getName());
 		cell1.setCellStyle(style);
 
 		XSSFCell cell2 = taxInvoiceRow.createCell(2);
@@ -238,11 +243,11 @@ public class POUtil {
 
 		XSSFCell cell5 = poNumberRow.createCell(5);
 		cell5.setCellValue("Order No :");
-		cell5.setCellStyle(style2);
+		cell5.setCellStyle(getAllBorderStyle(wb));
 
 		XSSFCell cell6 = poNumberRow.createCell(6);
-		cell6.setCellValue(billingPO.getInternalPONumber());
-		cell6.setCellStyle(style3);
+		cell6.setCellValue(Billing_POLocalServiceUtil.getPONumber(billingPO,company));
+		cell6.setCellStyle(getAllBorderStyle(wb));
 
 		XSSFCell cell7 = poNumberRow.createCell(7);
 		cell7.setCellStyle(getAllBorderStyle(wb));
@@ -253,9 +258,10 @@ public class POUtil {
 		XSSFCell cell9 = poNumberRow.createCell(9);
 		cell9.setCellStyle(getAllBorderStyle(wb));
 
-		mergedRegion(index, index, 1, 4, sheet);
-		sheet.addMergedRegion(new CellRangeAddress(3, 4, 5, 5));
-		sheet.addMergedRegion(new CellRangeAddress(3, 4, 6, 9));
+		mergedRegion(index, index, 1, 3, sheet);
+		mergedRegion(index, index, 6, 9, sheet);
+		//sheet.addMergedRegion(new CellRangeAddress(index, index+1, 5, 5));
+		//sheet.addMergedRegion(new CellRangeAddress(index, index+1, 6, 9));
 
 		index++;
 		return index;
@@ -270,25 +276,34 @@ public class POUtil {
 		XSSFCell cell1 = poNumberRow.createCell(1);
 		cell1.setCellValue(landLordName);
 		cell1.setCellStyle(style);
+		
+		poNumberRow.createCell(2);poNumberRow.createCell(3);poNumberRow.createCell(4);
 
-		XSSFCell cell2 = poNumberRow.createCell(5);
-		cell2.setCellValue("Date : ");
-		cell2.setCellStyle(getAllBorderStyle(wb));
+		XSSFCell cell5 = poNumberRow.createCell(5);
+		cell5.setCellValue("Date : ");
+		cell5.setCellStyle(getAllBorderStyle(wb));
 
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		XSSFCell cell3 = poNumberRow.createCell(6);
+		cell3.setCellStyle(getAllBorderStyle(wb));
 		if (Validator.isNotNull(billingPO.getPublishDate())) {
 			cell3.setCellValue(df.format(billingPO.getPublishDate()));
 		} else {
 			cell3.setCellValue("");
 		}
-
-		mergedRegion(index, index, 1, 4, sheet);
-		sheet.addMergedRegion(new CellRangeAddress(5, 6, 5, 5));
-		sheet.addMergedRegion(new CellRangeAddress(5, 8, 6, 9));
+		
+		XSSFCell cell7 = poNumberRow.createCell(7);
+		cell7.setCellStyle(getAllBorderStyle(wb));
+		
+		XSSFCell cell8 =poNumberRow.createCell(8);
+		cell8.setCellStyle(getAllBorderStyle(wb));
+		
 		XSSFCell cell9 = poNumberRow.createCell(9);
 		cell9.setCellStyle(getAllBorderStyle(wb));
 
+		mergedRegion(index, index, 1, 3, sheet);
+		mergedRegion(index, index, 6, 9, sheet);	
+		
 		index++;
 		return index;
 	}
@@ -335,14 +350,14 @@ public class POUtil {
 		XSSFRow gstRow = sheet.createRow(index);
 
 		XSSFCell gstCell1 = gstRow.createCell(1);
-		gstCell1.setCellValue("GST No:" + gsTNo);
+		gstCell1.setCellValue("GST No: " + gsTNo);
 		gstCell1.setCellStyle(style);
 
 		mergedRegion(index, index, 1, 4, sheet);
-
-		XSSFCell gstCell9 = cityRow.createCell(9);
+		
+		XSSFCell gstCell9 = gstRow.createCell(9);
 		gstCell9.setCellStyle(getRightBorderStyle(wb));
-
+		
 		index++;
 
 		return index;
@@ -737,13 +752,13 @@ public class POUtil {
 		return index;
 	}
 
-	private static int createTermsAndConditionsRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font) {
+	private static int createTermsAndConditionsRow(XSSFSheet sheet, XSSFWorkbook wb, int index, XSSFFont font, CustomCompany company) {
 		XSSFRow termsAndConditionsRow = sheet.createRow(index);
 		XSSFCellStyle style = getLeftBorderStyle(wb);
 		style.setFont(font);
 
 		XSSFCell cell1 = termsAndConditionsRow.createCell(1);
-		cell1.setCellValue("Genral Terms:");
+		cell1.setCellValue("General Terms:");
 		cell1.setCellStyle(style);
 
 		XSSFCell cell9 = termsAndConditionsRow.createCell(9);
@@ -755,7 +770,7 @@ public class POUtil {
 		XSSFRow condition1Row = sheet.createRow(index);
 
 		XSSFCell cell11 = condition1Row.createCell(1);
-		cell11.setCellValue("1. Invoice to be in favour of  only.");
+		cell11.setCellValue("1. Invoice to be in favour of \"" + company.getName()  + "\"  only.");
 		cell11.setCellStyle(getLeftBorderStyle(wb));
 
 		XSSFCell cell61 = condition1Row.createCell(9);
@@ -767,7 +782,7 @@ public class POUtil {
 		XSSFRow condition2Row = sheet.createRow(index);
 
 		XSSFCell cell12 = condition2Row.createCell(1);
-		cell12.setCellValue("2. Kindly attached Start Dated and End Dated Photos along with Invoice");
+		cell12.setCellValue("2. Kindly attached Start Dated and End Dated Photos along with Invoice.");
 		cell12.setCellStyle(getLeftBorderStyle(wb));
 
 		XSSFCell cell92 = condition2Row.createCell(9);
@@ -791,7 +806,7 @@ public class POUtil {
 		XSSFRow condition4Row = sheet.createRow(index);
 
 		XSSFCell cell14 = condition4Row.createCell(1);
-		cell14.setCellValue("4. Kindly share the monthly invoice");
+		cell14.setCellValue("4. Kindly share the monthly invoice.");
 		cell14.setCellStyle(getLeftBorderStyle(wb));
 
 		XSSFCell cell94 = condition4Row.createCell(9);

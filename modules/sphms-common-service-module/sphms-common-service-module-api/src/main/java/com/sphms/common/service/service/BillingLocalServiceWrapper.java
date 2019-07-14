@@ -61,6 +61,14 @@ public class BillingLocalServiceWrapper implements BillingLocalService,
 			clientId, status, startDate, endDate);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getCompanyBillingDetail(
+		long customCompanyId, java.lang.String startDate,
+		java.lang.String endDate) {
+		return _billingLocalService.getCompanyBillingDetail(customCompanyId,
+			startDate, endDate);
+	}
+
 	/**
 	* @throws PortalException
 	*/

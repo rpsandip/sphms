@@ -14,19 +14,30 @@
 
 package com.sphms.common.service.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.osgi.util.StringPlus;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Order;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.sphms.common.service.model.Supplier;
 import com.sphms.common.service.model.SupplierBill;
+import com.sphms.common.service.model.SupplierBillPayment;
 import com.sphms.common.service.service.SupplierBillLocalServiceUtil;
+import com.sphms.common.service.service.SupplierBillPaymentLocalServiceUtil;
+import com.sphms.common.service.service.SupplierLocalServiceUtil;
 import com.sphms.common.service.service.base.SupplierBillLocalServiceBaseImpl;
 
 import aQute.bnd.annotation.ProviderType;
@@ -128,5 +139,57 @@ public class SupplierBillLocalServiceImpl
 		
 		return supplierBillList;
 		
+	}
+	
+	public JSONObject getSupplierReportDetail(long customCompanyId, long supplierId, String type, Date startDate, Date endDate) throws PortalException{
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+		DateFormat df  = new SimpleDateFormat("dd/MM/yyyy");
+		List<SupplierBill> supplierBillList = getSupplierBullListFromSearch(supplierId, type, startDate, endDate, customCompanyId, -1, -1);
+		JSONArray supplierBillArray = JSONFactoryUtil.createJSONArray();
+		JSONArray supplierBillPaymentArray = JSONFactoryUtil.createJSONArray();
+		double totalSupplierAmount=0;
+		double totalSupplierAmountGST=0;
+		double totalSupplierPaymentGiven=0;
+		double totalSupplierPaymentGStGiven=0;
+		for(SupplierBill supplierBill : supplierBillList){
+			Supplier	supplier = SupplierLocalServiceUtil.getSupplier(supplierBill.getSupplierId());
+			JSONObject supplierBillObj = JSONFactoryUtil.createJSONObject();
+			supplierBillObj.put("billNo", supplierBill.getSupplierBillNo());
+			supplierBillObj.put("billDate", df.format(supplierBill.getSupplierBillDate()));
+			supplierBillObj.put("billAmount", supplierBill.getAmount());
+			supplierBillObj.put("billAmountGST", supplierBill.getGst());
+			supplierBillObj.put("supplierName", supplier.getSupplierName());
+			supplierBillObj.put("descrption", "("+supplierBill.getSupplierBillType()+")" + StringPool.SPACE + supplierBill.getSupplierBillDesc());
+			supplierBillArray.put(supplierBillObj);
+			totalSupplierAmount+=supplierBill.getAmount();
+			totalSupplierAmountGST+=supplierBill.getGst();
+			
+			List<SupplierBillPayment> supplierBillPayments = SupplierBillPaymentLocalServiceUtil.getSupplierBillPaymentBySupplierBillId(supplierBill.getSupplierBillId());
+			for(SupplierBillPayment supplierBillPayment :supplierBillPayments ){
+				JSONObject supplierBillPaymentObj = JSONFactoryUtil.createJSONObject();
+				supplierBillPaymentObj.put("supplierName", supplier.getSupplierName());
+				supplierBillPaymentObj.put("billNo", supplierBill.getSupplierBillNo());
+				supplierBillPaymentObj.put("supplierBillAmount", supplierBillPayment.getAmount());
+				supplierBillPaymentObj.put("supplierBillAmountGST", supplierBillPayment.getGst());
+				supplierBillPaymentObj.put("paymentDate",df.format(supplierBillPayment.getPaymentDate()));
+				if(Validator.isNotNull(supplierBillPayment.getChequeNo())){
+					supplierBillPaymentObj.put("paymentType", "Cheque No :" + supplierBillPayment.getChequeNo());
+				}else{
+					supplierBillPaymentObj.put("paymentType", "Cash");
+				}
+				supplierBillPaymentArray.put(supplierBillPaymentObj);
+				totalSupplierPaymentGiven+=supplierBillPayment.getAmount();
+				totalSupplierPaymentGStGiven+=supplierBillPayment.getGst();
+			}		
+		}
+		
+		jsonObject.put("supplierBills", supplierBillArray);
+		jsonObject.put("supplierBillPaymentArray", supplierBillPaymentArray);
+		jsonObject.put("totalSupplierAmount", totalSupplierAmount);
+		jsonObject.put("totalSupplierAmountGST", totalSupplierAmountGST);
+		jsonObject.put("totalSupplierPaymentGiven", totalSupplierPaymentGiven);
+		jsonObject.put("totalSupplierPaymentGStGiven", totalSupplierPaymentGStGiven);
+		
+		return jsonObject;
 	}
 }

@@ -14,6 +14,8 @@
 
 package com.sphms.common.service.service.impl;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -343,6 +345,87 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		
 	}
 	
+	public JSONObject getCompanyBillingDetail(long customCompanyId, String startDate, String endDate ){
+		List<Object> billingObjectList = billingFinder.findCompanyBillsDetails(customCompanyId, startDate, endDate);
+		JSONObject responseObj = JSONFactoryUtil.createJSONObject();
+		JSONArray billDetailArray = JSONFactoryUtil.createJSONArray();
+		
+		double totalNetAmount = 0d;
+		double totaliGST = 0d;
+		double totalcGST = 0d;
+		double totalsGST = 0d;
+		double totalAmount = 0d;
+		
+		
+		for(Object row : billingObjectList){
+			Object[] objectRow = (Object[]) row;
+			JSONObject billDetailObj = JSONFactoryUtil.createJSONObject();
+			billDetailObj.put("billNo", String.valueOf(objectRow[0]));
+			billDetailObj.put("billDate", formteDate(String.valueOf(objectRow[1])));
+			billDetailObj.put("clientName", String.valueOf(objectRow[2]));
+			billDetailObj.put("clientGSTNo", String.valueOf(objectRow[3]));
+			billDetailObj.put("state", String.valueOf(objectRow[4]));
+			
+			Double netAmount = Double.valueOf(String.valueOf(objectRow[5])) + 
+					Double.valueOf(String.valueOf(objectRow[6])) + Double.valueOf(String.valueOf(objectRow[7]));
+			
+			billDetailObj.put("netAmount", netAmount);
+			
+			try {
+				Billing billing = BillingLocalServiceUtil.getBilling(Long.valueOf(String.valueOf(objectRow[8])));
+				String displayBillNo = getDisplayBillNo(billing);
+				billDetailObj.put("displayBillNo", displayBillNo);
+			} catch (NumberFormatException e) {
+				billDetailObj.put("displayBillNo", StringPool.BLANK);
+				_log.error(e);
+			} catch (PortalException e) {
+				billDetailObj.put("displayBillNo", StringPool.BLANK);
+				_log.error(e);
+			}
+			
+			
+			double iGSTCharge = 0d;
+			double cGSTCharge = 0d;
+			double sGSTCharge = 0d;
+			double totalBillAmount = netAmount;
+			boolean isClientOutOfGuj = SPHMSCommonLocalServiceUtil.isClientOutOfGujrat(String.valueOf(objectRow[4]));
+			if(isClientOutOfGuj){
+				iGSTCharge = totalBillAmount*Double.parseDouble(PropsUtil.get("igst.rate"));
+				totalBillAmount = totalBillAmount + iGSTCharge;
+			}else{
+				//Total amount
+				// Considering CGST as 9%
+				 cGSTCharge = totalBillAmount* Double.parseDouble(PropsUtil.get("cgst.rate"));
+				// Consideting SGST as 9%
+				 sGSTCharge = totalBillAmount* Double.parseDouble(PropsUtil.get("sgst.rate"));
+				
+				 totalBillAmount = totalBillAmount + cGSTCharge + sGSTCharge;
+			}
+			
+			billDetailObj.put("iGST", iGSTCharge);
+			billDetailObj.put("cGST", cGSTCharge);
+			billDetailObj.put("sGST", sGSTCharge);
+			billDetailObj.put("totalAmount", totalBillAmount);		
+			
+			billDetailArray.put(billDetailObj);
+			
+			totalAmount += totalBillAmount;
+			totalNetAmount += netAmount;
+			totaliGST += iGSTCharge;
+			totalcGST += cGSTCharge;
+			totalsGST += sGSTCharge;
+		}
+		
+		responseObj.put("billRows", billDetailArray);
+		responseObj.put("totalAmount", totalAmount);
+		responseObj.put("totalNetAmount", totalNetAmount);
+		responseObj.put("totaliGST", totaliGST);
+		responseObj.put("totalcGST", totalcGST);
+		responseObj.put("totalsGST", totalsGST);
+		
+		return responseObj;
+	}
+	
 	private String getNextBillNo(long companyId){
 		DynamicQuery dynamicQuery = BillingLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("financialYear", SPHMSCommonLocalServiceUtil.getFinancialYear()));
@@ -408,6 +491,7 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		
 		return displayBillNo;
 	}
+	
 	
 	public JSONObject getBillingListForReport(long customComanyId, long clientId, int status ,Date startDate, Date endDate){
 		
@@ -574,4 +658,18 @@ public class BillingLocalServiceImpl extends BillingLocalServiceBaseImpl {
 		}
 		return Math.round(totalMoutingChargeList);
 	}
+	
+	private String formteDate(String date){
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		DateFormat df1 = new SimpleDateFormat("dd.MM.yyyy");
+		Date newDate;
+		try {
+			newDate = df.parse(date);
+			return df1.format(newDate);
+		} catch (ParseException e) {
+			_log.error(e);
+		}
+		return date;
+	}
+	
 }

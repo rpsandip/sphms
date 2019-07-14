@@ -61,6 +61,9 @@ public interface SPHMSCommonLocalService extends BaseLocalService {
 	public boolean isClientOutOfGujrat(Client client);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isClientOutOfGujrat(java.lang.String state);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean isFolderExist(long groupId, long parentFolderId,
 		java.lang.String folderName);
 

@@ -40,6 +40,11 @@ public class SPHMSCommonLocalServiceWrapper implements SPHMSCommonLocalService,
 	}
 
 	@Override
+	public boolean isClientOutOfGujrat(java.lang.String state) {
+		return _sphmsCommonLocalService.isClientOutOfGujrat(state);
+	}
+
+	@Override
 	public boolean isFolderExist(long groupId, long parentFolderId,
 		java.lang.String folderName) {
 		return _sphmsCommonLocalService.isFolderExist(groupId, parentFolderId,

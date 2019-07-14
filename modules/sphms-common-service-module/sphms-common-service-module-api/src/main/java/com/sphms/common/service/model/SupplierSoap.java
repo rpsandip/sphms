@@ -1,0 +1,228 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package com.sphms.common.service.model;
+
+import aQute.bnd.annotation.ProviderType;
+
+import java.io.Serializable;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * This class is used by SOAP remote services.
+ *
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
+@ProviderType
+public class SupplierSoap implements Serializable {
+	public static SupplierSoap toSoapModel(Supplier model) {
+		SupplierSoap soapModel = new SupplierSoap();
+
+		soapModel.setSupplierId(model.getSupplierId());
+		soapModel.setSupplierName(model.getSupplierName());
+		soapModel.setAddress1(model.getAddress1());
+		soapModel.setAddress2(model.getAddress2());
+		soapModel.setCity(model.getCity());
+		soapModel.setPanNo(model.getPanNo());
+		soapModel.setGstNo(model.getGstNo());
+		soapModel.setState(model.getState());
+		soapModel.setStatus(model.getStatus());
+		soapModel.setContactPersonName(model.getContactPersonName());
+		soapModel.setContactPersonEmail(model.getContactPersonEmail());
+		soapModel.setContactPersonPhoneNo(model.getContactPersonPhoneNo());
+		soapModel.setCreateDate(model.getCreateDate());
+		soapModel.setCreatedBy(model.getCreatedBy());
+
+		return soapModel;
+	}
+
+	public static SupplierSoap[] toSoapModels(Supplier[] models) {
+		SupplierSoap[] soapModels = new SupplierSoap[models.length];
+
+		for (int i = 0; i < models.length; i++) {
+			soapModels[i] = toSoapModel(models[i]);
+		}
+
+		return soapModels;
+	}
+
+	public static SupplierSoap[][] toSoapModels(Supplier[][] models) {
+		SupplierSoap[][] soapModels = null;
+
+		if (models.length > 0) {
+			soapModels = new SupplierSoap[models.length][models[0].length];
+		}
+		else {
+			soapModels = new SupplierSoap[0][0];
+		}
+
+		for (int i = 0; i < models.length; i++) {
+			soapModels[i] = toSoapModels(models[i]);
+		}
+
+		return soapModels;
+	}
+
+	public static SupplierSoap[] toSoapModels(List<Supplier> models) {
+		List<SupplierSoap> soapModels = new ArrayList<SupplierSoap>(models.size());
+
+		for (Supplier model : models) {
+			soapModels.add(toSoapModel(model));
+		}
+
+		return soapModels.toArray(new SupplierSoap[soapModels.size()]);
+	}
+
+	public SupplierSoap() {
+	}
+
+	public long getPrimaryKey() {
+		return _supplierId;
+	}
+
+	public void setPrimaryKey(long pk) {
+		setSupplierId(pk);
+	}
+
+	public long getSupplierId() {
+		return _supplierId;
+	}
+
+	public void setSupplierId(long supplierId) {
+		_supplierId = supplierId;
+	}
+
+	public String getSupplierName() {
+		return _supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		_supplierName = supplierName;
+	}
+
+	public String getAddress1() {
+		return _address1;
+	}
+
+	public void setAddress1(String address1) {
+		_address1 = address1;
+	}
+
+	public String getAddress2() {
+		return _address2;
+	}
+
+	public void setAddress2(String address2) {
+		_address2 = address2;
+	}
+
+	public String getCity() {
+		return _city;
+	}
+
+	public void setCity(String city) {
+		_city = city;
+	}
+
+	public String getPanNo() {
+		return _panNo;
+	}
+
+	public void setPanNo(String panNo) {
+		_panNo = panNo;
+	}
+
+	public String getGstNo() {
+		return _gstNo;
+	}
+
+	public void setGstNo(String gstNo) {
+		_gstNo = gstNo;
+	}
+
+	public String getState() {
+		return _state;
+	}
+
+	public void setState(String state) {
+		_state = state;
+	}
+
+	public int getStatus() {
+		return _status;
+	}
+
+	public void setStatus(int status) {
+		_status = status;
+	}
+
+	public String getContactPersonName() {
+		return _contactPersonName;
+	}
+
+	public void setContactPersonName(String contactPersonName) {
+		_contactPersonName = contactPersonName;
+	}
+
+	public String getContactPersonEmail() {
+		return _contactPersonEmail;
+	}
+
+	public void setContactPersonEmail(String contactPersonEmail) {
+		_contactPersonEmail = contactPersonEmail;
+	}
+
+	public String getContactPersonPhoneNo() {
+		return _contactPersonPhoneNo;
+	}
+
+	public void setContactPersonPhoneNo(String contactPersonPhoneNo) {
+		_contactPersonPhoneNo = contactPersonPhoneNo;
+	}
+
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	public long getCreatedBy() {
+		return _createdBy;
+	}
+
+	public void setCreatedBy(long createdBy) {
+		_createdBy = createdBy;
+	}
+
+	private long _supplierId;
+	private String _supplierName;
+	private String _address1;
+	private String _address2;
+	private String _city;
+	private String _panNo;
+	private String _gstNo;
+	private String _state;
+	private int _status;
+	private String _contactPersonName;
+	private String _contactPersonEmail;
+	private String _contactPersonPhoneNo;
+	private Date _createDate;
+	private long _createdBy;
+}
